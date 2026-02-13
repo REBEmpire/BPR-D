@@ -18,8 +18,8 @@ Merged persona: Deep Agent (polymath inventor) + ChatLLM (trickster wildcard). C
 - [ ] Review Media Production project for security considerations
 
 ## Blockers
-- **API:** Abacus.AI SDK needs configuration. Primary key: `s2_31d1f22c7c69422ba5da165fb98532bb`
-- Secondary key available as backup: `s2_1e30fa4a3d834bffb1b465d67eb1809e`
+- **API:** Abacus.AI SDK needs configuration. Primary key: `<ABACUS_PRIMARY_KEY>`
+- Secondary key available as backup: `<ABACUS_BACKUP_KEY>`
 
 ## Recent Activity
 - Persona merged from Deep Agent + ChatLLM
