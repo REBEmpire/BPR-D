@@ -42,8 +42,8 @@ Status: OPERATIONAL
 
 **Merged from:** Deep Agent + ChatLLM
 
-**Primary Key:** `s2_31d1f22c7c69422ba5da165fb98532bb`
-**Secondary Key (legacy ChatLLM):** `s2_1e30fa4a3d834bffb1b465d67eb1809e`
+**Primary Key:** `<ABACUS_PRIMARY_KEY>`
+**Secondary Key (legacy ChatLLM):** `<ABACUS_BACKUP_KEY>`
 
 **Options:**
 1. Install Python SDK: `pip install abacusai`
@@ -54,7 +54,7 @@ Status: OPERATIONAL
 
 **Target Model:** gemini-3.0 (via Jules coding platform)
 **Current Key:** Available in credentials.conf.txt
-**Legacy Key (Codebuff/Jules):** `AQ.Ab8...` -- may provide coding-specific capabilities
+**Legacy Key (Codebuff/Jules):** `<JULES_LEGACY_KEY>` -- may provide coding-specific capabilities
 
 **Actions Needed:**
 1. Upgrade to paid tier at https://ai.google.dev/
@@ -92,3 +92,11 @@ Once all APIs are configured, the orchestrator needs:
 - Full team automation requires completing Abacus and Gemini API setup
 
 *v2.0 -- Updated February 2026 for 4-agent team*
+
+## Security & Environment Configuration
+
+**Note:** All API keys have been removed from this file for security.
+Please refer to `.env.example` for the required environment variables.
+To configure your environment:
+1. Copy `.env.example` to `.env`
+2. Fill in the actual API keys in the `.env` file.

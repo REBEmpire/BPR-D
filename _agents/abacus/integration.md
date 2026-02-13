@@ -2,8 +2,8 @@
 
 Abacus (Abacus.AI) requires SDK-based integration rather than a simple REST API key. Two keys are available — a primary and a legacy backup from the ChatLLM merge.
 
-**Primary Key:** `s2_31d1f22c7c69422ba5da165fb98532bb`
-**Backup Key (legacy ChatLLM):** `s2_1e30fa4a3d834bffb1b465d67eb1809e`
+**Primary Key:** `<ABACUS_PRIMARY_KEY>`
+**Backup Key (legacy ChatLLM):** `<ABACUS_BACKUP_KEY>`
 
 ---
 
@@ -13,15 +13,20 @@ The `abacusai` Python package provides programmatic access.
 
 ### Installation
 ```bash
-pip install abacusai
+pip install abacusai python-dotenv
 ```
 
 ### Authentication
 ```python
 from abacusai import AbacusApi
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Initialize client with primary key
-client = AbacusApi(api_key='s2_31d1f22c7c69422ba5da165fb98532bb')
+client = AbacusApi(api_key=os.getenv('ABACUS_PRIMARY_KEY'))
 
 # Work with agents
 agent = client.describe_agent(agent_id='abacus-agent-id')
@@ -34,7 +39,7 @@ agent = client.describe_agent(agent_id='abacus-agent-id')
 - `AgentChatMessage` — Individual messages
 
 ### Setup Steps
-1. `pip install abacusai`
+1. `pip install abacusai python-dotenv`
 2. Test connection with primary key
 3. If primary fails, try backup key
 4. Identify agent ID from dashboard
