@@ -46,9 +46,10 @@ Status: OPERATIONAL
 **Secondary Key (legacy ChatLLM):** `<ABACUS_BACKUP_KEY>`
 
 **Options:**
-1. Install Python SDK: `pip install abacusai`
-2. Use SDK for agent conversations
-3. Alternative: DeepAgent Cloud at https://deepagent.abacus.ai
+1. Install Python SDK: `pip install abacusai python-dotenv`
+2. Configure keys in `.env` (see `.env.example`)
+3. Use `_agents/abacus/client.py` for agent conversations
+4. Alternative: DeepAgent Cloud at https://deepagent.abacus.ai
 
 ### Gemini (Google AI / Jules Coding Platform)
 

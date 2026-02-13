@@ -30,7 +30,7 @@ load_dotenv()
 client = AbacusApi(api_key='<ABACUS_PRIMARY_KEY>')
 
 # Work with agents
-agent = client.describe_agent(agent_id='abacus-agent-id')
+# agent = client.describe_agent(agent_id='abacus-agent-id')
 ```
 
 ### Key Classes
@@ -115,7 +115,7 @@ Works immediately, no setup required. Not truly async.
 ## Recommended Path Forward
 
 1. **Immediate:** Use Manual Relay for first sessions
-2. **Short-term:** Install Python SDK, test with primary key
+2. **Short-term:** Install Python SDK, configure `.env`
 3. **Medium-term:** Set up GitHub integration for async workflows
 4. **Long-term:** Full MCP integration with BPR&D AI Comm Hub
 
