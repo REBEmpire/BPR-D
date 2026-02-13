@@ -1,0 +1,31 @@
+
+> web@0.1.0 dev
+> npm run sync-research && next dev
+
+
+> web@0.1.0 sync-research
+> node scripts/sync-research.js
+
+Copied ancient-religions-lost-civilizations/2026-02-13-emerald-tablets.md
+Copied corruption-investigation/2026-02-13-fda-revolving-door.md
+Copied extraterrestrial/2026-02-13-nuremberg-1561.md
+Copied great-works-and-writing/2026-02-13-grand-inquisitor.md
+Copied high-tech/2026-02-13-neuralink.md
+Copied history-and-archaeology/2026-02-13-baghdad-battery.md
+Copied norse-mythology/2026-02-13-orlog.md
+Copied open-lanes/2026-02-13-dead-internet.md
+Copied permaculture/2026-02-13-monoculture.md
+Research content sync complete.
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+✓ Ready in 1269ms
+○ Compiling /research ...
+ GET /research 200 in 10.9s (compile: 9.7s, render: 1123ms)
