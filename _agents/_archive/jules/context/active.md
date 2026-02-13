@@ -14,7 +14,7 @@ Pending - API format unknown
 
 ## Blockers
 - **API Format Unknown:** Key suggests Codebuff platform
-- Key: `AQ.Ab8RN6Inb5J0t0ga5jxmyFcbt3rmsBD81j4IhQ7aXXH_lBz2zw`
+- Key: `<JULES_LEGACY_KEY>`
 - Need to research Codebuff API endpoints and format
 
 ## Recent Activity
