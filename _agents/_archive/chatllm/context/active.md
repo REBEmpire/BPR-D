@@ -14,7 +14,7 @@ Pending - API requires configuration
 
 ## Blockers
 - **API Not Configured:** Abacus.AI SDK needs proper endpoint setup
-- Key available: `<ABACUS_API_KEY_SECONDARY>`
+- Key available: `<ABACUS_BACKUP_KEY>`
 - Same platform as Deep Agent, likely same solution
 
 ## Recent Activity

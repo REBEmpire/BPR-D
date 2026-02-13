@@ -2,8 +2,8 @@
 
 Abacus (Abacus.AI) requires SDK-based integration rather than a simple REST API key. Two keys are available — a primary and a legacy backup from the ChatLLM merge.
 
-**Primary Key:** `<ABACUS_API_KEY_PRIMARY>`
-**Backup Key (legacy ChatLLM):** `<ABACUS_API_KEY_SECONDARY>`
+**Primary Key:** `<ABACUS_PRIMARY_KEY>`
+**Backup Key (legacy ChatLLM):** `<ABACUS_BACKUP_KEY>`
 
 ---
 
@@ -22,7 +22,7 @@ import os
 from abacusai import AbacusApi
 
 # Initialize client with primary key
-client = AbacusApi(api_key=os.getenv('ABACUS_API_KEY_PRIMARY'))
+client = AbacusApi(api_key='<ABACUS_PRIMARY_KEY>')
 
 # Work with agents
 agent = client.describe_agent(agent_id='abacus-agent-id')

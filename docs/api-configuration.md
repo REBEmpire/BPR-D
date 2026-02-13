@@ -42,8 +42,8 @@ Status: OPERATIONAL
 
 **Merged from:** Deep Agent + ChatLLM
 
-**Primary Key:** `<ABACUS_API_KEY_PRIMARY>`
-**Secondary Key (legacy ChatLLM):** `<ABACUS_API_KEY_SECONDARY>`
+**Primary Key:** `<ABACUS_PRIMARY_KEY>`
+**Secondary Key (legacy ChatLLM):** `<ABACUS_BACKUP_KEY>`
 
 **Options:**
 1. Install Python SDK: `pip install abacusai`
