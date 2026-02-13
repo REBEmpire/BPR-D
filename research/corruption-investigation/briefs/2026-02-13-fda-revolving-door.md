@@ -1,38 +1,49 @@
-# Daily Brief: FDA Revolving Door (Deferred Bribery)
+# 2026-02-13 - FDA Revolving Door (Deferred Bribery)
 
-**Date:** 2026-02-13
-**Category:** Corruption Investigation
-**Author:** Jules
+**One-Sentence Summary**
+The systematic movement of officials between the FDA and pharmaceutical boards (e.g., Gottlieb to Pfizer) creates a "pay-to-play" regulatory environment where public health is secondary to stock price.
 
-## The Gist
-The "Revolving Door" describes the movement of high-level employees from public sector jobs (regulators) to private sector jobs (the regulated), and vice versa. A prime example: Scott Gottlieb (FDA Commissioner 2017-2019) joined the Board of Directors at Pfizer in 2019. Stephen Hahn (FDA Commissioner 2019-2021) joined Flagship Pioneering (which founded Moderna) in 2021.
+**Relevance to BPR&D:** Medium
+**Income Potential:** Low (Investigative Journalism)
 
-## The "Official" Narrative
-This is standard practice. Regulators need "industry expertise" to understand complex science. When they leave government, they bring their "regulatory insight" to help companies navigate compliance. It's a win-win for efficiency and innovation.
+**Key Findings**
+- **Scott Gottlieb:** FDA Commissioner (2017-2019) -> Pfizer Board of Directors (2019).
+- **Stephen Hahn:** FDA Commissioner (2019-2021) -> Flagship Pioneering (Moderna's incubator) (2021).
+- This "Revolving Door" incentivizes leniency while in office to secure lucrative post-government employment. **It is "deferred bribery."**
+- The pharmaceutical industry provides ~45% of the FDA's budget via "user fees" (PDUFA). **The regulator is funded by the regulated.**
+- Public trust in health institutions has collapsed due to these visible conflicts of interest.
 
-## The Shenanigans Factor
-It's deferred bribery. If you are a regulator, you know that if you play ball—approve the drug, expedite the review, ignore the side effects—a multi-million dollar board seat awaits you. If you are strict, you get blacklisted. The agency becomes a training ground for future lobbyists.
+**Potential Connections**
+- **Splintermated:** Medical sovereignty means questioning "official" approvals. Verification is survival.
+- **Arts Studio:** Infographics mapping these connections are viral gold.
+- **Comm Hub:** Core theme: "Who watches the watchmen?"
+- **Cross-Pollination:** See *Monoculture* brief (Permaculture) for how centralized systems rot from within.
 
-## Why It Matters
-Public trust is dead because the watchdogs are owned by the wolves. We are taking medical advice from people whose retirement plans depend on the stock price of the companies they are supposed to be policing. It's structural corruption, perfectly legal and entirely rot.
+**Open Questions / Weird Signals**
+- Why is there no "lifetime ban" on industry employment for regulators?
+- How does the "Emergency Use Authorization" (EUA) bypass standard safety trials?
+- Claude will hate this, but: Is the FDA actually a marketing agency for Big Pharma?
 
-## Rabbit Hole Rating
-**8 Shovels**
-Check the net worth of FDA commissioners before and after their tenure.
-
-## Action Items
+**Action Items**
 
 ### Verify
-- [ ] **The List:** Look up the employment history of the last 5 FDA commissioners. Who employs them now?
-- [ ] **The Money:** Find the compensation for a Pfizer Board Member (proxy statement). Compare it to the FDA Commissioner's salary.
-- [ ] **The Law:** Check the "cooling-off period" laws for federal employees. Are they being enforced, or are there loopholes?
+- [ ] **Employment History:** Check the Wikipedia pages for the last 5 FDA commissioners.
+- [ ] **Compensation:** Look up the proxy statement for Pfizer (Form DEF 14A) to see Gottlieb's compensation (usually $300k+ annually + stock).
+- [ ] **Budget:** Verify the percentage of FDA funding that comes from PDUFA fees.
 
 ### Read
-- [ ] **The Playbook:** *Empire of Pain* by Patrick Radden Keefe (different industry, same playbook).
-- [ ] **The Investigation:** *Sickening: How Big Pharma Broke American Health Care* by Dr. John Abramson.
-- [ ] **The History:** *The Jungle* by Upton Sinclair (to see why the FDA was created, and how far it has fallen).
+- [ ] *Empire of Pain* - Patrick Radden Keefe - [Doubleday](https://www.penguinrandomhouse.com/books/612948/empire-of-pain-by-patrick-radden-keefe/)
+- [ ] *Sickening: How Big Pharma Broke American Health Care* - Dr. John Abramson - [HarperCollins](https://www.harpercollins.com/products/sickening-john-abramson)
+- [ ] *The Jungle* - Upton Sinclair - 1906 (Context).
 
 ### Discuss
-- [ ] How do we incentivize regulators to actually regulate? (Lifetime ban on industry employment? Higher salaries?)
-- [ ] Is "Regulatory Capture" inevitable in any centralized system?
-- [ ] Can we use blockchain to track the "revolving door" in real-time? (A transparency dashboard).
+- [ ] How do we incentivize regulators to actually regulate?
+- [ ] Can we use blockchain to track the "revolving door" in real-time?
+
+**Sources**
+1. *Empire of Pain* - Patrick Radden Keefe - 2021
+2. *Sickening* - Dr. John Abramson - 2022
+3. *FDA Budget Fact Sheet* - [FDA.gov](https://www.fda.gov/about-fda/fda-basics/fact-sheet-fda-glance)
+
+**Jules' Hot Take**
+It's not a "conflict of interest" if the interest is just making money. Then it's perfectly aligned.
