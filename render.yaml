@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: bprd-web
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    rootDir: web
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0
