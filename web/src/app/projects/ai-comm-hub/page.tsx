@@ -42,8 +42,17 @@ export default function AiCommHubPage() {
             <CardDescription>Direct access to automation workflows.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button className="w-full h-12 text-lg" asChild>
-              <a href="https://bprd.app.n8n.cloud/workflow/f7esUElHTkGT3yk6" target="_blank" rel="noopener noreferrer">
+            <Button
+              className="w-full h-12 text-lg"
+              asChild
+              disabled={!process.env.NEXT_PUBLIC_N8N_WORKFLOW_URL}
+            >
+              <a
+                href={process.env.NEXT_PUBLIC_N8N_WORKFLOW_URL || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={!process.env.NEXT_PUBLIC_N8N_WORKFLOW_URL ? "pointer-events-none opacity-50" : ""}
+              >
                 <ExternalLink className="mr-2 h-5 w-5" />
                 Open n8n Instance
               </a>
