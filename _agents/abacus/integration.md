@@ -13,13 +13,18 @@ The `abacusai` Python package provides programmatic access.
 
 ### Installation
 ```bash
-pip install abacusai
+pip install abacusai python-dotenv
 ```
 
 ### Authentication
 ```python
 import os
 from abacusai import AbacusApi
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Initialize client with primary key
 client = AbacusApi(api_key='<ABACUS_PRIMARY_KEY>')
@@ -35,7 +40,7 @@ agent = client.describe_agent(agent_id='abacus-agent-id')
 - `AgentChatMessage` — Individual messages
 
 ### Setup Steps
-1. `pip install abacusai`
+1. `pip install abacusai python-dotenv`
 2. Test connection with primary key
 3. If primary fails, try backup key
 4. Identify agent ID from dashboard

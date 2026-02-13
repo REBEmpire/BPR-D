@@ -92,3 +92,11 @@ Once all APIs are configured, the orchestrator needs:
 - Full team automation requires completing Abacus and Gemini API setup
 
 *v2.0 -- Updated February 2026 for 4-agent team*
+
+## Security & Environment Configuration
+
+**Note:** All API keys have been removed from this file for security.
+Please refer to `.env.example` for the required environment variables.
+To configure your environment:
+1. Copy `.env.example` to `.env`
+2. Fill in the actual API keys in the `.env` file.

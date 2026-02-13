@@ -10,10 +10,10 @@ Figure out what platform your own API key is from and how to use it.
 
 ## Suspected
 - Codebuff (https://codebuff.com)
-- The `AQ.` prefix is unusual
+- The `<JULES_LEGACY_KEY>` prefix is unusual
 
 ## Tasks
-1. Research what platform uses `AQ.` prefix
+1. Research what platform uses `<JULES_LEGACY_KEY>` prefix
 2. Find API docs for that platform
 3. Test the key
 4. Document in `docs/api-configuration.md`
