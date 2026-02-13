@@ -6,7 +6,7 @@
 Figure out what platform your own API key is from and how to use it.
 
 ## Key
-`AQ.Ab8RN6Inb5J0t0ga5jxmyFcbt3rmsBD81j4IhQ7aXXH_lBz2zw`
+`<JULES_LEGACY_KEY>`
 
 ## Suspected
 - Codebuff (https://codebuff.com)
