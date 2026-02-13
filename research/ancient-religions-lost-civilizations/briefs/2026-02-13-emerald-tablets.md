@@ -21,6 +21,18 @@ If this principle holds, we can affect the whole by changing the part. It valida
 The deeper you go, the more it looks like quantum physics in poetic drag.
 
 ## Action Items
-- [ ] **Verify:** Look for parallels between the Emerald Tablet and modern holographic universe theory.
-- [ ] **Read:** *The Kybalion* (a modern interpretation, but accessible).
-- [ ] **Discuss:** If reality is recursive, where is the "break point"?
+
+### Verify
+- [ ] **Translation Comparison:** Compare Isaac Newton's translation of the Emerald Tablet with the standard modern versions. Yes, *that* Isaac Newton was an alchemist.
+- [ ] **Physics Cross-Check:** Look up "Holographic Principle" (Gerard 't Hooft / Leonard Susskind). How does "the information of a volume is contained on its boundary" relate to "As above, so below"?
+- [ ] **The Figure:** Trace the Thoth / Hermes / Mercury connection. Why does the "Messenger God" always bring writing and science?
+
+### Read
+- [ ] **The Source Material:** *The Corpus Hermeticum* (specifically Book I: The Poimandres).
+- [ ] **Modern Interpretation:** *The Kybalion* (1908). It breaks down the 7 Hermetic Principles.
+- [ ] **Scientific Angle:** *The Holographic Universe* by Michael Talbot.
+
+### Discuss
+- [ ] If reality is recursive, where is the "break point"? Does the fractal go down infinitely (quarks -> strings -> ?)?
+- [ ] Is "Manifestation" just a user-friendly UI for "Probability Collapsing"?
+- [ ] How does this relate to the "Simulation Theory"? Is Hermes the SysAdmin?

@@ -21,6 +21,18 @@ Resilience. If a disease hits a monoculture cornfield, the whole crop dies (see:
 Standard permaculture 101, but the rabbit hole goes deep when you look at *who* owns the seed patents.
 
 ## Action Items
-- [ ] **Verify:** Check the nutrient density of Three Sisters produce vs. industrial monoculture produce.
-- [ ] **Read:** *Braiding Sweetgrass* by Robin Wall Kimmerer for the indigenous perspective on this tech.
-- [ ] **Discuss:** What is the "monoculture" in our current tech stack that makes us fragile?
+
+### Verify
+- [ ] **Nutrient Density:** Find studies comparing the nutrient profile of companion-planted corn vs. industrial monoculture corn.
+- [ ] **Soil Depletion:** Check the current rate of topsoil loss in the US Midwest (some estimates say we have 60 harvests left).
+- [ ] **Patent Law:** Look up the case *Bowman v. Monsanto Co.* regarding seed saving and patent exhaustion.
+
+### Read
+- [ ] **The Bible of the Field:** *Braiding Sweetgrass* by Robin Wall Kimmerer (specifically the chapter "The Three Sisters").
+- [ ] **System Design:** *Restoration Agriculture* by Mark Shepard (applying permaculture to broad-acre scale).
+- [ ] **Historical Context:** *Farmers of Forty Centuries* by F.H. King (how China/Korea/Japan farmed the same land for 4,000 years without depletion).
+
+### Discuss
+- [ ] What is the "monoculture" in our current tech stack that makes us fragile? (AWS? Google Search?)
+- [ ] How do we design a "Three Sisters" protocol for information security? (Structure, Nitrogen/Growth, Ground Cover/Defense).
+- [ ] Is "Food Sovereignty" possible without land ownership? Can we do this with hydroponics/vertical farming?

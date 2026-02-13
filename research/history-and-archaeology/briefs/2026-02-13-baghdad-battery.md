@@ -21,6 +21,18 @@ If electricity isn't a modern invention, but a re-discovery, we need to look at 
 Leads directly into the "Out of Place Artifacts" (OOPArt) network.
 
 ## Action Items
-- [ ] **Verify:** Has anyone successfully replicated the Baghdad Battery to power a light source? (MythBusters did it).
-- [ ] **Read:** *The Lost Science of the Stone Age* (or similar works on ancient tech).
-- [ ] **Discuss:** If we lost electricity once, how fast would we lose it again?
+
+### Verify
+- [ ] **Replication:** Look up the MythBusters episode (S3E16) where they built replicas. How much voltage did they get? (Spoiler: ~4 volts).
+- [ ] **Geographic Context:** Check the proximity of Khujut Rabu to Ctesiphon. Was this a "lab" or a "temple"?
+- [ ] **Similar Finds:** Search for "Dendera Light" reliefs in Egypt. Does the "lotus flower" look suspicious like a Crookes tube?
+
+### Read
+- [ ] **The Catalog:** *Forbidden Archaeology* by Michael Cremo (a massive tome of things that shouldn't exist according to the official timeline).
+- [ ] **Alternative Theory:** *The Lost Science of the Stone Age* regarding acoustic levitation and other lost arts.
+- [ ] **The Skeptic's View:** Read the Wikipedia entry on "Baghdad Battery" specifically to see the mental gymnastics used to dismiss it ("scroll storage containers").
+
+### Discuss
+- [ ] If we lost electricity once, how fast would we lose it again? What happens to our "cloud" knowledge in a Carrington Event?
+- [ ] Is "Ritual Object" just code for "We have no idea what this tech does"?
+- [ ] Could the Ark of the Covenant have been a massive capacitor? (Gold overlay, wood insulation, "don't touch or you die").

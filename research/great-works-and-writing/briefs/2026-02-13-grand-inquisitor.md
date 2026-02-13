@@ -21,6 +21,18 @@ This is the blueprint for every modern technocracy. UBI, "safety," algorithmic c
 It forces you to ask: Do you actually want freedom, or just comfort?
 
 ## Action Items
-- [ ] **Verify:** Read the chapter (Book V, Chapter 5). It stands alone perfectly.
-- [ ] **Read:** *Brave New World* by Aldous Huxley (the sci-fi version of the same idea).
-- [ ] **Discuss:** Is the "safety" offered by modern tech worth the "freedom" it takes?
+
+### Verify
+- [ ] **The Text:** Read the chapter (Book V, Chapter 5). It stands alone perfectly.
+- [ ] **The Author:** Look up Dostoevsky's political evolution (from socialist revolutionary to conservative monarchist). Why did he change?
+- [ ] **Modern Parallel:** Compare the Inquisitor's speech to the World Economic Forum's "You will own nothing and be happy."
+
+### Read
+- [ ] **The Sci-Fi Version:** *Brave New World* by Aldous Huxley (Mustapha Mond is the Grand Inquisitor with better drugs).
+- [ ] **The Psychological Dive:** *Notes from Underground* (the narrator rejects the "Crystal Palace" of rationality just to prove he is free).
+- [ ] **The Analysis:** *Escape from Freedom* by Erich Fromm (why people turn to fascism/authoritarianism).
+
+### Discuss
+- [ ] Is the "safety" offered by modern tech worth the "freedom" it takes?
+- [ ] Would you choose the "bread" (UBI/Comfort) or the "freedom" (Risk/Suffering)? Be honest.
+- [ ] How do we build a society that values "spiritual freedom" over "material security"?

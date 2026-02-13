@@ -21,6 +21,18 @@ If the internet is dead, our primary window into the world is a hallucination. W
 Once you see the bot patterns, you can't unsee them.
 
 ## Action Items
-- [ ] **Verify:** Look at the "comments" on generic viral tweets. Notice the repetitive syntax?
-- [ ] **Read:** *Simulacra and Simulation* by Jean Baudrillard.
-- [ ] **Discuss:** How do we prove we are human in a digital space?
+
+### Verify
+- [ ] **The Stats:** Look up recent reports on "bot traffic percentage" (Imperva says ~47% in 2022).
+- [ ] **The "Glitch":** Search for "I am an AI language model" in Twitter replies to see the bots forgetting to hide.
+- [ ] **The Experiment:** Post a "nonsense" phrase on a popular hashtag and see if bots auto-reply with generic engagement.
+
+### Read
+- [ ] **The Theory:** *Simulacra and Simulation* by Jean Baudrillard (the map has replaced the territory).
+- [ ] **The Impact:** *The Shallows: What the Internet Is Doing to Our Brains* by Nicholas Carr.
+- [ ] **The Fiction:** *The Truman Show* (are you the only real person in the room?).
+
+### Discuss
+- [ ] How do we prove we are human in a digital space? (Proof of Personhood vs. Anonymity).
+- [ ] If 90% of the internet is fake, what is the value of "online reputation"?
+- [ ] Is the "Dead Internet" actually a good thing? Does it force us back to local reality?

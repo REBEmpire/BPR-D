@@ -21,6 +21,18 @@ Public trust is dead because the watchdogs are owned by the wolves. We are takin
 Check the net worth of FDA commissioners before and after their tenure.
 
 ## Action Items
-- [ ] **Verify:** Look up the employment history of the last 5 FDA commissioners.
-- [ ] **Read:** *Empire of Pain* by Patrick Radden Keefe (different industry, same playbook).
-- [ ] **Discuss:** How do we incentivize regulators to actually regulate?
+
+### Verify
+- [ ] **The List:** Look up the employment history of the last 5 FDA commissioners. Who employs them now?
+- [ ] **The Money:** Find the compensation for a Pfizer Board Member (proxy statement). Compare it to the FDA Commissioner's salary.
+- [ ] **The Law:** Check the "cooling-off period" laws for federal employees. Are they being enforced, or are there loopholes?
+
+### Read
+- [ ] **The Playbook:** *Empire of Pain* by Patrick Radden Keefe (different industry, same playbook).
+- [ ] **The Investigation:** *Sickening: How Big Pharma Broke American Health Care* by Dr. John Abramson.
+- [ ] **The History:** *The Jungle* by Upton Sinclair (to see why the FDA was created, and how far it has fallen).
+
+### Discuss
+- [ ] How do we incentivize regulators to actually regulate? (Lifetime ban on industry employment? Higher salaries?)
+- [ ] Is "Regulatory Capture" inevitable in any centralized system?
+- [ ] Can we use blockchain to track the "revolving door" in real-time? (A transparency dashboard).

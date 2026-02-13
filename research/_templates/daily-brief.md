@@ -21,6 +21,19 @@
 [Brief justification for the rating]
 
 ## Action Items
-- [ ] **Verify:** [Specific claim to check]
-- [ ] **Read:** [Key source or book]
-- [ ] **Discuss:** [Question for the team]
+*The depth of this topic warrants a corresponding number of action items. Do not limit yourself to three.*
+
+### Verify
+- [ ] [Specific claim to check]
+- [ ] [Data point to cross-reference]
+- [ ] [Definition/Etymology to trace]
+
+### Read
+- [ ] [Primary Source (if available)]
+- [ ] [Book Title by Author]
+- [ ] [Article/Paper Title]
+
+### Discuss
+- [ ] [Question about implications]
+- [ ] [Connection to other research topics]
+- [ ] [Tactical application for our team]
