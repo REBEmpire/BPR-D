@@ -2,8 +2,8 @@
 
 Abacus (Abacus.AI) requires SDK-based integration rather than a simple REST API key. Two keys are available — a primary and a legacy backup from the ChatLLM merge.
 
-**Primary Key:** Configured in `.env` as `ABACUS_PRIMARY_KEY`
-**Backup Key (legacy ChatLLM):** Configured in `.env` as `ABACUS_BACKUP_KEY`
+**Primary Key:** `<ABACUS_PRIMARY_KEY>`
+**Backup Key (legacy ChatLLM):** `<ABACUS_BACKUP_KEY>`
 
 ---
 
@@ -18,26 +18,31 @@ pip install abacusai python-dotenv
 
 ### Authentication
 ```python
-# Import from local helper
-from _agents.abacus.client import get_client
+import os
+from abacusai import AbacusApi
+import os
+from dotenv import load_dotenv
 
-# Initialize client using environment variables
-client = get_client()
+# Load environment variables
+load_dotenv()
+
+# Initialize client with primary key
+client = AbacusApi(api_key='<ABACUS_PRIMARY_KEY>')
 
 # Work with agents
 # agent = client.describe_agent(agent_id='abacus-agent-id')
 ```
 
 ### Key Classes
-- `AbacusApi` — Main client
+- `ApiClient` — Main client
 - `Agent` — Agent management (refresh, describe, copy)
 - `AgentConversation` — Message history
 - `AgentChatMessage` — Individual messages
 
 ### Setup Steps
 1. `pip install abacusai python-dotenv`
-2. Configure `.env` with keys (see `.env.example`)
-3. Test connection with `python _agents/abacus/client.py`
+2. Test connection with primary key
+3. If primary fails, try backup key
 4. Identify agent ID from dashboard
 5. Test basic conversation flow
 
