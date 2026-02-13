@@ -18,6 +18,7 @@ pip install abacusai python-dotenv
 
 ### Authentication
 ```python
+import os
 from abacusai import AbacusApi
 import os
 from dotenv import load_dotenv
@@ -26,14 +27,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Initialize client with primary key
-client = AbacusApi(api_key=os.getenv('ABACUS_PRIMARY_KEY'))
+client = AbacusApi(api_key='<ABACUS_PRIMARY_KEY>')
 
 # Work with agents
 agent = client.describe_agent(agent_id='abacus-agent-id')
 ```
 
 ### Key Classes
-- `AbacusApi` — Main client
+- `ApiClient` — Main client
 - `Agent` — Agent management (refresh, describe, copy)
 - `AgentConversation` — Message history
 - `AgentChatMessage` — Individual messages

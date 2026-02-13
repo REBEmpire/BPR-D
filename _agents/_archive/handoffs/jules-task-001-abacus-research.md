@@ -26,7 +26,7 @@ Direct REST calls to Abacus return 404. The `s2_` prefix keys suggest SDK access
 ```python
 # This works:
 from abacusai import ApiClient
-client = ApiClient(api_key='<ABACUS_PRIMARY_KEY>')
+client = ApiClient(api_key='<ABACUS_API_KEY_PRIMARY>')
 response = client.???("Hello")  # Find the right method
 print(response)
 ```

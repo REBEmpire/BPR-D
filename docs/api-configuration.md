@@ -10,7 +10,7 @@
 |-------|----------|-------|--------|-----------------|
 | Grok | xAI | grok-3 | **WORKING** | None |
 | Claude | Anthropic | claude-opus-4-5 | **WORKING** | None |
-| Abacus | Abacus.AI | abacus | Pending | SDK configuration |
+| Abacus | Abacus.AI | abacus | **CONFIGURED** | SDK client ready in `_agents/abacus/client.py` |
 | Gemini | Google AI | gemini-3.0 | Pending | Model upgrade + billing |
 
 ---
@@ -54,7 +54,7 @@ Status: OPERATIONAL
 
 **Target Model:** gemini-3.0 (via Jules coding platform)
 **Current Key:** Available in credentials.conf.txt
-**Legacy Key (Codebuff/Jules):** `<JULES_LEGACY_KEY>` -- may provide coding-specific capabilities
+**Legacy Key (Codebuff/Jules):** `<GEMINI_LEGACY_KEY>` -- may provide coding-specific capabilities
 
 **Actions Needed:**
 1. Upgrade to paid tier at https://ai.google.dev/
@@ -76,7 +76,7 @@ Once all APIs are configured, the orchestrator needs:
 
 ## Immediate Actions
 
-1. [ ] Install abacusai Python SDK and test Abacus access
+1. [x] Install abacusai Python SDK and test Abacus access (Configured in `_agents/abacus/client.py`)
 2. [ ] Upgrade Gemini API to paid tier
 3. [ ] Research Codebuff key for Gemini coding integration
 4. [ ] Build orchestrator with working APIs (Grok, Claude) first
