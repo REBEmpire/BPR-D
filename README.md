@@ -1,5 +1,31 @@
 # BPR&D - Broad Perspective Research & Development
 
+## 🎮 DDAS - Decentralized Digital Arts Studio
+
+**Location**: `/ddas/` folder
+
+The DDAS (Decentralized Digital Arts Studio) is a complete framework for independent game development and content creation. It includes:
+
+- **Two Game Prototypes**: Splinterlands Civilization (4X strategy) and Slingerlands RPG (turn-based dungeon crawler)
+- **Content Automation Pipeline**: AI-powered content generation for 5 Hive blockchain accounts
+- **Media Production Framework**: YouTube, podcasting, and cross-platform distribution
+- **Strategic Documentation**: Complete implementation guides and technical specifications
+
+### Quick Start
+- **[DDAS Documentation Index](/ddas/Documentation/START_HERE.md)** - 5-minute orientation
+- **[Strategic Plan](/ddas/Documentation/DDAS_Strategic_Plan.md)** - Full roadmap and vision
+- **[Game Development Guide](/ddas/Documentation/README_GAMES.md)** - Godot 4.x setup
+- **[Content Automation](/ddas/content/automation/README.md)** - Python pipeline setup
+- **[Media Production](/ddas/Documentation/VIDEO_AUDIO_PRODUCTION.md)** - Video & audio workflows
+
+**Technology Stack**:
+- Games: Godot 4.x (GDScript)
+- Content: Python 3.8+ with Claude/OpenAI APIs
+- Blockchain: Hive protocol
+- Deployment: Fly.io, Railway, or self-hosted
+
+---
+
 ## Gameified Web Presence (MVP)
 
 This repository contains the gameified web interface for BPR&D, located in the `web/` directory.
