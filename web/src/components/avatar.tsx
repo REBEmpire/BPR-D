@@ -17,6 +17,7 @@ export function Avatar({ src, name, role, className, status = "offline" }: Avata
           src={src}
           alt={name}
           fill
+          sizes="(min-width: 768px) 128px, 96px"
           className="object-cover"
         />
         {status === "online" && (

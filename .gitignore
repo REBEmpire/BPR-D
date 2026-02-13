@@ -1,6 +1,39 @@
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Environment & Credentials
 .env
-credentials.conf.txt
-.bprd/
-.claude/
+.env.local
+.env.*.local
+publisher_config.json
+hive_posting_key.json
+api_keys.json
+
+# Godot
+.godot/
+*.tres~
+*.gd~
+*.tscn~
+user://saves/
+export/
+
+# Generated Content
+generated_content/
+session_reports/
+content_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

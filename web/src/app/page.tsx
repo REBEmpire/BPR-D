@@ -1,4 +1,5 @@
 import { QuestBoard } from "@/components/quest-board"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -11,9 +12,21 @@ export default function Home() {
         <div className="bg-muted/50 rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Quick Links</h2>
           <ul className="list-disc list-inside space-y-2">
-            <li>Review Team Progress</li>
-            <li>Check n8n Workflow Status</li>
-            <li>Read Latest Research Briefs</li>
+            <li>
+              <Link href="/team" className="hover:underline hover:text-primary transition-colors">
+                Review Team Progress
+              </Link>
+            </li>
+            <li>
+              <Link href="/projects/ai-comm-hub" className="hover:underline hover:text-primary transition-colors">
+                Check n8n Workflow Status
+              </Link>
+            </li>
+            <li>
+              <Link href="/research" className="hover:underline hover:text-primary transition-colors">
+                Read Latest Research Briefs
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
