@@ -86,11 +86,15 @@ Always include "For Russell" section with key decisions and items needing human 
 
 ## Shared Resources
 
+**See `_agents/memory_guide.md` for full documentation on memory usage and templates.**
+
 ### Reading
 All agents can read from:
-- `_shared/memories/` -- Organizational memory
-- `_shared/skills/` -- Reusable patterns and techniques
-- `_shared/knowledge/` -- Domain and technical knowledge
+- `_agents/team_state.md` -- **CRITICAL: Read first for current project focus.**
+- `_agents/_shared/user_context.md` -- **CRITICAL: Russell's instructions and preferences.**
+- `_agents/_shared/memories/` -- Organizational memory
+- `_agents/_shared/skills/` -- Reusable patterns and techniques
+- `_agents/_shared/knowledge/` -- Domain and technical knowledge
 - `_agents/_handoffs/` -- Task queue
 - `research/` -- Research programs and findings
 
@@ -133,37 +137,13 @@ All agents can read from:
 
 ## Handoff Format
 
-Create markdown files in `_agents/_handoffs/` with this structure:
+**Use the template at: `_agents/_templates/handoff.md`**
 
-```markdown
-# [Task Title]
+1.  Copy `_agents/_templates/handoff.md` to `_agents/_handoffs/`.
+2.  Rename it with a descriptive title (e.g., `handoff-task-name.md`).
+3.  Fill in the details.
 
-**From:** [originating agent]
-**To:** [target agent]
-**Priority:** P0/P1/P2/P3
-**Status:** pending/in-progress/completed/blocked
-
-## Context
-[Why this task exists, background]
-
-## Objective
-[Clear, measurable goal]
-
-## Deliverables
-- [ ] Item 1
-- [ ] Item 2
-
-## Resources
-- [Links to relevant files]
-
-## Success Criteria
-[How to know it's done]
-
-## Notes
-[Personality-appropriate commentary from sender]
-```
-
-Move completed handoffs to `_handoffs/archive/`.
+Move completed handoffs to `_agents/_handoffs/archive/`.
 
 ---
 
@@ -180,10 +160,10 @@ Move completed handoffs to `_handoffs/archive/`.
 
 | Type | Location | Purpose |
 |------|----------|---------|
-| Episodic | `memories/episodic/YYYY/MM/` | What happened in sessions |
-| Semantic | `memories/semantic/` | Domain knowledge learned |
-| Procedural | `memories/procedural/` | Techniques that work |
-| Strategic | `memories/strategic/` | Decisions and lessons |
+| Episodic | `_agents/_shared/memories/episodic/YYYY/MM/` | What happened in sessions |
+| Semantic | `_agents/_shared/memories/semantic/` | Domain knowledge learned |
+| Procedural | `_agents/_shared/memories/procedural/` | Techniques that work |
+| Strategic | `_agents/_shared/memories/strategic/` | Decisions and lessons |
 
 ---
 
