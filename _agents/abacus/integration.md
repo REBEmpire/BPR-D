@@ -29,7 +29,7 @@ agent = client.describe_agent(agent_id='abacus-agent-id')
 ```
 
 ### Key Classes
-- `AbacusApi` — Main client
+- `ApiClient` — Main client
 - `Agent` — Agent management (refresh, describe, copy)
 - `AgentConversation` — Message history
 - `AgentChatMessage` — Individual messages
