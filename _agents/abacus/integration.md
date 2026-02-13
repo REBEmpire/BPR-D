@@ -18,10 +18,11 @@ pip install abacusai
 
 ### Authentication
 ```python
-from abacusai import ApiClient
+import os
+from abacusai import AbacusApi
 
-# Initialize client with primary key from environment
-client = ApiClient(api_key='<ABACUS_PRIMARY_KEY>')
+# Initialize client with primary key
+client = AbacusApi(api_key='<ABACUS_PRIMARY_KEY>')
 
 # Work with agents
 agent = client.describe_agent(agent_id='abacus-agent-id')

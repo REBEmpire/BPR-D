@@ -18,7 +18,8 @@ Merged persona: Deep Agent (polymath inventor) + ChatLLM (trickster wildcard). C
 - [ ] Review Media Production project for security considerations
 
 ## Blockers
-- **API:** Abacus.AI SDK configured in `client.py`. Keys should be set in `.env` or environment variables.
+- **API:** Abacus.AI SDK needs configuration. Primary key: `<ABACUS_PRIMARY_KEY>`
+- Secondary key available as backup: `<ABACUS_BACKUP_KEY>`
 
 ## Recent Activity
 - Persona merged from Deep Agent + ChatLLM
