@@ -6,7 +6,7 @@
 Figure out what platform your own API key is from and how to use it.
 
 ## Key
-`<GEMINI_LEGACY_KEY>`
+`<JULES_LEGACY_KEY>`
 
 ## Suspected
 - Codebuff (https://codebuff.com)

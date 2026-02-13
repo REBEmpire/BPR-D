@@ -42,8 +42,8 @@ Status: OPERATIONAL
 
 **Merged from:** Deep Agent + ChatLLM
 
-**Primary Key:** Configured in `.env` as `ABACUS_PRIMARY_KEY`
-**Secondary Key (legacy ChatLLM):** Configured in `.env` as `ABACUS_BACKUP_KEY`
+**Primary Key:** `<ABACUS_PRIMARY_KEY>`
+**Secondary Key (legacy ChatLLM):** `<ABACUS_BACKUP_KEY>`
 
 **Options:**
 1. Install Python SDK: `pip install abacusai python-dotenv`
