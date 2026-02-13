@@ -18,6 +18,7 @@ pip install abacusai
 
 ### Authentication
 ```python
+import os
 from abacusai import AbacusApi
 
 # Initialize client with primary key

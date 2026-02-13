@@ -54,7 +54,7 @@ Status: OPERATIONAL
 
 **Target Model:** gemini-3.0 (via Jules coding platform)
 **Current Key:** Available in credentials.conf.txt
-**Legacy Key (Codebuff/Jules):** `AQ.Ab8...` -- may provide coding-specific capabilities
+**Legacy Key (Codebuff/Jules):** `<GEMINI_LEGACY_KEY>` -- may provide coding-specific capabilities
 
 **Actions Needed:**
 1. Upgrade to paid tier at https://ai.google.dev/
