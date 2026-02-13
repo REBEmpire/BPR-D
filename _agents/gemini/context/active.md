@@ -19,7 +19,7 @@ Merged persona: Original Gemini (research/compliance) + Jules (coding/memes). Le
 
 ## Blockers
 - **API:** Google AI needs paid tier upgrade and model update to gemini-3.0
-- **Codebuff key:** Legacy Jules key `AQ.Ab8...` needs investigation
+- **Codebuff key:** Legacy Jules key `<GEMINI_LEGACY_KEY>` needs investigation
 
 ## Recent Activity
 - Persona merged from Gemini + Jules

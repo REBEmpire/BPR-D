@@ -9,8 +9,8 @@ Get Deep Agent and ChatLLM APIs working.
 Direct REST calls to Abacus return 404. The `s2_` prefix keys suggest SDK access.
 
 ## Keys
-- Deep Agent: `s2_31d1f22c7c69422ba5da165fb98532bb`
-- ChatLLM: `s2_1e30fa4a3d834bffb1b465d67eb1809e`
+- Deep Agent: `<ABACUS_API_KEY_PRIMARY>`
+- ChatLLM: `<ABACUS_API_KEY_SECONDARY>`
 
 ## Tasks
 1. `pip install abacusai`
@@ -26,7 +26,7 @@ Direct REST calls to Abacus return 404. The `s2_` prefix keys suggest SDK access
 ```python
 # This works:
 from abacusai import ApiClient
-client = ApiClient(api_key='s2_...')
+client = ApiClient(api_key='<ABACUS_API_KEY_PRIMARY>')
 response = client.???("Hello")  # Find the right method
 print(response)
 ```

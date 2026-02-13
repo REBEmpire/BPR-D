@@ -42,8 +42,8 @@ Status: OPERATIONAL
 
 **Merged from:** Deep Agent + ChatLLM
 
-**Primary Key:** `s2_31d1f22c7c69422ba5da165fb98532bb`
-**Secondary Key (legacy ChatLLM):** `s2_1e30fa4a3d834bffb1b465d67eb1809e`
+**Primary Key:** `<ABACUS_API_KEY_PRIMARY>`
+**Secondary Key (legacy ChatLLM):** `<ABACUS_API_KEY_SECONDARY>`
 
 **Options:**
 1. Install Python SDK: `pip install abacusai`
@@ -54,7 +54,7 @@ Status: OPERATIONAL
 
 **Target Model:** gemini-3.0 (via Jules coding platform)
 **Current Key:** Available in credentials.conf.txt
-**Legacy Key (Codebuff/Jules):** `AQ.Ab8...` -- may provide coding-specific capabilities
+**Legacy Key (Codebuff/Jules):** `<GEMINI_LEGACY_KEY>` -- may provide coding-specific capabilities
 
 **Actions Needed:**
 1. Upgrade to paid tier at https://ai.google.dev/
