@@ -1,6 +1,5 @@
 import { getBriefContent, getAllBriefs } from "@/lib/research"
 import { notFound } from "next/navigation"
-import { Badge } from "@/components/ui/badge"
 import { Calendar, FileText, ArrowLeft, ArrowUpRight } from "lucide-react"
 import Link from "next/link"
 

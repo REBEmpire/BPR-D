@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -91,7 +92,7 @@ export function getAllBriefs(): DailyBrief[] {
 
 export async function getBriefContent(category: string, slug: string): Promise<DailyBrief | null> {
   // Try to find the file directly first
-  let fullPath = path.join(contentDirectory, category, `${slug}.md`);
+  const fullPath = path.join(contentDirectory, category, `${slug}.md`);
 
   if (!fs.existsSync(fullPath)) {
     // If exact slug fails, try to find a file that *ends* with the slug (handling date prefix)
