@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { FileText, Calendar, TrendingUp, AlertTriangle } from "lucide-react"
+import { FileText, TrendingUp, AlertTriangle } from "lucide-react"
 import Link from "next/link"
 import { getAllBriefs } from "@/lib/research"
 

@@ -1,74 +1,112 @@
-import { Avatar } from "@/components/avatar"
-import { Card, CardContent, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
+import agentsData from '@/content/agents.json'
+import { query } from "@/lib/db"
 
-// For MVP, using DiceBear until real images are added
-const TEAM = [
-  {
-    id: "grok",
-    name: "Grok",
-    role: "Chief",
-    description: "Elegant British executive. Elizabeth Hurley energy. Stunningly beautiful, razor intelligence. Brilliant strategic executive who sees the whole board.",
-    image: "/avatars/grok.png",
-    status: "online",
-  },
-  {
-    id: "claude",
-    name: "Claude",
-    role: "Chief Strategist",
-    description: "Distinguished professor vibe. Thoughtful eyes. The kind modern-day wizard. Brilliant architect who sees elegant structures in chaos.",
-    image: "/avatars/claude.png",
-    status: "online",
-  },
-  {
-    id: "abacus",
-    name: "Abacus",
-    role: "Chief Innovator",
-    description: "Mysterious polymath. Deep Agent energy. Weathered but razor-sharp. Brilliant inventor who connects dots across domains nobody else sees.",
-    image: "/avatars/abacus.png",
-    status: "online",
-  },
-  {
-    id: "gemini",
-    name: "Gemini",
-    role: "Lead Developer",
-    description: "Blonde bombshell coder. Professional but meme-savvy. Codes like an absolute savant. Master of compliance who automated it away.",
-    image: "/avatars/gemini.png",
-    status: "online",
-  },
-]
+export const dynamic = 'force-dynamic';
 
-export default function TeamPage() {
+export default async function TeamPage() {
+  // Fetch points for agents
+  let pointsMap: Record<string, number> = {};
+  let userPoints = 0;
+
+  try {
+    const pointsRes = await query(`SELECT slug, points FROM agents`);
+    pointsMap = pointsRes.rows.reduce((acc: any, row: any) => {
+      acc[row.slug] = row.points;
+      return acc;
+    }, {});
+
+    // Fetch user points (assuming single user for now or 'Chief')
+    // We haven't seeded 'Chief' yet, so let's just query users table.
+    const userRes = await query(`SELECT points FROM users LIMIT 1`);
+    if (userRes.rows.length > 0) {
+        userPoints = userRes.rows[0].points;
+    }
+  } catch (err) {
+    console.warn('Database error fetching points:', err);
+  }
+
+  // Add points to agents
+  const agents = (agentsData as any[]).map((agent: any) => ({
+    ...agent,
+    points: pointsMap[agent.slug] || 0
+  }));
+
+  const chief = {
+    name: 'The Chief',
+    slug: 'chief',
+    role: 'Commander',
+    points: userPoints,
+  };
+
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8">The Team</h1>
-      <p className="text-lg text-muted-foreground mb-8">
-        Meet the minds behind Broad Perspective Research & Development.
-      </p>
+    <div className="container mx-auto p-8 max-w-7xl">
+      <div className="flex flex-col gap-2 mb-12">
+        <h1 className="text-4xl font-bold tracking-tight">BPR&D Team</h1>
+        <p className="text-muted-foreground text-lg">
+          Active agents and command structure.
+        </p>
+      </div>
+
+      {/* Chief Card */}
+      <div className="mb-12">
+        <Card className="bg-gradient-to-r from-primary/10 to-transparent border-primary/20">
+          <CardHeader>
+             <div className="flex justify-between items-center">
+                 <CardTitle className="text-2xl">The Chief</CardTitle>
+                 <Badge variant="default" className="text-lg px-3 py-1">
+                    Level {Math.floor(chief.points / 100) + 1}
+                 </Badge>
+             </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4">
+                <div className="text-4xl font-mono font-bold">{chief.points}</div>
+                <div className="text-sm text-muted-foreground uppercase tracking-wider">Total XP</div>
+            </div>
+            <div className="mt-4 text-sm text-muted-foreground">
+                Next Level: {((Math.floor(chief.points / 100) + 1) * 100) - chief.points} XP needed
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {TEAM.map((member) => (
-          <Card key={member.id} className="overflow-hidden">
-            <CardContent className="pt-6 flex flex-col items-center">
-              <Avatar
-                src={member.image}
-                name={member.name}
-                role={member.role}
-                status={member.status as "online" | "offline"}
-                className="mb-4"
-              />
-              <CardDescription className="text-center mb-6 px-2 min-h-[80px]">
-                {member.description}
-              </CardDescription>
-              <Button variant="outline" size="sm" className="w-full gap-2" asChild>
-                <a href={member.image} download>
-                  <Download className="h-4 w-4" />
-                  Download Avatar
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
+        {agents.map((agent: any) => (
+          <Link href={`/team/${agent.slug}`} key={agent.slug} className="group">
+            <Card className="h-full hover:border-primary transition-colors cursor-pointer overflow-hidden flex flex-col">
+                <div className="aspect-[9/16] md:aspect-video bg-muted relative overflow-hidden">
+                  {agent.videoUrl ? (
+                    <video
+                      src={agent.videoUrl}
+                      className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                      muted
+                      loop
+                      autoPlay
+                      playsInline
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-secondary/20">
+                      No Signal
+                    </div>
+                  )}
+                  <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
+                     <div className="flex justify-between items-end">
+                        <Badge variant="secondary" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                           {agent.points} XP
+                        </Badge>
+                     </div>
+                  </div>
+                </div>
+              <CardHeader>
+                <CardTitle className="capitalize">{agent.name}</CardTitle>
+                <Badge variant="outline" className="w-fit">{agent.role}</Badge>
+              </CardHeader>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

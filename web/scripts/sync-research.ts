@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -37,7 +38,7 @@ async function copyResearch() {
               console.log(`Copied ${category}/${file}`);
             }
           }
-        } catch (err) {
+        } catch (_) {
           // Skip if briefs directory doesn't exist
           continue;
         }
