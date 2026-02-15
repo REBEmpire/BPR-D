@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir abacusai python-dotenv
 
 # Set up environment
 WORKDIR /app
+RUN mkdir -p /app/workspace
 ENV PATH="/app/venv/bin:/home/jules/.nvm/versions/node/v22.22.0/bin:/home/jules/.pyenv/shims:/home/jules/.pyenv/bin:/home/jules/.local/bin:/opt/flutter/bin:/usr/lib/dotnet:/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/platform-tools:/go/bin:/usr/local/go/bin:/usr/share/gradle/bin:/usr/share/maven/bin:/home/jules/.local/bin:/home/jules/.cargo/bin:/usr/local/bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/jules/.dotnet/tools"
 
 # Create Python virtual environment for the bridge

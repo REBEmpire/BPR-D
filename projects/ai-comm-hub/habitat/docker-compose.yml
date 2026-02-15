@@ -8,6 +8,9 @@ services:
       - credentials.conf.txt
     environment:
       - AGENT_NAME=jules
+      - WORKSPACE_DIR=/app/workspace
+    volumes:
+      - jules_workspace:/app/workspace
     restart: unless-stopped
     ports:
       - "8001:8000"
@@ -21,6 +24,9 @@ services:
       - credentials.conf.txt
     environment:
       - AGENT_NAME=deep-agent
+      - WORKSPACE_DIR=/app/workspace
+    volumes:
+      - deep_agent_workspace:/app/workspace
     restart: unless-stopped
     ports:
       - "8002:8000"
@@ -43,3 +49,7 @@ services:
 networks:
   default:
     name: habitat-net
+
+volumes:
+  jules_workspace:
+  deep_agent_workspace:
