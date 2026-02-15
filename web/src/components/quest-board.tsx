@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -15,6 +16,8 @@ const QUESTS = [
 
 export function QuestBoard() {
   const { isRussell, completedQuests, completeQuest } = useGamification()
+
+  const completedIds = useMemo(() => new Set(completedQuests), [completedQuests])
 
   if (!isRussell) {
     return (
@@ -38,7 +41,7 @@ export function QuestBoard() {
       </CardHeader>
       <CardContent className="space-y-4">
         {QUESTS.map((quest) => {
-          const isCompleted = completedQuests.includes(quest.id)
+          const isCompleted = completedIds.has(quest.id)
           return (
             <div
               key={quest.id}
