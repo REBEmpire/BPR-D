@@ -1,0 +1,55 @@
+services:
+  jules-agent:
+    build:
+      context: .
+      dockerfile: jules/Dockerfile
+    container_name: habitat-jules
+    env_file:
+      - credentials.conf.txt
+    environment:
+      - AGENT_NAME=jules
+      - WORKSPACE_DIR=/app/workspace
+    volumes:
+      - jules_workspace:/app/workspace
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+
+  deep-agent:
+    build:
+      context: .
+      dockerfile: deep-agent/Dockerfile
+    container_name: habitat-deep-agent
+    env_file:
+      - credentials.conf.txt
+    environment:
+      - AGENT_NAME=deep-agent
+      - WORKSPACE_DIR=/app/workspace
+    volumes:
+      - deep_agent_workspace:/app/workspace
+    restart: unless-stopped
+    ports:
+      - "8002:8000"
+
+  proxy:
+    build:
+      context: .
+      dockerfile: proxy/Dockerfile
+    container_name: habitat-proxy
+    environment:
+      - JULES_URL=http://jules-agent:8000
+      - DEEP_AGENT_URL=http://deep-agent:8000
+    depends_on:
+      - jules-agent
+      - deep-agent
+    ports:
+      - "8080:8000"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: habitat-net
+
+volumes:
+  jules_workspace:
+  deep_agent_workspace:
