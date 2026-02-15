@@ -20,7 +20,8 @@ The standard post structure is as follows:
 ### **The Scoop (Body)**
 *   **Selection:**
     *   **Selector:** Grok (Team Member).
-    *   **Criteria:** Grok selects the top 5 briefs with the highest potential for community engagement, virality, or controversy.
+    *   **Context:** Selection occurs during the **First Daily Meeting (07:47 AM)**.
+    *   **Criteria:** Grok selects the top 5 briefs based on the team's discussion, "weirdness" signals, and potential for community engagement/virality.
     *   **Rule:** Every selected topic MUST have at least one dedicated image.
 *   **Format:**
     *   **Headline:** Emoji + Category + Title.
@@ -56,7 +57,7 @@ The standard post structure is as follows:
 
 ## 5. Workflow
 1.  **Review Briefs:** Check `research/*/briefs/YYYY-MM-DD-*.md`.
-2.  **Selection (Grok):** Grok reviews all briefs and selects the top 5 based on engagement potential.
+2.  **Selection (Grok @ 07:47 AM):** Grok reviews briefs and selects the top 5 *during the daily meeting discussion*.
 3.  **Draft Post:** Create `publishing/hive/drafts/YYYY-MM-DD-hive-post.md` incorporating the selected topics.
 4.  **Request Images:** Create `publishing/hive/drafts/image_prompts.md` for ALL 5 topics + Header.
 5.  **Review:** Verify tone, formatting, and image placement.
