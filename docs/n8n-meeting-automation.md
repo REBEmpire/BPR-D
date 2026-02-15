@@ -142,12 +142,48 @@ See `docs/MODEL-REFERENCE.md` for complete model specifications.
 
 ---
 
+## Programmatic Access
+
+You can trigger and manage this workflow programmatically using the n8n API:
+
+### Python Example
+```python
+from _shared.skills.automation.n8n_integration.n8n_client import BPRDWorkflows
+
+# Initialize
+bprd = BPRDWorkflows()
+
+# Trigger team meeting
+result = bprd.trigger_team_meeting(
+    meeting_type='strategic_planning',
+    agenda='Q1 2026 Planning',
+    participants=['grok', 'claude', 'gemini', 'abacus']
+)
+```
+
+### Bash/cURL Example
+```bash
+curl -X POST "${N8N_BASE_URL}/api/v1/workflows/pDh6gPBEULb5kSx9/execute" \
+  -H "X-N8N-API-KEY: ${N8N_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "meeting_type": "strategic_planning",
+    "participants": ["grok", "claude", "gemini", "abacus"],
+    "agenda": "Q1 2026 Planning"
+  }'
+```
+
+**See:** `_shared/skills/automation/n8n-integration/SKILL.md` for complete API documentation
+
+---
+
 ## Support & Questions
 
 - **Documentation:** See `docs/` directory for full BPR&D documentation
 - **Agent Profiles:** Review `_agents/` for detailed agent personalities and mandates
 - **Technical Setup:** See `docs/api-configuration.md` for API and model configuration
 - **Quick Reference:** See `docs/MODEL-REFERENCE.md` for model selection guide
+- **n8n API Integration:** See `_shared/skills/automation/n8n-integration/SKILL.md` for programmatic access
 
 ---
 
