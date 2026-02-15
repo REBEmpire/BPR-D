@@ -20,6 +20,11 @@ sys.path.insert(0, str(project_root))
 
 import pdfplumber
 from extractors.metadata_extractor import MetadataExtractor
+from extractors.entity_extractor import EntityExtractor
+from extractors.timeline_builder import TimelineBuilder
+from extractors.code_breaker import CodeBreaker
+from analyzers.network_mapper import NetworkMapper
+from analyzers.location_analyzer import LocationAnalyzer
 
 logger = logging.getLogger(__name__)
 
@@ -32,10 +37,32 @@ class DocumentProcessor:
     structured analysis data ready for HF dataset storage.
     """
 
-    def __init__(self):
-        """Initialize document processor."""
+    def __init__(self, phase2_enabled: bool = True):
+        """
+        Initialize document processor.
+
+        Args:
+            phase2_enabled: Enable Phase 2 analysis (NER, timeline, code breaking, etc.)
+        """
+        # Phase 1 components
         self.metadata_extractor = MetadataExtractor()
-        logger.info("DocumentProcessor initialized")
+
+        # Phase 2 components
+        self.phase2_enabled = phase2_enabled
+
+        if phase2_enabled:
+            try:
+                self.entity_extractor = EntityExtractor()
+                self.timeline_builder = TimelineBuilder()
+                self.code_breaker = CodeBreaker()
+                self.network_mapper = NetworkMapper()
+                self.location_analyzer = LocationAnalyzer()
+                logger.info("DocumentProcessor initialized with Phase 2 analysis enabled")
+            except Exception as e:
+                logger.warning(f"Phase 2 initialization failed: {e}. Running with Phase 1 only.")
+                self.phase2_enabled = False
+        else:
+            logger.info("DocumentProcessor initialized (Phase 1 only)")
 
     def process_document(
         self,
@@ -71,10 +98,57 @@ class DocumentProcessor:
             # 3. Generate unique doc_id
             doc_id = self._generate_doc_id(dataset_num, source_url)
 
-            # 4. Calculate processing time
+            # 4. Phase 2 Analysis (if enabled)
+            entities_result = {}
+            timeline_events = []
+            network_result = {}
+            code_result = {}
+            location_result = {}
+
+            if self.phase2_enabled:
+                # Extract named entities
+                entities_result = self.entity_extractor.extract_entities(text, doc_id)
+
+                # Build timeline events
+                timeline_events = self.timeline_builder.extract_timeline_events(
+                    text=text,
+                    entities=entities_result,
+                    metadata=metadata,
+                    doc_id=doc_id
+                )
+
+                # Detect code words and aliases
+                code_result = self.code_breaker.detect_code_terms(
+                    text=text,
+                    entities=entities_result,
+                    doc_id=doc_id
+                )
+
+                # Build document network
+                network_result = self.network_mapper.build_document_network(
+                    entities=entities_result,
+                    timeline_events=timeline_events,
+                    doc_id=doc_id
+                )
+
+                # Analyze location activities
+                location_result = self.location_analyzer.analyze_location_activities(
+                    entities=entities_result,
+                    timeline_events=timeline_events,
+                    doc_id=doc_id
+                )
+
+                logger.info(
+                    f"Phase 2 analysis complete: "
+                    f"{entities_result.get('extraction_metadata', {}).get('total_entities', 0)} entities, "
+                    f"{len(timeline_events)} events, "
+                    f"{len(code_result.get('code_terms', []))} code terms"
+                )
+
+            # 5. Calculate processing time
             processing_time = time.time() - start_time
 
-            # 5. Build analysis dict (matches HF schema)
+            # 6. Build analysis dict (matches HF schema)
             analysis = {
                 'doc_id': doc_id,
                 'source_url': source_url,
@@ -85,14 +159,23 @@ class DocumentProcessor:
                 'date_processed': datetime.now().isoformat(),
                 'processing_time_seconds': processing_time,
 
-                # Phase 2 components (placeholders for now)
-                'named_entities': '{}',  # Will be populated by EntityExtractor
-                'timeline_events': '[]',  # Will be populated by TimelineBuilder
-                'redaction_analysis': '{}',  # Will be populated by RedactionDetector
+                # Phase 2 components (JSON serialized)
+                'named_entities': self.entity_extractor.serialize_entities(entities_result) if self.phase2_enabled else '{}',
+                'timeline_events': self.timeline_builder.serialize_events(timeline_events) if self.phase2_enabled else '[]',
+                'redaction_analysis': '{}',  # Phase 2.1 - future enhancement
 
                 # Full metadata as JSON
                 'metadata': json.dumps(metadata),
             }
+
+            # 7. Return Phase 2 results separately for cross-document coordinator
+            analysis['_phase2_results'] = {
+                'entities': entities_result,
+                'timeline_events': timeline_events,
+                'network': network_result,
+                'code_analysis': code_result,
+                'location_analysis': location_result,
+            } if self.phase2_enabled else None
 
             logger.info(
                 f"✓ Document processed: {doc_id} "

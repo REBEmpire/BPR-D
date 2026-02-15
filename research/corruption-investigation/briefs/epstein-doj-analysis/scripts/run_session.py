@@ -19,6 +19,7 @@ from core.document_processor import DocumentProcessor
 from core.session_manager import SessionManager
 from core.hf_dataset_client import HFDatasetClient
 from utils.privacy_guard import PrivacyGuard
+from analyzers.cross_document_coordinator import CrossDocumentCoordinator
 
 # Configure logging
 logging.basicConfig(
@@ -76,10 +77,11 @@ def run_processing_session(
     privacy_guard = PrivacyGuard(watch_dir=str(project_root))
     session_mgr = SessionManager()
     doc_streamer = DocumentStreamer()
-    doc_processor = DocumentProcessor()
+    doc_processor = DocumentProcessor(phase2_enabled=True)  # Enable Phase 2 analysis
     hf_client = HFDatasetClient()
+    cross_doc_coordinator = CrossDocumentCoordinator(batch_size=10)  # Process batch every 10 docs
 
-    print("✓ All components initialized")
+    print("✓ All components initialized (Phase 2 analysis enabled)")
     print()
 
     # Privacy pre-flight check
@@ -170,6 +172,34 @@ def run_processing_session(
                 print(f"  ✓ Analysis saved to HF dataset")
                 docs_processed += 1
                 current_doc_index += 1
+
+                # Add to cross-document coordinator (Phase 2)
+                if analysis.get('_phase2_results'):
+                    phase2 = analysis['_phase2_results']
+
+                    batch_ready = cross_doc_coordinator.add_document_results(
+                        doc_id=analysis['doc_id'],
+                        entities=phase2['entities'],
+                        network=phase2['network'],
+                        timeline_events=phase2['timeline_events'],
+                        code_analysis=phase2['code_analysis'],
+                        location_analysis=phase2['location_analysis']
+                    )
+
+                    # Process batch if ready
+                    if batch_ready:
+                        print(f"\n  🔄 Processing cross-document batch...")
+                        batch_results = cross_doc_coordinator.process_batch()
+
+                        # TODO: Save batch results to HF dataset
+                        # - entity_index table
+                        # - network_relationships table
+                        # - timeline_master table
+                        # - code_dictionary table
+                        # - location_activities table
+
+                        print(f"  ✓ Batch processed: {batch_results['batch_metadata']['documents_processed']} docs correlated")
+
             else:
                 print(f"  ✗ Failed to save to HF dataset")
 
