@@ -31,6 +31,21 @@ services:
     ports:
       - "8002:8000"
 
+  epstein-analysis:
+    build: ./services/epstein-analysis
+    container_name: habitat-epstein-analysis
+    env_file:
+      - credentials.conf.txt
+    volumes:
+      - ./data/epstein:/app/data:ro
+      - epstein-cache:/app/cache
+    environment:
+      - DATA_PATH=/app/data
+      - PERSISTENCE_MODE=ephemeral
+      - MODEL=proxy
+    restart: unless-stopped
+    # Internal service, no public port mapping needed, accessed via proxy
+
   proxy:
     build:
       context: .
@@ -39,9 +54,11 @@ services:
     environment:
       - JULES_URL=http://jules-agent:8000
       - DEEP_AGENT_URL=http://deep-agent:8000
+      - EPSTEIN_ANALYSIS_URL=http://epstein-analysis:8000
     depends_on:
       - jules-agent
       - deep-agent
+      - epstein-analysis
     ports:
       - "8080:8000"
     restart: unless-stopped
@@ -53,3 +70,4 @@ networks:
 volumes:
   jules_workspace:
   deep_agent_workspace:
+  epstein-cache:

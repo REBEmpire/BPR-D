@@ -7,12 +7,19 @@ from typing import Optional, Dict
 app = FastAPI(title="Agent Habitat Proxy")
 
 # Configuration
-JULES_URL = os.getenv("JULES_URL", "http://jules:8000")
+JULES_URL = os.getenv("JULES_URL", "http://jules-agent:8000")
 DEEP_AGENT_URL = os.getenv("DEEP_AGENT_URL", "http://deep-agent:8000")
+EPSTEIN_ANALYSIS_URL = os.getenv("EPSTEIN_ANALYSIS_URL", "http://epstein-analysis:8000")
 
 class TaskRequest(BaseModel):
     command: str
     workspace: Optional[str] = None
+
+class EpsteinQuery(BaseModel):
+    query: str
+    max_results: Optional[int] = 50
+    include_timeline: Optional[bool] = True
+    model: Optional[str] = None
 
 @app.get("/health")
 def health_check():
@@ -34,7 +41,7 @@ async def forward_request(url: str, method: str, data: Optional[Dict] = None):
 
             return response.json()
         except httpx.RequestError as e:
-            raise HTTPException(status_code=502, detail=f"Agent unreachable: {str(e)}")
+            raise HTTPException(status_code=502, detail=f"Service unreachable: {str(e)}")
         except HTTPException:
             raise
         except Exception as e:
@@ -55,6 +62,10 @@ async def deep_agent_task(task: TaskRequest):
 @app.get("/agents/deepagent/logs")
 async def deep_agent_logs(lines: int = 100):
     return await forward_request(f"{DEEP_AGENT_URL}/logs?lines={lines}", "GET")
+
+@app.post("/agents/analysis/epstein")
+async def epstein_analysis(query: EpsteinQuery):
+    return await forward_request(f"{EPSTEIN_ANALYSIS_URL}/query", "POST", query.dict())
 
 if __name__ == "__main__":
     import uvicorn
