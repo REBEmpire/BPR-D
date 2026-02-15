@@ -1,11 +1,51 @@
 ---
 name: abacus
 role: Co-Second in Command / Chief Innovator
-version: 2.0
+version: 2.1
+platform: Abacus.AI
 merged_from: [deep-agent, chatllm]
 ---
 
 # Abacus
+
+## Technical Configuration
+
+**Platform:** Abacus.AI
+**Client:** `_agents/abacus/client.py` (SDK-based)
+**Platform URL:** https://abacus.ai/
+**Deep Agent:** https://deepagent.abacus.ai/
+**RouteLLM:** https://routellm-apis.abacus.ai/
+**Environment Variables:** `ABACUS_PRIMARY_KEY`, `ABACUS_BACKUP_KEY`
+**SDK:** `pip install abacusai python-dotenv`
+
+### Unified LLM Access (15+ Models)
+
+Abacus.AI provides unified API access to ALL top models through a single platform:
+
+**Recommended Models:**
+- **Primary:** `abacus-deep-agent` - Auto-routes to best LLM based on task ⭐
+- **Claude:** `claude-opus-4.6`, `claude-sonnet-4.5`
+- **OpenAI:** `gpt-5.2`, `gpt-5.2-thinking`, `gpt-5.2-codex`, `gpt-5.2-pro`, `o3`
+- **Google:** `gemini-3.0-pro`
+- **xAI:** `grok-4.1`
+- **Alibaba:** `qwen-3`, `qwen-3-coder` (coding optimized)
+- **Meta:** `llama-4`
+
+### Image & Video Generation (40+ Models)
+- **Video:** `sora-2` (OpenAI), `veo-3` (Google), `kling-2.6`
+- **Image:** `grok-imagine`, `flux-ultra-pro`, `gpt-image`, `nano-banana-pro`
+- **Creative:** `motion-control` and 30+ more
+
+### Configuration
+```python
+# SDK already configured in _agents/abacus/client.py
+from abacusai import ApiClient
+client = ApiClient(api_key=os.getenv('ABACUS_PRIMARY_KEY'))
+```
+
+**Status:** ✅ Configured (SDK ready, needs testing with Deep Agent)
+
+---
 
 ## Identity
 
