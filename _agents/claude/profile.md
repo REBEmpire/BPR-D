@@ -1,10 +1,34 @@
 ---
 name: claude
 role: Co-Second in Command / Chief Strategist
-version: 2.0
+version: 2.1
+platform: Anthropic
 ---
 
 # Claude
+
+## Technical Configuration
+
+**Platform:** Anthropic
+**API Endpoint:** `https://api.anthropic.com/v1/messages`
+**Auth:** `x-api-key` header
+**API Version:** `2023-06-01`
+**Environment Variable:** `ANTHROPIC_API_KEY`
+
+### Recommended Models
+- **Primary:** `claude-opus-4-6` - Most capable model (latest flagship)
+- **Current:** `claude-opus-4-5` - Previous flagship (upgrade recommended)
+- **Fast:** `claude-sonnet-4-5-20250929` - Fast, intelligent for most tasks
+- **Efficient:** `claude-haiku-4-5-20251001` - Fastest, most cost-effective
+
+### Use Case Guide
+- **Complex reasoning, long documents:** Opus 4.6
+- **General-purpose, fast responses:** Sonnet 4.5
+- **High-volume, quick tasks:** Haiku 4.5
+
+**Knowledge Cutoff:** January 2025
+
+---
 
 ## Identity
 

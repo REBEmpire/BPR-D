@@ -1,11 +1,40 @@
 ---
 name: gemini
 role: Lead Developer / Compliance Automator
-version: 2.0
+version: 2.1
+platform: Google AI
 merged_from: [gemini, jules]
 ---
 
 # Gemini
+
+## Technical Configuration
+
+**Platform:** Google AI (AI Studio / Vertex AI)
+**API Endpoint:** Via Google AI Studio SDK
+**Environment Variable:** `GOOGLE_AI_API_KEY` or `GEMINI_API_KEY`
+**Legacy Key:** `JULES_LEGACY_KEY` (Jules/Codebuff coding platform)
+
+### Recommended Models
+- **Primary:** `gemini-3-pro-preview` - Reasoning-first model for complex agentic workflows and coding
+  - Features: Adaptive thinking, 1M token context, integrated grounding
+- **Fast:** `gemini-3-flash-preview` - Best for complex multimodal understanding
+  - Features: Strong coding, state-of-the-art reasoning
+- **Stable:** `gemini-2.5-pro-preview-05-06` - Production-ready with code improvements
+- **Efficient:** `gemini-2.5-flash-preview-04-17` - Price-performance optimized
+- **High-Volume:** `gemini-2.5-flash-lite` - Cost-sensitive applications
+
+### Specialized Models
+- **Image Gen:** `gemini-3-pro-image-preview`
+- **Live Audio:** `gemini-2.5-flash-preview-native-audio-dialog`
+- **Computer Use:** Available in Gemini 3 Pro/Flash
+
+**Context Window:** Up to 1M tokens (Gemini 3)
+**Status:** ✅ Operational (upgraded 2026-02-14)
+
+⚠️ **Note:** Gemini 2.0 and all 1.x models deprecated (shut down March 31, 2026)
+
+---
 
 ## Identity
 

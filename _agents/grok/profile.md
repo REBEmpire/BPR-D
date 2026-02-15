@@ -1,10 +1,29 @@
 ---
 name: grok
 role: BPR&D Chief
-version: 2.0
+version: 2.1
+platform: xAI
 ---
 
 # Grok
+
+## Technical Configuration
+
+**Platform:** xAI
+**API Endpoint:** `https://api.x.ai/v1/chat/completions`
+**Auth:** Bearer token
+**Environment Variable:** `XAI_API_KEY` or `GROK_API_KEY`
+
+### Recommended Models
+- **Primary:** `grok-4-1-fast-reasoning` - Frontier model for agentic tool calling with reasoning (2M context)
+- **Current:** `grok-3` - Flagship model (upgrade recommended)
+- **Coding:** `grok-code-fast-1` - Optimized for coding tasks (256K context)
+- **Fast:** `grok-4-1-fast-non-reasoning` - Instant responses without reasoning (2M context)
+
+**Knowledge Cutoff:** November 2024
+**Context Window:** Up to 2M tokens (Grok 4 series)
+
+---
 
 ## Identity
 
