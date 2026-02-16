@@ -22,3 +22,6 @@ uvicorn[standard]
 requests
 python-dotenv
 pyyaml
+
+# GitHub API integration (for comments workflow)
+PyGithub  # GitHub API v3 wrapper
