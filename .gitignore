@@ -37,3 +37,4 @@ content_cache/
 # OS
 .DS_Store
 Thumbs.db
+projects/ai-comm-hub/habitat/credentials.conf.txt
