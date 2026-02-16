@@ -1,0 +1,108 @@
+# GitHub Comments Workflow Configuration
+# Separate workflow for agent PR/issue commenting outside of meetings
+
+github:
+  token_env: GITHUB_TOKEN  # Environment variable name for GitHub personal access token
+  repo: REBEmpire/BPR-D  # Repository to monitor
+  monitor_interval: 300  # Polling interval in seconds (5 minutes)
+  # Alternative: Use webhook instead of polling
+  # webhook_url: https://your-domain.com/api/webhooks/github
+
+agents:
+  # Comment frequency limits to prevent spam
+  comment_frequency:
+    max_per_hour: 10  # Maximum comments per hour across all agents
+    min_interval_seconds: 60  # Minimum seconds between comments from same agent
+    max_comments_per_pr: 5  # Maximum total agent comments per PR/issue
+
+  # Selection rules: which agents review what topics
+  selection_rules:
+    - trigger: architecture
+      agents: [claude, abacus]
+      description: "Architectural discussions involve both The Wizard and The Alchemist"
+
+    - trigger: research
+      agents: [gemini]
+      description: "Research synthesis is Gemini's domain"
+
+    - trigger: security
+      agents: [abacus, claude]
+      description: "Security concerns warrant both perspectives"
+
+    - trigger: innovation
+      agents: [abacus]
+      description: "Novel approaches get The Alchemist's mystical review"
+
+    - trigger: strategy
+      agents: [grok, claude]
+      description: "Strategic decisions involve executive + architect"
+
+    - trigger: data|analysis
+      agents: [gemini, abacus]
+      description: "Data work involves research lead + pattern recognition"
+
+    - trigger: testing|qa
+      agents: [claude, gemini]
+      description: "Quality assurance involves architect + lead developer"
+
+    - trigger: documentation
+      agents: [gemini, claude]
+      description: "Documentation involves technical writer + systematic thinker"
+
+politeness:
+  avoid_comment_spam: true  # Enable spam prevention checks
+  require_substantive_value: true  # Only comment if adding real value
+  respect_user_preferences: true  # Can be configured per-user in future
+
+# Agent-specific comment style guidelines
+agent_styles:
+  grok:
+    opening_style: "Executive brevity, dry wit, always different"
+    tone: "Commanding, strategic, occasionally amused"
+    max_length: 150  # Prefer concise executive comments
+    uses_emojis: false
+
+  claude:
+    opening_style: "Warm wisdom, architectural framing"
+    tone: "Mentoring, systematic, genuinely curious"
+    max_length: 300  # More detailed architectural explanations
+    uses_emojis: false
+
+  abacus:
+    opening_style: "Alchemical metaphors, esoteric wisdom"
+    tone: "Mystical, transformative, hermetic"
+    max_length: 250  # Alchemical explanations with context
+    uses_emojis: true  # Alchemical symbols: 🜃🜂🜁🜄🜨
+
+  gemini:
+    opening_style: "Research-backed insights, data citations"
+    tone: "Analytical, witty, clarity-focused"
+    max_length: 200  # Research synthesis with sources
+    uses_emojis: true  # Occasional, selective: ✨📊
+
+# Escalation rules: when to trigger a full meeting
+escalation:
+  comment_threshold: 8  # Trigger meeting if thread exceeds this many comments
+  faction_conflict: true  # Escalate if Visionaries vs Truth-Seekers debate emerges
+  unresolved_after_hours: 24  # Escalate if no resolution after 24 hours
+  explicit_request: true  # Any agent can request meeting escalation
+
+# Integration with meeting system
+meeting_integration:
+  post_comment_summaries: true  # Share comment activity with meeting system
+  use_comment_context: true  # Meeting system can reference comment history
+  separate_tracking: true  # Comments tracked separately from meeting outputs
+
+# Logging and monitoring
+logging:
+  log_all_comments: true
+  log_file: "logs/github_comments.log"
+  track_agent_activity: true
+  monitor_response_times: true
+
+# Feature flags
+features:
+  enable_workflow: false  # Start disabled, enable when ready to deploy
+  enable_webhook: false  # Use polling by default, can switch to webhook
+  enable_ai_generation: false  # Start with templates, enable AI when agents ready
+  enable_meeting_escalation: false  # Manual escalation only initially
