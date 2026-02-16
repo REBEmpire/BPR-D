@@ -2,6 +2,7 @@
 Meeting scheduler for BPR&D meeting service.
 Uses APScheduler to trigger meetings on cron schedules.
 Phase 1: Daily Briefing only (Mon-Fri 07:47 AM PST).
+Phase 2: Work Session Automation (Every 2 hours).
 """
 
 import logging
@@ -36,11 +37,30 @@ async def _run_daily_briefing():
         logger.error(f"Scheduled Daily Briefing failed: {e}", exc_info=True)
 
 
+async def _run_work_session():
+    """Scheduled job: execute work session (handoff update)."""
+    if _execute_meeting_fn is None:
+        logger.error("Meeting execution function not set")
+        return
+
+    logger.info("Scheduler: triggering Work Session")
+    try:
+        from models.meeting import MeetingRequest, MeetingType
+        # Default to Grok for now, or could rotate
+        request = MeetingRequest(
+            meeting_type=MeetingType.WORK_SESSION,
+            participants=["grok"]
+        )
+        await _execute_meeting_fn(request)
+    except Exception as e:
+        logger.error(f"Scheduled Work Session failed: {e}", exc_info=True)
+
+
 def create_scheduler() -> AsyncIOScheduler:
     """Create and configure the meeting scheduler.
 
     Phase 1: Daily Briefing only.
-    Phase 2 will add: Midday Review, Final Review, Project Sync, Income Review, Retrospective.
+    Phase 2: Work Session Automation.
     """
     scheduler = AsyncIOScheduler(timezone="US/Pacific")
 
@@ -58,5 +78,14 @@ def create_scheduler() -> AsyncIOScheduler:
         replace_existing=True,
     )
 
-    logger.info("Scheduler configured with Phase 1 jobs")
+    # Phase 2: Work Session — Every 2 hours
+    scheduler.add_job(
+        _run_work_session,
+        trigger=CronTrigger(hour="*/2", timezone="US/Pacific"),
+        id="work_session",
+        name="Automated Work Session (Every 2 hours)",
+        replace_existing=True,
+    )
+
+    logger.info("Scheduler configured with Phase 1 & 2 jobs")
     return scheduler
