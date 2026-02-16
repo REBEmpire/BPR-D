@@ -4,7 +4,7 @@ DOJ dataset URL patterns and mappings.
 This module contains URL patterns and metadata for accessing
 the 12 DOJ Epstein document datasets.
 
-Official source: https://www.justice.gov/epstein
+Includes Tier 1 (CourtListener API) and Tier 2 (Public Mirrors) strategies.
 """
 from typing import Dict, List, Optional
 import logging
@@ -17,9 +17,6 @@ logger = logging.getLogger(__name__)
 class DOJDatasetConfig:
     """
     Configuration for DOJ Epstein document datasets.
-
-    Note: URLs and document counts are based on initial analysis
-    and may need adjustment as we process documents.
     """
 
     # Base URL for DOJ Epstein files
@@ -123,59 +120,6 @@ class DOJDatasetConfig:
     }
 
     @classmethod
-    def get_dataset_info(cls, dataset_num: int) -> Optional[Dict]:
-        """
-        Get information for a specific dataset.
-
-        Args:
-            dataset_num: Dataset number (1-12)
-
-        Returns:
-            Dataset info dict or None if invalid
-        """
-        return cls.DATASETS.get(dataset_num)
-
-    @classmethod
-    def get_dataset_url_pattern(cls, dataset_num: int) -> Optional[str]:
-        """
-        Get URL pattern for dataset.
-
-        Args:
-            dataset_num: Dataset number (1-12)
-
-        Returns:
-            URL pattern or None if invalid
-        """
-        info = cls.get_dataset_info(dataset_num)
-        return info['url_pattern'] if info else None
-
-    @classmethod
-    def get_total_estimated_docs(cls) -> int:
-        """
-        Get total estimated documents across all datasets.
-
-        Returns:
-            Total estimated document count
-        """
-        return sum(ds['estimated_docs'] for ds in cls.DATASETS.values())
-
-    @classmethod
-    def get_high_priority_datasets(cls) -> List[int]:
-        """
-        Get list of high-priority dataset numbers.
-
-        These should be processed first as they contain the most
-        valuable information for investigation goals.
-
-        Returns:
-            List of dataset numbers
-        """
-        return [
-            num for num, info in cls.DATASETS.items()
-            if info['priority'] == 'high'
-        ]
-
-    @classmethod
     def get_dataset_urls(
         cls,
         dataset_num: int,
@@ -183,7 +127,7 @@ class DOJDatasetConfig:
         count: int = None
     ) -> List[str]:
         """
-        Get document URLs for a dataset.
+        Get document URLs.
 
         Tries to scrape the DOJ website first. If blocked by anti-bot protection,
         falls back to a hardcoded list of known document mirrors for trial purposes.
@@ -191,7 +135,7 @@ class DOJDatasetConfig:
         Args:
             dataset_num: Dataset number (1-12)
             start_index: Starting document index
-            count: Number of URLs to return (None = all remaining)
+            count: Number of URLs to return
 
         Returns:
             List of document URLs
