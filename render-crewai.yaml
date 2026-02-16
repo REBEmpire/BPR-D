@@ -1,0 +1,34 @@
+# Render deployment for BPR&D CrewAI Service
+# Deploy alongside existing web app (render.yaml)
+# Plan: Starter ($7/month) for always-on service
+
+services:
+  - type: web
+    name: bprd-crewai
+    runtime: python
+    plan: starter
+    region: oregon
+    rootDir: crewai-service
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: XAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ABACUS_PRIMARY_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPO
+        value: REBEmpire/BPR-D
+      - key: ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
