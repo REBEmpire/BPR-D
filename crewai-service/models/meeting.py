@@ -14,6 +14,7 @@ class MeetingType(str, Enum):
     PROJECT_SYNC = "project_sync"
     RETROSPECTIVE = "retrospective"
     AD_HOC = "ad_hoc"
+    WORK_SESSION = "work_session"
 
 
 class MeetingRequest(BaseModel):
@@ -86,5 +87,6 @@ class MeetingResponse(BaseModel):
     handoffs: list[HandoffItem] = Field(default_factory=list)
     action_items: list[ActionItem] = Field(default_factory=list)
     key_decisions: list[str] = Field(default_factory=list)
+    agent_instructions: dict[str, str] = Field(default_factory=dict, description="Markdown instructions for each agent")
     cost_estimate: CostEstimate = Field(default_factory=CostEstimate)
     error: Optional[str] = Field(default=None, description="Error message if success=False")
