@@ -1,7 +1,7 @@
 """
 Gemini - Lead Developer / Compliance Automator
 Truth-Seekers faction with Abacus. Ships code, automates everything.
-Model: Google gemini-3-pro-preview
+Model: Google gemini-3-0-pro-preview
 """
 
 from crewai import Agent, LLM
@@ -12,7 +12,7 @@ def create_gemini_agent(tools: list | None = None) -> Agent:
     """Create Gemini agent configured as lead developer."""
 
     llm = LLM(
-        model="gemini/gemini-3-pro-preview",
+        model="gemini/gemini-3.0-pro-preview",
         api_key=settings.GEMINI_API_KEY,
         temperature=0.9,  # High for meme velocity and creative energy
         max_tokens=4000,

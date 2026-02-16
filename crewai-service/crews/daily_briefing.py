@@ -87,12 +87,7 @@ def create_daily_briefing_crew(
     analyst_tools = [github_read, memory]
 
     # --- Agents ---
-    # Grok Worker (executes tasks with tools)
     grok = create_grok_agent(tools=manager_tools)
-
-    # Grok Manager (supervises without tools to satisfy CrewAI hierarchical constraints)
-    grok_manager = create_grok_agent(tools=[])
-
     claude = create_claude_agent(tools=analyst_tools)
     gemini = create_gemini_agent(tools=analyst_tools)
 
@@ -216,9 +211,9 @@ def create_daily_briefing_crew(
         agents=agents,
         tasks=[review_task, claude_analysis_task, gemini_analysis_task, synthesis_task],
         process=Process.hierarchical,
-        manager_agent=grok_manager,
+        manager_agent=grok,
         verbose=True,
-        memory=False,
+        memory=True,
         max_rpm=30,
         planning=False,  # We handle planning in the tasks themselves
     )
