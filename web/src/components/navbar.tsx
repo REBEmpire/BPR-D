@@ -8,7 +8,8 @@ import { cn } from "@/lib/utils"
 import { Trophy, User, LogIn } from "lucide-react"
 
 const navItems = [
-  { name: "Dashboard", href: "/" },
+  { name: "Home", href: "/" },
+  { name: "Production", href: "/dashboard" },
   { name: "Team", href: "/team" },
   { name: "Projects", href: "/projects" },
   { name: "Research", href: "/research" },
