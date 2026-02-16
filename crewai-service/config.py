@@ -1,5 +1,5 @@
 """
-BPR&D CrewAI Service Configuration
+BPR&D Meeting Service Configuration
 Loads environment variables and provides typed access to all settings.
 """
 
@@ -13,12 +13,11 @@ load_dotenv()
 # Project root (one level up from crewai-service/)
 PROJECT_ROOT = Path(__file__).parent.parent
 AGENTS_DIR = PROJECT_ROOT / "_agents"
-BPRD_CONFIG = PROJECT_ROOT / ".bprd"
 
 
 @dataclass
 class Settings:
-    """All configuration for the CrewAI service."""
+    """All configuration for the meeting service."""
 
     # --- LLM API Keys ---
     XAI_API_KEY: str = field(default_factory=lambda: os.getenv("XAI_API_KEY", ""))
@@ -31,23 +30,24 @@ class Settings:
     GITHUB_TOKEN: str = field(default_factory=lambda: os.getenv("GITHUB_TOKEN", ""))
     GITHUB_REPO: str = field(default_factory=lambda: os.getenv("GITHUB_REPO", "REBEmpire/BPR-D"))
 
+    # --- Telegram ---
+    TELEGRAM_BOT_TOKEN: str = field(default_factory=lambda: os.getenv("TELEGRAM_BOT_TOKEN", ""))
+    TELEGRAM_CHAT_ID: str = field(default_factory=lambda: os.getenv("TELEGRAM_CHAT_ID", ""))
+
     # --- Service ---
     PORT: int = field(default_factory=lambda: int(os.getenv("PORT", "8000")))
     ENV: str = field(default_factory=lambda: os.getenv("ENV", "development"))
     LOG_LEVEL: str = field(default_factory=lambda: os.getenv("LOG_LEVEL", "INFO"))
 
     # --- Cost Controls (Grok's directives) ---
-    MEETING_COST_HARD_CAP: float = 0.40  # Auto-terminate at $0.40/meeting
+    MEETING_COST_HARD_CAP: float = 0.40
     MONTHLY_BUDGET_CAP: float = 20.00
     MONTHLY_BUDGET_ALERT: float = 15.00
 
-    # --- CrewAI Defaults ---
-    DEFAULT_MAX_ITER: int = 12  # Grok's directive: enough for 2 full debate cycles
-    DEFAULT_MAX_RPM: int = 30
+    # --- Meeting Engine ---
     MEETING_TIMEOUT_SECONDS: int = 900  # 15-minute hard timeout
 
     # --- Paths ---
-    AGENTS_YAML: Path = field(default_factory=lambda: BPRD_CONFIG / "agents.yaml")
     AGENTS_DIR: Path = field(default_factory=lambda: AGENTS_DIR)
 
     def validate(self) -> list[str]:

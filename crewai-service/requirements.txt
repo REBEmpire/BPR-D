@@ -1,27 +1,21 @@
-# BPR&D CrewAI Service Dependencies
+# BPR&D Meeting Service Dependencies
 # Python >=3.10, <3.14
 
-# Core CrewAI framework (independent of LangChain as of 2026)
-crewai[tools]
-
-# LLM Provider extras
-# Anthropic (Claude) - installed via crewai[anthropic] or directly
-anthropic
-
-# Google Gemini - installed via crewai[google-genai] or directly
-google-generativeai
-
-# xAI Grok uses OpenAI-compatible API (no extra package needed)
-# Abacus.AI uses OpenAI-compatible API (no extra package needed)
-
 # FastAPI server
-fastapi
-uvicorn[standard]
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
 
-# Utilities
-requests
-python-dotenv
-pyyaml
+# LLM Providers
+anthropic>=0.40.0
+google-generativeai>=0.8.0
+openai>=1.50.0
 
-# GitHub API integration (for comments workflow)
-PyGithub  # GitHub API v3 wrapper
+# Async HTTP (GitHub API, Telegram)
+httpx>=0.25.0
+
+# Scheduling
+apscheduler>=3.10.0
+
+# Data models & config
+pydantic>=2.5.0
+python-dotenv>=1.0.0

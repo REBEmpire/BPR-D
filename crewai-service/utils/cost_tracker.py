@@ -1,5 +1,5 @@
 """
-Cost tracking for BPR&D CrewAI meetings.
+Cost tracking for BPR&D meetings.
 Monitors token usage per agent, enforces budget caps per Grok's directives:
   - Auto-terminate at $0.40/meeting
   - Monthly cap: $20.00
@@ -17,13 +17,12 @@ from config import settings
 
 logger = logging.getLogger(__name__)
 
-# Approximate cost per 1K tokens (input + output averaged) as of Feb 2026
-# These are estimates - actual costs depend on input vs output ratio
+# Cost per 1K tokens (input/output averaged) as of Feb 2026
 COST_PER_1K_TOKENS = {
-    "grok": 0.005,       # xAI grok-4-1-fast-reasoning
-    "claude": 0.015,     # Anthropic claude-sonnet-4-5
-    "gemini": 0.001,     # Google gemini-3.0-pro-preview
-    "abacus": 0.003,     # Abacus.AI qwen3-max via RouteLLM
+    "grok": 0.005,
+    "claude": 0.015,
+    "gemini": 0.001,
+    "abacus": 0.003,
     "default": 0.005,
 }
 
@@ -32,16 +31,18 @@ COST_PER_1K_TOKENS = {
 class AgentUsage:
     """Token usage for a single agent in a meeting."""
     agent_name: str
-    tokens: int = 0
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
     cost_usd: float = 0.0
+
+    @property
+    def total_tokens(self) -> int:
+        return self.prompt_tokens + self.completion_tokens
 
 
 @dataclass
 class CostTracker:
-    """
-    Tracks token usage and costs for a single meeting execution.
-    Provides budget enforcement per Grok's directives.
-    """
+    """Tracks token usage and costs for a single meeting execution."""
 
     meeting_id: str = ""
     start_time: float = field(default_factory=time.time)
@@ -49,20 +50,32 @@ class CostTracker:
     terminated_early: bool = False
     termination_reason: str | None = None
 
-    def record_usage(self, agent_name: str, tokens: int) -> None:
-        """Record token usage for an agent."""
-        rate = COST_PER_1K_TOKENS.get(agent_name, COST_PER_1K_TOKENS["default"])
-        cost = (tokens / 1000) * rate
-
+    def record_usage(self, agent_name: str, prompt_tokens: int, completion_tokens: int, cost_usd: float = 0.0) -> None:
+        """Record token usage for an agent. Uses provided cost if available, else estimates."""
         if agent_name not in self.agent_usage:
             self.agent_usage[agent_name] = AgentUsage(agent_name=agent_name)
 
-        self.agent_usage[agent_name].tokens += tokens
-        self.agent_usage[agent_name].cost_usd += cost
+        usage = self.agent_usage[agent_name]
+        usage.prompt_tokens += prompt_tokens
+        usage.completion_tokens += completion_tokens
+
+        if cost_usd > 0:
+            usage.cost_usd += cost_usd
+        else:
+            rate = COST_PER_1K_TOKENS.get(agent_name, COST_PER_1K_TOKENS["default"])
+            usage.cost_usd += ((prompt_tokens + completion_tokens) / 1000) * rate
 
     @property
     def total_tokens(self) -> int:
-        return sum(u.tokens for u in self.agent_usage.values())
+        return sum(u.total_tokens for u in self.agent_usage.values())
+
+    @property
+    def total_prompt_tokens(self) -> int:
+        return sum(u.prompt_tokens for u in self.agent_usage.values())
+
+    @property
+    def total_completion_tokens(self) -> int:
+        return sum(u.completion_tokens for u in self.agent_usage.values())
 
     @property
     def total_cost(self) -> float:
@@ -73,10 +86,7 @@ class CostTracker:
         return time.time() - self.start_time
 
     def check_budget(self) -> bool:
-        """
-        Check if meeting is within budget.
-        Returns True if OK, False if should terminate.
-        """
+        """Returns True if within budget, False if should terminate."""
         if self.total_cost >= settings.MEETING_COST_HARD_CAP:
             self.terminated_early = True
             self.termination_reason = (
@@ -91,8 +101,8 @@ class CostTracker:
         """Export cost data for the MeetingResponse."""
         return {
             "total_tokens": self.total_tokens,
-            "prompt_tokens": 0,  # Detailed breakdown requires callback integration
-            "completion_tokens": 0,
+            "prompt_tokens": self.total_prompt_tokens,
+            "completion_tokens": self.total_completion_tokens,
             "cost_usd": round(self.total_cost, 4),
             "by_agent": {
                 name: round(usage.cost_usd, 4)
@@ -112,14 +122,14 @@ class CostTracker:
             f"{self.execution_time:.1f}s"
         )
         for name, usage in self.agent_usage.items():
-            logger.info(f"  {name}: {usage.tokens} tokens, ${usage.cost_usd:.4f}")
+            logger.info(
+                f"  {name}: {usage.prompt_tokens}+{usage.completion_tokens} tokens, "
+                f"${usage.cost_usd:.4f}"
+            )
 
 
 def load_monthly_spend(log_dir: Path | None = None) -> float:
-    """
-    Load cumulative monthly spend from cost log files.
-    Returns total USD spent this month.
-    """
+    """Load cumulative monthly spend from cost log files."""
     if log_dir is None:
         log_dir = Path(__file__).parent.parent / "logs"
 

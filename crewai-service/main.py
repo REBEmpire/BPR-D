@@ -1,24 +1,31 @@
 """
-BPR&D CrewAI Service
-FastAPI webhook server that n8n calls to execute multi-agent meetings.
+BPR&D Meeting Service
+Custom multi-agent meeting orchestration — no CrewAI, no n8n.
+Direct LLM API calls with full conversation transcript for natural dialogue.
 
 Endpoints:
-  POST /api/v1/meetings/execute  - Run a meeting crew
-  GET  /api/v1/health            - Health check for Render/n8n monitoring
-  GET  /api/v1/agents            - List agents and their status
+  POST /api/v1/meetings/execute  - Run a meeting
+  GET  /api/v1/health            - Health check
+  GET  /api/v1/agents            - List agents and status
   GET  /api/v1/cost/monthly      - Current month's spend
+  GET  /api/v1/schedule          - View scheduled jobs
 """
 
 import logging
 import sys
+from contextlib import asynccontextmanager
 from datetime import datetime
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from agents.registry import resolve_participants, load_agents, is_abacus_available
 from config import settings
+from meetings import MEETING_TYPES
 from models.meeting import MeetingRequest, MeetingResponse, MeetingType, CostEstimate
-from crews.daily_briefing import create_daily_briefing_crew, parse_crew_output
+from output.github_writer import commit_meeting_results
+from output.notifier import send_meeting_notification
+from scheduling.scheduler import create_scheduler, _set_execute_fn
 from utils.cost_tracker import CostTracker, load_monthly_spend, save_cost_log
 
 # --- Logging ---
@@ -27,29 +34,16 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[logging.StreamHandler(sys.stdout)],
 )
-logger = logging.getLogger("bprd-crewai")
+logger = logging.getLogger("bprd-meeting")
 
-# --- App ---
-app = FastAPI(
-    title="BPR&D CrewAI Service",
-    description=(
-        "Multi-agent meeting orchestration for Broad Perspective Research & Development. "
-        "Provides hierarchical CrewAI crews triggered by n8n webhooks."
-    ),
-    version="1.0.0",
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # n8n needs to reach this from any origin
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
-)
+# --- Scheduler ---
+scheduler = create_scheduler()
 
 
-@app.on_event("startup")
-async def startup_checks():
-    """Validate configuration on startup."""
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Startup and shutdown lifecycle."""
+    # Startup
     missing = settings.validate()
     if missing:
         logger.warning(f"Missing API keys: {', '.join(missing)}. Some agents may not function.")
@@ -57,29 +51,49 @@ async def startup_checks():
         logger.info("All API keys configured.")
 
     monthly = load_monthly_spend()
-    logger.info(f"Monthly spend so far: ${monthly:.2f} / ${settings.MONTHLY_BUDGET_CAP:.2f}")
+    logger.info(f"Monthly spend: ${monthly:.2f} / ${settings.MONTHLY_BUDGET_CAP:.2f}")
 
     if monthly >= settings.MONTHLY_BUDGET_ALERT:
-        logger.warning(
-            f"Monthly spend ${monthly:.2f} exceeds alert threshold "
-            f"${settings.MONTHLY_BUDGET_ALERT:.2f}"
-        )
+        logger.warning(f"Monthly spend ${monthly:.2f} exceeds alert threshold ${settings.MONTHLY_BUDGET_ALERT:.2f}")
 
-    logger.info("BPR&D CrewAI Service started.")
+    # Wire scheduler to meeting execution
+    _set_execute_fn(execute_meeting)
+    scheduler.start()
+    logger.info("BPR&D Meeting Service started. Scheduler active.")
+
+    yield
+
+    # Shutdown
+    scheduler.shutdown(wait=False)
+    logger.info("BPR&D Meeting Service stopped.")
+
+
+# --- App ---
+app = FastAPI(
+    title="BPR&D Meeting Service",
+    description=(
+        "Custom multi-agent meeting orchestration for Broad Perspective Research & Development. "
+        "Direct LLM API calls with full conversation transcript for natural dialogue."
+    ),
+    version="2.0.0",
+    lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 
 # --- Meeting Execution ---
 
-@app.post("/api/v1/meetings/execute", response_model=MeetingResponse)
 async def execute_meeting(request: MeetingRequest) -> MeetingResponse:
-    """
-    Execute a BPR&D meeting via CrewAI hierarchical process.
-    Called by n8n workflow via HTTP POST webhook.
-
-    Returns structured meeting output: notes, handoffs, action items, decisions.
-    """
-    meeting_id = f"{request.meeting_type.value}-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
-    logger.info(f"Meeting {meeting_id} requested: type={request.meeting_type.value}")
+    """Execute a meeting. Called by webhook or scheduler."""
+    meeting_type_str = request.meeting_type.value
+    meeting_id = f"{meeting_type_str}-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
+    logger.info(f"Meeting {meeting_id} requested: type={meeting_type_str}")
 
     # Budget check
     monthly = load_monthly_spend()
@@ -88,95 +102,94 @@ async def execute_meeting(request: MeetingRequest) -> MeetingResponse:
         return MeetingResponse(
             success=False,
             meeting_id=meeting_id,
-            meeting_type=request.meeting_type.value,
+            meeting_type=meeting_type_str,
             notes="",
             error=f"Monthly budget cap ${settings.MONTHLY_BUDGET_CAP:.2f} reached. Current spend: ${monthly:.2f}",
         )
 
-    # Cost tracker
+    # Check meeting type is implemented
+    meeting_cls = MEETING_TYPES.get(meeting_type_str)
+    if not meeting_cls:
+        return MeetingResponse(
+            success=False,
+            meeting_id=meeting_id,
+            meeting_type=meeting_type_str,
+            notes="",
+            error=f"Meeting type '{meeting_type_str}' not yet implemented.",
+        )
+
+    # Resolve participants and load agents
+    participant_names = resolve_participants(request.participants, meeting_type_str)
+    agents = await load_agents(participant_names)
+
+    if not agents:
+        return MeetingResponse(
+            success=False,
+            meeting_id=meeting_id,
+            meeting_type=meeting_type_str,
+            notes="",
+            error="No agents could be loaded.",
+        )
+
+    # Create cost tracker
     tracker = CostTracker(meeting_id=meeting_id)
 
     try:
-        # Select and create crew
-        if request.meeting_type == MeetingType.DAILY_BRIEFING:
-            crew, metadata = create_daily_briefing_crew(
-                agenda=request.agenda,
-                include_abacus=_should_include_abacus(request.participants),
-            )
-        elif request.meeting_type in (MeetingType.PROJECT_SYNC, MeetingType.RETROSPECTIVE):
-            # Phase 2 - not yet implemented
-            return MeetingResponse(
-                success=False,
-                meeting_id=meeting_id,
-                meeting_type=request.meeting_type.value,
-                notes="",
-                error=f"Meeting type '{request.meeting_type.value}' not yet implemented (Phase 2).",
-            )
-        elif request.meeting_type == MeetingType.AD_HOC:
-            # Phase 3 - not yet implemented
-            return MeetingResponse(
-                success=False,
-                meeting_id=meeting_id,
-                meeting_type=request.meeting_type.value,
-                notes="",
-                error="Ad-hoc meetings not yet implemented (Phase 3).",
-            )
-        else:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Unknown meeting type: {request.meeting_type}",
-            )
-
-        logger.info(f"Crew created: {metadata}")
-
-        # Execute crew
-        logger.info(f"Starting crew execution for {meeting_id}...")
-        result = crew.kickoff()
-        logger.info(f"Crew execution completed for {meeting_id}")
-
-        # Parse output
-        raw_output = result.raw if hasattr(result, "raw") else str(result)
-        response = parse_crew_output(raw_output, meeting_id)
-
-        # Attach cost estimate
-        # Note: Detailed token tracking requires CrewAI callbacks (Phase 2 enhancement).
-        # For now, we log execution time and estimate based on output length.
-        response.cost_estimate = CostEstimate(
-            execution_time_seconds=round(tracker.execution_time, 1),
-            cost_usd=round(tracker.total_cost, 4),
-            by_agent={k: round(v.cost_usd, 4) for k, v in tracker.agent_usage.items()},
-            terminated_early=tracker.terminated_early,
-            termination_reason=tracker.termination_reason,
+        # Execute the meeting
+        meeting = meeting_cls()
+        response = await meeting.execute(
+            agents=agents,
+            cost_tracker=tracker,
+            agenda=request.agenda or "",
         )
 
         # Save cost log
         save_cost_log(tracker)
         tracker.log_summary()
 
+        # Post-meeting: commit results and notify (fire-and-forget)
+        try:
+            await commit_meeting_results(response)
+        except Exception as e:
+            logger.error(f"Failed to commit meeting results: {e}")
+
+        try:
+            await send_meeting_notification(response)
+        except Exception as e:
+            logger.error(f"Failed to send notification: {e}")
+
         logger.info(f"Meeting {meeting_id} completed successfully")
         return response
 
     except Exception as e:
         logger.error(f"Meeting {meeting_id} failed: {e}", exc_info=True)
+        save_cost_log(tracker)
         return MeetingResponse(
             success=False,
             meeting_id=meeting_id,
-            meeting_type=request.meeting_type.value,
+            meeting_type=meeting_type_str,
             notes="",
             error=str(e),
+            cost_estimate=CostEstimate(**tracker.to_dict()),
         )
+
+
+@app.post("/api/v1/meetings/execute", response_model=MeetingResponse)
+async def execute_meeting_endpoint(request: MeetingRequest) -> MeetingResponse:
+    """Execute a BPR&D meeting via HTTP webhook."""
+    return await execute_meeting(request)
 
 
 # --- Health & Status ---
 
 @app.get("/api/v1/health")
 async def health_check():
-    """Health check endpoint for Render deployment and n8n monitoring."""
+    """Health check for Render deployment monitoring."""
     missing = settings.validate()
     return {
         "status": "healthy" if not missing else "degraded",
-        "service": "BPR&D CrewAI",
-        "version": "1.0.0",
+        "service": "BPR&D Meeting Service",
+        "version": "2.0.0",
         "timestamp": datetime.utcnow().isoformat(),
         "environment": settings.ENV,
         "missing_keys": missing,
@@ -184,15 +197,9 @@ async def health_check():
 
 
 @app.get("/api/v1/agents")
-async def list_agents():
+async def list_agents_endpoint():
     """List available agents and their status."""
-    # Determine Abacus availability
-    abacus_status = "paused_until_2026-02-23"
-    try:
-        if datetime.utcnow() >= datetime(2026, 2, 23):
-            abacus_status = "active" if settings.ABACUS_PRIMARY_KEY else "no_api_key"
-    except Exception:
-        pass
+    abacus_status = "active" if is_abacus_available() else "no_api_key"
 
     return {
         "agents": {
@@ -204,14 +211,14 @@ async def list_agents():
             },
             "claude": {
                 "status": "active" if settings.ANTHROPIC_API_KEY else "no_api_key",
-                "model": "claude-sonnet-4-5",
+                "model": "claude-sonnet-4-5-20250929",
                 "role": "Co-Second / Chief Strategist",
                 "faction": "visionaries",
             },
             "gemini": {
                 "status": "active" if settings.GEMINI_API_KEY else "no_api_key",
-                "model": "gemini-3-0-pro-preview",
-                "role": "Lead Developer / Compliance Automator",
+                "model": "gemini-3.0-pro-preview",
+                "role": "Lead Developer / Research Lead",
                 "faction": "truth-seekers",
             },
             "abacus": {
@@ -222,10 +229,8 @@ async def list_agents():
             },
         },
         "meeting_types": {
-            "daily_briefing": "implemented",
-            "project_sync": "phase_2",
-            "retrospective": "phase_2",
-            "ad_hoc": "phase_3",
+            mt.value: "implemented" if mt.value in MEETING_TYPES else "not_implemented"
+            for mt in MeetingType
         },
     }
 
@@ -248,21 +253,17 @@ async def monthly_cost():
     }
 
 
-# --- Helpers ---
-
-def _should_include_abacus(participants: list[str] | None) -> bool:
-    """Determine if Abacus should be included in the crew."""
-    if participants and "abacus" in participants:
-        return True
-
-    # Auto-include after Feb 23, 2026
-    try:
-        if datetime.utcnow() >= datetime(2026, 2, 23) and settings.ABACUS_PRIMARY_KEY:
-            return True
-    except Exception:
-        pass
-
-    return False
+@app.get("/api/v1/schedule")
+async def view_schedule():
+    """View scheduled meeting jobs."""
+    jobs = []
+    for job in scheduler.get_jobs():
+        jobs.append({
+            "id": job.id,
+            "name": job.name,
+            "next_run": str(job.next_run_time) if job.next_run_time else None,
+        })
+    return {"jobs": jobs}
 
 
 if __name__ == "__main__":

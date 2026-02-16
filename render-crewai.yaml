@@ -1,10 +1,10 @@
-# Render deployment for BPR&D CrewAI Service
-# Deploy alongside existing web app (render.yaml)
-# Plan: Starter ($7/month) for always-on service
+# Render deployment for BPR&D Meeting Service
+# Custom multi-agent meeting orchestration (replaces CrewAI + n8n)
+# Plan: Starter ($7/month) for always-on service with built-in scheduler
 
 services:
   - type: web
-    name: bprd-crewai
+    name: bprd-meetings
     runtime: python
     plan: starter
     region: oregon
@@ -24,10 +24,16 @@ services:
         sync: false
       - key: ABACUS_PRIMARY_KEY
         sync: false
+      - key: ABACUS_BACKUP_KEY
+        sync: false
       - key: GITHUB_TOKEN
         sync: false
       - key: GITHUB_REPO
         value: REBEmpire/BPR-D
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
       - key: ENV
         value: production
       - key: LOG_LEVEL

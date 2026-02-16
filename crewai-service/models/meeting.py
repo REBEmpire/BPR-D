@@ -1,6 +1,5 @@
 """
 Data models for BPR&D meeting requests and responses.
-These define the contract between n8n and the CrewAI service.
 """
 
 from datetime import datetime
@@ -18,7 +17,7 @@ class MeetingType(str, Enum):
 
 
 class MeetingRequest(BaseModel):
-    """Incoming request from n8n to execute a meeting."""
+    """Incoming request to execute a meeting."""
 
     meeting_type: MeetingType
     agenda: Optional[str] = Field(
@@ -42,20 +41,14 @@ class MeetingRequest(BaseModel):
 class HandoffItem(BaseModel):
     """A task handoff created during the meeting."""
 
-    task_id: str = Field(description="Unique identifier, e.g. 'handoff-citation-standard-20260215'")
-    assigned_to: str = Field(description="Agent name: grok, claude, gemini, abacus, or russell")
+    task_id: str = Field(description="Unique identifier")
+    assigned_to: str = Field(description="Agent name or russell")
     title: str = Field(description="Clear, concise task title")
-    due_date: Optional[str] = Field(default=None, description="ISO date string, e.g. '2026-02-17'")
+    due_date: Optional[str] = Field(default=None, description="ISO date string")
     priority: str = Field(default="medium", description="low, medium, high, critical")
     context: str = Field(description="Why this task exists and what prompted it")
-    acceptance_criteria: list[str] = Field(
-        default_factory=list,
-        description="Specific conditions that define task completion",
-    )
-    dependencies: list[str] = Field(
-        default_factory=list,
-        description="Task IDs this depends on",
-    )
+    acceptance_criteria: list[str] = Field(default_factory=list)
+    dependencies: list[str] = Field(default_factory=list)
     status: str = Field(default="open")
     created_by: str = Field(default="grok")
 
@@ -83,13 +76,13 @@ class CostEstimate(BaseModel):
 
 
 class MeetingResponse(BaseModel):
-    """Response returned to n8n after meeting execution."""
+    """Response returned after meeting execution."""
 
     success: bool
     meeting_id: str = Field(description="Unique meeting identifier")
     meeting_type: str
     timestamp: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
-    notes: str = Field(description="Full meeting notes formatted as markdown, ready for GitHub commit")
+    notes: str = Field(description="Full meeting notes formatted as markdown")
     handoffs: list[HandoffItem] = Field(default_factory=list)
     action_items: list[ActionItem] = Field(default_factory=list)
     key_decisions: list[str] = Field(default_factory=list)
