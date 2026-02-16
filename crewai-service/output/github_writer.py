@@ -32,7 +32,7 @@ async def commit_meeting_results(response: MeetingResponse) -> bool:
         logger.error(f"Failed to commit meeting notes to {notes_path}")
         success = False
 
-    # 2. Commit handoff files
+    # 2. Commit handoff files (individual tasks)
     for handoff in response.handoffs:
         handoff_content = _render_handoff(handoff)
         handoff_path = f"_agents/_handoffs/{handoff.task_id}.md"
@@ -45,6 +45,20 @@ async def commit_meeting_results(response: MeetingResponse) -> bool:
         if not result:
             logger.error(f"Failed to commit handoff {handoff.task_id}")
             success = False
+
+    # 3. Commit agent instructions (Work Session updates)
+    if response.agent_instructions:
+        for agent_name, instruction_content in response.agent_instructions.items():
+            agent_path = f"_agents/{agent_name.lower()}/handoff.md"
+
+            result = await commit_file(
+                path=agent_path,
+                content=instruction_content,
+                message=f"Update handoff instructions for {agent_name}",
+            )
+            if not result:
+                logger.error(f"Failed to commit agent instructions to {agent_path}")
+                success = False
 
     return success
 
