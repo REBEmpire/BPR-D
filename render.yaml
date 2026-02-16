@@ -11,3 +11,18 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 20.11.0
+
+  - type: cron
+    name: epstein-analysis-daily
+    env: python
+    region: oregon
+    plan: free # Can upgrade later
+    schedule: "0 9 * * *" # 9 AM UTC = early morning US
+    buildCommand: pip install -r research/corruption-investigation/briefs/epstein-doj-analysis/requirements.txt && python -m spacy download en_core_web_lg
+    startCommand: python research/corruption-investigation/briefs/epstein-doj-analysis/scripts/run_session.py
+    autoDeploy: true
+    envVars:
+      - key: HF_DATASET_REPO
+        value: Russ-Teter/Epstein_Doc_Analysis
+      - key: HF_TOKEN
+        sync: false # Must be set in dashboard
