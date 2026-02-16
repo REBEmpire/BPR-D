@@ -1,11 +1,30 @@
 import { QuestBoard } from "@/components/quest-board"
 import { Leaderboard } from "@/components/gamification/leaderboard"
+import { MetricBadge } from "@/components/ui/metric-badge"
 import Link from "next/link"
-import { ArrowRight, ExternalLink, Activity, Radio, ShieldCheck, Sparkles } from "lucide-react"
+import { ArrowRight, ExternalLink, Activity, Radio, ShieldCheck, Sparkles, Monitor } from "lucide-react"
+import fs from 'fs'
+import path from 'path'
 
 export const dynamic = 'force-dynamic';
 
 export default function Home() {
+  // Read production data for live metrics
+  let productionData = null;
+  try {
+    const dataPath = path.join(process.cwd(), 'src/content/production.json');
+    if (fs.existsSync(dataPath)) {
+      const fileContent = fs.readFileSync(dataPath, 'utf-8');
+      productionData = JSON.parse(fileContent);
+    }
+  } catch (error) {
+    console.error('Error reading production data:', error);
+  }
+
+  const meetingsCount = productionData?.meetings.length || 0;
+  const briefsCount = productionData?.researchMetrics.totalBriefs || 0;
+  const investigationProgress = productionData?.investigationMetrics.overallProgress || 0;
+
   return (
     <div className="min-h-screen bg-background text-foreground bg-grid-pattern relative overflow-hidden">
       {/* Decorative gradient overlay */}
@@ -51,6 +70,7 @@ export default function Home() {
               <h2 className="text-xl font-semibold mb-6 text-muted-foreground uppercase tracking-widest text-sm">Operational Access</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  {[
+                   { href: "/dashboard", label: "Production Dashboard", icon: Monitor, desc: "Real-time team output & metrics" },
                    { href: "/team", label: "Agent Roster", icon: ShieldCheck, desc: "Review team progress & status" },
                    { href: "/projects", label: "Active Projects", icon: Activity, desc: "Ongoing deep dives & dev work" },
                    { href: "/research", label: "Intelligence Briefs", icon: Radio, desc: "Daily synthesis & analysis" },
@@ -80,34 +100,26 @@ export default function Home() {
                   <Leaderboard />
                </div>
 
-               {/* System Status Card */}
+               {/* Live Production Metrics Card */}
                <div className="bg-black/40 backdrop-blur-md rounded-xl p-6 border border-primary/20 relative overflow-hidden">
                   <div className="absolute -right-10 -top-10 h-32 w-32 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
 
                   <h3 className="font-bold text-primary mb-4 flex items-center gap-2">
                     <Activity className="h-5 w-5" />
-                    System Status
+                    Live Production
                   </h3>
 
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Neural Link</span>
-                      <span className="text-green-400 font-mono text-xs bg-green-400/10 px-2 py-0.5 rounded">STABLE</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Encryption</span>
-                      <span className="text-primary font-mono text-xs bg-primary/10 px-2 py-0.5 rounded">AES-256</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Agent Morale</span>
-                      <span className="text-purple-400 font-mono text-xs bg-purple-400/10 px-2 py-0.5 rounded">OPTIMAL</span>
-                    </div>
+                  <div className="space-y-2">
+                    <MetricBadge label="Team Meetings" value={meetingsCount} trend={meetingsCount > 0 ? 'up' : 'neutral'} />
+                    <MetricBadge label="Research Briefs" value={briefsCount} trend={briefsCount > 0 ? 'up' : 'neutral'} />
+                    <MetricBadge label="Investigation" value={`${investigationProgress}%`} trend={investigationProgress > 0 ? 'up' : 'neutral'} />
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-white/5">
-                    <p className="text-xs text-muted-foreground font-mono">
-                      Latest Sync: ONLINE
-                    </p>
+                    <Link href="/dashboard" className="text-sm text-primary hover:underline font-medium flex items-center gap-2">
+                      View Full Dashboard
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
                   </div>
                </div>
 

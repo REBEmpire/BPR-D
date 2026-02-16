@@ -155,4 +155,177 @@
   .text-glow {
     text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
   }
+
+  /* Holographic Glassmorphism */
+  .glass-card {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card) / 0.4),
+      hsl(var(--card) / 0.1)
+    );
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--primary) / 0.2);
+  }
+
+  /* RGB Split Text Effect */
+  .text-glitch {
+    position: relative;
+  }
+
+  .text-glitch::before,
+  .text-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+  }
+
+  .text-glitch::before {
+    animation: glitch-1 2.5s infinite;
+    color: hsl(180, 100%, 50%);
+    z-index: -1;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .text-glitch::after {
+    animation: glitch-2 2.5s infinite;
+    color: hsl(300, 100%, 50%);
+    z-index: -2;
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Scan Line Effect */
+  .scan-lines {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scan-lines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--primary) / 0.03) 2px,
+      hsl(var(--primary) / 0.03) 4px
+    );
+    pointer-events: none;
+    animation: scan 8s linear infinite;
+    z-index: 10;
+  }
+
+  /* Neon Glow Pulse */
+  .neon-pulse {
+    animation: neon-glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Data Stream Effect */
+  .data-stream {
+    background: linear-gradient(
+      180deg,
+      transparent,
+      hsl(var(--primary) / 0.1),
+      transparent
+    );
+    background-size: 100% 200%;
+    animation: stream 3s linear infinite;
+  }
+
+  /* Holographic Border */
+  .holo-border {
+    border: 1px solid transparent;
+    background: linear-gradient(var(--background), var(--background)) padding-box,
+                linear-gradient(135deg,
+                  hsl(var(--primary) / 0.5),
+                  hsl(300, 100%, 50% / 0.3),
+                  hsl(var(--primary) / 0.5)) border-box;
+  }
+}
+
+@keyframes glitch-1 {
+  0%, 100% {
+    transform: translate(0);
+    clip-path: inset(0 0 0 0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    clip-path: inset(0 0 85% 0);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+    clip-path: inset(15% 0 0 0);
+  }
+  60% {
+    transform: translate(2px, -2px);
+    clip-path: inset(0 0 70% 0);
+  }
+  80% {
+    transform: translate(2px, 2px);
+    clip-path: inset(30% 0 0 0);
+  }
+}
+
+@keyframes glitch-2 {
+  0%, 100% {
+    transform: translate(0);
+    clip-path: inset(0 0 0 0);
+  }
+  20% {
+    transform: translate(2px, -2px);
+    clip-path: inset(0 0 90% 0);
+  }
+  40% {
+    transform: translate(2px, 2px);
+    clip-path: inset(10% 0 0 0);
+  }
+  60% {
+    transform: translate(-2px, 2px);
+    clip-path: inset(0 0 75% 0);
+  }
+  80% {
+    transform: translate(-2px, -2px);
+    clip-path: inset(25% 0 0 0);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes neon-glow {
+  from {
+    text-shadow:
+      0 0 10px hsl(var(--primary) / 0.5),
+      0 0 20px hsl(var(--primary) / 0.3),
+      0 0 30px hsl(var(--primary) / 0.2);
+  }
+  to {
+    text-shadow:
+      0 0 20px hsl(var(--primary) / 0.8),
+      0 0 30px hsl(var(--primary) / 0.5),
+      0 0 40px hsl(var(--primary) / 0.3),
+      0 0 50px hsl(var(--primary) / 0.2);
+  }
+}
+
+@keyframes stream {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
 }
