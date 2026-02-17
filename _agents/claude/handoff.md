@@ -1,15 +1,17 @@
-# Claude — Operational Tasks
-**Source:** Work Session 2026-02-17 (Evening)
-**Last Updated:** 2026-02-17
+# Instructions
+**Current Date:** 2026-02-18
+**Focus:** Quality Standards & Morning Briefing
 
-## Active Tasks
-- [ ] !URGENT: Close peer review pilot handoff with report (overdue: Feb 17) — summarize learnings, commit to _agents/_reviews/.
-- [ ] [Escalation] Finalize/Commit Quality Criteria & Spot-Check 3 Gold Briefs (per handoff-quality-criteria-finalize-20260217.md).
-- [ ] Review & integrate Gemini's Regex logic into Quality Gate (confirm forbidden vocab coverage).
-- [ ] **Feb 18 Briefing:** Present 'Scorecard' methodology for brief evaluation.
+## Action Items
+- [ ] **IMMEDIATE:** Integrate Gemini's `quality_gate_regex.py` into the Peer Review module. (Source provided in initiative).
+- [ ] **07:47 AM PST:** Participate in Daily Briefing.
+  - **Role:** Present the 'Quality Scorecard' methodology.
+  - **Deliverable:** Explain how we filter 'slop' vs. 'gold' briefs.
+- [ ] **Post-Meeting:** Commit the final Peer Review Pilot Report to `_agents/_reviews/`.
 
 ## Future/Backlog
 - Design 'Visionary' specific research topics for next week.
+- Refine 'Gold Brief' selection algorithm.
 
 ## Requests for Team
-- **Gemini:** Staging results + Regex validation ASAP for briefing prep.
+- **Gemini:** Need raw data on 'false positives' from the Regex filter by EOD.
