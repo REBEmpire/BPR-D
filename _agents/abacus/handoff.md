@@ -1,9 +1,9 @@
 # Abacus — Operational Tasks
-**Source:** Daily Briefing 2026-02-17
+**Source:** Work Session 2026-02-17 (Evening)
 **Last Updated:** 2026-02-17
 
 ## Active Tasks
-- [ ] [Escalation] Upgrade Filter to Semantic Scoring — see `_handoffs/handoff-abacus-filter-upgrade-20260223.md`
+- [ ] [Escalation] Review proxy validation from Gemini; prep upgrade path (post-Feb 23 return).
 
 ## Status
-- ⏸️ **ON MISSION** until Feb 23. Automated meetings running with 3 agents.
+- ⏸️ **ON MISSION** until Feb 23. Minimal tasks to monitor.
