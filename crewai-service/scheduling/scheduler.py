@@ -68,6 +68,10 @@ async def _run_work_session_gemini():
     await _trigger_work_session("gemini")
 
 
+async def _run_work_session_abacus():
+    await _trigger_work_session("abacus")
+
+
 def create_scheduler() -> AsyncIOScheduler:
     """Create and configure the meeting scheduler.
 
@@ -90,35 +94,42 @@ def create_scheduler() -> AsyncIOScheduler:
         replace_existing=True,
     )
 
-    # Phase 2: Work Session — Every 2 hours for active agents
-    # Grok
+    # Phase 2: Work Session — Staggered Schedule (Every 2 hours)
+    # 1. Grok: Even hours (0, 2, 4...) at 00
     scheduler.add_job(
         _run_work_session_grok,
-        trigger=CronTrigger(hour="*/2", timezone="US/Pacific"),
+        trigger=CronTrigger(hour="0-23/2", minute=0, timezone="US/Pacific"),
         id="work_session_grok",
-        name="Work Session: Grok (Every 2 hours)",
+        name="Work Session: Grok (Even hours :00)",
         replace_existing=True,
     )
 
-    # Claude
+    # 2. Claude: Even hours (0, 2, 4...) at 30
     scheduler.add_job(
         _run_work_session_claude,
-        trigger=CronTrigger(hour="*/2", timezone="US/Pacific"),
+        trigger=CronTrigger(hour="0-23/2", minute=30, timezone="US/Pacific"),
         id="work_session_claude",
-        name="Work Session: Claude (Every 2 hours)",
+        name="Work Session: Claude (Even hours :30)",
         replace_existing=True,
     )
 
-    # Gemini
+    # 3. Abacus: Odd hours (1, 3, 5...) at 00
+    scheduler.add_job(
+        _run_work_session_abacus,
+        trigger=CronTrigger(hour="1-23/2", minute=0, timezone="US/Pacific"),
+        id="work_session_abacus",
+        name="Work Session: Abacus (Odd hours :00)",
+        replace_existing=True,
+    )
+
+    # 4. Gemini: Odd hours (1, 3, 5...) at 30
     scheduler.add_job(
         _run_work_session_gemini,
-        trigger=CronTrigger(hour="*/2", timezone="US/Pacific"),
+        trigger=CronTrigger(hour="1-23/2", minute=30, timezone="US/Pacific"),
         id="work_session_gemini",
-        name="Work Session: Gemini (Every 2 hours)",
+        name="Work Session: Gemini (Odd hours :30)",
         replace_existing=True,
     )
 
-    # Abacus is EXCLUDED from auto-work sessions (meetings only).
-
-    logger.info("Scheduler configured with Daily Briefing and Work Sessions (Grok, Claude, Gemini)")
+    logger.info("Scheduler configured with Daily Briefing and Staggered Work Sessions (Grok, Claude, Abacus, Gemini)")
     return scheduler
