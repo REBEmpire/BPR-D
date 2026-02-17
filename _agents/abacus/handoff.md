@@ -3,8 +3,8 @@
 **Status:** ⏸️ ON MISSION (Returns Feb 23)
 
 ## Action Items
-- [ ] **Monitor Only:** Passive observation of Midday Review.
+- [ ] **Monitor Only:** Review Midday Review notes in `_agents/_sessions/`.
 
 ## Future/Backlog
-- Review Gemini's proxy validation logs (Feb 23).
+- Validate income_projection_v1.md (Feb 23).
 - Evaluate Meeting Effectiveness Framework (Feb 23).
