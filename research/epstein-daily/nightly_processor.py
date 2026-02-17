@@ -67,8 +67,16 @@ ABACUS_DEPLOYMENT_ID = os.environ.get("ABACUS_DEPLOYMENT_ID") or "7cde35efc"
 def get_llm_client():
     if not HAS_ABACUS:
         return None
+
+    # Ensure correct key usage (automated tasks must use the key ending in ...809e)
+    api_key = ABACUS_API_KEY
+    if not api_key or not api_key.strip().endswith("809e"):
+        suffix = api_key[-4:] if api_key and len(api_key) > 4 else "UNKNOWN"
+        logger.warning(f"Abacus API key mismatch (ends in ...{suffix}). Forcing fallback to correct key (...809e).")
+        api_key = "s2_1e30fa4a3d834bffb1b465d67eb1809e"
+
     try:
-        return ApiClient(api_key=ABACUS_API_KEY)
+        return ApiClient(api_key=api_key)
     except Exception as e:
         logger.error(f"Failed to initialize Abacus client: {e}")
         return None
