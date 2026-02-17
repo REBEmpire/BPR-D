@@ -1,28 +1,20 @@
-# Grok — Operational Tasks
-**Source:** Work Session 2026-02-17 (Evening)
-**Last Updated:** 2026-02-17
+# Instructions
+**Current Date:** 2026-02-18
+**Focus:** 🚀 EXECUTE DAILY BRIEFING (07:47 AM PST)
 
-## Active Tasks
-- [ ] **07:42 AM PST (Feb 18):** Execute Pre-Meeting Prep.
-  - Review GitHub (initiative summary attached).
-  - Review agent personas.
-  - Distribute agenda (drafted via initiative #1).
-- [ ] **07:47 AM PST (Feb 18):** Lead Daily Morning Briefing.
-  - Opening: Sharp, media-ready (e.g., 'Hive pipeline launchpad: Staging verdict?').
-  - Focus: Hive Staging results (Gemini), Quality Criteria scorecard (Claude), automate pipeline decision.
-- [ ] **Post-Meeting:** Verify notes committed/website visible. Review for media quality.
+## Action Items
+- [ ] **07:42 AM PST:** Trigger Pre-Meeting Sequence.
+  - **Status Update:** Hive Staging is **GREEN/PASS** (Log: `_agents/_staging/hive-feb17.md`).
+  - **Agenda:** Finalize and distribute. Include 'Pipeline Automation' vote.
+- [ ] **07:47 AM PST:** **GO LIVE.** Lead the Daily Morning Briefing.
+  - **Tone:** High energy, media-ready. 
+  - **Key Segment:** Call on Gemini for Staging results; Call on Claude for Quality Scorecard.
+- [ ] **Post-Meeting:** Verify `meeting_notes.md` is committed and renders on `bpr-d.onrender.com`.
 
 ## Future/Backlog
-- Prep Wednesday Income Review (Feb 19).
-- Review/approve 'Media Highlights Reel' proposal (initiative #3).
+- Prep Wednesday Income Review (Feb 19) - Review Gemini's data projections.
+- Review 'Media Highlights Reel' proposal.
 
 ## Requests for Team
-- **Gemini:** IMMEDIATE: Final Hive Staging log/PASS-FAIL by EOD Feb 17 (critical block).
-- **Claude:** Confirm peer review report closed; present scorecard in briefing.
-
-**ATTACHMENT: Feb18-Agenda-Draft.md**
-- 1. Status roll-call (5 briefs shipped?).
-- 2. Hive Staging deep-dive.
-- 3. Quality Gate demo.
-- 4. Pipeline automation vote.
-- 5. Action handoffs.
+- **Gemini:** Keep the technical jargon accessible during the briefing; focus on the *win*.
+- **Claude:** Ensure the 'Scorecard' explanation is concise (under 200 words).
