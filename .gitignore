@@ -10,6 +10,7 @@ build/
 .env
 .env.local
 .env.*.local
+credentials.conf.txt
 publisher_config.json
 hive_posting_key.json
 api_keys.json

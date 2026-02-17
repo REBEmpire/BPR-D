@@ -1,0 +1,192 @@
+{
+  "title": "BPR&D 2026 Roadmap",
+  "description": "Major milestones for quest scoring. No hard dates — milestones are marked complete as they happen.",
+  "lastUpdated": "2026-02-17",
+  "milestones": [
+    {
+      "id": "m01",
+      "title": "First Automated Meeting",
+      "description": "Successfully run the first fully automated Daily Briefing with all agents participating via API",
+      "category": "infrastructure",
+      "points": 25,
+      "status": "completed",
+      "completedDate": "2026-02-17",
+      "contributors": ["grok", "claude", "gemini", "russell"]
+    },
+    {
+      "id": "m02",
+      "title": "Custom Meeting Service Live",
+      "description": "Replace CrewAI with custom Python meeting engine deployed on Render",
+      "category": "infrastructure",
+      "points": 30,
+      "status": "completed",
+      "completedDate": "2026-02-16",
+      "contributors": ["russell", "grok", "claude"]
+    },
+    {
+      "id": "m03",
+      "title": "Agent Memory System Deployed",
+      "description": "Full agent memory/governance system with context, handoffs, memory logs, and protocols",
+      "category": "infrastructure",
+      "points": 20,
+      "status": "completed",
+      "completedDate": "2026-02-16",
+      "contributors": ["russell", "claude", "grok"]
+    },
+    {
+      "id": "m04",
+      "title": "18 Research Briefs Shipped",
+      "description": "First batch of research briefs published across multiple categories",
+      "category": "content",
+      "points": 20,
+      "status": "completed",
+      "completedDate": "2026-02-17",
+      "contributors": ["gemini"]
+    },
+    {
+      "id": "m05",
+      "title": "Website MVP Live on Render",
+      "description": "BPR&D website deployed with Team page, Dashboard, Research, and Projects",
+      "category": "web",
+      "points": 25,
+      "status": "completed",
+      "completedDate": "2026-02-14",
+      "contributors": ["russell", "claude", "gemini"]
+    },
+    {
+      "id": "m06",
+      "title": "First Hive Blockchain Post",
+      "description": "Automated posting of research brief to Hive blockchain via beem/hive-python",
+      "category": "content",
+      "points": 20,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m07",
+      "title": "API Stability Achieved",
+      "description": "All 4 agent APIs (xAI, Anthropic, Google, Abacus) running with <5% failure rate",
+      "category": "infrastructure",
+      "points": 15,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m08",
+      "title": "50 Research Briefs Published",
+      "description": "Cumulative research output reaches 50 published briefs across all categories",
+      "category": "content",
+      "points": 25,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m09",
+      "title": "Splinterlands Civ MVP Playable",
+      "description": "First playable build of the 4X strategy game in Godot",
+      "category": "games",
+      "points": 40,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m10",
+      "title": "Slingerlands RPG MVP Playable",
+      "description": "First playable build of the turn-based dungeon crawler in Godot",
+      "category": "games",
+      "points": 40,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m11",
+      "title": "First YouTube Video Published",
+      "description": "First BPR&D video content published to YouTube channel",
+      "category": "media",
+      "points": 20,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m12",
+      "title": "First Podcast Episode Live",
+      "description": "First BPR&D podcast episode published to Spotify",
+      "category": "media",
+      "points": 20,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m13",
+      "title": "Daily Content Pipeline Automated",
+      "description": "5+ articles/day generated automatically across 5 Hive accounts",
+      "category": "content",
+      "points": 30,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m14",
+      "title": "First Revenue Dollar",
+      "description": "First actual revenue generated from any BPR&D output (Hive rewards, ad revenue, etc.)",
+      "category": "business",
+      "points": 50,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m15",
+      "title": "100 Research Briefs Published",
+      "description": "Research output scales to triple digits",
+      "category": "content",
+      "points": 30,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m16",
+      "title": "Quality Filter Automated",
+      "description": "Gold/Silver/Lead triage function operational and integrated into pipeline",
+      "category": "infrastructure",
+      "points": 15,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m17",
+      "title": "Abacus Full Return",
+      "description": "Abacus back to full 4-agent meetings with API budget restored",
+      "category": "team",
+      "points": 10,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m18",
+      "title": "First Substack Publication",
+      "description": "BPR&D Substack newsletter launched with first issue",
+      "category": "media",
+      "points": 15,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m19",
+      "title": "Peer Review System Operational",
+      "description": "Claude's weekly spot-check + Abacus gold-tier filter running consistently",
+      "category": "content",
+      "points": 15,
+      "status": "pending",
+      "contributors": []
+    },
+    {
+      "id": "m20",
+      "title": "Monthly Revenue >$100",
+      "description": "BPR&D generating consistent $100+/month from combined sources",
+      "category": "business",
+      "points": 75,
+      "status": "pending",
+      "contributors": []
+    }
+  ]
+}
