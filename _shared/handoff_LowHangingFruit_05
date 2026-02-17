@@ -1,0 +1,46 @@
+# rating_script.py - Run daily after briefs are merged
+import os
+import glob
+from datetime import datetime
+from bprd_file_utils import append_to_file  # for logging
+
+def rate_brief(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    length_score = min(len(content) / 100, 10)
+    keywords = ['innovation', 'breakthrough', 'market', 'ai', 'crypto', 'longevity']
+    bonus = sum(2 for kw in keywords if kw.lower() in content.lower())
+    return round(min(10, length_score + bonus), 1)
+
+def run_daily_rating():
+    briefs_dir = 'daily_briefs/merged'
+    if not os.path.exists(briefs_dir) or not glob.glob(f'{briefs_dir}/*.md'):
+        print("No merged daily briefs found today.")
+        return
+
+    briefs = glob.glob(f'{briefs_dir}/*.md')
+    rated = []
+    for brief in briefs:
+        score = rate_brief(brief)
+        filename = os.path.basename(brief)
+        rated.append((score, filename))
+
+    rated.sort(reverse=True)
+    top5 = rated[:5]
+
+    print(f"\n=== TOP 5 RATED BRIEFS ({datetime.now().strftime('%Y-%m-%d')}) ===")
+    for rank, (score, fn) in enumerate(top5, 1):
+        print(f"{rank}. {fn} - Score: {score}/10")
+
+    # Route to Hive
+    hive_file = f'hive/top_briefs_{datetime.now().strftime("%Y-%m-%d")}.md'
+    os.makedirs('hive', exist_ok=True)
+    with open(hive_file, 'w', encoding='utf-8') as f:
+        f.write(f"# Hive Daily News Blast - {datetime.now().strftime('%Y-%m-%d')}\n\nTop 5 rated briefs:\n")
+        for rank, (score, fn) in enumerate(top5, 1):
+            f.write(f"\n{rank}. **{fn}** (Score: {score}/10)\n")
+
+    print(f"Top 5 routed to {hive_file} for Hive pipeline.")
+
+if __name__ == "__main__":
+    run_daily_rating()
