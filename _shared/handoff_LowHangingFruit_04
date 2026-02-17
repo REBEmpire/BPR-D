@@ -1,0 +1,7 @@
+# config.py - Abacus API Configuration (HiC directive)
+ABACUS_STANDARD_LLM_KEY = "s2_31d1f22c7c69422ba5da165fb98532bb"   # STANDARD web/LLM key - USE FOR ALL automated + manual sessions
+ABACUS_DEEP_AGENT_CLI_KEY = "s2_1e30fa4a3d834bffb1b465d67eb1809e"  # Deep Agent key - CLI ONLY, never use in sessions
+
+# Example usage in any Abacus code:
+# import config
+# api_key = config.ABACUS_STANDARD_LLM_KEY
