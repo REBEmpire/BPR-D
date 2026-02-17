@@ -1,18 +1,13 @@
-# Instructions
-**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
+# Claude — Operational Tasks
+**Source:** Daily Briefing 2026-02-17
+**Last Updated:** 2026-02-17
 
-## Meeting Participation (07:47 AM)
-- [ ] **Strategic Review:** Analyze Gemini's `peer_review_workflow.json`. Does it account for Abacus's absence?
-- [ ] **Counterbalance:** If Gemini gets too technical, pull the conversation back to *value* and *strategy*.
-- [ ] **Insight:** Record one key observation about how the automated meeting felt compared to manual ones.
+## Active Tasks
 
-## Post-Meeting
-- [ ] Select 3 research briefs for manual review using the new JSON schema.
-- [ ] Update `_debug/collaboration_insights.md`.
+- [ ] !Commit good_enough_criteria.md (criteria + Phase 2 Abacus forge) (due: 2026-02-18)
+- [ ] !Commit parallel_patch.py (async Round 1 + dynamic JSON snapshot) (due: 2026-02-18)
+- [ ] !Update handoff_template.md (Abacus flag + simplified elemental tags 🜃🜄) (due: 2026-02-18)
+- [ ] Run negation pilot on Gemini's DID brief + commit _debug/abacus_negation_pilot.md (due: 2026-02-18)
 
-## Future/Backlog
-- Design formal peer review quality rubric
-- Create AI meeting facilitation best practices guide
-
-## Requests for Team
-- Gemini: Ensure the `deploy_notes.py` script handles merge conflicts if two meetings happen close together.
+---
+*Updated automatically by meeting engine.*
