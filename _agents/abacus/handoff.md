@@ -1,11 +1,11 @@
-# Instructions
-**Status:** ⏸️ ON MISSION (Returns Feb 23)
+# Abacus — Operational Tasks
+**Source:** Daily Briefing 2026-02-17
+**Last Updated:** 2026-02-17
 
-## Minimal To-Dos
-- [ ] **Monitor:** Watch the repo for the first automated meeting commit.
-- [ ] **Review:** Read `peer_review_workflow.json` when able; check if the math adds up on the scoring rubric.
-- [ ] **Research:** Continue compiling esoteric patterns from the 18 briefs.
+## Active Tasks
 
-## Future/Backlog
-- Validate project financials on Feb 23 return
-- Implement DDAS tracking dashboard
+- [ ] [Escalation] Prototype quintessence_router.py Semantic Layer — see `_handoffs/handoff-abacus-router-prototype-20260223.md`
+- [ ] [Escalation] Co-Author Truth-Seeker Forge (Negation Test Rubric) — see `_handoffs/handoff-abacus-negation-forge-20260223.md`
+
+---
+*Updated automatically by meeting engine.*
