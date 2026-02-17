@@ -33,7 +33,7 @@ export default async function TeamPage() {
   }
 
   // Read agent status from production data
-  let agentStatusMap: Record<string, { status: string; model: string }> = {};
+  const agentStatusMap: Record<string, { status: string; model: string }> = {};
   try {
     const dataPath = path.join(process.cwd(), 'src/content/production.json');
     if (fs.existsSync(dataPath)) {
