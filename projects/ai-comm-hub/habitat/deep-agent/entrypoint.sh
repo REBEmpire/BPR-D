@@ -1,9 +1,16 @@
 #!/bin/bash
 set -e
 
-# Export the key if provided
+# Export the key if provided, but ONLY if it's the correct one (ends in 809e)
 if [ -n "$ABACUS_API_KEY" ]; then
-    export ABACUS_API_KEY=$ABACUS_API_KEY
+    if [[ "$ABACUS_API_KEY" == *"809e" ]]; then
+        export ABACUS_API_KEY=$ABACUS_API_KEY
+        echo "Abacus API Key verified (ends in ...809e)."
+    else
+        echo "WARNING: ABACUS_API_KEY does not end in ...809e. It will NOT be exported to prevent using the wrong key."
+        # Unset just in case
+        unset ABACUS_API_KEY
+    fi
 fi
 
 # Set workspace
