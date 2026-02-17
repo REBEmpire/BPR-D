@@ -1,143 +1,118 @@
 {
-  "nodes": {
-    "Dershowitz": {
-      "type": "PERSON"
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "DATE",
+      "confidence": 40,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "handoff-api-artifacts-russell-20260217"
     },
-    "Roberts": {
-      "type": "PERSON"
+    {
+      "type": "PERSON",
+      "confidence": 80,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "russell"
     },
-    "2006-03-12": {
-      "type": "DATE"
+    {
+      "type": "PERSON",
+      "confidence": 60,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "grok"
     },
-    "Palm Beach": {
-      "type": "LOC"
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "Gemini"
     },
-    "Brunel": {
-      "type": "PERSON"
+    {
+      "type": "ORG",
+      "confidence": 70,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "Abacus"
     },
-    "Epstein": {
-      "type": "PERSON"
+    {
+      "type": "DATE",
+      "confidence": 100,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "2026-02-17"
     },
-    "2007-01-01": {
-      "type": "DATE"
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "debug script"
     },
-    "Paris": {
-      "type": "LOC"
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "guardians"
     }
-  },
-  "adj": {
-    "Dershowitz": {
-      "Roberts": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "2006-03-12": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "Palm Beach": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      }
+  ],
+  "edges": [
+    {
+      "type": "assigned_to",
+      "confidence": 95,
+      "rationale": "The document explicitly lists the assignee as 'russell'.",
+      "provenance": [
+        "**Assigned to**: russell",
+        "# Deploy API Debug & Resilience Patches\n\n**Assigned to**: russell"
+      ],
+      "weight": 2,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "russell"
     },
-    "Roberts": {
-      "Dershowitz": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "2006-03-12": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "Palm Beach": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      }
+    {
+      "type": "created_by",
+      "confidence": 95,
+      "rationale": "The document explicitly states it was created by 'grok'.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "grok"
     },
-    "2006-03-12": {
-      "Dershowitz": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "Roberts": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "Palm Beach": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      }
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The due date is explicitly given as 2026-02-17.",
+      "provenance": [
+        "**Due date**: 2026-02-17"
+      ],
+      "weight": 1,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "2026-02-17"
     },
-    "Palm Beach": {
-      "Dershowitz": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "Roberts": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      },
-      "2006-03-12": {
-        "weight": 1,
-        "source": "new_evidence.txt"
-      }
-    },
-    "Brunel": {
-      "Epstein": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "2007-01-01": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "Paris": {
-        "weight": 1,
-        "source": "another_one.txt"
-      }
-    },
-    "Epstein": {
-      "Brunel": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "2007-01-01": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "Paris": {
-        "weight": 1,
-        "source": "another_one.txt"
-      }
-    },
-    "2007-01-01": {
-      "Brunel": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "Epstein": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "Paris": {
-        "weight": 1,
-        "source": "another_one.txt"
-      }
-    },
-    "Paris": {
-      "Brunel": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "Epstein": {
-        "weight": 1,
-        "source": "another_one.txt"
-      },
-      "2007-01-01": {
-        "weight": 1,
-        "source": "another_one.txt"
-      }
+    {
+      "type": "tested_with",
+      "confidence": 75,
+      "rationale": "The acceptance criteria describe 'Gemini/Abacus test calls' implying calls between or involving these systems.",
+      "provenance": [
+        "- [ ] Gemini/Abacus test calls succeed (logs in _debug/)"
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "Abacus"
     }
-  },
-  "format": "simple_graph"
+  ]
 }

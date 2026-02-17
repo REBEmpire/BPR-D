@@ -6,43 +6,46 @@ from pathlib import Path
 # Add the directory to sys.path to import the module
 sys.path.append(str(Path(__file__).parent))
 
-from x_nightly_scan import ConfigLoader, LLMScorer
+from x_nightly_scan import ConfigLoader, ContentAnalyzer
 
 class TestGrokNightlyScan(unittest.TestCase):
-    def test_config_loader(self):
-        loader = ConfigLoader()
-        keywords = loader.load_all()
-        self.assertIn("Splintermated", keywords)
-        self.assertIn("Norse Mythology", keywords)
-        self.assertIn("multi-agent AI", keywords)
-        self.assertTrue(len(keywords) > 20)
+    def setUp(self):
+        self.keywords = ["AI", "Crypto", "BPR&D"]
+        self.topics = {"Tech": ["AI", "Crypto"], "Internal": ["BPR&D"]}
+        self.analyzer = ContentAnalyzer(self.keywords, self.topics)
 
-    def test_scorer_keyword_fallback(self):
-        scorer = LLMScorer()
+    def test_analyzer_scoring(self):
         tweet = {
             "id": "1",
-            "text": "Splinterlands is great for web3 arts.",
-            "public_metrics": {}
+            "text": "This is a tweet about AI and BPR&D.",
+            "public_metrics": {"like_count": 10, "retweet_count": 0}
         }
-        # Keywords: Splinterlands, web3 arts
-        keywords = ["Splinterlands", "web3 arts"]
+        results = self.analyzer.analyze([tweet])
+        self.assertEqual(len(results), 1)
+        # Matches: AI, BPR&D -> Score 2
+        self.assertEqual(results[0]["score"], 2)
+        self.assertEqual(results[0]["relevance"], "Medium")
+        self.assertIn("ai", results[0]["matches"])
+        self.assertIn("bpr&d", results[0]["matches"])
 
-        # Should score 30 + 10 + 10 = 50
-        scored = scorer.score([tweet], keywords)
-        self.assertEqual(scored[0]["score"], 50)
-        self.assertEqual(scored[0]["relevance"], "Medium")
-
-    def test_scorer_no_match(self):
-        scorer = LLMScorer()
+    def test_analyzer_high_engagement(self):
         tweet = {
             "id": "2",
-            "text": "I like sandwiches.",
+            "text": "Just a random tweet.",
+            "public_metrics": {"like_count": 2000, "retweet_count": 0}
+        }
+        results = self.analyzer.analyze([tweet])
+        self.assertEqual(results[0]["score"], 2) # High engagement +2
+        self.assertIn("high_engagement", results[0]["matches"])
+
+    def test_analyzer_agent_mapping(self):
+        tweet = {
+            "id": "3",
+            "text": "I love Python code.",
             "public_metrics": {}
         }
-        keywords = ["Splinterlands"]
-        scored = scorer.score([tweet], keywords)
-        self.assertEqual(scored[0]["score"], 0)
-        self.assertEqual(scored[0]["relevance"], "Low")
+        results = self.analyzer.analyze([tweet])
+        self.assertEqual(results[0]["suggested_agent"], "Gemini")
 
 if __name__ == '__main__':
     unittest.main()

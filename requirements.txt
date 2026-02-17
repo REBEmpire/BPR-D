@@ -2,3 +2,6 @@ abacusai
 python-dotenv
 networkx
 matplotlib
+pypdf
+pydot
+google-generativeai
