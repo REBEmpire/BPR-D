@@ -140,7 +140,7 @@ Text: {content[:15000]}"""
     # Try to extract JSON block
     match = re.search(r'\{.*\}', response_text, re.DOTALL)
     if match:
-        clean_text = match.group(0)
+        clean_text = match.group(0); clean_text = clean_text.replace("\n", " ")
     else:
         clean_text = response_text
 
