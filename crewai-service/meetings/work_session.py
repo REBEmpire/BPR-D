@@ -108,6 +108,11 @@ class WorkSession(BaseMeeting):
             "1. Review the current Team State and Handoffs.\n"
             "2. Decide what needs to be done next for yourself and each team member.\n"
             "3. Generate updated 'handoff.md' instructions for each agent.\n\n"
+            "Critical Instructions:\n"
+            "- Review your previous handoff: Ensure NO action items are dropped unless completed.\n"
+            "- Future Items: Maintain a 'Future/Backlog' section for items not immediately actionable.\n"
+            "- Requests for Team: Explicitly list what you need from others in your handoff so they see it.\n"
+            "- Abacus: Keep Abacus's To-Do list short and focused to avoid limiting out.\n\n"
             "Output Rules:\n"
             "- You MUST respond with valid JSON.\n"
             "- The JSON must have 'summary' and 'agent_instructions'.\n"
@@ -117,7 +122,7 @@ class WorkSession(BaseMeeting):
             "{\n"
             '  "summary": "Reviewed status. Focusing team on API integration.",\n'
             '  "agent_instructions": {\n'
-            '    "grok": "# Instructions\\n- Review PR #123...",\n'
+            '    "grok": "# Instructions\\n## Action Items\\n- [ ] Review PR #123\\n\\n## Future/Backlog\\n- Refactor auth module\\n\\n## Requests for Team\\n- Claude: Need API specs.",\n'
             '    "claude": "# Instructions\\n- Refactor auth module..."\n'
             "  }\n"
             "}\n"
