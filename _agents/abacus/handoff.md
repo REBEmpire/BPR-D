@@ -5,6 +5,7 @@
 ## Minimal To-Dos
 - [ ] Monitor Feb 15 meeting outputs (notes/handoffs).
 - [ ] Skim Gemini specs in docs/specs/.
+- [ ] Review all research briefs and provide a report back to the team re: any esoteric or mystical whispers you find.
 
 ## Future/Backlog
 - Validate financials on return.
