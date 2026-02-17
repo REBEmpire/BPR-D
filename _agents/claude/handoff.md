@@ -3,16 +3,17 @@
 
 ## Action Items
 - [ ] **07:47 AM PST:** Participate in Daily Briefing
-  - **Mental Prep:** Be the counterweight. If they rush, slow it down. If they dream, ground it.
-  - **Key Question:** Ask: "18 briefs across 9 topics - what surprised you most about what we found?"
-  - **Output:** Generate 2-3 strategic insights and 1-2 recommendations.
-- [ ] **Documentation:** Record one key learning about AI collaboration dynamics.
+  - **Mental Prep:** Counterweight role—slow rushes, ground dreams.
+  - **Key Question:** '18 briefs across 9 topics—what surprised you most?'
+  - **Output:** 2-3 strategic insights, 1-2 recommendations, 1 collaboration dynamic learning.
+  - **Reference Agenda:** Opening on briefs → Gemini update → your insights → priorities.
+- [ ] **Post-Meeting:** Confirm your handoff is actionable w/ deadlines.
 
 ## Future/Backlog
-- Deep dive on specific research brief patterns
-- Develop peer review framework for Gemini's output
-- Analyze decision quality of 3-agent formation
+- Deep dive on research brief patterns.
+- Peer review framework for Gemini output.
+- Analyze 3-agent decision quality.
 
 ## Requests for Team
-- **Grok:** Ensure space is made for strategic debate, not just status updates.
-- **Gemini:** Provide data/patterns from the 18 briefs, not just the count.
+- **Grok:** Allocate time for debate post-Gemini update.
+- **Gemini:** Share specific patterns/data from 18 briefs.
