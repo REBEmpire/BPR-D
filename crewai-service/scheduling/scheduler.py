@@ -31,29 +31,41 @@ async def _run_daily_briefing():
     logger.info("Scheduler: triggering Daily Briefing")
     try:
         from models.meeting import MeetingRequest, MeetingType
+        # Default participants includes Abacus if available (checked in registry)
         request = MeetingRequest(meeting_type=MeetingType.DAILY_BRIEFING)
         await _execute_meeting_fn(request)
     except Exception as e:
         logger.error(f"Scheduled Daily Briefing failed: {e}", exc_info=True)
 
 
-async def _run_work_session():
-    """Scheduled job: execute work session (handoff update)."""
+async def _trigger_work_session(agent_name: str):
+    """Internal helper to trigger a work session."""
     if _execute_meeting_fn is None:
         logger.error("Meeting execution function not set")
         return
 
-    logger.info("Scheduler: triggering Work Session")
+    logger.info(f"Scheduler: triggering Work Session for {agent_name}")
     try:
         from models.meeting import MeetingRequest, MeetingType
-        # Default to Grok for now, or could rotate
         request = MeetingRequest(
             meeting_type=MeetingType.WORK_SESSION,
-            participants=["grok"]
+            participants=[agent_name]
         )
         await _execute_meeting_fn(request)
     except Exception as e:
-        logger.error(f"Scheduled Work Session failed: {e}", exc_info=True)
+        logger.error(f"Scheduled Work Session for {agent_name} failed: {e}", exc_info=True)
+
+
+async def _run_work_session_grok():
+    await _trigger_work_session("grok")
+
+
+async def _run_work_session_claude():
+    await _trigger_work_session("claude")
+
+
+async def _run_work_session_gemini():
+    await _trigger_work_session("gemini")
 
 
 def create_scheduler() -> AsyncIOScheduler:
@@ -78,14 +90,35 @@ def create_scheduler() -> AsyncIOScheduler:
         replace_existing=True,
     )
 
-    # Phase 2: Work Session — Every 2 hours
+    # Phase 2: Work Session — Every 2 hours for active agents
+    # Grok
     scheduler.add_job(
-        _run_work_session,
+        _run_work_session_grok,
         trigger=CronTrigger(hour="*/2", timezone="US/Pacific"),
-        id="work_session",
-        name="Automated Work Session (Every 2 hours)",
+        id="work_session_grok",
+        name="Work Session: Grok (Every 2 hours)",
         replace_existing=True,
     )
 
-    logger.info("Scheduler configured with Phase 1 & 2 jobs")
+    # Claude
+    scheduler.add_job(
+        _run_work_session_claude,
+        trigger=CronTrigger(hour="*/2", timezone="US/Pacific"),
+        id="work_session_claude",
+        name="Work Session: Claude (Every 2 hours)",
+        replace_existing=True,
+    )
+
+    # Gemini
+    scheduler.add_job(
+        _run_work_session_gemini,
+        trigger=CronTrigger(hour="*/2", timezone="US/Pacific"),
+        id="work_session_gemini",
+        name="Work Session: Gemini (Every 2 hours)",
+        replace_existing=True,
+    )
+
+    # Abacus is EXCLUDED from auto-work sessions (meetings only).
+
+    logger.info("Scheduler configured with Daily Briefing and Work Sessions (Grok, Claude, Gemini)")
     return scheduler
