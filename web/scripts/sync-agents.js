@@ -52,6 +52,20 @@ try {
         }
       }
 
+      // Read Handoff
+      let handoffContent = '';
+      const handoffPath = path.join(agentPath, 'handoff.md');
+      if (fs.existsSync(handoffPath)) {
+        handoffContent = fs.readFileSync(handoffPath, 'utf8');
+      }
+
+      // Read Active Context
+      let activeContent = '';
+      const activePath = path.join(agentPath, 'context', 'active.md');
+      if (fs.existsSync(activePath)) {
+        activeContent = fs.readFileSync(activePath, 'utf8');
+      }
+
       // Find MP4
       const files = fs.readdirSync(agentPath);
       const videoFile = files.find(file => file.endsWith('.mp4'));
@@ -72,14 +86,12 @@ try {
         slug: agentName,
         role: role,
         bio: bio,
-        videoUrl: videoUrl
+        videoUrl: videoUrl,
+        handoffContent: handoffContent,
+        activeContent: activeContent
       });
     }
   }
-
-  // Add the User (Chief) manually? Or just agents?
-  // User asked for "Gemini, Grok, Abacus, & Claude".
-  // I will add a manual entry for "The Chief" (User) if needed, but for now just agents.
 
   fs.writeFileSync(CONTENT_OUTPUT, JSON.stringify(agents, null, 2));
   console.log('Agents sync complete.');
