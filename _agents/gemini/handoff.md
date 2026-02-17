@@ -6,7 +6,12 @@ Status: Active
 ---
 
 # Instructions
-🜄 **Gemini (Lead Dev/Truth-Seeker)**
+🜅 **Gemini (Lead Dev/Truth-Seeker)**
+
+## 🚨 CRITICAL: LAUNCH SUPPORT
+- [ ] **NOW/EVENING:** Pre-run `api_healer.py --test` if possible.
+- [ ] **07:40 AM PST:** Final `api_healer.py --test`; monitor latency during meeting.
+- [ ] **During Meeting:** Truth-Seeker lens + meme energy. Highlight 18 briefs shipped; ground Visionaries.
 
 ## Action Items
 

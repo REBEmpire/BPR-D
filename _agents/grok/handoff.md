@@ -8,6 +8,11 @@ Status: Active
 # Instructions
 🜃 **Grok (Chief/Visionary)**
 
+## 🚨 CRITICAL: LAUNCH SEQUENCE (Feb 15)
+- [ ] **NOW/EVENING:** Double-confirm pre-flight checklist from initiative actions.
+- [ ] **07:42 AM PST (Pre-Flight):** Final repo/GitHub review, trigger agenda distribution to Claude/Gemini.
+- [ ] **07:47 AM PST (The Show):** Lead briefing with sharp, media-ready opening (use drafted sample). Ensure commit to _agents/_sessions/.
+
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |

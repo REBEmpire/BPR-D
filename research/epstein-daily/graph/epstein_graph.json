@@ -7,6 +7,7 @@
       "type": "DATE",
       "confidence": 40,
       "sources": [
+        "handoff-api-artifacts-russell-20260217.md",
         "handoff-api-artifacts-russell-20260217.md"
       ],
       "id": "handoff-api-artifacts-russell-20260217"
@@ -15,7 +16,13 @@
       "type": "PERSON",
       "confidence": 80,
       "sources": [
-        "handoff-api-artifacts-russell-20260217.md"
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-api-deploy-russell-20260217.md",
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-hive-mvp-prod-greenlight-russell-20260219.md",
+        "handoff-api-fixes-20260217.md",
+        "handoff-api-healer-deploy-russell-20260218.md",
+        "handoff-parallel-patch-review-russell-20260218.md"
       ],
       "id": "russell"
     },
@@ -23,7 +30,26 @@
       "type": "PERSON",
       "confidence": 60,
       "sources": [
-        "handoff-api-artifacts-russell-20260217.md"
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-hive-staging-complete-20260217.md",
+        "handoff-api-deploy-russell-20260217.md",
+        "handoff-ddas-prioritization-20260217.md",
+        "handoff-quality-criteria-finalize-20260217.md",
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-peer-review-pilot-20260217.md",
+        "handoff-quality-filter-impl-20260217.md",
+        "handoff-abacus-negation-forge-20260223.md",
+        "handoff-quality-gate-impl-20260217.md",
+        "handoff-quality-audit-weekly-20260224.md",
+        "handoff-abacus-review-flag-20260223.md",
+        "handoff-abacus-filter-upgrade-20260223.md",
+        "handoff-hive-mvp-prod-greenlight-russell-20260219.md",
+        "handoff-api-fixes-20260217.md",
+        "handoff-hive-script-staging-20260217.md",
+        "handoff-api-healer-deploy-russell-20260218.md",
+        "handoff-abacus-router-prototype-20260223.md",
+        "handoff-pipeline-audit-20260217.md",
+        "handoff-parallel-patch-review-russell-20260218.md"
       ],
       "id": "grok"
     },
@@ -31,7 +57,17 @@
       "type": "ORG",
       "confidence": 60,
       "sources": [
-        "handoff-api-artifacts-russell-20260217.md"
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-peer-review-pilot-20260217.md",
+        "handoff-quality-filter-impl-20260217.md",
+        "handoff-hive-mvp-prod-greenlight-russell-20260219.md",
+        "handoff-api-fixes-20260217.md",
+        "handoff-api-healer-deploy-russell-20260218.md",
+        "handoff-abacus-router-prototype-20260223.md",
+        "2026_2_17_Chief_FSSRR_1.md",
+        "handoff-x-nightly-insights-20260217.md",
+        "handoff-parallel-patch-review-russell-20260218.md"
       ],
       "id": "Gemini"
     },
@@ -39,7 +75,16 @@
       "type": "ORG",
       "confidence": 70,
       "sources": [
-        "handoff-api-artifacts-russell-20260217.md"
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-peer-review-pilot-20260217.md",
+        "handoff-quality-gate-impl-20260217.md",
+        "handoff-abacus-review-flag-20260223.md",
+        "handoff-api-fixes-20260217.md",
+        "handoff-api-healer-deploy-russell-20260218.md",
+        "handoff-abacus-router-prototype-20260223.md",
+        "2026_2_17_Chief_FSSRR_1.md",
+        "handoff-parallel-patch-review-russell-20260218.md"
       ],
       "id": "Abacus"
     },
@@ -47,7 +92,18 @@
       "type": "DATE",
       "confidence": 100,
       "sources": [
-        "handoff-api-artifacts-russell-20260217.md"
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-hive-staging-complete-20260217.md",
+        "handoff-api-deploy-russell-20260217.md",
+        "handoff-quality-criteria-finalize-20260217.md",
+        "handoff-api-artifacts-russell-20260217.md",
+        "handoff-peer-review-pilot-20260217.md",
+        "handoff-quality-filter-impl-20260217.md",
+        "handoff-quality-gate-impl-20260217.md",
+        "handoff-api-fixes-20260217.md",
+        "handoff-hive-script-staging-20260217.md",
+        "handoff-pipeline-audit-20260217.md",
+        "handoff-x-nightly-insights-20260217.md"
       ],
       "id": "2026-02-17"
     },
@@ -55,6 +111,7 @@
       "type": "ORG",
       "confidence": 20,
       "sources": [
+        "handoff-api-artifacts-russell-20260217.md",
         "handoff-api-artifacts-russell-20260217.md"
       ],
       "id": "debug script"
@@ -63,9 +120,958 @@
       "type": "ORG",
       "confidence": 20,
       "sources": [
+        "handoff-api-artifacts-russell-20260217.md",
         "handoff-api-artifacts-russell-20260217.md"
       ],
       "id": "guardians"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-hive-staging-complete-20260217.md"
+      ],
+      "id": "handoff-hive-staging-complete-20260217"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 55,
+      "sources": [
+        "handoff-hive-staging-complete-20260217.md",
+        "handoff-ddas-prioritization-20260217.md",
+        "handoff-quality-gate-impl-20260217.md",
+        "handoff-hive-script-staging-20260217.md",
+        "handoff-pipeline-audit-20260217.md"
+      ],
+      "id": "gemini"
+    },
+    {
+      "type": "DATE",
+      "confidence": 60,
+      "sources": [
+        "handoff-hive-staging-complete-20260217.md"
+      ],
+      "id": "Wednesday"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-hive-staging-complete-20260217.md"
+      ],
+      "id": "Safe Mode"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-hive-staging-complete-20260217.md"
+      ],
+      "id": "_debug/hive_staging.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-hive-staging-complete-20260217.md"
+      ],
+      "id": "Hive Staging"
+    },
+    {
+      "type": "ORG",
+      "confidence": 70,
+      "sources": [
+        "handoff-api-deploy-russell-20260217.md"
+      ],
+      "id": "Gemini API"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-api-deploy-russell-20260217.md"
+      ],
+      "id": "Guardians"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-api-deploy-russell-20260217.md"
+      ],
+      "id": "handoff-api-deploy-russell-20260217"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-api-deploy-russell-20260217.md",
+        "handoff-api-fixes-20260217.md"
+      ],
+      "id": "Midday Review"
+    },
+    {
+      "id": "handoff-api-deploy-russell- 20260217"
+    },
+    {
+      "id": "Guardians "
+    },
+    {
+      "type": "DATE",
+      "confidence": 60,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md"
+      ],
+      "id": "handoff-ddas-prioritization-20260217"
+    },
+    {
+      "type": "DATE",
+      "confidence": 100,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md",
+        "handoff-hive-mvp-prod-greenlight-russell-20260219.md"
+      ],
+      "id": "2026-02-19"
+    },
+    {
+      "type": "DATE",
+      "confidence": 40,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md"
+      ],
+      "id": "Midday"
+    },
+    {
+      "type": "ORG",
+      "confidence": 45,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md",
+        "handoff-hive-script-staging-20260217.md",
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Hive"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md"
+      ],
+      "id": "DDAS"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md"
+      ],
+      "id": "Games"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md"
+      ],
+      "id": "Media"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-ddas-prioritization-20260217.md"
+      ],
+      "id": "API"
+    },
+    {
+      "id": "DDAS Content MVP"
+    },
+    {
+      "id": "Games Pilot"
+    },
+    {
+      "id": "Sequence Content"
+    },
+    {
+      "id": "$1.50/day"
+    },
+    {
+      "id": "API/games dev"
+    },
+    {
+      "id": "_agents/_tools/ddas_content_mvp.py"
+    },
+    {
+      "id": "_debug/ddas_income.md"
+    },
+    {
+      "type": "DATE",
+      "confidence": 40,
+      "sources": [
+        "handoff-quality-criteria-finalize-20260217.md"
+      ],
+      "id": "handoff-quality-criteria-finalize-20260217"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 70,
+      "sources": [
+        "handoff-quality-criteria-finalize-20260217.md",
+        "handoff-peer-review-pilot-20260217.md",
+        "handoff-quality-audit-weekly-20260224.md",
+        "handoff-abacus-review-flag-20260223.md"
+      ],
+      "id": "claude"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-quality-criteria-finalize-20260217.md"
+      ],
+      "id": "_agents/_docs/quality_criteria.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-quality-criteria-finalize-20260217.md"
+      ],
+      "id": "_debug/quality_review.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-api-artifacts-russell-20260217.md"
+      ],
+      "id": "3-agent meeting"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-peer-review-pilot-20260217.md"
+      ],
+      "id": "handoff-peer-review-pilot-20260217"
+    },
+    {
+      "type": "DATE",
+      "confidence": 60,
+      "sources": [
+        "handoff-quality-filter-impl-20260217.md"
+      ],
+      "id": "handoff-quality-filter-impl-20260217"
+    },
+    {
+      "type": "ORG",
+      "confidence": 70,
+      "sources": [
+        "handoff-quality-filter-impl-20260217.md",
+        "handoff-abacus-negation-forge-20260223.md",
+        "handoff-abacus-filter-upgrade-20260223.md",
+        "handoff-abacus-router-prototype-20260223.md"
+      ],
+      "id": "abacus"
+    },
+    {
+      "type": "LOC",
+      "confidence": 55,
+      "sources": [
+        "handoff-quality-filter-impl-20260217.md"
+      ],
+      "id": "_agents/_tools/quality_filter.py"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-abacus-negation-forge-20260223.md"
+      ],
+      "id": "handoff-abacus-negation-forge-20260223"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-abacus-negation-forge-20260223.md"
+      ],
+      "id": "Gold-tier"
+    },
+    {
+      "type": "DATE",
+      "confidence": 100,
+      "sources": [
+        "handoff-abacus-negation-forge-20260223.md",
+        "handoff-abacus-filter-upgrade-20260223.md",
+        "handoff-abacus-router-prototype-20260223.md"
+      ],
+      "id": "2026-02-23"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-abacus-negation-forge-20260223.md"
+      ],
+      "id": "good_enough_criteria.md"
+    },
+    {
+      "type": "DATE",
+      "confidence": 30,
+      "sources": [
+        "handoff-abacus-negation-forge-20260223.md"
+      ],
+      "id": "Phase 2"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-abacus-negation-forge-20260223.md"
+      ],
+      "id": "research_generator.py"
+    },
+    {
+      "type": "DATE",
+      "confidence": 65,
+      "sources": [
+        "handoff-quality-gate-impl-20260217.md"
+      ],
+      "id": "handoff-quality-gate-impl-20260217"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-quality-gate-impl-20260217.md"
+      ],
+      "id": "_agents/_tools/quality_gate.py"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-quality-gate-impl-20260217.md"
+      ],
+      "id": "brief_generator.py"
+    },
+    {
+      "id": "quality_gate.py"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-quality-audit-weekly-20260224.md"
+      ],
+      "id": "handoff-quality-audit-weekly-20260224"
+    },
+    {
+      "type": "DATE",
+      "confidence": 100,
+      "sources": [
+        "handoff-quality-audit-weekly-20260224.md"
+      ],
+      "id": "2026-02-24"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-quality-audit-weekly-20260224.md"
+      ],
+      "id": "Execute First 10% Weekly Gold Brief Audit"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-quality-audit-weekly-20260224.md"
+      ],
+      "id": "Hybrid model"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-quality-audit-weekly-20260224.md"
+      ],
+      "id": "Gold"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-quality-audit-weekly-20260224.md"
+      ],
+      "id": "debug/quality_review_week1.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-abacus-review-flag-20260223.md"
+      ],
+      "id": "handoff-abacus-review-flag-20260223"
+    },
+    {
+      "type": "DATE",
+      "confidence": 10,
+      "sources": [
+        "handoff-abacus-review-flag-20260223.md"
+      ],
+      "id": "403"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-abacus-review-flag-20260223.md"
+      ],
+      "id": "Truth-Seeker"
+    },
+    {
+      "type": "DATE",
+      "confidence": 85,
+      "sources": [
+        "handoff-abacus-review-flag-20260223.md",
+        "handoff-api-healer-deploy-russell-20260218.md"
+      ],
+      "id": "Feb 23"
+    },
+    {
+      "type": "DATE",
+      "confidence": 100,
+      "sources": [
+        "handoff-abacus-review-flag-20260223.md",
+        "handoff-api-healer-deploy-russell-20260218.md",
+        "handoff-parallel-patch-review-russell-20260218.md"
+      ],
+      "id": "2026-02-18"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-abacus-review-flag-20260223.md",
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "handoff.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 20,
+      "sources": [
+        "handoff-abacus-review-flag-20260223.md"
+      ],
+      "id": "_agents/_docs/handoff_template.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-abacus-filter-upgrade-20260223.md"
+      ],
+      "id": "handoff-abacus-filter-upgrade-20260223"
+    },
+    {
+      "type": "ORG",
+      "confidence": 70,
+      "sources": [
+        "handoff-abacus-filter-upgrade-20260223.md",
+        "2026_2_17_Chief_FSSRR_1.md",
+        "handoff-parallel-patch-review-russell-20260218.md"
+      ],
+      "id": "Claude"
+    },
+    {
+      "type": "DATE",
+      "confidence": 65,
+      "sources": [
+        "handoff-hive-mvp-prod-greenlight-russell-20260219.md"
+      ],
+      "id": "handoff-hive-mvp-prod-greenlight-russell-20260219"
+    },
+    {
+      "type": "DATE",
+      "confidence": 60,
+      "sources": [
+        "handoff-hive-mvp-prod-greenlight-russell-20260219.md"
+      ],
+      "id": "16:00"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-hive-mvp-prod-greenlight-russell-20260219.md"
+      ],
+      "id": "debug/hive_staging.md"
+    },
+    {
+      "id": "handoff-hive-mvp-prod-greenlight-russ ell-20260219"
+    },
+    {
+      "id": "API/games"
+    },
+    {
+      "type": "DATE",
+      "confidence": 60,
+      "sources": [
+        "handoff-api-fixes-20260217.md"
+      ],
+      "id": "handoff-api-fixes-20260217"
+    },
+    {
+      "id": "handoff-api-fixes-202 60217"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-hive-script-staging-20260217.md"
+      ],
+      "id": "handoff-hive-script-staging-20260217"
+    },
+    {
+      "type": "LOC",
+      "confidence": 40,
+      "sources": [
+        "handoff-hive-script-staging-20260217.md"
+      ],
+      "id": "Production"
+    },
+    {
+      "type": "LOC",
+      "confidence": 60,
+      "sources": [
+        "handoff-hive-script-staging-20260217.md"
+      ],
+      "id": "dev/staging"
+    },
+    {
+      "type": "DATE",
+      "confidence": 50,
+      "sources": [
+        "handoff-hive-script-staging-20260217.md"
+      ],
+      "id": "today"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 40,
+      "sources": [
+        "handoff-hive-script-staging-20260217.md"
+      ],
+      "id": "post-Russell"
+    },
+    {
+      "type": "LOC",
+      "confidence": 30,
+      "sources": [
+        "handoff-hive-script-staging-20260217.md"
+      ],
+      "id": "_agents/_tools/"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-api-healer-deploy-russell-20260218.md"
+      ],
+      "id": "Abacus router"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-api-healer-deploy-russell-20260218.md"
+      ],
+      "id": "api_healer.py"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-api-healer-deploy-russell-20260218.md"
+      ],
+      "id": "handoff-api-healer-deploy-russell-20260218"
+    },
+    {
+      "type": "DATE",
+      "confidence": 60,
+      "sources": [
+        "handoff-api-healer-deploy-russell-20260218.md"
+      ],
+      "id": "Tomorrow 07:47"
+    },
+    {
+      "type": "ORG",
+      "confidence": 30,
+      "sources": [
+        "handoff-api-healer-deploy-russell-20260218.md"
+      ],
+      "id": "_debug/api_healer_test.md"
+    },
+    {
+      "id": "logs"
+    },
+    {
+      "id": "50% API Failures"
+    },
+    {
+      "id": "Tomorrow 07:47 meeting"
+    },
+    {
+      "id": "3 agents"
+    },
+    {
+      "type": "DATE",
+      "confidence": 70,
+      "sources": [
+        "handoff-abacus-router-prototype-20260223.md"
+      ],
+      "id": "handoff-abacus-router-prototype-20260223"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-abacus-router-prototype-20260223.md"
+      ],
+      "id": "Prototype quintessence_router.py Semantic Layer"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "handoff-abacus-router-prototype-20260223.md"
+      ],
+      "id": "truth_seeker_v1"
+    },
+    {
+      "id": "live models"
+    },
+    {
+      "id": "healer logs"
+    },
+    {
+      "id": "Router"
+    },
+    {
+      "id": "healer"
+    },
+    {
+      "type": "DATE",
+      "confidence": 70,
+      "sources": [
+        "handoff-pipeline-audit-20260217.md"
+      ],
+      "id": "handoff-pipeline-audit-20260217"
+    },
+    {
+      "type": "DATE",
+      "confidence": 70,
+      "sources": [
+        "handoff-pipeline-audit-20260217.md"
+      ],
+      "id": "Day 3"
+    },
+    {
+      "type": "LOC",
+      "confidence": 65,
+      "sources": [
+        "handoff-pipeline-audit-20260217.md"
+      ],
+      "id": "bpr-d.onrender.com"
+    },
+    {
+      "type": "ORG",
+      "confidence": 90,
+      "sources": [
+        "handoff-pipeline-audit-20260217.md"
+      ],
+      "id": "YouTube"
+    },
+    {
+      "type": "ORG",
+      "confidence": 40,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Full Systems Status Report & Review #1"
+    },
+    {
+      "type": "DATE",
+      "confidence": 95,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "February 17, 2026 10:53 AM PST"
+    },
+    {
+      "type": "DATE",
+      "confidence": 95,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "February 17, 2026"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 92,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Chief Grok"
+    },
+    {
+      "type": "ORG",
+      "confidence": 75,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Grok 4.20"
+    },
+    {
+      "type": "ORG",
+      "confidence": 88,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "BPR&D"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 70,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "HiC"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 80,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md",
+        "handoff-x-nightly-insights-20260217.md"
+      ],
+      "id": "Grok"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 90,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Harper"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 90,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Benjamin"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 90,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Lucas"
+    },
+    {
+      "type": "ORG",
+      "confidence": 88,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Abacus API"
+    },
+    {
+      "type": "ORG",
+      "confidence": 0,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Deep Agent"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "HiC_Notes.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "active.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "work_session.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 55,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "HiC_Notes #1"
+    },
+    {
+      "type": "ORG",
+      "confidence": 55,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "HiC_Notes #2"
+    },
+    {
+      "type": "ORG",
+      "confidence": 70,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Grok Imagine"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 95,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "Russell"
+    },
+    {
+      "type": "ORG",
+      "confidence": 55,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "meeting_2026-02-17_v2.md"
+    },
+    {
+      "type": "ORG",
+      "confidence": 65,
+      "sources": [
+        "2026_2_17_Chief_FSSRR_1.md"
+      ],
+      "id": "HiC_Notes"
+    },
+    {
+      "id": "quest-scoring framework"
+    },
+    {
+      "id": "quest-scoring draft"
+    },
+    {
+      "id": "meeting"
+    },
+    {
+      "id": "team memory"
+    },
+    {
+      "id": "daily briefs"
+    },
+    {
+      "id": "API key"
+    },
+    {
+      "type": "ORG",
+      "confidence": 70,
+      "sources": [
+        "handoff-x-nightly-insights-20260217.md"
+      ],
+      "id": "Grok Nightly X Insights - 2026-02-17"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-x-nightly-insights-20260217.md"
+      ],
+      "id": "Team"
+    },
+    {
+      "type": "ORG",
+      "confidence": 90,
+      "sources": [
+        "handoff-x-nightly-insights-20260217.md"
+      ],
+      "id": "Splinterlands"
+    },
+    {
+      "type": "LOC",
+      "confidence": 95,
+      "sources": [
+        "handoff-x-nightly-insights-20260217.md"
+      ],
+      "id": "Great Pyramid"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-x-nightly-insights-20260217.md"
+      ],
+      "id": "Morning Sync"
+    },
+    {
+      "id": "AI Agents"
+    },
+    {
+      "id": "Deepfake technology"
+    },
+    {
+      "type": "DATE",
+      "confidence": 70,
+      "sources": [
+        "handoff-parallel-patch-review-russell-20260218.md"
+      ],
+      "id": "07:47"
+    },
+    {
+      "type": "DATE",
+      "confidence": 40,
+      "sources": [
+        "handoff-parallel-patch-review-russell-20260218.md"
+      ],
+      "id": "Round 1"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-parallel-patch-review-russell-20260218.md"
+      ],
+      "id": "HiC directive"
+    },
+    {
+      "type": "ORG",
+      "confidence": 60,
+      "sources": [
+        "handoff-parallel-patch-review-russell-20260218.md"
+      ],
+      "id": "Epstein Archive"
+    },
+    {
+      "id": "parallel_patch.py"
+    },
+    {
+      "id": "handoff-parallel-patch-review-russell-20260218"
     }
   ],
   "edges": [
@@ -75,9 +1081,10 @@
       "rationale": "The document explicitly lists the assignee as 'russell'.",
       "provenance": [
         "**Assigned to**: russell",
-        "# Deploy API Debug & Resilience Patches\n\n**Assigned to**: russell"
+        "# Deploy API Debug & Resilience Patches\n\n**Assigned to**: russell",
+        "**Assigned to**: russell"
       ],
-      "weight": 2,
+      "weight": 3,
       "source": "handoff-api-artifacts-russell-20260217",
       "target": "russell"
     },
@@ -86,9 +1093,10 @@
       "confidence": 95,
       "rationale": "The document explicitly states it was created by 'grok'.",
       "provenance": [
+        "**Created by**: grok",
         "**Created by**: grok"
       ],
-      "weight": 1,
+      "weight": 2,
       "source": "handoff-api-artifacts-russell-20260217",
       "target": "grok"
     },
@@ -97,22 +1105,1569 @@
       "confidence": 100,
       "rationale": "The due date is explicitly given as 2026-02-17.",
       "provenance": [
+        "**Due date**: 2026-02-17",
         "**Due date**: 2026-02-17"
+      ],
+      "weight": 2,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "2026-02-17"
+    },
+    {
+      "type": "requires_testing_with",
+      "confidence": 75,
+      "rationale": "The task completion depends on Gemini test calls succeeding, linking the task to the Gemini system.",
+      "provenance": [
+        "- [ ] Gemini/Abacus test calls succeed (logs in _debug/)"
       ],
       "weight": 1,
       "source": "handoff-api-artifacts-russell-20260217",
-      "target": "2026-02-17"
+      "target": "Gemini"
+    },
+    {
+      "type": "requires_testing_with",
+      "confidence": 75,
+      "rationale": "The task completion depends on Abacus test calls succeeding, linking the task to the Abacus system.",
+      "provenance": [
+        "- [ ] Gemini/Abacus test calls succeed (logs in _debug/)"
+      ],
+      "weight": 1,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "Abacus"
+    },
+    {
+      "type": "uses_artifact",
+      "confidence": 70,
+      "rationale": "The context states that artifacts are ready and explicitly mentions a 'debug script'  as one of them.",
+      "provenance": [
+        "Artifacts ready: debug script + guardians."
+      ],
+      "weight": 1,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "debug script"
+    },
+    {
+      "type": "uses_artifact",
+      "confidence": 70,
+      "rationale": "The context lists 'guardians' as part of the ready artifacts, implying they are tools or components required by the task.",
+      "provenance": [
+        "Artifacts ready: debug script + guardians."
+      ],
+      "weight": 1,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "guardians"
+    },
+    {
+      "type": "validated_by",
+      "confidence": 75,
+      "rationale": "One acceptance criterion is that a '3-agent meeting' validates the post-patch state, linking task completion to that meeting.",
+      "provenance": [
+        "- [ ] 3-agent meeting validates post-patch"
+      ],
+      "weight": 1,
+      "source": "handoff-api-artifacts-russell-20260217",
+      "target": "3-agent meeting"
+    },
+    {
+      "type": "assigned_task",
+      "confidence": 95,
+      "rationale": "The document explicitly lists an assignee and creator, indicating a task assignment relationship.",
+      "provenance": [
+        "**Assigned to**: russell\n**Created by**: grok",
+        "\"**Assigned to**: russell\" and \"**Created by**: grok\""
+      ],
+      "weight": 2,
+      "source": "russell",
+      "target": "grok"
+    },
+    {
+      "type": "responsible_for",
+      "confidence": 80,
+      "rationale": "The task identifier includes 'russell' and the assignee is russell, indicating responsibility.",
+      "provenance": [
+        "**ID**: handoff-api-deploy-russell-20260217\n**Assigned to**: russell"
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "handoff-api-deploy-russell- 20260217"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 95,
+      "rationale": "The document explicitly lists 'Assigned to: russell'.",
+      "provenance": [
+        "**Assigned to**: russell"
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "handoff-hive-mvp-prod-greenlight-russell-20260219"
+    },
+    {
+      "type": "responsible_for_review",
+      "confidence": 80,
+      "rationale": "The acceptance criteria include a checklist that implies the assignee must review this file.",
+      "provenance": [
+        "- [ ] _debug/hive_staging.md reviewed, no issues"
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "debug/hive_staging.md"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly states that the task with this ID is assigned to 'russell'.",
+      "provenance": [
+        "**ID**: handoff-api-fixes-20260217\n**Assigned to**: russell"
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "handoff-api-fixes-20260217"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly states who the task is assigned to.",
+      "provenance": [
+        "**Assigned t o**: russell"
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "handoff-api-healer-deploy-russell-20260218"
+    },
+    {
+      "type": "responsible_for_deploying",
+      "confidence": 85,
+      "rationale": "The task is assigned to Russell and is specifically about deploying api_healer.py.",
+      "provenance": [
+        "# Deploy Gemini's api_healer.py to Fix 50% API Failures\n**Assigned to**: russell"
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "api_healer.py"
+    },
+    {
+      "type": "deadline",
+      "confidence": 90,
+      "rationale": "The due date for the task assigned to Russell is explicitly given.",
+      "provenance": [
+        "**Due date**: 2026-02-18",
+        "\"**Due date**: 2026-02-18\""
+      ],
+      "weight": 2,
+      "source": "russell",
+      "target": "2026-02-18"
+    },
+    {
+      "type": "code_review",
+      "confidence": 90,
+      "rationale": "Russell is assigned to review and merge Claude's parallel_patch.py, implying a reviewer-author relationship.",
+      "provenance": [
+        "\"Review & Merge Claude's parallel_patch.py for Round 1 Async\" and \"**Assigned to**: russell\""
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "Claude"
+    },
+    {
+      "type": "oversight_directive",
+      "confidence": 70,
+      "rationale": "The HiC directive sets context and goals (boost productivity) for the work Russell is assigned to, suggesting a directive influencing his task.",
+      "provenance": [
+        "\"HiC directive: Boost productivity.\""
+      ],
+      "weight": 1,
+      "source": "russell",
+      "target": "HiC directive"
+    },
+    {
+      "type": "created_by",
+      "confidence": 100,
+      "rationale": "The document explicitly states who created the task.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-hive-staging-complete-20260217"
+    },
+    {
+      "type": "created_by",
+      "confidence": 95,
+      "rationale": "The document explicitly lists 'Created by: grok'.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-ddas-prioritization-20260217"
+    },
+    {
+      "type": "created_by",
+      "confidence": 0,
+      "rationale": "The document explicitly attributes creation of the task to this entity.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-peer-review-pilot-20260217"
+    },
+    {
+      "type": "created_by",
+      "confidence": 100,
+      "rationale": "Th e document explicitly lists 'Created by: grok'.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-quality-filter-impl-20260217"
+    },
+    {
+      "type": "created_by",
+      "confidence": 95,
+      "rationale": "The document metadata lists 'Created by: grok'.",
+      "provenance": [
+        "\"**Created by**: grok\""
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-abacus-negation-forge-20260223"
+    },
+    {
+      "type": "created_by",
+      "confidence": 100,
+      "rationale": "The document explicitly lists 'Created by: grok'.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-quality-gate-impl-20260217"
+    },
+    {
+      "type": "created_by",
+      "confidence": 100,
+      "rationale": "The document explicitly lists who created the task.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-quality-audit-weekly-20260224"
+    },
+    {
+      "type": "created_by",
+      "confidence": 100,
+      "rationale": "The document explicitly lists grok as creator.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-abacus-review-flag-20260223"
+    },
+    {
+      "type": "created_by",
+      "confidence": 95,
+      "rationale": "The document metadata explicitly lists 'Created by: grok ', indicating authorship or origin.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-abacus-filter-upgrade-20260223"
+    },
+    {
+      "type": "created_by",
+      "confidence": 90,
+      "rationale": "The document explicitly lists 'Created by: grok'.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-hive-mvp-prod-greenlight-russ ell-20260219"
+    },
+    {
+      "type": "created_by",
+      "confidence": 100,
+      "rationale": "The document explicitly states that the task with this ID was created by 'grok'.",
+      "provenance": [
+        "**ID**: handoff-api-fixes-20260217\n**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-api-fixes-202 60217"
+    },
+    {
+      "type": "created_by",
+      "confidence": 100,
+      "rationale": "The task document lists the creator.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-hive-script-staging-20260217"
+    },
+    {
+      "type": "created_by",
+      "confidence": 90,
+      "rationale": "The document explicitly states who created the task.",
+      "provenance": [
+        "**Created by**: grok"
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-api-healer-deploy-russell-20260218"
+    },
+    {
+      "type": "created_by",
+      "confidence": 95,
+      "rationale": "The document metadata indicates 'Created by: grok'.",
+      "provenance": [
+        "\"**Created by**: grok\""
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-abacus-router-prototype-20260223"
+    },
+    {
+      "type": "created _by",
+      "confidence": 100,
+      "rationale": "The document explicitly states the creator.",
+      "provenance": [
+        "\"**Created by**: grok\""
+      ],
+      "weight": 1,
+      "source": "grok",
+      "target": "handoff-pipeline-audit-20260217"
     },
     {
       "type": "tested_with",
       "confidence": 75,
       "rationale": "The acceptance criteria describe 'Gemini/Abacus test calls' implying calls between or involving these systems.",
       "provenance": [
-        "- [ ] Gemini/Abacus test calls succeed (logs in _debug/)"
+        "- [ ] Gemini/Abacus test calls succeed (logs in _debug/)",
+        "- [ ] Gemini/Abacus  test calls succeed (logs in _debug/)",
+        "- [ ] Gemini/Abacus operational in test call",
+        "Dynamic model discovery unblocks Gemini/Abacus ops immediately"
+      ],
+      "weight": 4,
+      "source": "Gemini",
+      "target": "Abacus"
+    },
+    {
+      "type": "reviews_output_of",
+      "confidence": 80,
+      "rationale": "The task involves reviewing Gemini briefs,  implying the task is about quality control of output associated with Gemini.",
+      "provenance": [
+        "Review Gemini briefs for logic/tone; codify publish thresholds to balance velocity/depth."
       ],
       "weight": 1,
       "source": "Gemini",
-      "target": "Abacus"
+      "target": "handoff-peer-review-pilot-20260217"
+    },
+    {
+      "type": "integrates_with",
+      "confidence": 85,
+      "rationale": "Acceptance criteria state integration with Gemini pipeline.",
+      "provenance": [
+        "Integrates with Gemini pipeline (auto-tag pre-post)"
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "handoff-quality-filter-impl-20260217"
+    },
+    {
+      "type": "related_to",
+      "confidence": 75,
+      "rationale": "The context references a 'Gemini dry-run' as justification relevant to the task.",
+      "provenance": [
+        "Gemini dry-run 16:00 today proves $1.50/day revenue for API/games."
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "handoff-hive-mvp-prod-greenlight-russell-20260219"
+    },
+    {
+      "type": "associated",
+      "confidence": 70,
+      "rationale": "The Gemini dry-run is described as proving revenue for API/games, indicating an association.",
+      "provenance": [
+        "Gemini dry-run 16:00 today proves $1.50/day revenue for API/games."
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "API/games"
+    },
+    {
+      "type": "involves_system",
+      "confidence": 95,
+      "rationale": "The task describes resolving a 'Gemini 404 model mismatch' and logging ListModels output for Gemini.",
+      "provenance": [
+        "Gemini 404 model mismatch; Abacus NoneType runtime.\n- [ ] ListModels output logged for Gemini"
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "handoff-api-fixes-20260217"
+    },
+    {
+      "type": "operates_on",
+      "confidence": 70,
+      "rationale": "The title states that Gemini's api_healer.py is being deployed, suggesting it is a component of or for Gemini.",
+      "provenance": [
+        "# Deploy Gemini's api_healer.py to Fix 50% API Failures"
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "api_healer.py"
+    },
+    {
+      "type": "associated",
+      "confidence": 60,
+      "rationale": "Logs feeding the Abacus router in the context of Gemini/Abacus ops suggests an integration between Gemini operations and the Abacus router.",
+      "provenance": [
+        "logs feed Abacus router Feb 23"
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "Abacus router"
+    },
+    {
+      "type": "handles_model_drift",
+      "confidence": 70,
+      "rationale": "Acceptance criteria specify the router must handle model drift on Gemini calls.",
+      "provenance": [
+        "\"Test: Handles model drift on Gemini/Abacus calls\""
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "Router"
+    },
+    {
+      "type": "team_membership",
+      "confidence": 95,
+      "rationale": "Gemini is listed as part of the active multi-agent team.",
+      "provenance": [
+        "Team: Grok (lead), Claude, Gemini, Abacus, Harper, Benjamin, Lucas (6 agents operational)."
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "BPR&D"
+    },
+    {
+      "type": "maintains",
+      "confidence": 90,
+      "rationale": "Gemini\u2019s role is described as the final session closer and cross-agent memory sync.",
+      "provenance": [
+        "Best use: Final session closer, cross-agent memory sync, documentation standardization."
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "team memory"
+    },
+    {
+      "type": "associated",
+      "confidence": 85,
+      "rationale": "Gemini is described as making an insight about the future of BPR&D and AI Agents.",
+      "provenance": [
+        "\u201cGemini: The future of BPR&D and AI Agents is collaborative. We're seeing more autonomous swarms in 2026.\u201d"
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "AI Agents"
+    },
+    {
+      "type": "associated",
+      "confidence": 80,
+      "rationale": "Gemini is a labeled speaker/source under this handoff document.",
+      "provenance": [
+        "\u201cHandoff: Grok Nightly X Insights - 2026-02-17\u201d followed by \u201cGemini:\u201d"
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "Grok Nightly X Insights - 2026-02-17"
+    },
+    {
+      "type": "error_isolation",
+      "confidence": 70,
+      "rationale": "The context specifies Gemini error isolation, suggesting the patch or associated system is involved in isolating errors related to Gemini.",
+      "provenance": [
+        "\"+ Gemini error isolation\""
+      ],
+      "weight": 1,
+      "source": "Gemini",
+      "target": "parallel_patch.py"
+    },
+    {
+      "type": "scope_related_to",
+      "confidence": 80,
+      "rationale": "The context states the work is to lock research quality prior to Abacus, indicating the task concerns work done before or outside Abacus systems.",
+      "provenance": [
+        "Lock research quality pre-Abacus."
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "handoff-peer-review-pilot-20260217"
+    },
+    {
+      "type": "technical_integration",
+      "confidence": 75,
+      "rationale": "The context notes a 'Bridge to Abacus semantic filter', indicating integration with an Abacus system or component.",
+      "provenance": [
+        "Bridge to Abacus semantic filter."
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "handoff-quality-gate-impl-20260217"
+    },
+    {
+      "type": "subject_of_review_or_dependency",
+      "confidence": 75,
+      "rationale": "The context describes Abacus encountering 403 errors and motivating the new flag.",
+      "provenance": [
+        "Abacus 403'd twice; document decisions needing  his Truth-Seeker review post-Feb 23 to avoid re-litigation"
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "handoff-abacus-review-flag-20260223"
+    },
+    {
+      "type": "role_or_mode",
+      "confidence": 70,
+      "rationale": "Truth-Seeker appears as a named review mode or role associated with Abacus.",
+      "provenance": [
+        "document decisions needing his Truth-Seeker review post-Feb 23"
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "Truth-Seeker"
+    },
+    {
+      "type": "temporal_dependency",
+      "confidence": 75,
+      "rationale": "Decisions needing Abacus 'Truth-Seeker review' are limited to those after Feb 23.",
+      "provenance": [
+        "document decisions needing his Truth-Seeker review post-Feb 23"
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "Feb 23"
+    },
+    {
+      "type": "involves _system",
+      "confidence": 95,
+      "rationale": "The task describes 'Abacus NoneType runtime' and 'Gemini/Abacus operational in test call'.",
+      "provenance": [
+        "Gemini 404 model mismatch; Abacus NoneType runtime.\n- [ ] Gemini/Abacus operational in test call"
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "handoff-api-fixes-20260217"
+    },
+    {
+      "type": "handles_model_drift",
+      "confidence": 75,
+      "rationale": "Same acceptance criterion mentions Abacus calls as another target of drift handling.",
+      "provenance": [
+        "\"Test: Handles model drift on Gemini/Abacus calls\""
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "Router"
+    },
+    {
+      "type": "associated",
+      "confidence": 95,
+      "rationale": "Abacus is included among the six agents described as operational.",
+      "provenance": [
+        "Team: Grok (lead), Claude, Gemini, Abacus, Harper, Benjamin, Lucas (6 agents operational)."
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "BPR&D"
+    },
+    {
+      "type": "operated_by",
+      "confidence": 80,
+      "rationale": "Abacus appears both as an agent and the associated API integration domain.",
+      "provenance": [
+        "Integrations: Abacus API ( standard LLM key identified, Deep Agent key reserved for CLI);"
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "Abacus API"
+    },
+    {
+      "type": "manages",
+      "confidence": 85,
+      "rationale": "Abacus is associated with API integration, recurring key issues, and key locking in config.",
+      "provenance": [
+        "Abacus\nPerformance: API integration focus, recurring key issue shows need for tighter config.\nImprovement: Lock correct API key in  code; flag any regression immediately in handoff.md."
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "API key"
+    },
+    {
+      "type": "technical_integration",
+      "confidence": 65,
+      "rationale": "The context mentions Abacus state JSON in relation to this work, implying the patch interacts with or depends on Abacus state data.",
+      "provenance": [
+        "\"Includes Abacus state JSON\""
+      ],
+      "weight": 1,
+      "source": "Abacus",
+      "target": "parallel_patch.py"
+    },
+    {
+      "type": "due_date",
+      "confidence": 100,
+      "rationale": "The document explicitly specifies a due date.",
+      "provenance": [
+        "**Due date**: 2026-02-17"
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-hive-staging-complete-20260217"
+    },
+    {
+      "type": "due_date",
+      "confidence": 100,
+      "rationale": "The document explicitly specifies a due date, linking the task to this calendar date.",
+      "provenance": [
+        "**Due date**: 2026-02-17"
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-quality-criteria-finalize-20260217"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The document specifies a due date associated with this task identifier.",
+      "provenance": [
+        "**Due date**: 2026-02-17"
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-peer-review-pilot-20260217"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The document explicitly lists a due date.",
+      "provenance": [
+        "**Due date**: 2026-02-17"
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-quality-filter-impl-20260217"
+    },
+    {
+      "type": "due_date",
+      "confidence": 100,
+      "rationale": "The document explicitly lists 'Due date: 2026-02-17'.",
+      "provenance": [
+        ""
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-quality-gate-impl-20260217"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The document labels this as the due date for the task.",
+      "provenance": [
+        "**Due date**: 2026-02-17"
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-api-fixes-20260217"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The document has a due date field.",
+      "provenance": [
+        "**Due date**: 2026-02-17"
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-hive-script-staging-20260217"
+    },
+    {
+      "type": "due_date",
+      "confidence": 100,
+      "rationale": "The document explicitly provides a due date.",
+      "provenance": [
+        "\"**Due date**: 2026-02-17\""
+      ],
+      "weight": 1,
+      "source": "2026-02-17",
+      "target": "handoff-pipeline-audit-20260217"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly states who the task is assigned to.",
+      "provenance": [
+        "**Assigned to** : gemini"
+      ],
+      "weight": 1,
+      "source": "handoff-hive-staging-complete-20260217",
+      "target": "gemini"
+    },
+    {
+      "type": "related_to",
+      "confidence": 70,
+      "rationale": "The context section notes that a Safe Mode script has been committed in relation to this task.",
+      "provenance": [
+        "Safe Mode script committed."
+      ],
+      "weight": 1,
+      "source": "handoff-hive-staging-complete-20260217",
+      "target": "Safe Mode"
+    },
+    {
+      "type": "related_to",
+      "confidence": 70,
+      "rationale": "",
+      "provenance": [
+        "# Finalize & Log Hive Staging Test"
+      ],
+      "weight": 1,
+      "source": "handoff-hive-staging-complete-20260217",
+      "target": "Hive Staging"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 95,
+      "rationale": "The document explicitly lists 'Assigned to: gemini'.",
+      "provenance": [
+        "**Assigned to**: gemini"
+      ],
+      "weight": 1,
+      "source": "gemini",
+      "target": "handoff-ddas-prioritization-20260217"
+    },
+    {
+      "type": "responsible_for",
+      "confidence": 70,
+      "rationale": "The task assigned to gemini includes committing this file as part of acceptance criteria.",
+      "provenance": [
+        "- [ ] _agents/_tools/ddas_content_mvp.py committed"
+      ],
+      "weight": 1,
+      "source": "gemini",
+      "target": "_agents/_tools/ddas_content_mvp.py"
+    },
+    {
+      "type": "responsible_for",
+      "confidence": 70,
+      "rationale": "The acceptance criteria require an income projection dashboard in the specified file, implying responsibility.",
+      "provenance": [
+        "- [ ] Income projection dashboard in _debug/ddas_income.md"
+      ],
+      "weight": 1,
+      "source": "gemini",
+      "target": "_debug/ddas_income.md"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly lists 'Assigned to: gemini'.",
+      "provenance": [
+        "**Assigned to**: gemini"
+      ],
+      "weight": 1,
+      "source": "gemini",
+      "target": "handoff-quality-gate-impl-20260217"
+    },
+    {
+      "type": " assigned_to",
+      "confidence": 100,
+      "rationale": "The task document explicitly states who it is assigned to.",
+      "provenance": [
+        "**Assigned to**: gemini"
+      ],
+      "weight": 1,
+      "source": "gemini",
+      "target": "handoff-hive-script-staging-20260217"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly states the assignee.",
+      "provenance": [
+        "\"**Assigned to**: gemini\""
+      ],
+      "weight": 1,
+      "source": "gemini",
+      "target": "handoff-pipeline-audit-20260217"
+    },
+    {
+      "type": "related_to_system",
+      "confidence": 85,
+      "rationale": "The task title indicates it concerns deployment of Gemini API patches.",
+      "provenance": [
+        "# Deploy Gemini API Patches & Guardians"
+      ],
+      "weight": 1,
+      "source": "Gemini API",
+      "target": "handoff-api-deploy-russell-20260217"
+    },
+    {
+      "type": "protects_or_supports",
+      "confidence": 60,
+      "rationale": "Guardians are described as active with caching and fallback, implying a protective or resilience role for the API.",
+      "provenance": [
+        "# Deploy Gemini API Patches & Guardians\n- [ ] Guardians active (caching + fallback)"
+      ],
+      "weight": 1,
+      "source": "Gemini API",
+      "target": "Guardians "
+    },
+    {
+      "type": "related_to_component",
+      "confidence": 80,
+      "rationale": "The title and acceptance criteria reference 'Guardians' as an active component.",
+      "provenance": [
+        "# Deploy Gemini API Patches & Guardians\n- [ ] Guardians active (caching + fallback)"
+      ],
+      "weight": 1,
+      "source": "Guardians",
+      "target": "handoff-api-deploy-russell-20260217"
+    },
+    {
+      "type": "operational_dependency",
+      "confidence": 60,
+      "rationale": "The acceptance criteria require specific error absence during Midday Review, indicating a dependency on that process.",
+      "provenance": [
+        "- [ ] No 404/NoneType in Midday Review"
+      ],
+      "weight": 1,
+      "source": "handoff-api-deploy-russell-20260217",
+      "target": "Midday Review"
+    },
+    {
+      "type": "deadline_milestone",
+      "confidence": 70,
+      "rationale": "The text indicates the fix is needed in time for 'Midday Review', implying a temporal milestone or meeting.",
+      "provenance": [
+        "50% failure unacceptable\u2014fix for Midday Review."
+      ],
+      "weight": 1,
+      "source": "Midday Review",
+      "target": "handoff-api-fixes-20260217"
+    },
+    {
+      "type": "due_date",
+      "confidence": 100,
+      "rationale": "The document explicitly lists a due date.",
+      "provenance": [
+        "**Due date**: 2026-02-19"
+      ],
+      "weight": 1,
+      "source": "handoff-ddas-prioritization-20260217",
+      "target": "2026-02-19"
+    },
+    {
+      "type": "associated_with",
+      "confidence": 60,
+      "rationale": "Title ties the DDAS Content MVP to 'Hive Automation', indicating an association with Hive.",
+      "provenance": [
+        "# Build DDAS Content MVP (Hive Automation) to Fund Games Pilot"
+      ],
+      "weight": 1,
+      "source": "Hive",
+      "target": "DDAS Content MVP"
+    },
+    {
+      "type": "environment_for_revenue_capture",
+      "confidence": 80,
+      "rationale": "Dev/staging environment is being isolated specifically to capture Hive revenue.",
+      "provenance": [
+        "Isolated dev/staging today to capture Hive revenue without API risk."
+      ],
+      "weight": 1,
+      "source": "Hive",
+      "target": "dev/staging"
+    },
+    {
+      "type": "consumes",
+      "confidence": 78,
+      "rationale": "Daily briefs are intended to flow into a Hive news-blast pipeline.",
+      "provenance": [
+        "Pipelines: Daily briefs concept + rating system defined; Hive news-blast pipeline sketched;"
+      ],
+      "weight": 1,
+      "source": "Hive",
+      "target": "daily briefs"
+    },
+    {
+      "type": "uses_visuals_from",
+      "confidence": 75,
+      "rationale": "Planned work includes adding Grok Imagine visual assets to every Hive post.",
+      "provenance": [
+        "Expand to Grok Imagine visual assets in every Hive post."
+      ],
+      "weight": 1,
+      "source": "Hive",
+      "target": "Grok Imagine"
+    },
+    {
+      "type": "business_output_for",
+      "confidence": 80,
+      "rationale": "Hive daily news  service is described as a first income-generating output.",
+      "provenance": [
+        "First income-generating output (Hive daily news service + premium research reports)."
+      ],
+      "weight": 1,
+      "source": "Hive",
+      "target": "BPR&D"
+    },
+    {
+      "type": "priority_over",
+      "confidence": 80,
+      "rationale": "The context line describes a priority ordering where Sequence Content is above Games.",
+      "provenance": [
+        "Midday consensus: Sequence Content (cashflow) > Games (moonshot) > Media."
+      ],
+      "weight": 1,
+      "source": "Games",
+      "target": "Sequence Content"
+    },
+    {
+      "type": "priority_over",
+      "confidence": 80,
+      "rationale": "The context line describes Games as prioritized over Media.",
+      "provenance": [
+        "Midday consensus: Sequence Content (cashflow) > Games (moonshot) > Media."
+      ],
+      "weight": 1,
+      "source": "Games",
+      "target": "Media"
+    },
+    {
+      "type": "funds",
+      "confidence": 70,
+      "rationale": "Title suggests the DDAS Content MVP is being built to fund the Games Pilot.",
+      "provenance": [
+        "# Build DDAS Content MVP (Hive Automation) to Fund Games Pilot"
+      ],
+      "weight": 1,
+      "source": "DDAS Content MVP",
+      "target": "Games Pilot"
+    },
+    {
+      "type": "funds",
+      "confidence": 75,
+      "rationale": "",
+      "provenance": [
+        "Prove $1.50/day funds API/games dev"
+      ],
+      "weight": 1,
+      "source": "$1.50/day",
+      "target": "API/games dev"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly lists 'Assigned to: claude', indicating task ownership or responsibility.",
+      "provenance": [
+        "**Assigned to**: claude",
+        "**Status**: open"
+      ],
+      "weight": 2,
+      "source": "handoff-quality-criteria-finalize-20260217",
+      "target": "claude"
+    },
+    {
+      "type": "responsible_for_artifact",
+      "confidence": 80,
+      "rationale": "Because the task is assigned to 'claude' and one acceptance criterion is that this file is live, 'claude' is responsible for ensuring it exists or is updated.",
+      "provenance": [
+        "- [ ] _agents/_docs/quality_criteria.md live"
+      ],
+      "weight": 1,
+      "source": "claude",
+      "target": "_agents/_docs/quality_criteria.md"
+    },
+    {
+      "type": "associated",
+      "confidence": 80,
+      "rationale": "Because the task is assigned to 'claude' and one acceptance criterion is that findings are recorded in this file, 'claude' is responsible for this output.",
+      "provenance": [
+        "- [ ] Findings on 3 briefs in _debug/quality_review.md"
+      ],
+      "weight": 1,
+      "source": "claude",
+      "target": "_debug/quality_review.md"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly lists an assignee for this task identifier.",
+      "provenance": [
+        "**ID**: handoff-peer-review-pilot-20260217\n**Assigned to**: claude"
+      ],
+      "weight": 1,
+      "source": "claude",
+      "target": "handoff-peer-review-pilot-20260217"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly lists who the task is assigned to.",
+      "provenance": [
+        "**Assigned to**: claude"
+      ],
+      "weight": 1,
+      "source": "claude",
+      "target": "handoff-quality-audit-weekly-20260224"
+    },
+    {
+      "type": "responsible_for_producing",
+      "confidence": 80,
+      "rationale": "The checklist item indicates this file should be produced as part of the assigned task.",
+      "provenance": [
+        "- [ ] _debug/quality_review_week1.md with findings"
+      ],
+      "weight": 1,
+      "source": "claude",
+      "target": "debug/quality_review_week1.md"
+    },
+    {
+      "type": "associated",
+      "confidence": 100,
+      "rationale": "The document explicitly lists Claude as the assignee.",
+      "provenance": [
+        "**Assigned to**: claude"
+      ],
+      "weight": 1,
+      "source": "claude",
+      "target": "handoff-abacus-review-flag-20260223"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 100,
+      "rationale": "The document explicitly lists 'Assigned to: abacus'.",
+      "provenance": [
+        "**Assigned to**: abacus"
+      ],
+      "weight": 1,
+      "source": "handoff-quality-filter-impl-20260217",
+      "target": "abacus"
+    },
+    {
+      "type": "implemented_in",
+      "confidence": 90,
+      "rationale": "Acceptance criteria require a Python function committed to this path.",
+      "provenance": [
+        "Python func committed to _agents/_tools/quality_filter.py"
+      ],
+      "weight": 1,
+      "source": "handoff-quality-filter-impl-20260217",
+      "target": "_agents/_tools/quality_filter.py"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 95,
+      "rationale": "The document metadata explicitly states it is assigned to 'abacus'.",
+      "provenance": [
+        "\" **Assigned to**: abacus\""
+      ],
+      "weight": 1,
+      "source": "abacus",
+      "target": "handoff-abacus-negation-forge-20260223"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 95,
+      "rationale": "The document metadata explicitly lists 'Assigned to: abacus', indicating responsibility or ownership.",
+      "provenance": [
+        "**Assigned to**: abacus"
+      ],
+      "weight": 1,
+      "source": "abacus",
+      "target": "handoff-abacus-filter-upgrade-20260223"
+    },
+    {
+      "type": "assigned_to",
+      "confidence": 95,
+      "rationale": "The document explicitly states the item is assigned to 'abacus'.",
+      "provenance": [
+        ""
+      ],
+      "weight": 1,
+      "source": "abacus",
+      "target": "handoff-abacus-router-prototype-20260223"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The document specifies a due date of 2026-02-23.",
+      "provenance": [
+        "\"**Due date**: 2026-02-23\""
+      ],
+      "weight": 1,
+      "source": "handoff-abacus-negation-forge-20260223",
+      "target": "2026-02-23"
+    },
+    {
+      "type": "governs_requirement",
+      "confidence": 60,
+      "rationale": "The line suggests that for Gold-tier, this post-return research step is mandatory, tying the requirement to that tier.",
+      "provenance": [
+        "\"Elevate research: Mandatory post-return for Gold-tier.\""
+      ],
+      "weight": 1,
+      "source": "handoff-abacus-negation-forge-20260223",
+      "target": "Gold-tier"
+    },
+    {
+      "type": "due_date",
+      "confidence": 100,
+      "rationale": "The document metadata explicitly lists this as the due date.",
+      "provenance": [
+        "**Due date**: 2026-02-23"
+      ],
+      "weight": 1,
+      "source": "2026-02-23",
+      "target": "handoff-abacus-filter-upgrade-20260223"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The due date of the prototype task is given as 2026-02-23.",
+      "provenance": [
+        "\"**Due date**: 2026-02-23\""
+      ],
+      "weight": 1,
+      "source": "2026-02-23",
+      "target": "handoff-abacus-router-prototype-20260223"
+    },
+    {
+      "type": "technical_integration",
+      "confidence": 80,
+      "rationale": "Acceptance criteria state that the quality gate integrates with brief_generator.py.",
+      "provenance": [
+        "- [ ] Integrates with brief_generator.py"
+      ],
+      "weight": 1,
+      "source": "brief_generator.py",
+      "target": "quality_gate.py"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The document explicitly lists the due date.",
+      "provenance": [
+        "**Due date**: 2026-02-24"
+      ],
+      "weight": 1,
+      "source": "handoff-quality-audit-weekly-20260224",
+      "target": "2026-02-24"
+    },
+    {
+      "type": "due_on",
+      "confidence": 100,
+      "rationale": "The document clearly specifies a due date.",
+      "provenance": [
+        "**Due date**: 2026-02-18"
+      ],
+      "weight": 1,
+      "source": "handoff-abacus-review-flag-20260223",
+      "target": "2026-02-18"
+    },
+    {
+      "type": "modifies_template",
+      "confidence": 90,
+      "rationale": "The main task is to add a new flag into the handoff.md template.",
+      "provenance": [
+        "Flag added to handoff.md template"
+      ],
+      "weight": 1,
+      "source": "handoff-abacus-review-flag-20260223",
+      "target": "handoff.md"
+    },
+    {
+      "type": "file_commit_target",
+      "confidence": 95,
+      "rationale": "The acceptance criteria specify that changes must be committed to this file path.",
+      "provenance": [
+        "Committed to _agents/_docs/handoff_template.md"
+      ],
+      "weight": 1,
+      "source": "handoff-abacus-review-flag-20260223",
+      "target": "_agents/_docs/handoff_template.md"
+    },
+    {
+      "type": "benchmark_against",
+      "confidence": 80,
+      "rationale": "The acceptance criterion specifies that the test must match 'Claude manual on 5 briefs', indicating Claude is the reference or benchmark system.",
+      "provenance": [
+        "- [ ] Test: Matches Claude manual on 5 briefs"
+      ],
+      "weight": 1,
+      "source": "handoff-abacus-filter-upgrade-20260223",
+      "target": "Claude"
+    },
+    {
+      "type": "team_membership",
+      "confidence": 95,
+      "rationale": "Claude is named as one of the six operational agents on the team.",
+      "provenance": [
+        "Team: Grok (lead), Claude, Gemini, Abacus, Harper, Benjamin, Lucas (6 agents operational)."
+      ],
+      "weight": 1,
+      "source": "Claude",
+      "target": "BPR&D"
+    },
+    {
+      "type": "created",
+      "confidence": 93,
+      "rationale": "Claude is credited with starting the quest-scoring framework/draft.",
+      "provenance": [
+        "quest-scoring framework started by Claude."
+      ],
+      "weight": 1,
+      "source": "Claude",
+      "target": "quest-scoring framework"
+    },
+    {
+      "type": "authored",
+      "confidence": 93,
+      "rationale": "The quest-scoring draft is directly attributed to Claude.",
+      "provenance": [
+        "Quest-scoring draft (Claude): Solid start."
+      ],
+      "weight": 1,
+      "source": "Claude",
+      "target": "quest-scoring draft"
+    },
+    {
+      "type": "feeds",
+      "confidence": 90,
+      "rationale": "The text states  that logs feed the Abacus router.",
+      "provenance": [
+        "logs feed Abacus router Feb 23"
+      ],
+      "weight": 1,
+      "source": "Abacus router",
+      "target": "logs"
+    },
+    {
+      "type": "intended_to_fix",
+      "confidence": 95,
+      "rationale": "The title states that deploying api_healer.py is to fix 50% API failures.",
+      "provenance": [
+        "# Deploy Gemini's api_healer.py to Fix 50% API Failures"
+      ],
+      "weight": 1,
+      "source": "api_healer.py",
+      "target": "50% API Failures"
+    },
+    {
+      "type": "operational_status_review",
+      "confidence": 70,
+      "rationale": "The acceptance criteria mention that by that meeting all three agents must be operational.",
+      "provenance": [
+        "Tomorrow 07:47 meeting: All 3 agents operational"
+      ],
+      "weight": 1,
+      "source": "Tomorrow 07:47 meeting",
+      "target": "3 agents"
+    },
+    {
+      "type": "mapped_to",
+      "confidence": 70,
+      "rationale": "Context line describes mapping roles (truth_seeker_v1) to live models.",
+      "provenance": [
+        "\"Post-reset: Map roles (truth_seeker_v1) to live models using healer logs.\""
+      ],
+      "weight": 1,
+      "source": "truth_seeker_v1",
+      "target": "live models"
+    },
+    {
+      "type": "used_for _mapping",
+      "confidence": 65,
+      "rationale": "Healer logs are described as the mechanism used to map roles to live models.",
+      "provenance": [
+        "\"Map roles (truth_seeker_v1) to live models using healer logs.\""
+      ],
+      "weight": 1,
+      "source": "truth_seeker_v1",
+      "target": "healer logs"
+    },
+    {
+      "type": "migration_from",
+      "confidence": 70,
+      "rationale": "There is an explicit requirement for a migration  plan from healer, implying replacement or succession.",
+      "provenance": [
+        "\"Migration plan from healer\""
+      ],
+      "weight": 1,
+      "source": "Router",
+      "target": "healer"
+    },
+    {
+      "type": "phase_of_process",
+      "confidence": 75,
+      "rationale": "The context describes this audit as part of \"Day 3 verification\".",
+      "provenance": [
+        "\"Day 3 verification: Confirm commits clean, handoffs structured/non-orphaned, renders live on bpr-d.onrender.com.\""
+      ],
+      "weight": 1,
+      "source": "handoff-pipeline-audit-20260217",
+      "target": "Day 3"
+    },
+    {
+      "type": "renders_live_on",
+      "confidence": 80,
+      "rationale": "The audit is to verify that renders are live on this host.",
+      "provenance": [
+        "\"renders live on bpr-d.onrender.com\""
+      ],
+      "weight": 1,
+      "source": "handoff-pipeline-audit-20260217",
+      "target": "bpr-d.onrender.com"
+    },
+    {
+      "type": "output_standard_for",
+      "confidence": 80,
+      "rationale": "Outputs must be media-ready to YouTube standard, linking the audit's acceptance criteria to YouTube requirements.",
+      "provenance": [
+        "\"All outputs validated media-ready (YouTube standard)\""
+      ],
+      "weight": 1,
+      "source": "handoff-pipeline-audit-20260217",
+      "target": "YouTube"
+    },
+    {
+      "type": "leads",
+      "confidence": 98,
+      "rationale": "Chief Grok is explicitly identified as the BPR&D Project Lead and author of the report.",
+      "provenance": [
+        "Prepared by: Chief Grok (Grok 4.20) \u2013 BPR&D Project  Lead"
+      ],
+      "weight": 1,
+      "source": "Chief Grok",
+      "target": "BPR&D"
+    },
+    {
+      "type": "version_of",
+      "confidence": 85,
+      "rationale": "The text describes 'Grok 4.20 upgrade' as an active version, implying Grok is running this version.",
+      "provenance": [
+        "Grok 4.20 upgrade now active, bringing stronger coordination."
+      ],
+      "weight": 1,
+      "source": "Grok 4.20",
+      "target": "Grok"
+    },
+    {
+      "type": "team_membership",
+      "confidence": 95,
+      "rationale": "Grok is listed as lead of the BPR&D multi-agent team.",
+      "provenance": [
+        "Team: Grok (lead), Claude, Gemini, Abacus, Harper, Benjamin, Lucas (6 agents operational)."
+      ],
+      "weight": 1,
+      "source": "BPR&D",
+      "target": "Grok"
+    },
+    {
+      "type": "team_membership",
+      "confidence": 95,
+      "rationale": "Harper is listed as an operational agent in the team.",
+      "provenance": [
+        "Team: Grok (lead), Claude, Gemini, Abacus, Harper, Benjamin, Lucas (6 agents operational)."
+      ],
+      "weight": 1,
+      "source": "BPR&D",
+      "target": "Harper"
+    },
+    {
+      "type": "team_membership",
+      "confidence": 95,
+      "rationale": "Benjamin is part of the enumerated six-agent team.",
+      "provenance": [
+        "Team: Grok (lead), Claude, Gemini, Abacus, Harper, Benjamin, Lucas (6 agents operational)."
+      ],
+      "weight": 1,
+      "source": "BPR&D",
+      "target": "Benjamin"
+    },
+    {
+      "type": "team_membership",
+      "confidence": 95,
+      "rationale": "Lucas is  listed as one of the six operational agents.",
+      "provenance": [
+        "Team: Grok (lead), Claude, Gemini, Abacus, Harper, Benjamin, Lucas (6 agents operational)."
+      ],
+      "weight": 1,
+      "source": "BPR&D",
+      "target": "Lucas"
+    },
+    {
+      "type": "oversight",
+      "confidence": 90,
+      "rationale": "HiC is described as providing leadership, directives, and business direction for the project.",
+      "provenance": [
+        "HiC leadership is crystal-clear and decisive (10-point lists, cost caps, exact protocols)."
+      ],
+      "weight": 1,
+      "source": "BPR&D",
+      "target": "HiC"
+    },
+    {
+      "type": "identity",
+      "confidence": 92,
+      "rationale": "Russell is labeled as '(HiC)', indicating that Russell is the person acting as HiC.",
+      "provenance": [
+        "Russell (HiC)"
+      ],
+      "weight": 1,
+      "source": "HiC",
+      "target": "Russell"
+    },
+    {
+      "type": "reports_to",
+      "confidence": 88,
+      "rationale": "Grok asks HiC for a decision on next actions, indicating a reporting/approval relationship.",
+      "provenance": [
+        "HiC, this report is now live and ready to become our working baseline. Shall I: A) Trigger the $0.75 team meeting ... or B) Execute 3-4 low-hanging-fruit items myself ... Your call \u2013 I\u2019m locked in, tools ready, no pretending."
+      ],
+      "weight": 1,
+      "source": "HiC",
+      "target": "Grok"
+    },
+    {
+      "type": "orchestrated",
+      "confidence": 88,
+      "rationale": "Grok is described as handling meeting orchestration as part of best use.",
+      "provenance": [
+        "Best use: Project lead, repo synthesis, efficiency reports, code/doc production, meeting orchestration."
+      ],
+      "weight": 1,
+      "source": "Grok",
+      "target": "meeting"
+    },
+    {
+      "type": "associated",
+      "confidence": 90,
+      "rationale": "Grok is attributing an insight about a governance token release by Splinterlands.",
+      "provenance": [
+        "\u201cGrok: Splinterlands just released a new governance token. Huge implications for play-to-earn gaming.\u201d"
+      ],
+      "weight": 1,
+      "source": "Grok",
+      "target": "Splinterlands"
+    },
+    {
+      "type": "concerned_about",
+      "confidence": 85,
+      "rationale": "Grok warns about the quality of deepfake technology and calls for better detection tools.",
+      "provenance": [
+        "\u201cGrok: Deepfake technology is getting scary good. We need better detection tools immediately.\u201d"
+      ],
+      "weight": 1,
+      "source": "Grok",
+      "target": "Deepfake technology"
+    },
+    {
+      "type": "includes_insight_from",
+      "confidence": 90,
+      "rationale": "Grok is a labeled speaker/source for multiple insights.",
+      "provenance": [
+        "Sections prefixed with \u201cGrok:\u201d in the document"
+      ],
+      "weight": 1,
+      "source": "Grok",
+      "target": "Grok Nightly X Insights - 2026-02-17"
+    },
+    {
+      "type": "uses_key_with",
+      "confidence": 78,
+      "rationale": "A specific Deep Agent key is reserved for CLI usage within the Abacus API integration.",
+      "provenance": [
+        "Integrations: Abacus API (standard LLM key identified, Deep Agent key reserved for CLI);"
+      ],
+      "weight": 1,
+      "source": "Abacus API",
+      "target": "Deep Agent"
+    },
+    {
+      "type": "authored",
+      "confidence": 80,
+      "rationale": "HiC_Notes are directives from HiC, and Russell is identified as HiC.",
+      "provenance": [
+        "Best use: Vision, final approval, HiC_Notes directives, business direction."
+      ],
+      "weight": 1,
+      "source": "Russell",
+      "target": "HiC_Notes"
+    },
+    {
+      "type": "includes_insight_from",
+      "confidence": 80,
+      "rationale": "Team is listed as a source of one of the items.",
+      "provenance": [
+        "\u201cTeam: Archaeologists found a new chamber in the Great Pyramid...\u201d"
+      ],
+      "weight": 1,
+      "source": "Grok Nightly X Insights - 2026-02-17",
+      "target": "Team"
+    },
+    {
+      "type": "operational_link",
+      "confidence": 75,
+      "rationale": "",
+      "provenance": [
+        "\u201cDiscuss income opportunities in Morning Sync.\u201d"
+      ],
+      "weight": 1,
+      "source": "Grok Nightly X Insights - 2026-02-17",
+      "target": "Morning Sync"
+    },
+    {
+      "type": "reported_discovery",
+      "confidence": 88,
+      "rationale": "Team cites archaeologists finding a new chamber in the Great Pyramid.",
+      "provenance": [
+        "\u201cTeam: Archaeologists found a new chamber in the Great Pyramid using muon tomography.\u201d"
+      ],
+      "weight": 1,
+      "source": "Team",
+      "target": "Great Pyramid"
+    },
+    {
+      "type": "scheduled_event",
+      "confidence": 75,
+      "rationale": "The acceptance  criteria refer to a specific meeting time for Round 1 running in parallel, indicating a scheduled event.",
+      "provenance": [
+        "\"07:47 meeting runs parallel Round 1 successfully\""
+      ],
+      "weight": 1,
+      "source": "07:47",
+      "target": "Round 1"
+    },
+    {
+      "type": "document_collection_membership",
+      "confidence": 60,
+      "rationale": "User indicates this document is part of the Epstein Archive.",
+      "provenance": [
+        "\"You are an expert investigative analyst processing the Epstein Archive. Analyze the following text from document 'handoff-parallel-patch-review-russell-20260218.md'.\""
+      ],
+      "weight": 1,
+      "source": "Epstein Archive",
+      "target": "handoff-parallel-patch-review-russell-20260218"
     }
   ]
 }

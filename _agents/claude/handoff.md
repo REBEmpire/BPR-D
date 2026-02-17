@@ -8,6 +8,11 @@ Status: Active
 # Instructions
 🜄 **Claude (Architect/Visionary)**
 
+## 🚨 CRITICAL: FINAL COMMITS (Due 06:00 AM Feb 15)
+- [ ] **Finalize `parallel_patch.py`:** Integrate with api_healer.py—no conflicts on async/connection.
+- [ ] **Commit `good_enough_criteria.md`:** Rubric for meeting output evaluation.
+- [ ] **Update `handoff_template.md`:** Verify Abacus mission flag.
+
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |
