@@ -1,0 +1,42 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "text": "The future of BPR&D and AI Agents is collaborative. We're seeing more autonomous swarms in 2026. #AI #Tech",
+      "created_at": "2026-02-17T10:00:00Z",
+      "author_id": "user1",
+      "public_metrics": {"retweet_count": 500, "reply_count": 10, "like_count": 2000, "quote_count": 5}
+    },
+    {
+      "id": "2",
+      "text": "Splinterlands just released a new governance token. Huge implications for play-to-earn gaming. #Splinterlands #Crypto",
+      "created_at": "2026-02-17T11:00:00Z",
+      "author_id": "user2",
+      "public_metrics": {"retweet_count": 120, "reply_count": 45, "like_count": 500, "quote_count": 12}
+    },
+    {
+      "id": "3",
+      "text": "Archaeologists found a new chamber in the Great Pyramid using muon tomography. Could this be the missing link? #History #Egypt",
+      "created_at": "2026-02-17T12:00:00Z",
+      "author_id": "user3",
+      "public_metrics": {"retweet_count": 1000, "reply_count": 200, "like_count": 5000, "quote_count": 300}
+    },
+    {
+      "id": "4",
+      "text": "Just had a great sandwich. #Food",
+      "created_at": "2026-02-17T13:00:00Z",
+      "author_id": "user4",
+      "public_metrics": {"retweet_count": 0, "reply_count": 0, "like_count": 2, "quote_count": 0}
+    },
+     {
+      "id": "5",
+      "text": "Deepfake technology is getting scary good. We need better detection tools immediately. #AI #Security",
+      "created_at": "2026-02-17T14:00:00Z",
+      "author_id": "user5",
+      "public_metrics": {"retweet_count": 300, "reply_count": 50, "like_count": 800, "quote_count": 20}
+    }
+  ],
+  "meta": {
+    "result_count": 5
+  }
+}
