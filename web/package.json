@@ -6,7 +6,8 @@
     "sync-research": "node scripts/sync-research.js",
     "sync-production": "node scripts/sync-production.js",
     "dev": "npm run sync-research && next dev",
-    "build": "npm run sync-research && node scripts/migrate.js && node scripts/sync-agents.js && node scripts/sync-gamification.js && node scripts/sync-production.js && next build",
+    "sync-metrics": "node scripts/sync-metrics.js",
+    "build": "npm run sync-research && node scripts/migrate.js && node scripts/sync-agents.js && node scripts/sync-gamification.js && node scripts/sync-production.js && node scripts/sync-metrics.js && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest"

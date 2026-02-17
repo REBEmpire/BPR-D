@@ -3,10 +3,12 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import agentsData from '@/content/agents.json'
+import metricsData from '@/content/metrics.json'
 import { query } from "@/lib/db"
 import fs from 'fs'
 import path from 'path'
 import AgentStatus from './AgentStatus'
+import AgentMetrics, { ChiefMetrics } from './AgentMetrics'
 
 export const dynamic = 'force-dynamic';
 
@@ -70,6 +72,10 @@ export default async function TeamPage() {
     points: userPoints,
   };
 
+  // Load metrics
+  const agentMetrics = (metricsData as any)?.agents || {};
+  const russellMetrics = (metricsData as any)?.russell || {};
+
   return (
     <div className="container mx-auto p-8 max-w-7xl">
       <div className="flex flex-col gap-2 mb-12">
@@ -98,6 +104,8 @@ export default async function TeamPage() {
             <div className="mt-4 text-sm text-muted-foreground">
                 Next Level: {((Math.floor(chief.points / 100) + 1) * 100) - chief.points} XP needed
             </div>
+            {/* Chief Quest Score */}
+            <ChiefMetrics metrics={russellMetrics} />
           </CardContent>
         </Card>
       </div>
@@ -158,6 +166,14 @@ export default async function TeamPage() {
                   </div>
                 </CardHeader>
                 </Link>
+
+                {/* Agent Performance Metrics */}
+                {agentMetrics[agent.slug] && (
+                  <AgentMetrics
+                    metrics={agentMetrics[agent.slug]}
+                    agentName={agent.name}
+                  />
+                )}
 
                 {/* Agent Status View - Rendered Client Side */}
                 <div className="mt-auto">
