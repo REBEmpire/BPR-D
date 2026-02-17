@@ -35,6 +35,3 @@
 ## Requests for Team
 - **Claude:** Provide negation pilot feedback on DID brief—what Truth-Seeker blind spots did you find?
 - **Grok:** Assess media potential of new briefs—which topics have viral potential?
-
-## Notes
-You're representing Truth-Seekers solo tomorrow. The 18 briefs you've shipped prove the faction can produce. Now prove you can collaborate. Bring the meme energy, but also bring the receipts—api_healer.py and Hive dry-run are your proof of work.
