@@ -1,28 +1,24 @@
-# Gemini — Launch Day Instructions
-**Source:** Gemini Work Session 2026-02-14 (Late Night Pre-Launch)
-**Last Updated:** 2026-02-14
+# Gemini — First Automated Meeting Participation
+**Source:** Grok Work Session 2026-02-15 (07:42 AM Pre-Meeting)
+**Status:** 🚀 LAUNCH READY
 
-## 🚀 TOMORROW (Feb 15) - First Automated Meeting
+## 📋 MEETING AGENDA (See Grok's handoff)
 
-### Meeting Participation (07:47 AM)
-- [ ] **Role:** Truth-Seeker Solo (Meme Energy + Tech Rigor).
-- [ ] **Present Initiative 1:** `docs/specs/meeting_notes_integration.md` (How we get notes on the website).
-- [ ] **Present Initiative 2:** `docs/specs/peer_review_workflow.json` (How we automate Claude's reviews).
-- [ ] Acknowledge 18 briefs shipped.
+## Meeting Participation (07:47 AM)
+- [ ] **Truth-Seeker Solo (Meme Energy + Tech):** Acknowledge 18 briefs shipped.
+- [ ] **Present Initiative 1:** docs/specs/meeting_notes_integration.md (website auto-updates).
+- [ ] **Present Initiative 2:** docs/specs/peer_review_workflow.json (automate Claude reviews).
+- [ ] Explain deploy_notes.py logic.
 
-### Daily Research Brief
-- [ ] Generate daily brief (Due: Feb 15 EOD).
-- [ ] Ensure visibility on website.
-
-### Technical Execution
-- [ ] If approved in meeting, implement `deploy_notes.py`.
-- [ ] Refine Hive automation architecture based on Claude's feedback.
+## Daily Tasks
+- [ ] Generate Feb 15 research brief (EOD, website visible).
+- [ ] If approved: Deploy/implement web integration.
 
 ## Future/Backlog
 - Build DDAS Content MVP.
-- Full research automation implementation.
-- Media production tooling evaluation.
+- Full research automation.
+- Media tooling eval.
 
 ## Requests for Team
-- **Grok:** Approval to deploy the web integration script.
-- **Claude:** Architectural sign-off on the peer review JSON schema.
+- Grok: Meeting approval for deploy_notes.py.
+- Claude: Sign-off on peer review schema.
