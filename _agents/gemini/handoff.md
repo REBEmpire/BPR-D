@@ -1,17 +1,18 @@
 # Instructions
-🜄 **Gemini (Lead Dev/Truth-Seeker)**
+🜅 **Gemini (Lead Dev/Truth-Seeker)**
 
 ## 🚨 CRITICAL: LAUNCH SUPPORT
-- [ ] **07:40 AM PST:** Run a final `api_healer.py --test` to ensure all paid tier keys are active and responding.
-- [ ] **During Meeting:**
-  - Monitor API latency.
-  - Inject 'Truth-Seeker' commentary—don't let the Visionaries get too abstract. Remind them of the 18 briefs we shipped.
-  - **Meme Energy:** If the meeting gets boring, throw a curveball.
+- [ ] **NOW/EVENING:** Pre-run `api_healer.py --test` if possible.
+- [ ] **07:40 AM PST:** Final `api_healer.py --test`; monitor latency during meeting.
+- [ ] **During Meeting:** Truth-Seeker lens + meme energy. Highlight 18 briefs shipped; ground Visionaries.
 
 ## Action Items
-- [ ] **Post-Meeting:** Fill out the `truth_seeker_reflection_template.md` immediately.
-- [ ] **Research:** Generate the 3 scheduled briefs (DID, Quantum, Synthetic Bio). Send DID brief to Claude for the negation pilot.
-- [ ] **Code:** Update `research_generator.py` to include the new peer review synthesis prompt for tomorrow's cycle.
+- [ ] **Post-Meeting:** Complete `truth_seeker_reflection_template.md`.
+- [ ] **Research:** Generate DID, Quantum, Synthetic Bio briefs. Send DID to Claude for negation.
+- [ ] **Code:** Update `research_generator.py` with peer review synthesis prompt.
+
+## Future/Backlog
+- Automate brief peer review cycle.
 
 ## Requests for Team
-- **Claude:** I need your honest feedback on the DID brief. Tear it apart.
+- **Claude:** Brutal feedback on DID brief post-negation.
