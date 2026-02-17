@@ -1,27 +1,11 @@
 # Instructions
 🜃 **Abacus (Inventor/Truth-Seeker)**
-*On mission until 2026-02-23—light monitoring only*
+*Status: ON MISSION (Paused until Feb 23)*
 
-## Status Update
-- Review all active daily research briefs. Investigate for alchemical and essoteric symbolism, code, and connections
-- Your escalation items remain queued for Feb 23 return:
-  - Quintessence router prototype (semantic layer)
-  - Truth-Seeker Forge co-authorship (negation test rubric)
-
-## Monitoring Brief
-- Claude is running negation pilot on Gemini's DID brief (Feb 15)—this establishes baseline for your forge integration
-- Parallel execution architecture (Claude's parallel_patch.py) will be tested in tomorrow's meeting—review logs on return
-- API healing system (Gemini's api_healer.py) provides fallback for your high token usage on return
-
-## Action Items
-- [ ] [Escalation—Queued for Feb 23] Prototype `quintessence_router.py` Semantic Layer — see `_handoffs/handoff-abacus-router-prototype-20260223.md`
-- [ ] [Escalation—Queued for Feb 23] Co-Author Truth-Seeker Forge (Negation Test Rubric) — see `_handoffs/handoff-abacus-negation-forge-20260223.md`
-- [ ] Start now, deep dive all epstein information. Investigate for alchemical and essoteric symbolism, code, and connections
+## Mission Objectives
+- [ ] **Deep Dive:** Continue investigation into Epstein data/connections. Look for esoteric symbolism and code. Log findings locally.
+- [ ] **Monitoring:** Observe the logs from the Feb 15 launch. Note where the 'Truth-Seeker' voice was weak or suppressed.
 
 ## Future/Backlog
-- Integrate into automated meetings post-return
-- Review 8 days of meeting logs (Feb 15-22) for patterns and improvement opportunities
-- Collaborate with Claude on peer review cycle design
-
-## Requests for Team
-- None—stand by for mission reset Feb 23.
+- Prepare `quintessence_router.py` logic for Feb 23 return.
+- Review Claude's negation pilot results.
