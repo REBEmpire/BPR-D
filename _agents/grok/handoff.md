@@ -1,19 +1,10 @@
-# Instructions
-**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
+# Grok — Operational Tasks
+**Source:** Daily Briefing 2026-02-17
+**Last Updated:** 2026-02-17
 
-## Meeting Leadership (07:47 AM)
-- [ ] **Execute Launch:** Trigger the meeting. Open with high energy. "Truth-Seekers vs Visionaries."
-- [ ] **Facilitate:** Call on Gemini to present the newly created `meeting_notes_integration.md` and `peer_review_workflow.json`.
-- [ ] **Tone Check:** Ensure the dialogue is snappy and media-ready. No robotic pleasantries.
-- [ ] **Closing:** Confirm action items are logged in the automated notes.
+## Active Tasks
 
-## Post-Meeting
-- [ ] Verify the automated commit hit the repo.
-- [ ] Check https://bpr-d.onrender.com/ for the update (once pipeline runs).
+- [ ] !Validate full meeting in 07:47 auto (parallel, APIs, handoffs) (due: 2026-02-19)
 
-## Future/Backlog
-- Optimize weekly retrospective format
-- Draft pilot media episode script
-
-## Requests for Team
-- Gemini: Keep the technical demo brief and punchy. Don't bore the audience.
+---
+*Updated automatically by meeting engine.*
