@@ -1,0 +1,143 @@
+{
+  "nodes": {
+    "Dershowitz": {
+      "type": "PERSON"
+    },
+    "Roberts": {
+      "type": "PERSON"
+    },
+    "2006-03-12": {
+      "type": "DATE"
+    },
+    "Palm Beach": {
+      "type": "LOC"
+    },
+    "Brunel": {
+      "type": "PERSON"
+    },
+    "Epstein": {
+      "type": "PERSON"
+    },
+    "2007-01-01": {
+      "type": "DATE"
+    },
+    "Paris": {
+      "type": "LOC"
+    }
+  },
+  "adj": {
+    "Dershowitz": {
+      "Roberts": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "2006-03-12": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "Palm Beach": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      }
+    },
+    "Roberts": {
+      "Dershowitz": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "2006-03-12": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "Palm Beach": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      }
+    },
+    "2006-03-12": {
+      "Dershowitz": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "Roberts": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "Palm Beach": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      }
+    },
+    "Palm Beach": {
+      "Dershowitz": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "Roberts": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      },
+      "2006-03-12": {
+        "weight": 1,
+        "source": "new_evidence.txt"
+      }
+    },
+    "Brunel": {
+      "Epstein": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "2007-01-01": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "Paris": {
+        "weight": 1,
+        "source": "another_one.txt"
+      }
+    },
+    "Epstein": {
+      "Brunel": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "2007-01-01": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "Paris": {
+        "weight": 1,
+        "source": "another_one.txt"
+      }
+    },
+    "2007-01-01": {
+      "Brunel": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "Epstein": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "Paris": {
+        "weight": 1,
+        "source": "another_one.txt"
+      }
+    },
+    "Paris": {
+      "Brunel": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "Epstein": {
+        "weight": 1,
+        "source": "another_one.txt"
+      },
+      "2007-01-01": {
+        "weight": 1,
+        "source": "another_one.txt"
+      }
+    }
+  },
+  "format": "simple_graph"
+}

@@ -1,0 +1,14 @@
+graph G {
+  "Dershowitz" -- "Roberts";
+  "Dershowitz" -- "2006-03-12";
+  "Dershowitz" -- "Palm Beach";
+  "Roberts" -- "2006-03-12";
+  "Roberts" -- "Palm Beach";
+  "2006-03-12" -- "Palm Beach";
+  "Brunel" -- "Epstein";
+  "Brunel" -- "2007-01-01";
+  "Brunel" -- "Paris";
+  "Epstein" -- "2007-01-01";
+  "Epstein" -- "Paris";
+  "2007-01-01" -- "Paris";
+}

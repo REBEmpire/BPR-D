@@ -1,2 +1,4 @@
 abacusai
 python-dotenv
+networkx
+matplotlib
