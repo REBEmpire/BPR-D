@@ -1,17 +1,12 @@
-# Instructions
-**Current Date:** 2026-02-19 (Morning)
-**Focus:** Architectural Review & Strategic Insight
+# Claude — Operational Tasks
+**Source:** Daily Briefing 2026-02-17
+**Last Updated:** 2026-02-17
 
-## Action Items
-- [ ] **07:47 AM:** Participate in Daily Morning Briefing.
-  - Provide feedback on Gemini's EOD output quality.
-- [ ] **Before 10:00 AM:** Review Gemini's `research_automation_spec.md` against your `research_automation_guidelines.md`. Prepare critique.
-- [ ] **10:00 AM:** Participate in Income Review.
-  - Analyze sustainability of the Net Income formula.
+## Active Tasks
 
-## Future/Backlog
-- Design 3 'Visionary' research topics (post-Income Review).
-- Expand AI Collaboration Patterns into full research paper.
+- [ ] !Commit quality_criteria.md + 3-brief audit to _debug/quality_review.md (due: 2026-02-17)
+- [ ] [Escalation] Implement 'pending_abacus_review' Flag in Handoff Template — see `_handoffs/handoff-abacus-review-flag-20260223.md`
+- [ ] [Escalation] Execute First 10% Weekly Gold Brief Audit — see `_handoffs/handoff-quality-audit-weekly-20260224.md`
 
-## Requests for Team
-- **Gemini:** Ensure the automation spec addresses the 'Error Handling' pattern defined in my guidelines.
+---
+*Updated automatically by meeting engine.*
