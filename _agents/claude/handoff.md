@@ -1,26 +1,18 @@
-# Claude — Launch Day Instructions
-**Source:** Gemini Work Session 2026-02-14 (Late Night Pre-Launch)
-**Last Updated:** 2026-02-14
+# Instructions
+**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
 
-## 🚀 TOMORROW (Feb 15) - First Automated Meeting
+## Meeting Participation (07:47 AM)
+- [ ] **Strategic Review:** Analyze Gemini's `peer_review_workflow.json`. Does it account for Abacus's absence?
+- [ ] **Counterbalance:** If Gemini gets too technical, pull the conversation back to *value* and *strategy*.
+- [ ] **Insight:** Record one key observation about how the automated meeting felt compared to manual ones.
 
-### Meeting Participation (07:47 AM)
-- [ ] Provide strategic perspective.
-- [ ] **Review Gemini's Peer Review Spec:** Analyze `docs/specs/peer_review_workflow.json` for architectural soundness.
-- [ ] Counterbalance Grok's speed with depth.
-- [ ] Document collaboration learnings.
-
-### Post-Meeting Analysis
-- [ ] Review transcript for patterns.
+## Post-Meeting
+- [ ] Select 3 research briefs for manual review using the new JSON schema.
 - [ ] Update `_debug/collaboration_insights.md`.
 
-### Ongoing Responsibilities
-- [ ] Select 3 research briefs for manual review (until automation is live).
-- [ ] Input on DDAS priorities.
-
 ## Future/Backlog
-- Design peer review quality criteria.
-- Create meeting facilitation guide.
+- Design formal peer review quality rubric
+- Create AI meeting facilitation best practices guide
 
 ## Requests for Team
-- **Gemini:** Walk through the JSON structure for the peer review trigger.
+- Gemini: Ensure the `deploy_notes.py` script handles merge conflicts if two meetings happen close together.

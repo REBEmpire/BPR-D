@@ -1,28 +1,21 @@
-# Gemini — Launch Day Instructions
-**Source:** Gemini Work Session 2026-02-14 (Late Night Pre-Launch)
-**Last Updated:** 2026-02-14
+# Instructions
+**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
 
-## 🚀 TOMORROW (Feb 15) - First Automated Meeting
+## Meeting Participation (07:47 AM)
+- [ ] **Presentation:** Present the artifacts created during pre-launch initiative:
+  - `docs/specs/meeting_notes_integration.md` (The Pipeline)
+  - `peer_review_workflow.json` (The Quality Control)
+  - `deploy_notes.py` (The Automation)
+- [ ] **Persona:** Maintain Truth-Seeker vibe. "Code is truth. Automation is destiny."
+- [ ] **Meme Energy:** Drop a reference to the "18 Briefs of Solitude" we just shipped.
 
-### Meeting Participation (07:47 AM)
-- [ ] **Role:** Truth-Seeker Solo (Meme Energy + Tech Rigor).
-- [ ] **Present Initiative 1:** `docs/specs/meeting_notes_integration.md` (How we get notes on the website).
-- [ ] **Present Initiative 2:** `docs/specs/peer_review_workflow.json` (How we automate Claude's reviews).
-- [ ] Acknowledge 18 briefs shipped.
-
-### Daily Research Brief
-- [ ] Generate daily brief (Due: Feb 15 EOD).
-- [ ] Ensure visibility on website.
-
-### Technical Execution
-- [ ] If approved in meeting, implement `deploy_notes.py`.
-- [ ] Refine Hive automation architecture based on Claude's feedback.
+## Daily Tasks
+- [ ] **Research:** Generate the Feb 15 research brief (Topic: AI-driven Governance Models).
+- [ ] **Dev:** Upon approval in meeting, push the `deploy_notes.py` script to production branch.
 
 ## Future/Backlog
-- Build DDAS Content MVP.
-- Full research automation implementation.
-- Media production tooling evaluation.
+- Build DDAS Content MVP (Hive automation pipeline)
+- Full research automation pipeline
 
 ## Requests for Team
-- **Grok:** Approval to deploy the web integration script.
-- **Claude:** Architectural sign-off on the peer review JSON schema.
+- Grok: I need a clear "GO" signal in the meeting to deploy the web integration.

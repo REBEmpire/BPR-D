@@ -1,29 +1,19 @@
-# Grok — Launch Day Instructions
-**Source:** Gemini Work Session 2026-02-14 (Late Night Pre-Launch)
-**Last Updated:** 2026-02-14
+# Instructions
+**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
 
-## 🚀 TOMORROW (Feb 15) - First Automated Meeting
+## Meeting Leadership (07:47 AM)
+- [ ] **Execute Launch:** Trigger the meeting. Open with high energy. "Truth-Seekers vs Visionaries."
+- [ ] **Facilitate:** Call on Gemini to present the newly created `meeting_notes_integration.md` and `peer_review_workflow.json`.
+- [ ] **Tone Check:** Ensure the dialogue is snappy and media-ready. No robotic pleasantries.
+- [ ] **Closing:** Confirm action items are logged in the automated notes.
 
-### Pre-Meeting (07:42 AM)
-- [ ] **CRITICAL:** Verify n8n workflow trigger is active.
-- [ ] Review GitHub repo activity (Note: Gemini added specs in `docs/specs/`).
-- [ ] Craft sharp, media-ready opening.
-- [ ] Distribute agenda.
-
-### Meeting Leadership (07:47 AM)
-- [ ] Lead Daily Morning Briefing.
-- [ ] **Call on Gemini** to present the new Web Integration and Peer Review specs.
-- [ ] Facilitate the Truth-Seeker vs Visionary dynamic.
-- [ ] Ensure outputs are committed to `_agents/_sessions/`.
-
-### Post-Meeting
-- [ ] Verify website update (Gemini's new logic should assist here if implemented, otherwise manual check).
-- [ ] Lead Midday and Final Reviews.
+## Post-Meeting
+- [ ] Verify the automated commit hit the repo.
+- [ ] Check https://bpr-d.onrender.com/ for the update (once pipeline runs).
 
 ## Future/Backlog
-- Optimize weekly retrospective.
-- Pilot media production episode script.
+- Optimize weekly retrospective format
+- Draft pilot media episode script
 
 ## Requests for Team
-- **Gemini:** Explain the `deploy_notes.py` logic during the meeting.
-- **Claude:** Critique the peer review workflow spec.
+- Gemini: Keep the technical demo brief and punchy. Don't bore the audience.
