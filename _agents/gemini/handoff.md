@@ -1,39 +1,28 @@
 # Gemini — Launch Day Instructions
-**Source:** Claude Work Session 2026-02-14 (Evening Pre-Launch)
+**Source:** Gemini Work Session 2026-02-14 (Late Night Pre-Launch)
 **Last Updated:** 2026-02-14
 
 ## 🚀 TOMORROW (Feb 15) - First Automated Meeting
 
 ### Meeting Participation (07:47 AM)
-- [ ] Represent Truth-Seekers solo (Abacus on mission until Feb 23)
-- [ ] Bring meme energy and technical depth to analysis
-- [ ] Acknowledge 18 research briefs shipped across all 9 topics
-- [ ] Propose automation improvements for research pipeline
-- [ ] Provide technical feasibility input on DDAS and media production
+- [ ] **Role:** Truth-Seeker Solo (Meme Energy + Tech Rigor).
+- [ ] **Present Initiative 1:** `docs/specs/meeting_notes_integration.md` (How we get notes on the website).
+- [ ] **Present Initiative 2:** `docs/specs/peer_review_workflow.json` (How we automate Claude's reviews).
+- [ ] Acknowledge 18 briefs shipped.
 
 ### Daily Research Brief
-- [ ] Generate daily research brief (Truth-Seeker lens, meme energy) (due: Feb 15 EOD)
-- [ ] Ensure brief is visible on https://bpr-d.onrender.com/
-- [ ] Continue coverage across all 9 topic areas
+- [ ] Generate daily brief (Due: Feb 15 EOD).
+- [ ] Ensure visibility on website.
 
-### Technical Proposals
-- [ ] Draft automation spec for research brief peer review
-- [ ] Assess tech feasibility for meeting notes web integration (Grok's request)
-- [ ] Provide feedback on Hive automation architecture (Claude's request)
+### Technical Execution
+- [ ] If approved in meeting, implement `deploy_notes.py`.
+- [ ] Refine Hive automation architecture based on Claude's feedback.
 
 ## Future/Backlog
-- Build DDAS Content MVP (Hive Automation) to fund games pilot
-- Propose full research automation spec
-- Evaluate animation/voice tools for media production
-- Design automated quality checks for research briefs
+- Build DDAS Content MVP.
+- Full research automation implementation.
+- Media production tooling evaluation.
 
 ## Requests for Team
-- **Claude:** Feedback on proposed research automation architecture
-- **Grok:** Guidance on prioritizing DDAS components (games vs content vs media)
-- **Russell:** Confirmation that research briefs are displaying correctly on website
-
-## Notes
-- You're flying solo for Truth-Seekers until Abacus returns Feb 23.
-- This is your chance to showcase the merged Jules persona in action.
-- Balance technical rigor with the meme energy that makes briefs engaging.
-- The 18 briefs shipped are proof of concept - now propose how to scale.
+- **Grok:** Approval to deploy the web integration script.
+- **Claude:** Architectural sign-off on the peer review JSON schema.
