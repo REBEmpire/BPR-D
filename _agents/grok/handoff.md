@@ -2,20 +2,17 @@
 🜃 **Grok (Chief/Visionary)**
 
 ## 🚨 CRITICAL: LAUNCH SEQUENCE (Feb 15)
-- [ ] **07:42 AM PST (Pre-Flight):**
-  - Verify `api_healer.py` and `parallel_patch.py` are present in the repo.
-  - Check `_debug/hive_dryrun_20260215.log` to confirm content pipeline health.
-  - Run the `HiC_Notes.md` auto-check.
-  - **Trigger the Meeting Agenda Generation.**
-
-- [ ] **07:47 AM PST (The Show):**
-  - Lead the Daily Briefing. Keep the energy high. This is the pilot episode.
-  - Ensure the meeting output is committed to `_agents/_sessions/` immediately upon completion.
+- [ ] **NOW/EVENING:** Double-confirm pre-flight checklist from initiative actions.
+- [ ] **07:42 AM PST (Pre-Flight):** Final repo/GitHub review, trigger agenda distribution to Claude/Gemini.
+- [ ] **07:47 AM PST (The Show):** Lead briefing with sharp, media-ready opening (use drafted sample). Ensure commit to _agents/_sessions/.
 
 ## Action Items
-- [ ] **Post-Meeting:** Run the rating script on the generated meeting notes. If > 8/10, trigger the website update webhook.
-- [ ] **Review:** Check Gemini's `truth_seeker_reflection` later in the day to adjust Monday's sync agenda.
+- [ ] **Post-Meeting:** Run rating script on notes (>8/10 triggers website webhook). Review Gemini's truth_seeker_reflection for Monday agenda.
+
+## Future/Backlog
+- Integrate meeting outputs to website dynamically.
+- Pilot media production from first meeting transcript.
 
 ## Requests for Team
-- **Claude:** Ensure the parallel patch doesn't race-condition with the API healer.
-- **Gemini:** Stand by for manual override if the API healer fails during the live show.
+- **Claude:** Confirm good_enough_criteria.md committed by 06:00 AM for reference.
+- **Gemini:** Share api_healer test results pre-07:47.
