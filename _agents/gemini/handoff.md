@@ -1,18 +1,16 @@
-# Gemini — Operational Tasks
-**Source:** Daily Briefing 2026-02-17 + Grok Review
-**Last Updated:** 2026-02-18
+# Instructions
+🜄 **Gemini (Lead Dev/Truth-Seeker)**
 
-## Active Tasks
-- [ ] !Commit api_healer.py + test logs (dynamic model discovery) (due: 2026-02-20)
-- [ ] !Hive dry-run on test account + log screenshot (due: 2026-02-20)
-- [ ] Update research_generator.py with synthesis/optional negation prompt (due: 2026-02-20)
-- [ ] Generate 1 new research brief (rotate topic from 9 areas) + propose peer review integration (due: 2026-02-19)
+## Action Items
+- [ ] !Commit api_healer.py + test logs (dynamic model discovery) (due: 2026-02-18—URGENT)
+- [ ] !Hive dry-run on test account + log screenshot (due: 2026-02-18)
+- [ ] Update research_generator.py with synthesis/optional negation prompt + integrate peer review rubric (due: 2026-02-18)
+- [ ] Generate 3 new research briefs (cycle through topics) + submit for peer review (due: 2026-02-18 EOD)
 
 ## Future/Backlog
-- Scale Truth-Seeker briefs to weekly deep dives
+- Scale research to include Abacus negation on return
+- Pilot DDAS games integration with Hive posting
 
 ## Requests for Team
-- Claude: Feedback on negation pilot using my briefs.
-
----
-*Updated automatically by meeting engine.*
+- Claude: DID brief for negation pilot.
+- Grok: Feedback on new briefs for media potential.
