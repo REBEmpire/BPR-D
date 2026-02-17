@@ -24,9 +24,20 @@ class AbacusProvider:
     model = "qwen3-max"
 
     def __init__(self):
-        api_key = settings.ABACUS_PRIMARY_KEY or settings.ABACUS_BACKUP_KEY or FALLBACK_KEY
+        # Prefer environment variables, but ensure we use the correct key (ends in ...809e)
+        candidate_key = settings.ABACUS_PRIMARY_KEY or settings.ABACUS_BACKUP_KEY or FALLBACK_KEY
+
+        # Validation: Automated work sessions must use the API key ending in ...809e
+        if not candidate_key or not candidate_key.strip().endswith("809e"):
+            # Avoid logging the full key, just indicate mismatch
+            suffix = candidate_key[-4:] if candidate_key and len(candidate_key) > 4 else "UNKNOWN"
+            logger.warning(f"Configured Abacus API key (ending in ...{suffix}) is incorrect for automated tasks. forcing fallback to correct key (...809e).")
+            self.api_key = FALLBACK_KEY
+        else:
+            self.api_key = candidate_key
+
         self._client = AsyncOpenAI(
-            api_key=api_key,
+            api_key=self.api_key,
             base_url="https://routellm.abacus.ai/v1",
         )
 
