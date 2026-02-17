@@ -1,0 +1,9 @@
+import os
+if os.path.exists("HiC_Notes.md"):
+    with open("HiC_Notes.md", "r", encoding="utf-8") as f:
+        notes = f.read().strip()
+    if notes:
+        print("HiC_Notes.md ACTIVE → injecting as priority To-Dos")
+        # Auto-add to handoff (append-only)
+        from bprd_file_utils import append_to_file
+        append_to_file("handoff.md", f"HiC_Notes priority items:\n{notes}", "HiC_Notes Auto-Inject")
