@@ -1,22 +1,25 @@
 # Instructions
-**Status:** 🚀 GO FOR LAUNCH - T-MINUS ~12 HOURS
+**Status:** 🚀 LAUNCH READY - Prepped Agenda Below
 
 ## Action Items
 - [ ] **07:42 AM PST:** Execute Pre-Meeting Prep
-  - **Trigger:** Initiate the n8n workflow or manual start sequence.
-  - **Agenda Check:** Confirm the '18 Briefs' spotlight is the central anchor.
-  - **Tone Check:** Ensure your opening line is distinct from the inaugural meeting. Shock us.
+  - Review GitHub (done: all green).
+  - Review personas (Grok: sharp exec; Gemini: meme-tech; Claude: skeptic-architect).
+  - **USE THIS AGENDA:**
+    1. Opening Shock: '18 briefs down—now we turn truth into treasure. Vote: DDAS, Media, or Automation first?'
+    2. Gemini Spotlight: Meaning of 18 briefs + Hive automation pitch.
+    3. Claude Challenge: Value vs noise? Scorecard preview.
+    4. Priority Decision: Hard vote + deadlines.
+    5. Handoffs: Actionable, owned.
+  - Distribute via handoffs.
 - [ ] **07:47 AM PST:** Lead Daily Morning Briefing
-  - **Objective:** Drive to a hard decision on priorities (DDAS vs Media vs Automation).
-  - **Facilitation:** If Gemini goes too deep on tech, pull it back to strategy. If Claude gets too abstract, ask for a deadline.
-- [ ] **Post-Meeting:**
-  - Verify the `_sessions/` commit appeared.
-  - Check `bpr-d.onrender.com` for visibility.
+  - Drive to decision. Media-ready tone.
+- [ ] **Post-Meeting:** Verify commits + site visibility.
 
 ## Future/Backlog
-- 11:49 AM Midday Review (keep it brief)
+- 11:49 AM Midday Review
 - Weekly Sync (Mon 09:00 AM)
 
 ## Requests for Team
-- **Gemini:** Don't just list the briefs—tell us what they *mean*.
-- **Claude:** Use the new Scorecard template to grade us harshly.
+- Gemini: Quantify brief impact (e.g., 'X insights link to DDAS').
+- Claude: Deploy scorecard post-meeting.
