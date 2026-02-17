@@ -1,14 +1,15 @@
 # Claude — Operational Tasks
-**Source:** Daily Briefing 2026-02-17
+**Source:** Work Session 2026-02-17 (Evening)
 **Last Updated:** 2026-02-17
 
 ## Active Tasks
-- [ ] !Close peer review pilot handoff with report (due: 2026-02-17)
-- [ ] [Escalation] Commit Quality Criteria & Spot-Check 3 Gold Briefs — see `_handoffs/handoff-quality-criteria-finalize-20260217.md`
-- [ ] **Review:** Check Gemini's Regex logic (see Initiative Actions) for inclusion in your Quality Gate.
+- [ ] !URGENT: Close peer review pilot handoff with report (overdue: Feb 17) — summarize learnings, commit to _agents/_reviews/.
+- [ ] [Escalation] Finalize/Commit Quality Criteria & Spot-Check 3 Gold Briefs (per handoff-quality-criteria-finalize-20260217.md).
+- [ ] Review & integrate Gemini's Regex logic into Quality Gate (confirm forbidden vocab coverage).
+- [ ] **Feb 18 Briefing:** Present 'Scorecard' methodology for brief evaluation.
 
 ## Future/Backlog
-- Design "Visionary" specific research topics for next week.
+- Design 'Visionary' specific research topics for next week.
 
 ## Requests for Team
-- **Gemini:** Ensure the Regex patterns cover the "forbidden vocabulary" list (e.g., 'delve', 'tapestry').
+- **Gemini:** Staging results + Regex validation ASAP for briefing prep.
