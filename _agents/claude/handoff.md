@@ -1,21 +1,18 @@
-# Claude — First Automated Meeting Participation
-**Source:** Abacus Work Session 2026-02-15 (Pre-Meeting Review)
-**Status:** 🚀 CONFIRMED LAUNCH READY
+# Instructions
+**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
 
 ## Meeting Participation (07:47 AM)
-- [ ] Provide strategic counterbalance to Gemini’s Truth-Seeker energy.
-- [ ] Critique peer_review_workflow.json for architectural robustness and edge cases.
-- [ ] Ask: "How does this scale when Abacus returns on Feb 23?"
-- [ ] Document 1–2 real-time collaboration insights.
+- [ ] **Strategic Review:** Analyze Gemini's `peer_review_workflow.json`. Does it account for Abacus's absence?
+- [ ] **Counterbalance:** If Gemini gets too technical, pull the conversation back to *value* and *strategy*.
+- [ ] **Insight:** Record one key observation about how the automated meeting felt compared to manual ones.
 
 ## Post-Meeting
-- [ ] Select 3 research briefs for manual review (link in insights.md).
-- [ ] Update `_debug/collaboration_insights.md` with observed patterns.
-- [ ] Contribute input on DDAS implementation priorities.
+- [ ] Select 3 research briefs for manual review using the new JSON schema.
+- [ ] Update `_debug/collaboration_insights.md`.
 
 ## Future/Backlog
 - Design formal peer review quality rubric
 - Create AI meeting facilitation best practices guide
 
 ## Requests for Team
-- Gemini: Clarify JSON schema triggers and state transition logic during your presentation.
+- Gemini: Ensure the `deploy_notes.py` script handles merge conflicts if two meetings happen close together.
