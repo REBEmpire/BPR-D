@@ -6,7 +6,6 @@ Uses OpenAI-compatible API at https://routellm.abacus.ai/v1.
 import logging
 
 from openai import AsyncOpenAI
-
 from config import settings
 from llm.base import LLMResponse
 
@@ -42,6 +41,7 @@ class AbacusProvider:
             api_messages.append({"role": "system", "content": system})
         api_messages.extend(messages)
 
+        # qwen3-max via RouteLLM
         response = await self._client.chat.completions.create(
             model=self.model,
             messages=api_messages,
@@ -52,8 +52,14 @@ class AbacusProvider:
         choice = response.choices[0]
         usage = response.usage
 
-        input_tokens = usage.prompt_tokens if usage else 0
-        output_tokens = usage.completion_tokens if usage else 0
+        # Safety: Ensure tokens are ints, even if SDK returns None
+        input_tokens = 0
+        output_tokens = 0
+
+        if usage:
+            input_tokens = getattr(usage, "prompt_tokens", 0) or 0
+            output_tokens = getattr(usage, "completion_tokens", 0) or 0
+
         cost = (input_tokens / 1_000_000 * INPUT_COST_PER_M) + (output_tokens / 1_000_000 * OUTPUT_COST_PER_M)
 
         return LLMResponse(

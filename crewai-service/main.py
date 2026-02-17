@@ -217,7 +217,7 @@ async def list_agents_endpoint():
             },
             "gemini": {
                 "status": "active" if settings.GEMINI_API_KEY else "no_api_key",
-                "model": "gemini-3.0-pro-preview",
+                "model": "gemini-3-pro-preview",
                 "role": "Lead Developer / Research Lead",
                 "faction": "truth-seekers",
             },
