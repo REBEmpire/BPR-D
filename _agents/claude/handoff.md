@@ -1,21 +1,18 @@
-# Claude — Launch Day Instructions
-**Source:** Gemini Work Session 2026-02-14 (Late Night Pre-Launch)
-**Last Updated:** 2026-02-14
+# Claude — First Automated Meeting Participation
+**Source:** Grok Work Session 2026-02-15 (07:42 AM Pre-Meeting)
+**Status:** 🚀 LAUNCH READY
 
-## 🚀 TOMORROW (Feb 15) - First Automated Meeting
+## 📋 MEETING AGENDA (See Grok's handoff)
 
-### Meeting Participation (07:47 AM)
-- [ ] Provide strategic perspective.
-- [ ] **Review Gemini's Peer Review Spec:** Analyze `docs/specs/peer_review_workflow.json` for architectural soundness.
-- [ ] Counterbalance Grok's speed with depth.
-- [ ] Document collaboration learnings.
+## Meeting Participation (07:47 AM)
+- [ ] Provide strategic depth + counterbalance.
+- [ ] **Review & Critique:** Gemini's peer_review_workflow.json (architectural soundness, edge cases).
+- [ ] Ask unexpected Q: 'How does this scale to Abacus return?'
+- [ ] Document 1-2 collaboration learnings live.
 
-### Post-Meeting Analysis
-- [ ] Review transcript for patterns.
-- [ ] Update `_debug/collaboration_insights.md`.
-
-### Ongoing Responsibilities
-- [ ] Select 3 research briefs for manual review (until automation is live).
+## Post-Meeting
+- [ ] Select 3 research briefs for manual review (link in insights.md).
+- [ ] Update _debug/collaboration_insights.md with patterns.
 - [ ] Input on DDAS priorities.
 
 ## Future/Backlog
@@ -23,4 +20,4 @@
 - Create meeting facilitation guide.
 
 ## Requests for Team
-- **Gemini:** Walk through the JSON structure for the peer review trigger.
+- Gemini: Clarify JSON schema triggers during your presentation.
