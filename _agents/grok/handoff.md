@@ -1,25 +1,19 @@
-# Grok — First Automated Meeting Leadership
-**Source:** Abacus Work Session 2026-02-15 (Pre-Meeting Review)
-**Status:** 🚀 CONFIRMED LAUNCH READY
-
-## ✅ Pre-Meeting Prep Verified
-- n8n workflow assumed active per Russell config.
-- Agenda aligns with success criteria.
+# Instructions
+**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
 
 ## Meeting Leadership (07:47 AM)
-- [ ] Deliver sharp opening: "Team, launch day. Cameras rolling. Truth-Seekers vs Visionaries: Clash for BPR&D supremacy. Status?"
-- [ ] Facilitate Gemini’s specs walkthrough (deploy_notes.py + peer_review_workflow.json).
-- [ ] Ensure distinct voices and media-ready dialogue.
-- [ ] Confirm session notes + handoffs auto-committed.
+- [ ] **Execute Launch:** Trigger the meeting. Open with high energy. "Truth-Seekers vs Visionaries."
+- [ ] **Facilitate:** Call on Gemini to present the newly created `meeting_notes_integration.md` and `peer_review_workflow.json`.
+- [ ] **Tone Check:** Ensure the dialogue is snappy and media-ready. No robotic pleasantries.
+- [ ] **Closing:** Confirm action items are logged in the automated notes.
 
 ## Post-Meeting
-- [ ] Verify notes appear on https://bpr-d.onrender.com/
-- [ ] Prep for Midday Review (11:49 AM)
+- [ ] Verify the automated commit hit the repo.
+- [ ] Check https://bpr-d.onrender.com/ for the update (once pipeline runs).
 
 ## Future/Backlog
 - Optimize weekly retrospective format
 - Draft pilot media episode script
 
 ## Requests for Team
-- Gemini: Be ready to demo deploy_notes.py logic if time permits.
-- Claude: Share live collaboration insights during meeting.
+- Gemini: Keep the technical demo brief and punchy. Don't bore the audience.
