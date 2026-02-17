@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAgent } from "@/lib/agents"
+import { getAgentHandoffs } from "@/lib/handoffs"
 import { query } from "@/lib/db"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import ReactMarkdown from "react-markdown"
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{
@@ -21,31 +23,22 @@ export default async function AgentProfile({ params }: PageProps) {
 
   if (!agent) notFound();
 
-  // Fetch stats
-  let points = 0;
-  let logs: any[] = [];
-
-  try {
-    // Get points
-    const pointsRes = await query('SELECT points FROM agents WHERE slug = ', [slug]);
-    if (pointsRes.rows.length > 0) {
-      points = pointsRes.rows[0].points;
-    }
-
-    // Get recent logs (quests)
-    // Logs join agents on entity_id
-    const logsRes = await query(`
+  // Fetch stats and handoffs in parallel
+  const [pointsRes, logsRes, handoffs] = await Promise.all([
+    query("SELECT points FROM agents WHERE slug = $1", [slug]).catch(() => ({ rows: [] })),
+    query(`
       SELECT l.description, l.points, l.timestamp
       FROM logs l
       JOIN agents a ON l.entity_id = a.id
-      WHERE a.slug =  AND l.entity_type = 'agent'
+      WHERE a.slug = $1 AND l.entity_type = \u0027agent\u0027
       ORDER BY l.timestamp DESC
       LIMIT 10
-    `, [slug]);
-    logs = logsRes.rows;
-  } catch (err) {
-    console.warn('DB error:', err);
-  }
+    `, [slug]).catch(() => ({ rows: [] })),
+    getAgentHandoffs(slug)
+  ]);
+
+  const points = pointsRes.rows.length > 0 ? pointsRes.rows[0].points : 0;
+  const logs = logsRes.rows;
 
   return (
     <div className="container mx-auto p-8 max-w-6xl">
@@ -94,10 +87,36 @@ export default async function AgentProfile({ params }: PageProps) {
               </div>
             </CardContent>
           </Card>
+
+          {/* Current Handoff (Moved to Left Column for prominence or keep below video) */}
+          {handoffs.handoffContent && (
+            <Card className="border-accent/50 bg-accent/5">
+              <CardHeader>
+                <CardTitle className="text-lg">Current Directives</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm prose dark:prose-invert max-w-none">
+                <ReactMarkdown>{handoffs.handoffContent}</ReactMarkdown>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Right Column: Bio & Logs */}
         <div className="lg:col-span-2 space-y-8">
+
+          {/* Tasks Completed (If available) */}
+          {handoffs.tasksCompletedContent && (
+            <Card className="border-green-500/20 bg-green-500/5">
+              <CardHeader>
+                <CardTitle>Mission Log: Recently Completed</CardTitle>
+              </CardHeader>
+              <CardContent>
+                 <div className="prose dark:prose-invert max-w-none prose-sm">
+                    <ReactMarkdown>{handoffs.tasksCompletedContent}</ReactMarkdown>
+                 </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Bio */}
           <Card>
@@ -109,17 +128,17 @@ export default async function AgentProfile({ params }: PageProps) {
             </CardContent>
           </Card>
 
-          {/* Recent Quests */}
+          {/* Recent Quests (DB Logs) */}
           <Card>
             <CardHeader>
-              <CardTitle>Recent Activity Log</CardTitle>
+              <CardTitle>Recent Activity Log (DB)</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-0 divide-y divide-border">
                 {logs.length === 0 ? (
                   <li className="py-4 text-muted-foreground text-center italic">No quests recorded in the database yet.</li>
                 ) : (
-                  logs.map((log, i) => (
+                  logs.map((log: any, i: number) => (
                     <li key={i} className="flex justify-between items-center py-3 first:pt-0 last:pb-0">
                       <div>
                         <p className="font-medium text-sm md:text-base">{log.description}</p>

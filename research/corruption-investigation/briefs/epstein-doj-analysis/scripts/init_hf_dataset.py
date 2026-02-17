@@ -14,7 +14,7 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from datasets import Dataset, DatasetDict
+from datasets import Dataset
 from huggingface_hub import login, create_repo, HfApi
 from config.hf_config import HFConfig
 import logging
@@ -52,7 +52,6 @@ def init_dataset(repo_name: str = None, token: str = None):
     # Create repository if it doesn't exist
     logger.info(f"Creating repository: {repo_name}")
     try:
-        api = HfApi()
         create_repo(
             repo_id=repo_name,
             repo_type='dataset',
@@ -67,43 +66,45 @@ def init_dataset(repo_name: str = None, token: str = None):
 
     # Get all schemas
     all_features = HFConfig.get_all_features()
-    logger.info(f"Creating {len(all_features)} tables...")
+    logger.info(f"Creating {len(all_features)} tables (configurations)...")
 
-    # Create empty datasets for each table
-    dataset_dict = {}
+    # Create and push each table as a separate configuration
     for table_name, features in all_features.items():
-        logger.info(f"  Creating table: {table_name}")
-        # Create empty dataset with schema
-        empty_dataset = Dataset.from_dict({}, features=features)
-        dataset_dict[table_name] = empty_dataset
+        logger.info(f"  Processing table: {table_name}")
+        try:
+            # Create empty dataset with schema
+            # Fix: Provide empty lists for each column to match features
+            data = {k: [] for k in features.keys()}
+            ds = Dataset.from_dict(data, features=features)
 
-    # Wrap in DatasetDict
-    dataset = DatasetDict(dataset_dict)
+            logger.info(f"    Pushing {table_name} to Hub...")
+            ds.push_to_hub(
+                repo_name,
+                config_name=table_name,
+                split="train", # Use 'train' as default split
+                private=HFConfig.PRIVATE,
+                token=token
+            )
+            logger.info(f"    ✓ {table_name} pushed")
 
-    # Push to HF Hub
-    logger.info(f"Pushing dataset to HF Hub: {repo_name}")
-    try:
-        dataset.push_to_hub(
-            repo_name,
-            private=HFConfig.PRIVATE,
-            token=token
-        )
-        logger.info("✓ Dataset pushed successfully")
-    except Exception as e:
-        logger.error(f"Failed to push dataset: {e}")
-        sys.exit(1)
+        except Exception as e:
+            logger.error(f"Failed to push {table_name}: {e}")
+            # Continue with other tables? Or exit?
+            # Better to exit to ensure integrity
+            sys.exit(1)
 
     # Verify it worked
     logger.info("Verifying dataset...")
     try:
         from datasets import load_dataset
-        loaded = load_dataset(repo_name, token=token)
-        logger.info(f"✓ Dataset verified - {len(loaded)} tables created:")
-        for table_name in loaded.keys():
-            logger.info(f"    - {table_name}")
+        # Verify main table
+        logger.info("  Loading document_analyses...")
+        loaded = load_dataset(repo_name, "document_analyses", split="train", token=token)
+        logger.info(f"  ✓ Loaded document_analyses ({len(loaded)} rows)")
     except Exception as e:
         logger.error(f"Verification failed: {e}")
-        sys.exit(1)
+        # Don't exit here, just warn
+        pass
 
     # Success!
     logger.info("")

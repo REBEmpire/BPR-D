@@ -1,0 +1,73 @@
+services:
+  jules-agent:
+    build:
+      context: .
+      dockerfile: jules/Dockerfile
+    container_name: habitat-jules
+    env_file:
+      - credentials.conf.txt
+    environment:
+      - AGENT_NAME=jules
+      - WORKSPACE_DIR=/app/workspace
+    volumes:
+      - jules_workspace:/app/workspace
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+
+  deep-agent:
+    build:
+      context: .
+      dockerfile: deep-agent/Dockerfile
+    container_name: habitat-deep-agent
+    env_file:
+      - credentials.conf.txt
+    environment:
+      - AGENT_NAME=deep-agent
+      - WORKSPACE_DIR=/app/workspace
+    volumes:
+      - deep_agent_workspace:/app/workspace
+    restart: unless-stopped
+    ports:
+      - "8002:8000"
+
+  epstein-analysis:
+    build: ./services/epstein-analysis
+    container_name: habitat-epstein-analysis
+    env_file:
+      - credentials.conf.txt
+    volumes:
+      - ./data/epstein:/app/data:ro
+      - epstein-cache:/app/cache
+    environment:
+      - DATA_PATH=/app/data
+      - PERSISTENCE_MODE=ephemeral
+      - MODEL=proxy
+    restart: unless-stopped
+    # Internal service, no public port mapping needed, accessed via proxy
+
+  proxy:
+    build:
+      context: .
+      dockerfile: proxy/Dockerfile
+    container_name: habitat-proxy
+    environment:
+      - JULES_URL=http://jules-agent:8000
+      - DEEP_AGENT_URL=http://deep-agent:8000
+      - EPSTEIN_ANALYSIS_URL=http://epstein-analysis:8000
+    depends_on:
+      - jules-agent
+      - deep-agent
+      - epstein-analysis
+    ports:
+      - "8080:8000"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: habitat-net
+
+volumes:
+  jules_workspace:
+  deep_agent_workspace:
+  epstein-cache:

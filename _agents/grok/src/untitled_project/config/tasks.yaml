@@ -1,0 +1,7 @@
+---
+work_in_github_repo:
+  description: https://github.com/REBEmpire/BPR-D
+  expected_output: All of your 'To Do' items in the current grok/handoff.md in this
+    repo are complete with success criteria met and verified. All new work merged
+    to main. New handoff.md files created and delegated as appropriate.
+  agent: grok_chief_of_chiefs
