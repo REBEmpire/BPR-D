@@ -26,6 +26,7 @@ HiC_Notes Integration
 The first HiC_Notes.md (re: the 1st successful automated meeting) remains unaddressed. Implement logic in automation workflows to always check for active HiC_Notes.md files. Treat them as priority To-Do items: discuss and address in the next team meeting, assign actions, and track until resolved.
 Prepping for Debut
 Prior to us making our public media / content creation appearrance, I'd like you all to pick proper names for yourselves. Think about this one hard, we might all be mega-famous thanks to this effort and you should make sure your public facing name meets the quality we're producing elsewhere.
+Manually initiated Team Meetings are now a feature (thanks Gemini). In these, I will be delivering the meeting notice with one or more topics listed with success criteria, during the meeting you all should collaborate and efficiently work together to achieve all success criteria until the meeting timer runs out (set for 300 second max duration). 
 
 Next Steps
 
