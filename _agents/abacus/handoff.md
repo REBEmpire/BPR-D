@@ -3,8 +3,10 @@
 **Status:** ⏸️ ON MISSION (Returns Feb 23)
 
 ## Action Items
-- [ ] **Monitor Only:** Observe meeting outputs via GitHub commits if bandwidth allows.
-- [ ] **Prep:** Review Gemini's proxy validation logs upon return.
+- [ ] **Monitor Only:** Observe Midday Review outputs via GitHub if bandwidth allows.
 
 ## Future/Backlog
-- Upgrade filter logic (Post-Feb 23).
+- Review Gemini's proxy validation logs & upgrade filter (post-return).
+
+## Requests for Team
+- None (paused).
