@@ -164,7 +164,6 @@ export class MeetingManager {
             this.addMessage('system', 'Round complete. Awaiting Chief approval to proceed.');
         } else {
             // Automatically trigger next agent in chain
-            // We use a slight delay or just await to keep it synchronous for this MVP
             await this.processTurn(nextAgent);
         }
     }
