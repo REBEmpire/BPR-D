@@ -116,22 +116,31 @@ async def commit_meeting_results(response: MeetingResponse) -> bool:
 
 
 def _render_handoff(handoff: HandoffItem) -> str:
-    """Render a handoff item as markdown."""
+    """Render a handoff item as markdown with front-matter and table format."""
+    date = datetime.utcnow().strftime("%Y-%m-%d")
+
     lines = [
+        "---",
+        f"Date: {date}",
+        f"Author: {handoff.created_by} | Model: grok-4",
+        "Version: v1.0",
+        f"Status: {handoff.status}",
+        "---\n",
         f"# {handoff.title}\n",
         f"**ID**: {handoff.task_id}",
         f"**Assigned to**: {handoff.assigned_to}",
         f"**Priority**: {handoff.priority}",
         f"**Due date**: {handoff.due_date or 'TBD'}",
-        f"**Status**: {handoff.status}",
         f"**Created by**: {handoff.created_by}\n",
         f"## Context\n{handoff.context}\n",
     ]
 
     if handoff.acceptance_criteria:
         lines.append("## Acceptance Criteria\n")
+        lines.append("| Criterion | Status |")
+        lines.append("|-----------|--------|")
         for c in handoff.acceptance_criteria:
-            lines.append(f"- [ ] {c}")
+            lines.append(f"| {c} | Pending |")
         lines.append("")
 
     if handoff.dependencies:

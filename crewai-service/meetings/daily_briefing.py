@@ -25,25 +25,32 @@ def _build_agent_instructions(
     """Build per-agent handoff.md content from parsed daily briefing output.
 
     Extracts action items and handoffs assigned to each agent and formats
-    them as a simple task checklist for _agents/[agent]/handoff.md.
+    them as markdown tables for _agents/[agent]/handoff.md.
     """
-    agent_tasks: dict[str, list[str]] = {name: [] for name in participating_agents}
+    agent_tasks: dict[str, list[dict]] = {name: [] for name in participating_agents}
 
     for item in parsed.get("action_items", []):
         assignee = item.assigned_to.lower()
         if assignee in agent_tasks:
-            priority_marker = "!" if item.priority in ("high", "critical") else ""
-            deadline_str = f" (due: {item.deadline})" if item.deadline else ""
-            agent_tasks[assignee].append(
-                f"- [ ] {priority_marker}{item.task}{deadline_str}"
-            )
+            priority = "URGENT" if item.priority in ("high", "critical") else item.priority.title()
+            agent_tasks[assignee].append({
+                "task": item.task,
+                "assigned_to": assignee.title(),
+                "priority": priority,
+                "status": "Pending",
+                "due": item.deadline or "TBD",
+            })
 
     for handoff in parsed.get("handoffs", []):
         assignee = handoff.assigned_to.lower()
         if assignee in agent_tasks:
-            agent_tasks[assignee].append(
-                f"- [ ] [Escalation] {handoff.title} — see `_handoffs/{handoff.task_id}.md`"
-            )
+            agent_tasks[assignee].append({
+                "task": f"[Escalation] {handoff.title} — see `_handoffs/{handoff.task_id}.md`",
+                "assigned_to": assignee.title(),
+                "priority": "High",
+                "status": "Pending",
+                "due": handoff.due_date or "TBD",
+            })
 
     instructions = {}
     for agent_name, tasks in agent_tasks.items():
@@ -51,14 +58,25 @@ def _build_agent_instructions(
             continue
 
         lines = [
+            "---",
+            f"Date: {meeting_date}",
+            f"Author: Meeting Engine | Model: grok-4",
+            "Version: v1.0",
+            "Status: Active",
+            "---\n",
             f"# {agent_name.title()} — Operational Tasks",
             f"**Source:** Daily Briefing {meeting_date}",
-            f"**Last Updated:** {meeting_date}",
             "",
-            "## Active Tasks",
+            "## Action Items",
             "",
+            "| Task | Assigned To | Priority | Status | Due |",
+            "|------|-------------|----------|--------|-----|",
         ]
-        lines.extend(tasks)
+        for t in tasks:
+            lines.append(
+                f"| {t['task']} | {t['assigned_to']} | {t['priority']} "
+                f"| {t['status']} | {t['due']} |"
+            )
         lines.append("")
         lines.append("---")
         lines.append("*Updated automatically by meeting engine.*")

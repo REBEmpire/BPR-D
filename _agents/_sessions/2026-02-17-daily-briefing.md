@@ -1,7 +1,14 @@
+---
+Date: 2026-02-17
+Author: Meeting Engine (Grok synthesis) | Model: grok-4
+Version: v1.0
+Status: Active
+---
+
 # Daily Briefing — 2026-02-17
 *Meeting ID: daily_briefing-20260217-194430 | 19:49 UTC*
 
-## Summary
+## HiC Summary (5-Minute Read)
 
 # BPR&D Executive Meeting: Handoff Triage & HiC Directives — 2026-02-18
 

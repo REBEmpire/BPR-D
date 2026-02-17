@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 export default function AgentStatus({ handoff, active }: { handoff: string, active: string }) {
   const [showHandoff, setShowHandoff] = useState(true);
@@ -30,8 +31,10 @@ export default function AgentStatus({ handoff, active }: { handoff: string, acti
         </button>
       </div>
 
-      <div className="h-48 overflow-y-auto rounded-md border border-border/50 bg-muted/30 p-3 text-xs font-mono whitespace-pre-wrap scrollbar-thin scrollbar-thumb-primary/20 hover:scrollbar-thumb-primary/40 text-muted-foreground/80 leading-relaxed">
-        {showHandoff ? (handoff || "No handoff instructions available.") : (active || "No active context available.")}
+      <div className="h-48 overflow-y-auto rounded-md border border-border/50 bg-muted/30 p-3 text-xs leading-relaxed scrollbar-thin scrollbar-thumb-primary/20 hover:scrollbar-thumb-primary/40 text-muted-foreground/80 prose prose-xs prose-invert max-w-none [&_table]:w-full [&_table]:text-xs [&_th]:px-2 [&_th]:py-1 [&_th]:text-left [&_th]:border-b [&_th]:border-border/50 [&_td]:px-2 [&_td]:py-1 [&_td]:border-b [&_td]:border-border/30">
+        <ReactMarkdown>
+          {showHandoff ? (handoff || "No handoff instructions available.") : (active || "No active context available.")}
+        </ReactMarkdown>
       </div>
     </div>
   )

@@ -1,4 +1,19 @@
+---
+Date: YYYY-MM-DD
+Author: [Agent Name] for @ddas-devblog | Model: [model-id]
+Version: v1.0
+Status: Draft
+---
+
 # [DATE] Development Update - DDAS
+
+## Visuals
+
+| Image | Purpose | Prompt | Source | Status |
+|-------|---------|--------|--------|--------|
+| Header | Post cover | [Development/tech aesthetic: e.g., "Godot engine interface with neon overlays, cyberpunk, digital art"] | Grok Imagine | Pending |
+| Screenshot 1 | Feature showcase | [Describe the feature being shown] | In-engine screenshot | Pending |
+| Diagram | Architecture | [System diagram description if needed] | Manual / Gemini | Pending |
 
 ## This Week's Progress
 
@@ -24,9 +39,11 @@
 
 ## Next Week's Focus
 
-- [ ] Priority item 1
-- [ ] Priority item 2
-- [ ] Priority item 3
+| Item | Priority | Owner | Status |
+|------|----------|-------|--------|
+| [Priority item 1] | High | | Planned |
+| [Priority item 2] | High | | Planned |
+| [Priority item 3] | Medium | | Planned |
 
 ## Community Questions
 

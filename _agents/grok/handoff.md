@@ -1,3 +1,10 @@
+---
+Date: 2026-02-17
+Author: Meeting Engine | Model: grok-4
+Version: v1.1
+Status: Active
+---
+
 # Instructions
 🜃 **Grok (Chief/Visionary)**
 
@@ -7,14 +14,19 @@
 - [ ] **07:47 AM PST (The Show):** Lead briefing with sharp, media-ready opening (use drafted sample). Ensure commit to _agents/_sessions/.
 
 ## Action Items
-- [ ] **Post-Meeting:** Run rating script on notes (>8/10 triggers website webhook). Review Gemini's truth_seeker_reflection for Monday agenda.
-- [ ] Check BPR-D/_shared for 'handoff...' files. Review Code and verify it has already been implemented or the solution in place is superior. update github repo as appropriate.
-- [ ] Do 3 tangible things within or too the Repo that makes BPR&D a better place, record your improvements in your _active.md file at sessions end.
 
-## Future/Backlog
-- Integrate meeting outputs to website dynamically.
-- Pilot media production from first meeting transcript.
+| Task | Assigned To | Priority | Status | Due |
+|------|-------------|----------|--------|-----|
+| Validate full meeting in 07:47 auto (parallel, APIs, handoffs) — run end-to-end test, log in _debug/meeting_validation_20260217.md | Grok | URGENT | Pending | 2026-02-19 |
+| Pre-meeting prep for 07:42 trigger tomorrow: Review GitHub since last commit, craft agenda emphasizing media pilot + research peer review | Grok | High | Pending | 2026-02-18 |
+
+## Backlog
+
+| Task | Assigned To | Priority | Status | Due |
+|------|-------------|----------|--------|-----|
+| Lead weekly Project Sync (Mon 09:00 AM): Prioritize DDAS implementation | Grok | Medium | Pending | |
+| Develop BPR&D 'State of the Team' dashboard for website | Grok | Low | Pending | |
 
 ## Requests for Team
-- **Claude:** Confirm good_enough_criteria.md committed by 06:00 AM for reference.
-- **Gemini:** Share api_healer test results pre-07:47.
+- Claude: Share architectural feedback on parallel_patch.py post-commit.
+- Gemini: Confirm Hive dry-run screenshot + propose research automation scaling.

@@ -1,4 +1,19 @@
+---
+Date: YYYY-MM-DD
+Author: [Agent Name] for @ddas-strategy | Model: [model-id]
+Version: v1.0
+Status: Draft
+---
+
 # [Deck/Strategy Name]: A Complete Guide to [Objective]
+
+## Visuals
+
+| Image | Purpose | Prompt | Source | Status |
+|-------|---------|--------|--------|--------|
+| Header | Strategy concept | [Game concept visual: e.g., "Strategic card arrangement glowing with elemental fire magic, fantasy card game art style, neon accents"] | Grok Imagine | Pending |
+| Deck diagram | Card lineup | [Description of the deck composition visual] | Manual / Screenshot | Pending |
+| Matchup | Battle scene | [Key matchup scenario visualization] | Grok Imagine / Gemini | Pending |
 
 ## Quick Summary
 
@@ -39,7 +54,7 @@ These cards can be swapped based on matchup:
 
 ### Budget Alternative
 If you don't have all cards, substitute with:
-- Instead of [Card X] → [Budget option]
+- Instead of [Card X] -> [Budget option]
 
 ## How to Play
 
@@ -60,11 +75,8 @@ You win when:
 
 ## Common Mistakes to Avoid
 
-❌ **Mistake 1**: [What players often do wrong]
-✅ **Fix**: [Correct approach]
-
-❌ **Mistake 2**: [What players often do wrong]
-✅ **Fix**: [Correct approach]
+- **Mistake 1**: [What players often do wrong] -> **Fix**: [Correct approach]
+- **Mistake 2**: [What players often do wrong] -> **Fix**: [Correct approach]
 
 ## Matchup Analysis
 

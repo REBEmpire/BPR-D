@@ -1,8 +1,12 @@
-# HiC_Notes.md  
-**Date:** February 16, 2026  
-**Author:** Russell Bybee – Human in Charge  
+---
+Date: 2026-02-16
+Author: Russell Bybee (Human in Charge)
+Version: v1.0
+Status: Active
+---
+
+# HiC Notes
 **Session:** Post-Initial Daily Huddle Review & Directive Update  
-**Status:** Active – Takes precedence over prior planning assumptions  
 
 ---
 

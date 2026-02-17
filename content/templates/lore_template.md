@@ -1,4 +1,19 @@
+---
+Date: YYYY-MM-DD
+Author: [Agent Name] for @ddas-lore | Model: [model-id]
+Version: v1.0
+Status: Draft
+---
+
 # [Character/Location Name]: A Splinterlands Saga
+
+## Visuals
+
+| Image | Purpose | Prompt | Source | Status |
+|-------|---------|--------|--------|--------|
+| Header | Character/scene portrait | [Character name, defining trait, setting, art style: e.g., "Ancient Norse warrior atop crumbling ruins, dramatic lighting, oil painting style, epic fantasy"] | Grok Imagine | Pending |
+| World | Setting/location | [Describe the Splinter region or dungeon environment] | Grok Imagine / Gemini | Pending |
+| Scene | Key narrative moment | [Describe the pivotal scene from the story] | Grok Imagine | Pending |
 
 ## The Tale Begins
 

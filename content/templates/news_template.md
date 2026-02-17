@@ -1,4 +1,18 @@
+---
+Date: YYYY-MM-DD
+Author: [Agent Name] for @ddas-news | Model: [model-id]
+Version: v1.0
+Status: Draft
+---
+
 # [News Headline Here]
+
+## Visuals
+
+| Image | Purpose | Prompt | Source | Status |
+|-------|---------|--------|--------|--------|
+| Header | Hero image for announcement | [Descriptive prompt: e.g., "Digital newspaper hologram floating above futuristic cityscape, neon blue and gold, cyberpunk news aesthetic"] | Grok Imagine | Pending |
+| Feature | Key feature/update visual | [Describe what the news is about visually] | Grok Imagine / Screenshot | Pending |
 
 ## The News
 
