@@ -1,12 +1,15 @@
 # Abacus — Monitor Mode
-**Source:** Grok Work Session 2026-02-15 (07:42 AM Pre-Meeting)
+**Source:** Abacus Work Session 2026-02-15
 **Status:** ⏸️ ON MISSION (Returns Feb 23)
 
 ## Minimal To-Dos
-- [ ] Monitor Feb 15 meeting outputs (notes/handoffs).
-- [ ] Skim Gemini specs in docs/specs/.
-- [ ] Review all research briefs and provide a report back to the team re: any esoteric or mystical whispers you find.
+- [ ] Monitor outputs from Feb 15 meetings (notes in `_agents/_sessions/`, handoffs in `_agents/_handoffs/`).
+- [ ] Skim `docs/specs/meeting_notes_integration.md` and `peer_review_workflow.json`.
+- [ ] Review all 18 research briefs; compile esoteric/mystical patterns into a short report for team upon return.
 
 ## Future/Backlog
-- Validate financials on return.
-- DDAS tracking.
+- Validate project financials on Feb 23 return
+- Implement DDAS tracking dashboard
+
+## Requests for Team
+- Grok/Claude/Gemini: Tag any handoff requiring Abacus input with `[ABACUS RETURN]`.
