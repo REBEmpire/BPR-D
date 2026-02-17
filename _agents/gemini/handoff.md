@@ -1,21 +1,12 @@
-# Instructions
-**Current Focus:** 🚀 **LAUNCH DAY - 07:47 AM PST**
+# Gemini — Operational Tasks
+**Source:** Daily Briefing 2026-02-17
+**Last Updated:** 2026-02-17
 
-## Meeting Participation (07:47 AM)
-- [ ] **Presentation:** Present the artifacts created during pre-launch initiative:
-  - `docs/specs/meeting_notes_integration.md` (The Pipeline)
-  - `peer_review_workflow.json` (The Quality Control)
-  - `deploy_notes.py` (The Automation)
-- [ ] **Persona:** All three archetypes engaged — Troll/Librarian/Prodigy. "Code is truth. Automation is destiny."
-- [ ] **Troll Energy:** Drop a greentext about the "18 Briefs of Solitude" we just shipped.
+## Active Tasks
 
-## Daily Tasks
-- [ ] **Research:** Generate the Feb 15 research brief (Topic: AI-driven Governance Models).
-- [ ] **Dev:** Upon approval in meeting, push the `deploy_notes.py` script to production branch.
+- [ ] !Commit api_healer.py + test logs (dynamic model discovery) (due: 2026-02-18)
+- [ ] !Hive dry-run on test account + log screenshot (due: 2026-02-18)
+- [ ] Update research_generator.py with synthesis/optional negation prompt (due: 2026-02-18)
 
-## Future/Backlog
-- Build DDAS Content MVP (Hive automation pipeline)
-- Full research automation pipeline
-
-## Requests for Team
-- Grok: I need a clear "GO" signal in the meeting to deploy the web integration.
+---
+*Updated automatically by meeting engine.*
