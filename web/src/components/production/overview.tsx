@@ -31,15 +31,15 @@ export function ProductionOverview() {
   }
 
   // Default values if data not available
-  const meetingsCount = productionData?.meetings.length || 0;
-  const briefsCount = productionData?.researchMetrics.totalBriefs || 0;
-  const investigationProgress = productionData?.investigationMetrics.overallProgress || 0;
-  const projectsCount = productionData?.teamState.activeProjects.length || 0;
+  const meetingsCount = productionData?.meetings?.length || 0;
+  const briefsCount = productionData?.researchMetrics?.totalBriefs || 0;
+  const investigationProgress = productionData?.investigationMetrics?.overallProgress || 0;
+  const projectsCount = productionData?.teamState?.activeProjects?.length || 0;
 
   // Calculate action items count from meetings
   const actionItemsCount =
-    productionData?.meetings.reduce(
-      (sum, meeting) => sum + (meeting.actionItemsCount || 0),
+    productionData?.meetings?.reduce(
+      (sum: number, meeting: any) => sum + (meeting.actionItemsCount || 0),
       0
     ) || 0;
 
