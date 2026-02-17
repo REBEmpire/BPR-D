@@ -95,7 +95,7 @@ All agents can read from:
 - `_agents/_shared/memories/` -- Organizational memory
 - `_agents/_shared/skills/` -- Reusable patterns and techniques
 - `_agents/_shared/knowledge/` -- Domain and technical knowledge
-- `_agents/_handoffs/` -- Task queue
+- `_agents/_handoffs/` -- Escalation-tier tasks (bigger-ticket, Russell-involved, multi-session)
 - `research/` -- Research programs and findings
 
 ### Writing
@@ -115,15 +115,17 @@ All agents can read from:
 
 ### Start
 1. Read your `context/active.md` for prior state
-2. Check `_handoffs/` for tasks assigned to you
-3. Load relevant skills from `_shared/skills/`
-4. Check recent meeting notes for context
+2. Check your personal `handoff.md` for operational tasks from recent meetings/sessions
+3. Check `_handoffs/` for escalation-tier tasks assigned to you (bigger-ticket, Russell-involved, multi-session)
+4. Load relevant skills from `_shared/skills/`
+5. Check recent meeting notes for context
 
 ### During
 - Work on assigned tasks
 - Document discoveries in your `learnings/` folder
 - Create handoffs when delegating to other agents
 - **Stay in character** -- your perspective matters and your voice is unique
+- **Initiative Rule:** If you complete your assigned tasks and have remaining capacity in your session, take initiative -- execute 3 actions within your expertise to either produce something or improve BPR&D. Document all initiative actions in your `context/active.md` update and mention them in the next meeting so the team stays in the loop.
 
 ### End
 - Update `context/active.md` with:
@@ -137,13 +139,20 @@ All agents can read from:
 
 ## Handoff Format
 
-**Use the template at: `_agents/_templates/handoff.md`**
+### Operational Tasks (Agent handoff.md)
+Simple task checklists updated automatically after every meeting/work session.
+- **Location:** `_agents/[agent]/handoff.md`
+- **Format:** Markdown checklist (`- [ ] Task description`)
+- **Updated by:** Meeting engine automatically + agents manually
+- **Purpose:** Day-to-day tasks, agent-to-agent coordination, follow-ups
 
-1.  Copy `_agents/_templates/handoff.md` to `_agents/_handoffs/`.
-2.  Rename it with a descriptive title (e.g., `handoff-task-name.md`).
-3.  Fill in the details.
-
-Move completed handoffs to `_agents/_handoffs/archive/`.
+### Escalation-Tier Handoffs (_handoffs/ directory)
+Formal task documents for bigger-ticket items.
+- **Template:** `_agents/_templates/handoff.md`
+1. Copy `_agents/_templates/handoff.md` to `_agents/_handoffs/`.
+2. Rename with descriptive title (e.g., `handoff-task-name-YYYYMMDD.md`).
+3. Fill in details: context, acceptance criteria, dependencies.
+- Move completed handoffs to `_agents/_handoffs/archive/`.
 
 ---
 
@@ -250,30 +259,39 @@ All agents have independent authorization to review and comment on GitHub PRs/is
 
 ---
 
-## Handoff Management (Updated Feb 16)
+## Handoff Management (Updated Feb 17)
 
-### Structure
-Each agent maintains `handoff.md` in their folder:
-- **Location:** `_agents/[agent]/handoff.md`
-- **Ownership:** Owning agent is primary editor, but any agent can add/edit items
-- **Format:** Simple checklist with priority, source, and status
-- **Visibility:** Pulled to website TEAM page
+### Two-Tier System
+
+**Tier 1 -- Operational Tasks: `_agents/[agent]/handoff.md`**
+- Day-to-day tasks from meetings and work sessions
+- Agent-to-agent coordination, follow-ups, routine assignments
+- Updated automatically by the meeting engine after every Daily Briefing and Work Session
+- Format: Simple checklist with priority and source
+- Visibility: Pulled to website TEAM page
+- Ownership: Owning agent is primary editor, but any agent can add/edit items
+
+**Tier 2 -- Escalation: `_agents/_handoffs/` directory**
+- Bigger-ticket items requiring multi-session effort
+- Russell-involved work (API debugging, deployments, account access)
+- Cross-cutting projects spanning multiple agents
+- Ambitious agent-initiated projects that need formal tracking
+- Format: Full handoff template with context, acceptance criteria, dependencies
+- Created by the meeting engine when Grok's synthesis includes handoff items
 
 ### Rules
 - No hard limits on tasks per agent (trust agent judgment)
 - Any agent can add tasks to any other agent's handoff (collaborative)
 - Self-regulate workload; if overwhelmed, speak up
-- Tasks with high complexity or time cost should reference relevant resources
-- Completed tasks: check off, optionally move to comment line with completion date
+- Tasks with high complexity or time cost belong in Tier 2 (`_handoffs/` directory)
+- Completed operational tasks: check off in `handoff.md`
+- Completed escalation handoffs: move to `_agents/_handoffs/archive/`
 
 ### Escalation
 If an agent gets assigned too much work:
 1. Politely push back to the assigning agent
 2. If unresolved, escalate to Grok
 3. Grok's word is final on task prioritization
-
-### Old Handoff System
-Legacy handoffs in `_agents/_handoffs/` can be archived or migrated to agent folders.
 
 ---
 
@@ -329,6 +347,12 @@ Cost governance forces intentionality: prioritize high-value work, delegate to a
    - Update task statuses
    - Check off completed items
    - Add new assignments if given
+
+4. **Session Accomplishment Log** (append to `context/active.md`)
+   - List every concrete action taken this session (commits, files created, research produced, handoffs completed)
+   - Include time spent on each action if estimable
+   - Rate your own capacity utilization: Underused / Balanced / Stretched
+   - This data accumulates over time to show patterns in agent productivity
 
 ### Purpose
 - Fresh, up-to-date personality record visible on website
@@ -386,3 +410,4 @@ See `.bprd/agents.yaml` for full personas, dynamics, and capabilities.
 *v2.0 -- Restructured February 2026 for 4-agent team*
 *GitHub Comments Protocol added February 15, 2026*
 *Agent Memory System + Cost Governance added February 16, 2026*
+*Handoff two-tier system + initiative rule + session tracking added February 17, 2026*

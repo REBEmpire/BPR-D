@@ -19,16 +19,30 @@ def render_meeting_notes(response: MeetingResponse) -> str:
         f"*Meeting ID: {response.meeting_id} | {time_str}*\n",
     ]
 
-    # Main meeting notes (includes full transcript + summary)
-    if response.notes:
-        lines.append(response.notes)
+    # Summary (at top for quick access)
+    if response.summary:
+        lines.append("## Summary\n")
+        lines.append(response.summary)
         lines.append("")
 
-    # Key decisions
+    # For Russell (right after summary)
+    if response.for_russell:
+        lines.append("## For Russell\n")
+        lines.append(response.for_russell)
+        lines.append("")
+
+    # Key decisions (executive-level info grouped at top)
     if response.key_decisions:
         lines.append("## Key Decisions\n")
         for decision in response.key_decisions:
             lines.append(f"- {decision}")
+        lines.append("")
+
+    # Full transcript
+    if response.notes:
+        lines.append("---\n")
+        lines.append("## Full Transcript\n")
+        lines.append(response.notes)
         lines.append("")
 
     # Action items

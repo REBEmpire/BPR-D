@@ -12,7 +12,7 @@ from datetime import datetime
 from agents.registry import RegisteredAgent
 from llm.base import LLMResponse
 from orchestrator.transcript import Transcript
-from tools import list_commits, read_file, list_handoffs
+from tools import list_commits, read_file, list_handoffs, list_sessions
 from tools.memory_tool import read_memory
 from utils.cost_tracker import CostTracker
 
@@ -25,6 +25,7 @@ class MeetingContext:
     recent_commits: str = ""
     team_state: str = ""
     active_handoffs: str = ""
+    recent_sessions: str = ""
     protocols: str = ""
     user_context: str = ""
     agent_contexts: dict[str, str] = field(default_factory=dict)
@@ -37,6 +38,8 @@ class MeetingContext:
             parts.append(f"## Agenda\n{self.agenda}")
         if self.team_state:
             parts.append(f"## Team State\n{self.team_state}")
+        if self.recent_sessions:
+            parts.append(f"## Recent Session Summaries\n{self.recent_sessions}")
         if self.recent_commits:
             parts.append(f"## Recent Commits\n{self.recent_commits}")
         if self.active_handoffs:
@@ -140,6 +143,7 @@ class MeetingEngine:
             list_handoffs(),
             read_memory("shared", "protocols"),
             read_memory("shared", "user_context"),
+            list_sessions(count=3),
             return_exceptions=True,
         )
 
@@ -148,6 +152,7 @@ class MeetingEngine:
         self.context.active_handoffs = results[2] if isinstance(results[2], str) else ""
         self.context.protocols = results[3] if isinstance(results[3], str) else ""
         self.context.user_context = results[4] if isinstance(results[4], str) else ""
+        self.context.recent_sessions = results[5] if isinstance(results[5], str) else ""
 
         # Load each agent's active context
         agent_ctx_tasks = []

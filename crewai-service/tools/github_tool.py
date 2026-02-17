@@ -5,6 +5,7 @@ Provides read/write access to repo state during and after meetings.
 
 import base64
 import logging
+import re
 
 import httpx
 
@@ -130,6 +131,69 @@ async def list_handoffs(include_archived: bool = False) -> str:
                 result += "\n\nArchive: Could not access."
 
     return result
+
+
+async def list_sessions(count: int = 3) -> str:
+    """Read the most recent session summaries from _agents/_sessions/.
+
+    Extracts only the Summary section from each file to avoid pulling
+    full transcripts into context.
+    """
+    url = f"{GITHUB_API}/repos/{REPO}/contents/_agents/_sessions"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.get(url, headers=_headers(), timeout=15)
+            resp.raise_for_status()
+            files = resp.json()
+        except httpx.HTTPError as e:
+            return f"Error listing sessions: {e}"
+
+        if not isinstance(files, list):
+            return "No sessions directory found."
+
+        session_files = sorted(
+            [f["name"] for f in files if f["name"].endswith(".md") and f["type"] == "file"],
+        )
+
+        # Take the most recent `count` files (sorted by YYYY-MM-DD prefix)
+        recent = session_files[-count:] if len(session_files) > count else session_files
+
+        if not recent:
+            return "No session files found."
+
+        summaries = []
+        for fname in recent:
+            file_url = f"{GITHUB_API}/repos/{REPO}/contents/_agents/_sessions/{fname}"
+            try:
+                file_resp = await client.get(file_url, headers=_headers(), timeout=10)
+                file_resp.raise_for_status()
+                file_data = file_resp.json()
+                content = base64.b64decode(file_data["content"]).decode("utf-8")
+
+                # Extract Summary section only
+                summary = _extract_summary(content)
+                summaries.append(f"### {fname}\n{summary}\n")
+            except Exception:
+                summaries.append(f"### {fname}\n[Could not read file]\n")
+
+    return f"Recent sessions ({len(recent)}):\n\n" + "\n".join(summaries)
+
+
+def _extract_summary(content: str) -> str:
+    """Extract the ## Summary section from session markdown.
+
+    Falls back to the first 500 chars if no Summary heading found.
+    """
+    match = re.search(r"^## Summary\s*\n(.*?)(?=^## |\Z)", content, re.MULTILINE | re.DOTALL)
+    if match:
+        summary = match.group(1).strip()
+        if len(summary) > 2000:
+            summary = summary[:2000] + "\n... [truncated]"
+        return summary
+
+    # Fallback: return first 500 chars
+    return content[:500].strip() + "\n... [no Summary section found]"
 
 
 async def commit_file(path: str, content: str, message: str, branch: str = "main") -> bool:

@@ -5,12 +5,64 @@ Commits meeting notes and handoff files to the GitHub repository.
 
 import logging
 from datetime import datetime
+from difflib import SequenceMatcher
 
 from models.meeting import MeetingResponse, HandoffItem
 from output.renderer import render_meeting_notes
 from tools.github_tool import commit_file
 
 logger = logging.getLogger(__name__)
+
+
+def _deduplicate_handoffs(handoffs: list[HandoffItem]) -> list[HandoffItem]:
+    """Remove duplicate handoffs with the same assignee and overlapping content.
+
+    Conservative: only merges when same assigned_to AND title similarity > 0.6
+    AND context similarity > 0.5. Keeps the one with more acceptance criteria.
+    """
+    if len(handoffs) <= 1:
+        return handoffs
+
+    deduplicated = []
+    skip_indices: set[int] = set()
+
+    for i, h1 in enumerate(handoffs):
+        if i in skip_indices:
+            continue
+
+        merged = h1
+        for j in range(i + 1, len(handoffs)):
+            if j in skip_indices:
+                continue
+
+            h2 = handoffs[j]
+            if h1.assigned_to.lower() != h2.assigned_to.lower():
+                continue
+
+            title_sim = SequenceMatcher(
+                None, h1.title.lower(), h2.title.lower()
+            ).ratio()
+            context_sim = SequenceMatcher(
+                None, h1.context.lower(), h2.context.lower()
+            ).ratio()
+
+            if title_sim > 0.6 and context_sim > 0.5:
+                logger.info(
+                    f"Deduplicating handoffs: '{h1.title}' and '{h2.title}' "
+                    f"(title_sim={title_sim:.2f}, context_sim={context_sim:.2f})"
+                )
+                if len(h2.acceptance_criteria) > len(merged.acceptance_criteria):
+                    merged = h2
+                skip_indices.add(j)
+
+        deduplicated.append(merged)
+
+    if len(deduplicated) < len(handoffs):
+        logger.info(
+            f"Deduplicated {len(handoffs)} handoffs down to {len(deduplicated)}"
+        )
+
+    return deduplicated
 
 
 async def commit_meeting_results(response: MeetingResponse) -> bool:
@@ -32,8 +84,8 @@ async def commit_meeting_results(response: MeetingResponse) -> bool:
         logger.error(f"Failed to commit meeting notes to {notes_path}")
         success = False
 
-    # 2. Commit handoff files (individual tasks)
-    for handoff in response.handoffs:
+    # 2. Commit handoff files (individual tasks, deduplicated)
+    for handoff in _deduplicate_handoffs(response.handoffs):
         handoff_content = _render_handoff(handoff)
         handoff_path = f"_agents/_handoffs/{handoff.task_id}.md"
 

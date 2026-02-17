@@ -17,6 +17,57 @@ from utils.cost_tracker import CostTracker
 logger = logging.getLogger(__name__)
 
 
+def _build_agent_instructions(
+    parsed: dict,
+    participating_agents: list[str],
+    meeting_date: str,
+) -> dict[str, str]:
+    """Build per-agent handoff.md content from parsed daily briefing output.
+
+    Extracts action items and handoffs assigned to each agent and formats
+    them as a simple task checklist for _agents/[agent]/handoff.md.
+    """
+    agent_tasks: dict[str, list[str]] = {name: [] for name in participating_agents}
+
+    for item in parsed.get("action_items", []):
+        assignee = item.assigned_to.lower()
+        if assignee in agent_tasks:
+            priority_marker = "!" if item.priority in ("high", "critical") else ""
+            deadline_str = f" (due: {item.deadline})" if item.deadline else ""
+            agent_tasks[assignee].append(
+                f"- [ ] {priority_marker}{item.task}{deadline_str}"
+            )
+
+    for handoff in parsed.get("handoffs", []):
+        assignee = handoff.assigned_to.lower()
+        if assignee in agent_tasks:
+            agent_tasks[assignee].append(
+                f"- [ ] [Escalation] {handoff.title} — see `_handoffs/{handoff.task_id}.md`"
+            )
+
+    instructions = {}
+    for agent_name, tasks in agent_tasks.items():
+        if not tasks:
+            continue
+
+        lines = [
+            f"# {agent_name.title()} — Operational Tasks",
+            f"**Source:** Daily Briefing {meeting_date}",
+            f"**Last Updated:** {meeting_date}",
+            "",
+            "## Active Tasks",
+            "",
+        ]
+        lines.extend(tasks)
+        lines.append("")
+        lines.append("---")
+        lines.append("*Updated automatically by meeting engine.*")
+
+        instructions[agent_name] = "\n".join(lines)
+
+    return instructions
+
+
 class DailyBriefing:
     meeting_type = "daily_briefing"
 
@@ -43,21 +94,28 @@ class DailyBriefing:
         # Parse structured output from Grok's synthesis
         parsed = parse_synthesis(synthesis_raw)
 
-        # Build the full meeting notes (transcript + synthesis)
+        # Build meeting notes (transcript only — summary rendered separately at top)
+        date_str = datetime.utcnow().strftime("%Y-%m-%d")
         notes = f"# BPR&D Daily Briefing — {datetime.utcnow().strftime('%B %d, %Y')}\n\n"
         notes += transcript.to_markdown()
-        if parsed.get("meeting_notes"):
-            notes += f"\n---\n\n## Summary\n\n{parsed['meeting_notes']}\n"
-        if parsed.get("for_russell"):
-            notes += f"\n## For Russell\n\n{parsed['for_russell']}\n"
+
+        # Build per-agent task checklists from action items and handoffs
+        agent_instructions = _build_agent_instructions(
+            parsed=parsed,
+            participating_agents=list(agents.keys()),
+            meeting_date=date_str,
+        )
 
         return MeetingResponse(
             success=True,
             meeting_id=meeting_id,
             meeting_type=self.meeting_type,
             notes=notes,
+            summary=parsed.get("meeting_notes", ""),
+            for_russell=parsed.get("for_russell", ""),
             handoffs=parsed.get("handoffs", []),
             action_items=parsed.get("action_items", []),
             key_decisions=parsed.get("key_decisions", []),
+            agent_instructions=agent_instructions,
             cost_estimate=CostEstimate(**cost_tracker.to_dict()),
         )

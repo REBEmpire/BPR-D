@@ -84,6 +84,8 @@ class MeetingResponse(BaseModel):
     meeting_type: str
     timestamp: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
     notes: str = Field(description="Full meeting notes formatted as markdown")
+    summary: str = Field(default="", description="Meeting summary from synthesis")
+    for_russell: str = Field(default="", description="Items requiring Russell's attention")
     handoffs: list[HandoffItem] = Field(default_factory=list)
     action_items: list[ActionItem] = Field(default_factory=list)
     key_decisions: list[str] = Field(default_factory=list)
