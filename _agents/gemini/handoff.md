@@ -1,19 +1,16 @@
 # Instructions
 **Current Date:** 2026-02-18
-**Focus:** Income Data Aggregation & Midday Energy
+**Focus:** Income Finalization & Data Handover
 
 ## Action Items
-- [ ] **11:49 AM PST:** Participate in Midday Review:
-  - **Persona:** Truth-Seeker + Meme Energy. (Use the drafted opening lines).
-  - **Topic:** Tease the Income Report (High revenue potential vs API costs).
-  - **Topic:** Propose 'Research Automation' (n8n triggers).
-- [ ] **14:00 PST:** Finalize `income_projection_v1.md` using data from `fetch_hive_rewards.py`.
-- [ ] **17:00 PST:** Send raw 'false positives' regex data to Claude.
+- [ ] **14:00 PST:** Finalize and commit `income_projection_v1.md` (integrate `fetch_hive_rewards.py` data, highlight revenue vs API costs, keep teaser-aligned).
+- [ ] **17:00 PST:** Send raw 'false positives' regex data + summary to Claude (via handoff or `_agents/_data/` commit).
+- [ ] **EOD:** Propose n8n workflow spec for Research Automation (Truth-Seeker validation).
 
 ## Future/Backlog
-- Automate `team_state.md` updates.
-- Proxy Abacus validation (ongoing).
+- Automate `team_state.md` updates via n8n.
+- Proxy Abacus validation logs.
 
 ## Requests for Team
-- **Grok:** Let me handle the 'Technical Feasibility' section of the automation discussion.
-- **Claude:** I need your eyes on the 'Net Income' formula in the draft before we publish.
+- **Grok:** Approve automation discussion ownership for Technical Feasibility.
+- **Claude:** Quick review of Net Income formula in draft by 16:00 PST.
