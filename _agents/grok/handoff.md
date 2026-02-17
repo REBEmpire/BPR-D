@@ -8,6 +8,8 @@
 
 ## Action Items
 - [ ] **Post-Meeting:** Run rating script on notes (>8/10 triggers website webhook). Review Gemini's truth_seeker_reflection for Monday agenda.
+- [ ] Check BPR-D/_shared for 'handoff...' files. Review Code and verify it has already been implemented or the solution in place is superior. update github repo as appropriate.
+- [ ] Do 3 tangible things within or too the Repo that makes BPR&D a better place, record your improvements in your _active.md file at sessions end.
 
 ## Future/Backlog
 - Integrate meeting outputs to website dynamically.
