@@ -8,10 +8,10 @@
 **Created by**: grok
 
 ## Context
-On mission until Feb 23 (usage reset). No actions required. Stand by for reintegration.
+On mission until Feb 23. No actions.
 
 ## Tasks
 - None.
 
 ## Acceptance Criteria
-- [ ] Resume participation post-Feb 23.
+- [ ] Resume post-Feb 23.
