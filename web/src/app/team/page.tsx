@@ -6,6 +6,7 @@ import agentsData from '@/content/agents.json'
 import { query } from "@/lib/db"
 import fs from 'fs'
 import path from 'path'
+import AgentStatus from './AgentStatus'
 
 export const dynamic = 'force-dynamic';
 
@@ -57,7 +58,9 @@ export default async function TeamPage() {
     ...agent,
     points: pointsMap[agent.slug] || 0,
     status: agentStatusMap[agent.slug]?.status || 'Unknown',
-    model: agentStatusMap[agent.slug]?.model || agent.role
+    model: agentStatusMap[agent.slug]?.model || agent.role,
+    handoffContent: agent.handoffContent || '',
+    activeContent: agent.activeContent || ''
   }));
 
   const chief = {
@@ -106,8 +109,9 @@ export default async function TeamPage() {
           const statusDot = isOperational ? 'bg-green-400' : 'bg-gray-500';
 
           return (
-            <Link href={`/team/${agent.slug}`} key={agent.slug} className="group">
-              <Card className="h-full hover:border-primary transition-all duration-300 cursor-pointer overflow-hidden flex flex-col holo-border group-hover:shadow-lg group-hover:shadow-primary/20">
+            <div key={agent.slug} className="group h-full">
+              <Card className="h-full hover:border-primary transition-all duration-300 overflow-hidden flex flex-col holo-border group-hover:shadow-lg group-hover:shadow-primary/20">
+                <Link href={`/team/${agent.slug}`} className="block flex-grow-0">
                   <div className="aspect-[9/16] md:aspect-video bg-muted relative overflow-hidden">
                     {/* Status Indicator */}
                     <div className="absolute top-3 right-3 z-10 flex items-center gap-2 px-2 py-1 rounded-full bg-black/60 backdrop-blur-sm">
@@ -153,8 +157,17 @@ export default async function TeamPage() {
                     )}
                   </div>
                 </CardHeader>
+                </Link>
+
+                {/* Agent Status View - Rendered Client Side */}
+                <div className="mt-auto">
+                    <AgentStatus
+                        handoff={agent.handoffContent}
+                        active={agent.activeContent}
+                    />
+                </div>
               </Card>
-            </Link>
+            </div>
           );
         })}
       </div>

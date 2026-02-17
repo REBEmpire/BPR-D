@@ -15,16 +15,16 @@ logger = logging.getLogger(__name__)
 INPUT_COST_PER_M = 2.00
 OUTPUT_COST_PER_M = 6.00
 
+# Fallback key (temporary until env vars are updated)
+FALLBACK_KEY = "s2_1e30fa4a3d834bffb1b465d67eb1809e"
+
 
 class AbacusProvider:
     name = "abacus"
     model = "qwen3-max"
 
     def __init__(self):
-        # We assume one of these keys is present if we are here (registry checks)
-        api_key = settings.ABACUS_PRIMARY_KEY or settings.ABACUS_BACKUP_KEY
-        # If both are empty, the SDK might complain, but is_abacus_available checks this earlier.
-
+        api_key = settings.ABACUS_PRIMARY_KEY or settings.ABACUS_BACKUP_KEY or FALLBACK_KEY
         self._client = AsyncOpenAI(
             api_key=api_key,
             base_url="https://routellm.abacus.ai/v1",
