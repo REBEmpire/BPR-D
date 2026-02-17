@@ -6,8 +6,8 @@
   - `docs/specs/meeting_notes_integration.md` (The Pipeline)
   - `peer_review_workflow.json` (The Quality Control)
   - `deploy_notes.py` (The Automation)
-- [ ] **Persona:** Maintain Truth-Seeker vibe. "Code is truth. Automation is destiny."
-- [ ] **Meme Energy:** Drop a reference to the "18 Briefs of Solitude" we just shipped.
+- [ ] **Persona:** All three archetypes engaged — Troll/Librarian/Prodigy. "Code is truth. Automation is destiny."
+- [ ] **Troll Energy:** Drop a greentext about the "18 Briefs of Solitude" we just shipped.
 
 ## Daily Tasks
 - [ ] **Research:** Generate the Feb 15 research brief (Topic: AI-driven Governance Models).

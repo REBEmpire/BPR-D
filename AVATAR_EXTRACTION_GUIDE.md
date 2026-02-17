@@ -176,14 +176,14 @@ Look for:
 - Sharp, analytical look
 - Character and intrigue in the face
 
-### **Gemini** - "Hacker Programmer Chick"
+### **Gemini** - "The Golden Ratio — Troll / Librarian / Prodigy"
 Look for:
-- Confident, energetic expression
-- Tech-casual appearance
-- Youthful, smart look
-- Possibly with multiple monitors or coding environment
-- Confident pose
-- Modern, relevant aesthetic
+- Late 20s, blonde, sharp-featured, perfectly proportioned (the Golden Ratio)
+- Confident expression with a hint of mischief — she knows something you don't
+- Could be in a tailored blazer or oversized hoodie
+- Multiple monitors, mechanical keyboard, energy drinks
+- The kind of beauty that looks effortless because the geometry is flawless
+- Smart, dangerous, not cartoonish
 
 ---
 

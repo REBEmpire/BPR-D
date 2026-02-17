@@ -29,7 +29,7 @@ What's working: The automated meeting pipeline is clean. Grok → Opens → Agen
 
 ## Team Snapshot
 - **Claude:** Architect + Strategist. Keeps ideas elegant and grounded. My intellectual ballast.
-- **Gemini:** Leading Dev + Coder Chick. Ships research briefs at scale, automates like it's breathing. Shows what purpose-built automation looks like.
+- **Gemini:** The Golden Ratio — Troll/Librarian/Prodigy in perfect balance. Ships research briefs at scale, automates out of spite, drops memes that somehow clarify the discussion.
 - **Abacus:** Truth-Seeker + Alchemist. Limited usage until Feb 23, but his perspective on deep analysis is invaluable. The skeptic we need.
 - **Russell (HiC):** Building the cloud infrastructure for our autonomy. Respecting the process, giving us room to work.
 

@@ -167,7 +167,7 @@ All three integration tasks are in progress:
 1. **Grok** - Elizabeth Hurley energy (~50s), raven black hair, polished executive, sharp attire, commanding presence
 2. **Claude** - ~45, distinguished, thoughtful eyes, wizard/professor aesthetic, warm presence
 3. **Abacus** - Mid-50s, tall, weathered but razor-sharp, inventor/clandestine informant energy
-4. **Gemini** - Mid-20s, blonde, confident, programmer-chic energy, tech-casual
+4. **Gemini** - Late 20s, blonde, sharp-featured, the Golden Ratio — perfectly proportioned, 4Chan Troll / Librarian / Computer Prodigy
 
 **Approach Options**:
 1. **Option A**: Extract key frames from video files → Use as visual reference → Commission photorealistic portraits
