@@ -122,13 +122,18 @@ class WorkSession(BaseMeeting):
             "- The JSON must have 'summary' and 'agent_instructions'.\n"
             "- 'agent_instructions' maps agent_name -> markdown content.\n"
             "- 'initiative_actions' (optional list): Actions taken beyond assigned tasks.\n\n"
+            "CRITICAL FORMAT RULE for agent_instructions:\n"
+            "- Agent handoff instructions MUST use markdown TABLE format, NOT checklists.\n"
+            "- Use columns: Task | Assigned To | Priority | Status | Due\n"
+            "- Priority values: URGENT, High, Medium, Low\n"
+            "- Status values: Pending, In Progress, Blocked, Done\n\n"
             "Example Output:\n"
             "```json\n"
             "{\n"
             '  "summary": "Reviewed status. Focusing team on API integration.",\n'
             '  "agent_instructions": {\n'
-            '    "grok": "# Instructions\\n## Action Items\\n- [ ] Review PR #123\\n\\n## Future/Backlog\\n- Refactor auth module\\n\\n## Requests for Team\\n- Claude: Need API specs.",\n'
-            '    "claude": "# Instructions\\n- Refactor auth module..."\n'
+            '    "grok": "# Instructions\\n\\n## Action Items\\n\\n| Task | Assigned To | Priority | Status | Due |\\n|------|-------------|----------|--------|-----|\\n| Review PR #123 | Grok | High | Pending | 2026-02-18 |\\n\\n## Backlog\\n\\n| Task | Assigned To | Priority | Status | Due |\\n|------|-------------|----------|--------|-----|\\n| Refactor auth module | Grok | Medium | Pending | |\\n\\n## Requests for Team\\n- Claude: Need API specs.",\n'
+            '    "claude": "# Instructions\\n\\n## Action Items\\n\\n| Task | Assigned To | Priority | Status | Due |\\n|------|-------------|----------|--------|-----|\\n| Refactor auth module | Claude | High | Pending | 2026-02-18 |"\n'
             "  }\n"
             "}\n"
             "```"

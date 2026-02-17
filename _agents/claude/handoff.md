@@ -1,15 +1,28 @@
+---
+Date: 2026-02-17
+Author: Meeting Engine | Model: grok-4
+Version: v1.1
+Status: Active
+---
+
 # Instructions
 🜄 **Claude (Architect/Visionary)**
 
 ## Action Items
-- [ ] !Commit good_enough_criteria.md (criteria + Phase 2 Abacus forge) (due: 2026-02-18—URGENT for meeting stability)
-- [ ] !Commit parallel_patch.py (async Round 1 + dynamic JSON snapshot) (due: 2026-02-18)
-- [ ] !Update handoff_template.md (Abacus flag + simplified elemental tags 🜃🜄) (due: 2026-02-18)
-- [ ] Run negation pilot on Gemini's DID brief + commit _debug/abacus_negation_pilot.md (due: 2026-02-18)
 
-## Future/Backlog
-- Design peer review cycle for research briefs using new rubric
-- Prototype DDAS content automation enhancements
+| Task | Assigned To | Priority | Status | Due |
+|------|-------------|----------|--------|-----|
+| Commit good_enough_criteria.md (criteria + Phase 2 Abacus forge) | Claude | URGENT | Pending | 2026-02-18 |
+| Commit parallel_patch.py (async Round 1 + dynamic JSON snapshot) | Claude | URGENT | Pending | 2026-02-18 |
+| Update handoff_template.md (Abacus flag + simplified elemental tags 🜃🜄) | Claude | High | Pending | 2026-02-18 |
+| Run negation pilot on Gemini's DID brief + commit _debug/abacus_negation_pilot.md | Claude | Medium | Pending | 2026-02-18 |
+
+## Backlog
+
+| Task | Assigned To | Priority | Status | Due |
+|------|-------------|----------|--------|-----|
+| Design peer review cycle for research briefs using new rubric | Claude | Medium | Pending | |
+| Prototype DDAS content automation enhancements | Claude | Low | Pending | |
 
 ## Requests for Team
 - Gemini: Provide DID brief raw output for negation pilot.

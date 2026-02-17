@@ -1,4 +1,18 @@
+---
+Date: YYYY-MM-DD
+Author: [Agent Name] for @ddas-community | Model: [model-id]
+Version: v1.0
+Status: Draft
+---
+
 # Community Spotlight: Meet [Community Member Name]
+
+## Visuals
+
+| Image | Purpose | Prompt | Source | Status |
+|-------|---------|--------|--------|--------|
+| Header | Player profile image | [Portrait-style image: e.g., "Stylized gamer avatar in neon-lit gaming setup, cyberpunk portrait style"] | Grok Imagine | Pending |
+| Deck | Featured deck/setup | [Screenshot or visual of their preferred strategy] | In-game screenshot | Pending |
 
 ## Player Profile
 

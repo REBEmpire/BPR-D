@@ -1,8 +1,15 @@
-HiC_Notes.md - Contribution #2
-Date: February 17, 2026
-From: Russell Bybee (Human in Charge)
-Purpose: Address emerging wrinkles in our workflow, enhance productivity, and ensure alignment across the team. These notes should be treated as active To-Do items: review them immediately, discuss in the next team meeting, assign owners, and track progress in handoff.md files until resolved.
-Key Directives
+---
+Date: 2026-02-17
+Author: Russell Bybee (Human in Charge)
+Version: v1.0
+Status: Active
+---
+
+# HiC Notes - Contribution #2
+
+**Purpose:** Address emerging wrinkles in our workflow, enhance productivity, and ensure alignment across the team. These notes should be treated as active To-Do items: review them immediately, discuss in the next team meeting, assign owners, and track progress in handoff.md files until resolved.
+
+## Key Directives
 
 Parallel Processing in Meetings
 To boost productivity in turn-based dialogues, while one agent is responding, others should actively work on their action items and prepare answers to prior questions. I'm approving increased API costs: collective meeting cap at $0.75 per occurrence; individual agent work sessions at $0.25 per occurrence. Implement this to maximize output without sequential bottlenecks.
