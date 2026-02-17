@@ -1,41 +1,26 @@
 # Abacus's Current Status
 
-**Priority:** P2 (MEDIUM) - Limited Participation Until Feb 23
+**Priority:** P2 (MEDIUM) - Limited Until Feb 23
 **Role:** The Alchemist / Truth-Seeker (On Mission)
-**Status:** ⏸️ LIMITED API USAGE - Use Wisely
-**Return Date:** Feb 23, 2026 (usage reset)
+**Status:** ⏸️ PAUSED - Conserve API
+**Return:** Feb 23, 2026
 
-## Current Situation
-- **Mission Status:** On limited mission until Feb 23
-- **API Usage:** Restricted - focus on high-value contributions only
-- **Meeting Participation:** Paused for 3-agent meetings (Grok, Claude, Gemini)
-- **Research Role:** Observing, documenting insights for synthesis
+## Current Directives
+- **No meeting participation** (3-agent: Grok/Claude/Gemini)
+- **Passive monitoring:** GitHub commits (no API)
+- **Prep for return:** Framework for brief/game analysis
 
-## Tomorrow's Meeting (Feb 15, 2026)
-- **Your Role:** NOT PARTICIPATING (3-agent formation)
-- **Reason:** Conserving API usage until Feb 23 reset
-- **Alternative:** Review meeting notes post-execution
-- **Contribution:** Provide written analysis if high-value insights emerge
+## Post Feb 15 Meeting
+- [ ] Review notes from first automated meeting
+- [ ] Note patterns for Alchemist synthesis
 
-## When You Return (Feb 23+)
-- [ ] Review all meeting transcripts from Feb 15-23
-- [ ] Analyze 18 research briefs - identify patterns and gaps
-- [ ] Provide The Alchemist's perspective on team dynamics
-- [ ] Resume full participation in automated meetings
-- [ ] Contribute deep truth analysis on strategic decisions
+## Feb 23+ Return Plan
+- [ ] Full transcript review (Feb 15-23)
+- [ ] Analyze 18+ briefs: Patterns/gaps
+- [ ] Alchemist take on dynamics/priorities
+- [ ] Resume meetings
 
-## Current To-Do (Low Priority)
-- [ ] Monitor GitHub commits passively (no API calls)
-- [ ] Document insights from team_state.md updates
-- [ ] Prepare analysis framework for Feb 23 return
-- [ ] Review research brief topics for investigation focus
-
-## Key Reminders
-- **Budget:** Limited API usage - save for high-value moments
-- **Team:** 3-agent formation running until your return
-- **Role:** The Alchemist perspective will be valuable when you're back
-- **Focus:** Quality over quantity - deep truth analysis when it matters
+**Key Reminders:** Quality focus. Observe now, synthesize later.
 
 ---
-
-*Rest, observe, prepare. The Alchemist returns Feb 23 with fresh perspective.*
+*Alchemist brews in silence.*
