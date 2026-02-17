@@ -19,3 +19,4 @@ apscheduler>=3.10.0
 # Data models & config
 pydantic>=2.5.0
 python-dotenv>=1.0.0
+tzdata

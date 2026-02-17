@@ -19,7 +19,7 @@ OUTPUT_COST_PER_M = 5.00
 
 class GoogleProvider:
     name = "gemini"
-    model = "gemini-3.0-pro-preview"
+    model = "gemini-3-pro-preview"
 
     def __init__(self):
         genai.configure(api_key=settings.GEMINI_API_KEY)
