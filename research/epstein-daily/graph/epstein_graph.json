@@ -1072,6 +1072,191 @@
     },
     {
       "id": "handoff-parallel-patch-review-russell-20260218"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 100,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Passengers: - Jeffrey Epstein"
+      ],
+      "id": "Jeffrey Epstein"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 100,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Passengers: - Ghislaine Maxwell"
+      ],
+      "id": "Ghislaine Maxwell"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 100,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Passengers: - Prince Andrew"
+      ],
+      "id": "Prince Andrew"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 95,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "- Bill Clinton (Listed as \"William Jefferson\")"
+      ],
+      "id": "Bill Clinton"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 95,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "- Bill Clinton (Listed as \"William Jefferson\")"
+      ],
+      "id": "William Jefferson"
+    },
+    {
+      "type": "PERSON",
+      "confidence": 90,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "- Unknown Female (Redacted)"
+      ],
+      "id": "Unknown Female"
+    },
+    {
+      "type": "ORG",
+      "confidence": 0,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Payment of 0,000 wired to \"Hyperion Corp\""
+      ],
+      "id": "Hyperion Corp"
+    },
+    {
+      "type": "LOC",
+      "confidence": 100,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Meeting scheduled at Zorro Ranch immediately following arrival."
+      ],
+      "id": "Zorro Ranch"
+    },
+    {
+      "type": "LOC",
+      "confidence": 80,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Anomaly: Flight duration listed as 14 hours for a NY-NM trip?"
+      ],
+      "id": "NY"
+    },
+    {
+      "type": "LOC",
+      "confidence": 80,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Anomaly: Flight duration listed as 14 hours for a NY-NM trip?"
+      ],
+      "id": "NM"
+    },
+    {
+      "type": "DATE",
+      "confidence": 100,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Date: 2002-05-15"
+      ],
+      "id": "2002-05-15"
+    },
+    {
+      "type": "DATE",
+      "confidence": 90,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "FLIGHT LOG EXCERPT - 2002"
+      ],
+      "id": "2002"
+    },
+    {
+      "type": "FLIGHT",
+      "confidence": 100,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Aircraft: N908JE"
+      ],
+      "id": "N908JE"
+    },
+    {
+      "type": "FLIGHT",
+      "confidence": 85,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Anomaly: Flight duration listed as 14 hours for a NY-NM trip?"
+      ],
+      "id": "NY-NM  trip"
+    },
+    {
+      "type": "FINANCIAL",
+      "confidence": 70,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "Payment of 0,000 wired to \"Hyperion Corp\" on same day from J.E. accounts."
+      ],
+      "id": "0,000"
+    },
+    {
+      "type": "FINANCIAL",
+      "confidence": 95,
+      "sources": [
+        "test_doc.txt"
+      ],
+      "context": [
+        "on same day from J.E. accounts."
+      ],
+      "id": "J.E. accounts"
+    },
+    {
+      "id": " Unknown Female"
+    },
+    {
+      "id": "All listed passengers"
+    },
+    {
+      "id": "NY-NM trip"
     }
   ],
   "edges": [
@@ -2668,6 +2853,214 @@
       "weight": 1,
       "source": "Epstein Archive",
       "target": "handoff-parallel-patch-review-russell-20260218"
+    },
+    {
+      "type": "flew_on_same_flight",
+      "confidence": 100,
+      "rationale": [
+        "Jeffrey Epstein is listed as a passenger on aircraft N908JE."
+      ],
+      "provenance": [
+        "Aircraft: N908JE\nPassengers:\n- Jeffrey Epstein"
+      ],
+      "weight": 1,
+      "source": "Jeffrey Epstein",
+      "target": "N908JE"
+    },
+    {
+      "type": "flew_together",
+      "confidence": 100,
+      "rationale": [
+        "Both are listed as passengers on the same flight."
+      ],
+      "provenance": [
+        "Passengers:\n- Jeffrey Epstein\n- Ghislaine Maxwell"
+      ],
+      "weight": 1,
+      "source": "Jeffrey Epstein",
+      "target": "Ghislaine Maxwell"
+    },
+    {
+      "type": "flew_together",
+      "confidence": 100,
+      "rationale": [
+        "Both are listed as passengers on the same flight."
+      ],
+      "provenance": [
+        "Passengers:\n- Jeffrey Epstein\n- Prince Andrew"
+      ],
+      "weight": 1,
+      "source": "Jeffrey Epstein",
+      "target": "Prince Andrew"
+    },
+    {
+      "type": "flew_together",
+      "confidence": 100,
+      "rationale": [
+        "Both are listed as passengers on the sam e flight."
+      ],
+      "provenance": [
+        "Passengers:\n- Jeffrey Epstein\n- Bill Clinton (Listed as \"William Jefferson\")"
+      ],
+      "weight": 1,
+      "source": "Jeffrey Epstein",
+      "target": "Bill Clinton"
+    },
+    {
+      "type": "flew_together",
+      "confidence": 95,
+      "rationale": [
+        "Both are listed as passengers on the same flight."
+      ],
+      "provenance": [
+        "Passengers:\n- Jeffrey Epstein\n- Unknown Female (Redacted)"
+      ],
+      "weight": 1,
+      "source": "Jeffrey Epstein",
+      "target": "Unknown Female"
+    },
+    {
+      "type": "payment_wire",
+      "confidence": 95,
+      "rationale": [
+        "Payment is described as coming from J.E. accounts, reasonably interpreted as Jeffrey Epstein's accounts."
+      ],
+      "provenance": [
+        "Payment of  0,000 wired to \"Hyperion Corp\" on same day from J.E. accounts."
+      ],
+      "weight": 1,
+      "source": "Jeffrey Epstein",
+      "target": "Hyperion Corp"
+    },
+    {
+      "type": "flew_on_same_flight",
+      "confidence": 100,
+      "rationale": [
+        "Ghislaine Maxwell is listed as a passenger on aircraft N908JE."
+      ],
+      "provenance": [
+        "Aircraft: N908JE\nPassengers:\n- Ghislaine Maxwell"
+      ],
+      "weight": 1,
+      "source": "Ghislaine Maxwell",
+      "target": "N908JE"
+    },
+    {
+      "type": "flew_together",
+      "confidence": 100,
+      "rationale": [
+        "Both are listed as passengers on the same flight."
+      ],
+      "provenance": [
+        "Passengers:\n- Ghislaine Maxwell\n- Prince Andrew"
+      ],
+      "weight": 1,
+      "source": "Ghislaine Maxwell",
+      "target": "Prince Andrew"
+    },
+    {
+      "type": "flew_together",
+      "confidence": 95,
+      "rationale": [
+        "Both are listed as passengers on the same flight."
+      ],
+      "provenance": [
+        "Passengers:\n- Ghislaine Maxwell\n- Bill Clinton (Listed as \"William Jefferson\")"
+      ],
+      "weight": 1,
+      "source": "Ghislaine Maxwell",
+      "target": "Bill Clinton"
+    },
+    {
+      "type": "flew_on_same_flight",
+      "confidence": 100,
+      "rationale": [
+        "Prince Andrew is listed as a passenger on aircraft N908JE."
+      ],
+      "provenance": [
+        "Aircraft: N908JE\nPassengers:\n- Prince Andrew"
+      ],
+      "weight": 1,
+      "source": "Prince Andrew",
+      "target": "N908JE"
+    },
+    {
+      "type": "flew_on_same_flight",
+      "confidence": 95,
+      "rationale": [
+        "Bill Clinton (William Jefferson) is listed as a passenger on aircraft N908JE."
+      ],
+      "provenance": [
+        "Passengers:\n- Bill Clinton (Listed as \"William Jefferson\")"
+      ],
+      "weight": 1,
+      "source": "Bill Clinton",
+      "target": "N908JE"
+    },
+    {
+      "type": "alias_passenger_entry",
+      "confidence": 95,
+      "rationale": [
+        "The document explicitly states that Bill Clinton is listed as \"William Jefferson\"."
+      ],
+      "provenance": [
+        "- Bill Clinton (Listed as \"William Jefferson\")"
+      ],
+      "weight": 1,
+      "source": "William Jefferson",
+      "target": "N908JE"
+    },
+    {
+      "type": "financial_transaction",
+      "confidence": 100,
+      "rationale": [
+        "The document describes a wire payment from J.E. accounts to Hyperion Corp."
+      ],
+      "provenance": [
+        "Payment of 0,000 wired to \"Hyperion Corp\" on same day from J.E. accounts."
+      ],
+      "weight": 1,
+      "source": "Hyperion Corp",
+      "target": "J.E. accounts"
+    },
+    {
+      "type": "meeting_scheduled",
+      "confidence": 80,
+      "rationale": [
+        "A meeting at Zorro Ranch is scheduled immediately following arrival; the document does not specify which subset of passengers would attend, but it is likely related to the flight group."
+      ],
+      "provenance": [
+        "Note: Meeting scheduled at Zorro Ranch immediately following arrival."
+      ],
+      "weight": 1,
+      "source": "Zorro Ranch",
+      "target": "All listed passengers"
+    },
+    {
+      "type": "flew_on_same_flight",
+      "confidence": 90,
+      "rationale": [
+        "Unknown Female is listed as a passenger (redacted) on aircraft N908JE."
+      ],
+      "provenance": [
+        "Passengers:\n- Unknown Female (Redacted)"
+      ],
+      "weight": 1,
+      "source": "N908JE",
+      "target": " Unknown Female"
+    },
+    {
+      "type": "flight_route_inferred",
+      "confidence": 80,
+      "rationale": [
+        "The anomaly note references a NY-NM trip in context of this flight log excerpt, suggesting this is the route."
+      ],
+      "provenance": [
+        "Anomaly: Flight duration listed as 14 hours for a NY-NM trip?"
+      ],
+      "weight": 1,
+      "source": "N908JE",
+      "target": "NY-NM trip"
     }
   ]
 }

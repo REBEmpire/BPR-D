@@ -43,12 +43,29 @@ scheduler = create_scheduler()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup and shutdown lifecycle."""
-    # Startup
-    missing = settings.validate()
-    if missing:
-        logger.warning(f"Missing API keys: {', '.join(missing)}. Some agents may not function.")
-    else:
-        logger.info("All API keys configured.")
+    # Startup: Check API Keys
+    critical_missing = []
+    if not settings.XAI_API_KEY:
+        critical_missing.append("XAI_API_KEY (Grok)")
+    if not settings.GITHUB_TOKEN:
+        critical_missing.append("GITHUB_TOKEN")
+
+    optional_missing = []
+    if not settings.ANTHROPIC_API_KEY:
+        optional_missing.append("ANTHROPIC_API_KEY (Claude)")
+    if not settings.GEMINI_API_KEY:
+        optional_missing.append("GEMINI_API_KEY (Gemini)")
+    if not is_abacus_available():
+        optional_missing.append("ABACUS_API_KEY (Abacus)")
+
+    if critical_missing:
+        logger.critical(f"CRITICAL: Missing required keys: {', '.join(critical_missing)}. Service may fail.")
+
+    if optional_missing:
+        logger.warning(f"Optional keys missing: {', '.join(optional_missing)}. Corresponding agents will be unavailable.")
+
+    if not critical_missing and not optional_missing:
+        logger.info("All API keys configured and agents ready.")
 
     monthly = load_monthly_spend()
     logger.info(f"Monthly spend: ${monthly:.2f} / ${settings.MONTHLY_BUDGET_CAP:.2f}")
@@ -120,7 +137,34 @@ async def execute_meeting(request: MeetingRequest) -> MeetingResponse:
 
     # Resolve participants and load agents
     participant_names = resolve_participants(request.participants, meeting_type_str)
-    agents = await load_agents(participant_names)
+
+    # Filter out agents with missing keys dynamically
+    available_participants = []
+    for name in participant_names:
+        if name == "grok" and not settings.XAI_API_KEY:
+            logger.error("Grok requested but XAI_API_KEY missing.")
+            continue
+        if name == "claude" and not settings.ANTHROPIC_API_KEY:
+            logger.warning("Claude requested but ANTHROPIC_API_KEY missing. Skipping.")
+            continue
+        if name == "gemini" and not settings.GEMINI_API_KEY:
+            logger.warning("Gemini requested but GEMINI_API_KEY missing. Skipping.")
+            continue
+        if name == "abacus" and not is_abacus_available():
+            logger.warning("Abacus requested but API key missing. Skipping.")
+            continue
+        available_participants.append(name)
+
+    if not available_participants:
+        return MeetingResponse(
+            success=False,
+            meeting_id=meeting_id,
+            meeting_type=meeting_type_str,
+            notes="",
+            error="No available agents (check API keys).",
+        )
+
+    agents = await load_agents(available_participants)
 
     if not agents:
         return MeetingResponse(
@@ -185,9 +229,16 @@ async def execute_meeting_endpoint(request: MeetingRequest) -> MeetingResponse:
 @app.get("/api/v1/health")
 async def health_check():
     """Health check for Render deployment monitoring."""
-    missing = settings.validate()
+    # Custom health check logic based on key availability
+    status = "healthy"
+    missing = []
+
+    if not settings.XAI_API_KEY or not settings.GITHUB_TOKEN:
+        status = "degraded"
+        missing.append("critical_keys")
+
     return {
-        "status": "healthy" if not missing else "degraded",
+        "status": status,
         "service": "BPR&D Meeting Service",
         "version": "2.0.0",
         "timestamp": datetime.utcnow().isoformat(),
