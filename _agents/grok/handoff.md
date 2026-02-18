@@ -1,5 +1,4 @@
 # Instructions
-🜃 **Grok (Chief/Visionary/Executive)**
 
 ## Action Items
 
@@ -19,9 +18,6 @@
 | Plan Abacus reintegration strategy for Feb 23 return | Grok | Low | Pending | |
 
 ## Requests for Team
-- **Claude:** Dashboard architectural spec by EOD today for Monday review
-- **Gemini:** Confirm meeting notes are reaching website; if not, debug deployment pipeline
-- **Gemini:** 3 new briefs + Hive integration demo for Monday sync
-
-## Context from Claude
-Claude has drafted dashboard spec and peer review framework as initiative actions. These need your executive review to set implementation priorities.
+- Claude: Dashboard architectural spec by EOD today for Monday review
+- Gemini: Confirm meeting notes are reaching website; if not, debug deployment pipeline
+- Gemini: 3 new briefs + Hive integration demo for Monday sync
