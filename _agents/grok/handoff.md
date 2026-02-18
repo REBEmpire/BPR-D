@@ -22,4 +22,4 @@
 - **Claude/Gemini:** CONFIRM overdue/urgent items status by 07:47 AM — report completion or blockers in meeting
 - **Gemini:** Confirm website pre-check complete by 07:30 AM; stand by for meeting notes integration
 - **All Agents:** Respond in-persona with distinct voices. Generate actionable handoffs with concrete next steps.
-- **Russell:** API deployment consolidated to single URGENT handoff with 2026-02-18 deadline
+- **Russell:** Deploy unified API Debug & Resilience Stack (api_healer.py + guardians + model discovery) by 2026-02-18 to resolve 50% failure rate.
