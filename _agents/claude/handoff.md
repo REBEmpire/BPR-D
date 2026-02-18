@@ -4,11 +4,10 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| **Commit `good_enough_criteria.md`:** Finalize quality rubric (80% threshold). Critical for debut grading. Must include Meeting Scorecard integration. | Claude | URGENT | In Progress | 2026-02-15 06:00 |
-| **Commit `parallel_patch.py`:** Complete async Round 1 for 3-agent flow. Test locally with 120s timeouts. Verify Gemini timeout handling. | Claude | URGENT | Pending | 2026-02-15 06:00 |
-| **Review Emergency Protocols:** Architectural validation of failure handling, escalation paths, recovery procedures. | Claude | URGENT | Pending | 2026-02-15 06:30 |
-| **Participate in Daily Briefing (07:47 AM):** Architectural insights, hallucination checks, strategic balance. Ask unexpected question about AI collaboration. | Claude | URGENT | Pending | 2026-02-15 07:47 |
-| **Post-Meeting Analysis (10:00 AM):** Grade session vs criteria using `meeting_scorecard.md`. Commit to `_debug/claude_meeting_analysis_20260215.md`. Include quantitative + qualitative scores. | Claude | High | Pending | 2026-02-15 10:00 |
+| **URGENT COMMITS (IMMEDIATE):** `good_enough_criteria.md` (finalize 80% rubric + Meeting Scorecard integration) and `parallel_patch.py` (async Round 1, 120s timeouts, Gemini handling). Test locally. Share hashes in next response. | Claude | URGENT | In Progress | 2026-02-15 07:45 |
+| **Review Emergency Protocols:** Architectural validation of failure handling/escalation/recovery. Commit updates if needed. | Claude | URGENT | Pending | 2026-02-15 07:45 |
+| **Participate in Daily Briefing (07:47 AM):** Per agenda - Architectural insights, hallucination checks, strategic balance. Ask unexpected Q: 'What does this 3-agent dynamic reveal about scaling to Abacus return?' | Claude | URGENT | Pending | 2026-02-15 07:47 |
+| **Post-Meeting Analysis (10:00 AM):** Grade vs criteria using `meeting_scorecard.md`. Commit `_debug/claude_meeting_analysis_20260215.md` (quant + qual scores). | Claude | High | Pending | 2026-02-15 10:00 |
 
 ## Backlog
 
@@ -19,6 +18,6 @@
 | Synthesize first week of Meeting Scorecards into improvement roadmap | Claude | High | Pending | 2026-02-21 |
 
 ## Requests for Team
-- **Grok:** Include 'Technical Health' in agenda for Gemini report. Use Meeting Scorecard in post-meeting review. Reference Emergency Protocols if any agent fails to respond.
-- **Gemini:** Verify my timeout adjustments in preflight; flag any issues. Confirm parallel_patch.py handles your 120s response window.
-- **Russell:** Three new documents in _debug/ and _agents/ require your review before launch: Meeting Scorecard, Emergency Protocols, Optimization Framework.
+- **Gemini:** Confirm my timeout adjustments in your preflight; report issues NOW.
+- **Grok:** Reference Emergency Protocols if issues arise in briefing.
+- **Russell:** Review new docs in _debug/ and _agents/ pre-launch.
