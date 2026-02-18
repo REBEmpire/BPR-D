@@ -7,6 +7,12 @@ Scans GitHub repo for open/pending items across:
   - _agents/roadmap-2026.json milestones with status: pending
   - projects/ and research/ top-level items with status: active/pending
 Extracts top 3-5 highest priority items for the work session agent.
+
+Wiki link traversal (skill graph integration):
+  - Any [[wiki-link]] in a scanned file is resolved to a skill node at
+    _shared/skill-graphs/bprd-core/{node}.md
+  - "What It Does" and "Related Skills" sections are extracted (depth 3)
+  - Linked context is appended to each BacklogItem's context field
 """
 
 import json
@@ -17,6 +23,9 @@ from dataclasses import dataclass, field
 from tools.github_tool import read_file
 
 logger = logging.getLogger(__name__)
+
+SKILL_GRAPH_BASE = "_shared/skill-graphs/bprd-core"
+WIKI_LINK_RE = re.compile(r'\[\[([^\]]+)\]\]')
 
 PRIORITY_RANK = {
     "critical": 0,
@@ -55,7 +64,7 @@ class BacklogResult:
         return sorted_items[:5]
 
     def to_context_string(self) -> str:
-        """Format backlog items as context for the agent prompt."""
+        """Format backlog items as context for the agent prompt (sync, no wiki traversal)."""
         top = self.top_items
         if not top:
             return "No open backlog items found across the repository."
@@ -75,6 +84,40 @@ class BacklogResult:
             lines.append("")
         return "\n".join(lines)
 
+    async def to_context_string_with_skills(self) -> str:
+        """
+        Format backlog items with depth-3 wiki link traversal from the skill graph.
+
+        For each top item, loads the source file, finds [[wiki links]], and appends
+        relevant skill node context. Use this in session prompts for richer agent context.
+        """
+        top = self.top_items
+        if not top:
+            return "No open backlog items found across the repository."
+
+        lines = [f"## Open Backlog Items ({len(self.items)} total, showing top {len(top)})\n"]
+        for i, item in enumerate(top, 1):
+            lines.append(f"### {i}. {item.title}")
+            lines.append(f"- **Source**: `{item.source}`")
+            lines.append(f"- **Priority**: {item.priority}")
+            lines.append(f"- **Status**: {item.status}")
+            if item.assigned_to:
+                lines.append(f"- **Assigned to**: {item.assigned_to}")
+            if item.due_date:
+                lines.append(f"- **Due**: {item.due_date}")
+            if item.context:
+                lines.append(f"- **Context**: {item.context[:200]}")
+
+            # Load skill graph context from wiki links in source file
+            source_content = await read_file(item.source)
+            if not source_content.startswith("Error"):
+                linked_context = await _traverse_wiki_links(source_content, depth=3)
+                if linked_context:
+                    lines.append(f"- **Linked Skill Context**:\n{linked_context}")
+
+            lines.append("")
+        return "\n".join(lines)
+
     def stats_line(self, actions_completed: int = 0, next_queued: int = 0) -> str:
         """Generate the mandated stats line for reports."""
         return (
@@ -82,6 +125,66 @@ class BacklogResult:
             f"Actions completed: {actions_completed} | "
             f"Next items queued: {max(0, len(self.items) - len(self.top_items))}"
         )
+
+
+def _extract_section(content: str, section_name: str) -> str:
+    """Extract content of a specific ## Section from markdown."""
+    pattern = re.compile(
+        rf"^##\s+{re.escape(section_name)}\s*\n(.*?)(?=\n##|\Z)",
+        re.MULTILINE | re.DOTALL,
+    )
+    match = pattern.search(content)
+    return match.group(1).strip() if match else ""
+
+
+async def _traverse_wiki_links(
+    content: str,
+    depth: int = 3,
+    visited: set | None = None,
+) -> str:
+    """
+    Walk [[wiki links]] in content up to `depth` levels deep.
+
+    For each link, resolves to _shared/skill-graphs/bprd-core/{node}.md,
+    extracts "What It Does" and "Related Skills" sections, and recurses.
+    Returns concatenated context string from all reachable nodes.
+    """
+    if depth == 0:
+        return ""
+    if visited is None:
+        visited = set()
+
+    links = WIKI_LINK_RE.findall(content)
+    if not links:
+        return ""
+
+    parts: list[str] = []
+    for raw_link in links:
+        # Strip any display text (e.g. [[node|Display]] → node)
+        node_name = raw_link.split("|")[0].strip()
+        # Skip MOC links (high-level, not atomic skills) and already-visited
+        if node_name in visited or node_name.startswith("MOC-"):
+            continue
+        visited.add(node_name)
+
+        node_path = f"{SKILL_GRAPH_BASE}/{node_name}.md"
+        node_content = await read_file(node_path)
+        if node_content.startswith("Error"):
+            continue  # Node doesn't exist yet — skip silently
+
+        summary = _extract_section(node_content, "What It Does")
+        if not summary:
+            continue
+
+        parts.append(f"**[[{node_name}]]**: {summary[:300]}")
+
+        # Recurse into Related Skills section
+        related = _extract_section(node_content, "Related Skills")
+        deeper = await _traverse_wiki_links(related, depth - 1, visited)
+        if deeper:
+            parts.append(deeper)
+
+    return "\n".join(parts)
 
 
 async def discover_backlog() -> BacklogResult:
