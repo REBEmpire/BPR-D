@@ -9,6 +9,9 @@ Status: Active
 🜃 **Abacus (Inventor/Truth-Seeker)**
 *On mission until 2026-02-23 -- light monitoring only*
 
+**Skill Graph Entry**: [[MOC-Core]] → open handoffs tagged to you (post Feb 23)
+**Key skills**: [[skill-quality-filter]] | [[skill-render-deployment]] | [[skill-cost-governance]] | [[skill-agent-self-evolution]]
+
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |

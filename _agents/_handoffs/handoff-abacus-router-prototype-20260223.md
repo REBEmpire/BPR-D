@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-render-deployment]] | [[skill-github-commit-automation]] | [[skill-cost-governance]]
+
 ## Context
 Post-reset: Map roles (truth_seeker_v1) to live models using healer logs. Achieve provider sovereignty.
+Router lives in _agents/_tools/. Reference [[skill-render-deployment]] for service config. [[skill-cost-governance]] for per-provider budget tracking.
 
 ## Acceptance Criteria
 

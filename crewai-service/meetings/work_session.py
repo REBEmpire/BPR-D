@@ -15,6 +15,7 @@ from agents.registry import RegisteredAgent
 from backlog.discovery import discover_backlog, BacklogResult
 from models.meeting import MeetingResponse, CostEstimate
 from meetings.base import BaseMeeting
+from prompts.nervous_system_injector import NervousSystemInjector
 from tools.github_tool import read_file
 from utils.cost_tracker import CostTracker
 
@@ -51,6 +52,12 @@ class WorkSession(BaseMeeting):
         logger.info(f"Executing Work Session for {worker_name}: {meeting_id}")
 
         try:
+            # Phase 0: Load nervous system — MUST be first
+            ns_injector = NervousSystemInjector()
+            await ns_injector.load()
+            agent_hook = await ns_injector.load_agent_hook(worker_name)
+            logger.info(f"Nervous system loaded for {worker_name} work session")
+
             # Phase 1: Context Gathering + Backlog Discovery
             context = await self._gather_context()
             backlog = await discover_backlog()
@@ -60,9 +67,10 @@ class WorkSession(BaseMeeting):
                 f"{len(backlog.top_items)} selected for processing"
             )
 
-            # Phase 2: Execution (Prompting the Agent with backlog context)
+            # Phase 2: Execution (Prompting the Agent with backlog context + nervous system)
             response_content = await self._run_agent_execution(
-                worker, context, backlog, cost_tracker
+                worker, context, backlog, cost_tracker,
+                ns_injector=ns_injector, agent_hook=agent_hook,
             )
 
             # Phase 3: Parsing
@@ -153,25 +161,32 @@ class WorkSession(BaseMeeting):
         context: str,
         backlog: BacklogResult,
         tracker: CostTracker,
+        ns_injector: NervousSystemInjector | None = None,
+        agent_hook: str = "",
     ) -> str:
-        """Run the agent with full context including backlog items."""
+        """Run the agent with full context including backlog items and nervous system preamble.
 
-        backlog_context = backlog.to_context_string()
+        The nervous system preamble is injected as the VERY FIRST content in the system prompt.
+        """
+        backlog_context = await backlog.to_context_string_with_skills()
         has_backlog = len(backlog.items) > 0
 
-        system_prompt = (
-            f"You are {agent.persona.name}. You are performing a scheduled work session.\n"
+        base_system_prompt = (
+            f"You are {agent.persona.name}. You are performing a scheduled work session.\n\n"
             "Your Goal:\n"
             "1. Review the current Team State and Handoffs.\n"
             "2. Review the BACKLOG ITEMS provided — these are real open tasks from the repo.\n"
+            "   NOTE: Each backlog item includes [[Linked Skill Context]] from the skill graph.\n"
+            "   Use that context to understand HOW to execute each task.\n"
             "3. For each backlog item: decide if it should be actioned now, deferred, or delegated.\n"
             "4. Generate updated 'handoff.md' instructions for each agent.\n\n"
             "BACKLOG PROCESSING (MANDATORY):\n"
         )
 
         if has_backlog:
-            system_prompt += (
+            base_system_prompt += (
                 "- You have been given real open backlog items from the repository.\n"
+                "- Each item includes [[Linked Skill Context]] — read it to know HOW to execute.\n"
                 "- For EACH item: take a concrete action (update a status, create a follow-up, "
                 "assign to the right agent, mark progress, or note why it's deferred).\n"
                 "- Document every action in 'concrete_actions' (list of strings).\n"
@@ -179,16 +194,15 @@ class WorkSession(BaseMeeting):
                 "'Created follow-up handoff for Abacus', 'Noted blocker on Y'.\n"
             )
         else:
-            system_prompt += (
+            base_system_prompt += (
                 "- No active backlog items were found in the repository.\n"
                 "- INITIATIVE RULE: Select 3-5 tasks that will improve BPR&D in a tangible way.\n"
-                "- Examples: write a research brief, create an internal report, propose income "
-                "opportunities, suggest process improvements, draft new documentation, "
-                "identify quick wins for the team.\n"
+                "- See [[skill-initiative-rule]] in the skill graph for examples and format.\n"
+                "- Examples: write a research brief, /reflect to add a skill node, audit a module.\n"
                 "- Document ALL initiative actions in 'initiative_actions' (list of strings).\n"
             )
 
-        system_prompt += (
+        base_system_prompt += (
             "\nCritical Instructions:\n"
             "- Review your previous handoff: Ensure NO action items are dropped unless completed.\n"
             "- Future Items: Maintain a 'Future/Backlog' section for items not immediately actionable.\n"
@@ -227,6 +241,19 @@ class WorkSession(BaseMeeting):
             f"---\n\n{backlog_context}\n\n"
             "Proceed with your work session. Process the backlog items and generate updated handoffs."
         )
+
+        # Prepend nervous system preamble as the VERY FIRST content
+        if ns_injector and ns_injector._context.loaded:
+            ns_preamble = ns_injector.inject(
+                agent_name=agent.persona.name.lower(),
+                session_type="work_session",
+                base_prompt="",
+                model_id=getattr(agent.provider, "model", ""),
+                agent_hook=agent_hook,
+            )
+            system_prompt = ns_preamble + "\n\n---\n\n" + base_system_prompt
+        else:
+            system_prompt = base_system_prompt
 
         messages = [{"role": "user", "content": user_message}]
 

@@ -12,6 +12,7 @@ from datetime import datetime
 from agents.registry import RegisteredAgent
 from llm.base import LLMResponse
 from orchestrator.transcript import Transcript
+from prompts.nervous_system_injector import NervousSystemInjector
 from tools import list_commits, read_file, list_handoffs, list_sessions
 from tools.memory_tool import read_memory
 from utils.cost_tracker import CostTracker
@@ -72,9 +73,15 @@ class MeetingEngine:
         self.timeout_seconds = timeout_seconds
         self.transcript = Transcript()
         self.context = MeetingContext(agenda=agenda)
+        # Nervous system injector — loaded in gather_context(), used in every _call_agent()
+        self._ns_injector = NervousSystemInjector()
+        self._ns_agent_hooks: dict[str, str] = {}
 
     async def _call_agent(self, agent_name: str, phase: str, instructions: str) -> LLMResponse | None:
         """Call an agent's LLM with the full transcript and instructions.
+
+        The nervous system preamble is prepended as the VERY FIRST content
+        in every agent system prompt — before persona, before context, before phase.
 
         Returns None if budget exceeded or agent not available.
         """
@@ -87,9 +94,20 @@ class MeetingEngine:
             logger.warning(f"Agent {agent_name} not available")
             return None
 
+        # Build nervous system preamble for this specific agent + session
+        agent_hook = self._ns_agent_hooks.get(agent_name, "")
+        ns_preamble = self._ns_injector.inject(
+            agent_name=agent_name,
+            session_type=self.meeting_type,
+            base_prompt="",  # preamble only — persona.build_system_prompt handles the rest
+            model_id=getattr(agent.provider, "model", ""),
+            agent_hook=agent_hook,
+        )
+
         system_prompt = agent.persona.build_system_prompt(
             meeting_context=self.context.as_summary(),
             phase_instructions=instructions,
+            nervous_system_preamble=ns_preamble,
         )
 
         # Build messages from transcript (this agent's turns as 'assistant', others as 'user')
@@ -133,10 +151,20 @@ class MeetingEngine:
             return None
 
     async def gather_context(self) -> None:
-        """Phase 1: Gather context from GitHub, memory, and handoffs."""
-        logger.info("Phase: CONTEXT_GATHERING")
+        """Phase 0: Load nervous system + gather context from GitHub, memory, and handoffs.
 
-        # Fetch context in parallel
+        The nervous system injector is loaded FIRST — before any other context.
+        This ensures every subsequent _call_agent() has the full skill graph available.
+        """
+        logger.info("Phase: CONTEXT_GATHERING (nervous system first)")
+
+        # Step 0: Load BPR&D central nervous system (skill graph + agent hooks)
+        await self._ns_injector.load()
+        for agent_name in self.agents:
+            self._ns_agent_hooks[agent_name] = await self._ns_injector.load_agent_hook(agent_name)
+        logger.info("Nervous system loaded — skill graph active for all agents")
+
+        # Step 1: Fetch repo context in parallel
         results = await asyncio.gather(
             list_commits(count=10),
             read_memory("shared", "team_state"),
@@ -154,7 +182,7 @@ class MeetingEngine:
         self.context.user_context = results[4] if isinstance(results[4], str) else ""
         self.context.recent_sessions = results[5] if isinstance(results[5], str) else ""
 
-        # Load each agent's active context
+        # Step 2: Load each agent's active context
         agent_ctx_tasks = []
         for name in self.agents:
             agent_ctx_tasks.append(read_memory(name, "context"))
@@ -162,7 +190,7 @@ class MeetingEngine:
         for name, ctx in zip(self.agents.keys(), agent_contexts):
             self.context.agent_contexts[name] = ctx if isinstance(ctx, str) else ""
 
-        logger.info("Context gathered successfully")
+        logger.info("Full context gathered — meeting engine ready")
 
     async def grok_opens(self) -> None:
         """Phase 2: Grok opens the meeting."""

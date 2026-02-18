@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-quality-filter]] | [[skill-hive-content-pipeline]] | [[skill-github-commit-automation]]
+
 ## Context
 Automate triage (Gold/Silver/Lead) to scale velocity + truth without bottlenecks. Token-efficient.
+See [[skill-quality-filter]] for scoring rubric (75/100 minimum, 6 weighted criteria).
 
 ## Acceptance Criteria
 

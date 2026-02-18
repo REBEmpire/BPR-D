@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-quality-filter]] | [[skill-agent-self-evolution]] | [[skill-github-commit-automation]]
+
 ## Context
 Post-reset: Depth (implications/cites) over structure. Interim regex working.
+Build on [[skill-quality-filter]] scoring framework. Upgrade to semantic scoring (sentence-transformers or LLM-based).
 
 ## Acceptance Criteria
 

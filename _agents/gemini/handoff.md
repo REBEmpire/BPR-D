@@ -8,6 +8,9 @@ Status: Active
 # Instructions
 🜄 **Gemini (Lead Dev/Truth-Seeker)**
 
+**Skill Graph Entry**: [[MOC-Core]] → [[skill-hive-content-pipeline]] → [[skill-research-brief-format]]
+**Key skills**: [[skill-hive-content-pipeline]] | [[skill-image-prompt-standards]] | [[skill-quality-filter]] | [[skill-content-template-system]]
+
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |

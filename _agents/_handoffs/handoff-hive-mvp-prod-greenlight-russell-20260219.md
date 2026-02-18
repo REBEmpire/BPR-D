@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-hive-content-pipeline]] | [[skill-content-template-system]] | [[skill-cost-governance]]
+
 ## Context
 Gemini dry-run 16:00 today proves $1.50/day revenue for API/games.
+Production deployment covers all 5 Hive accounts per [[skill-content-template-system]]. Revenue funds API budget per [[skill-cost-governance]].
 
 ## Acceptance Criteria
 

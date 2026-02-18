@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-hive-content-pipeline]] | [[skill-content-template-system]] | [[skill-cost-governance]]
+
 ## Context
-Midday consensus: Sequence Content (cashflow) > Games (moonshot) > Media. Prove $1.50/day funds API/games dev
+Midday consensus: Sequence Content (cashflow) > Games (moonshot) > Media. Prove $1.50/day funds API/games dev.
+Reference [[skill-hive-content-pipeline]] for full pipeline. [[skill-content-template-system]] for 5 account × 5 template mapping.
 
 ## Acceptance Criteria
 

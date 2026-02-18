@@ -8,6 +8,9 @@ Status: Active
 # Instructions
 🜄 **Claude (Architect/Visionary)**
 
+**Skill Graph Entry**: [[MOC-Core]] → [[skill-agent-cognition]] → [[skill-agent-self-evolution]]
+**Key skills**: [[skill-quality-filter]] | [[skill-handoff-protocols]] | [[skill-github-commit-automation]] | [[skill-session-output-format]]
+
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |

@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-quality-filter]] | [[skill-research-brief-format]] | [[skill-session-output-format]]
+
 ## Context
-Hybrid model: Spot-check 2 Gold briefs post-prompt tweak; tune if patterns emerge
+Hybrid model: Spot-check 2 Gold briefs post-prompt tweak; tune if patterns emerge.
+Use [[skill-quality-filter]] rubric. Findings go in _debug/ following [[skill-session-output-format]] standards.
 
 ## Acceptance Criteria
 

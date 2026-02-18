@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-quality-filter]] | [[skill-research-brief-format]] | [[skill-yaml-frontmatter-standards]]
+
 ## Context
 Draft solid. Lock Gold/Silver/Lead + manual 20% review interim.
+See [[skill-quality-filter]] for scoring framework. All criteria docs must include [[skill-yaml-frontmatter-standards]] headers.
 
 ## Acceptance Criteria
 
