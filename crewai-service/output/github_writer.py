@@ -75,10 +75,16 @@ async def commit_meeting_results(response: MeetingResponse) -> bool:
     notes_path = f"_agents/_sessions/{date}-{meeting_type}.md"
     notes_content = render_meeting_notes(response)
 
+    # Work sessions use the mandated commit message format
+    if response.meeting_type == "work_session":
+        commit_msg = f"Auto Work Session {date} — processed backlog items"
+    else:
+        commit_msg = f"Meeting notes: {response.meeting_type.replace('_', ' ').title()} {date}"
+
     result = await commit_file(
         path=notes_path,
         content=notes_content,
-        message=f"Meeting notes: {response.meeting_type.replace('_', ' ').title()} {date}",
+        message=commit_msg,
     )
     if not result:
         logger.error(f"Failed to commit meeting notes to {notes_path}")
@@ -121,10 +127,11 @@ def _render_handoff(handoff: HandoffItem) -> str:
 
     lines = [
         "---",
-        f"Date: {date}",
-        f"Author: {handoff.created_by} | Model: grok-4",
-        "Version: v1.0",
-        f"Status: {handoff.status}",
+        f"date: \"{date}\"",
+        f"author: \"{handoff.created_by}\"",
+        "model: \"grok-4\"",
+        "version: \"v1.0\"",
+        f"status: \"{handoff.status}\"",
         "---\n",
         f"# {handoff.title}\n",
         f"**ID**: {handoff.task_id}",
