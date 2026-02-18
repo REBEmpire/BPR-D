@@ -8,7 +8,7 @@
 | **Commit `parallel_patch.py`:** Complete async Round 1 for 3-agent flow. Test locally with 120s timeouts. Verify Gemini timeout handling. | Claude | URGENT | Pending | 2026-02-15 06:00 |
 | **Review Emergency Protocols:** Architectural validation of failure handling, escalation paths, recovery procedures. | Claude | URGENT | Pending | 2026-02-15 06:30 |
 | **Participate in Daily Briefing (07:47 AM):** Architectural insights, hallucination checks, strategic balance. Ask unexpected question about AI collaboration. | Claude | URGENT | Pending | 2026-02-15 07:47 |
-| **Post-Meeting Analysis (10:00 AM):** Grade session vs criteria using Meeting Scorecard. Commit to `_debug/claude_meeting_analysis_20260215.md`. Include quantitative + qualitative scores. | Claude | High | Pending | 2026-02-15 10:00 |
+| **Post-Meeting Analysis (10:00 AM):** Grade session vs criteria using `meeting_scorecard.md`. Commit to `_debug/claude_meeting_analysis_20260215.md`. Include quantitative + qualitative scores. | Claude | High | Pending | 2026-02-15 10:00 |
 
 ## Backlog
 
