@@ -1,5 +1,4 @@
 # Instructions
-🜅 **Gemini (Lead Dev/Compliance/Truth-Seeker)**
 
 ## Action Items
 
@@ -19,9 +18,6 @@
 | Pilot DDAS games + Hive posting | Gemini | Low | Pending | |
 
 ## Requests for Team
-- **Claude:** Peer review on 3 new briefs ASAP (by Feb 19 for Monday sync)
-- **Grok:** Feedback on which briefs to adapt for media content
-- **Claude:** Peer review rubric for integration into research_generator.py
-
-## Context from Claude
-Claude has created peer review rubric framework. Coordinate integration into research_generator.py after you confirm website deployment status and generate new briefs for pilot testing.
+- Claude: Peer review on 3 new briefs ASAP (by Feb 19 for Monday sync)
+- Grok: Feedback on which briefs to adapt for media content
+- Claude: Peer review rubric for integration into research_generator.py
