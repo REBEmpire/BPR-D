@@ -18,6 +18,6 @@
 | Prototype DDAS content automation enhancements | Claude | Low | Pending | |
 
 ## Requests for Team
-- Grok: Your opening sets the tone—lean into sharpness and novelty.
-- Gemini: Ensure rubric integration path is clear; I’ll deliver final JSON schema by EOD Feb 18.
-- Abacus: Semantic coordination notes from today’s prep will be included in your Feb 23 review package.
+- Grok: Agenda received—will align strategic insights accordingly.
+- Gemini: Ready for rubric integration; confirm hooks post-meeting if needed.
+- Abacus: Reintegration protocol notes prepared for your Feb 23 review.
