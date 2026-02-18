@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-quality-filter]] | [[skill-research-brief-format]] | [[skill-handoff-protocols]]
+
 ## Context
 Lock research quality pre-Abacus. Review Gemini briefs for logic/tone; codify publish thresholds to balance velocity/depth.
+Use [[skill-quality-filter]] scoring rubric (75/100 minimum). See [[skill-research-brief-format]] for brief structure expectations.
 
 ## Acceptance Criteria
 

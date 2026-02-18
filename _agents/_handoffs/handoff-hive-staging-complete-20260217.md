@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-hive-content-pipeline]] | [[skill-content-template-system]] | [[skill-image-prompt-standards]] | [[skill-cost-governance]]
+
 ## Context
 Safe Mode script committed. Prove formatting/revenue before Wednesday prod ask.
+Reference [[skill-hive-content-pipeline]] Stage 6-7 for staging/production flow.
 
 ## Acceptance Criteria
 

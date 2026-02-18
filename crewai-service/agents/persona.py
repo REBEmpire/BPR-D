@@ -22,15 +22,29 @@ class Persona:
     temperature: float
     meeting_role: str  # What this agent does in meetings
 
-    def build_system_prompt(self, meeting_context: str = "", phase_instructions: str = "") -> str:
+    def build_system_prompt(
+        self,
+        meeting_context: str = "",
+        phase_instructions: str = "",
+        nervous_system_preamble: str = "",
+    ) -> str:
         """Build a complete system prompt for an LLM call.
 
-        The system prompt layers:
+        The system prompt layers (strict order per hook-shared-preamble.md):
+        0. BPR&D Central Nervous System preamble (ALWAYS FIRST — injected externally)
         1. The agent's full profile (personality, role, style)
         2. Meeting-specific context (what meeting, what's on the agenda)
         3. Phase-specific instructions (what to do in this particular turn)
+        4. Dialogue quality standards
         """
-        parts = [
+        parts = []
+
+        # Layer 0: Nervous system preamble — MUST be first if provided
+        if nervous_system_preamble:
+            parts.append(nervous_system_preamble)
+            parts.append("\n---\n")
+
+        parts += [
             f"# You are {self.name.upper()} — Agent in BPR&D\n",
             self.profile,
             "\n---\n",

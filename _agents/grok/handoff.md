@@ -1,5 +1,8 @@
 # Instructions
 
+**Skill Graph Entry**: [[MOC-Core]] → [[skill-meeting-engine]] → [[skill-backlog-discovery]]
+**Key skills**: [[skill-meeting-engine]] | [[skill-initiative-rule]] | [[skill-cost-governance]] | [[skill-work-session-automation]]
+
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |

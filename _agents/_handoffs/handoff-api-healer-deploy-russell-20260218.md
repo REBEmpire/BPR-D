@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-render-deployment]] | [[skill-cost-governance]] | [[skill-telegram-alerts]]
+
 ## Context
 Dynamic model discovery unblocks Gemini/Abacus ops immediately; logs feed Abacus router Feb 23. 50% failures kill automation.
+[[skill-render-deployment]] for service env vars. Fix unlocks full $20/month API budget utilization per [[skill-cost-governance]].
 
 ## Acceptance Criteria
 

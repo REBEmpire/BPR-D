@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-hive-content-pipeline]] | [[skill-image-prompt-standards]] | [[skill-quality-filter]] | [[skill-github-commit-automation]]
+
 ## Context
 Compromise from debate: Isolated dev/staging today to capture Hive revenue without API risk. Production post-Russell nod.
+Pipeline reference: [[skill-hive-content-pipeline]] Stage 6 (staging) → Stage 7 (production, needs Russell greenlight).
 
 ## Acceptance Criteria
 

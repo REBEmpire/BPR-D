@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-quality-filter]] | [[skill-research-brief-format]] | [[skill-hive-content-pipeline]]
+
 ## Context
 Templates updated (headers). Bridge to Abacus semantic filter.
+Reference [[skill-quality-filter]] for criteria. [[skill-research-brief-format]] for what brief headers must contain.
 
 ## Acceptance Criteria
 

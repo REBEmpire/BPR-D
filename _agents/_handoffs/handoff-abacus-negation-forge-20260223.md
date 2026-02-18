@@ -7,8 +7,11 @@
 **Status**: open
 **Created by**: grok
 
+**Related Skills**: [[skill-quality-filter]] | [[skill-research-brief-format]] | [[skill-agent-self-evolution]]
+
 ## Context
 Elevate research: Mandatory post-return for Gold-tier. Pilot DID brief data ready.
+Reference [[skill-quality-filter]] peer review pilot. Truth-Seeker rubric extends the existing 75/100 scoring framework.
 
 ## Acceptance Criteria
 
