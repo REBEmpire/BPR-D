@@ -1,11 +1,13 @@
 """
 GitHub tools for BPR&D meeting service.
 Provides read/write access to repo state during and after meetings.
+Supports atomic commits of multiple files via the Git Data API.
 """
 
 import base64
 import logging
 import re
+import asyncio
 
 import httpx
 
@@ -227,3 +229,154 @@ async def commit_file(path: str, content: str, message: str, branch: str = "main
         except httpx.HTTPError as e:
             logger.error(f"Failed to commit {path}: {e}")
             return False
+
+
+# --- Git Data API (Atomic Commits) ---
+
+async def get_ref_sha(branch: str = "main") -> str | None:
+    """Get the SHA of the latest commit on a branch."""
+    url = f"{GITHUB_API}/repos/{REPO}/git/ref/heads/{branch}"
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.get(url, headers=_headers(), timeout=15)
+            resp.raise_for_status()
+            return resp.json()["object"]["sha"]
+        except Exception as e:
+            logger.error(f"Failed to get ref for {branch}: {e}")
+            return None
+
+
+async def get_commit_tree(sha: str) -> str | None:
+    """Get the tree SHA of a commit."""
+    url = f"{GITHUB_API}/repos/{REPO}/git/commits/{sha}"
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.get(url, headers=_headers(), timeout=15)
+            resp.raise_for_status()
+            return resp.json()["tree"]["sha"]
+        except Exception as e:
+            logger.error(f"Failed to get tree for commit {sha}: {e}")
+            return None
+
+
+async def create_blob(content: str) -> str | None:
+    """Create a blob for a file content. Returns blob SHA."""
+    url = f"{GITHUB_API}/repos/{REPO}/git/blobs"
+    payload = {"content": content, "encoding": "utf-8"}
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.post(url, headers=_headers(), json=payload, timeout=15)
+            resp.raise_for_status()
+            return resp.json()["sha"]
+        except Exception as e:
+            logger.error(f"Failed to create blob: {e}")
+            return None
+
+
+async def create_tree(base_tree_sha: str, tree_items: list[dict]) -> str | None:
+    """Create a new tree from a base tree and a list of new items."""
+    url = f"{GITHUB_API}/repos/{REPO}/git/trees"
+    payload = {
+        "base_tree": base_tree_sha,
+        "tree": tree_items
+    }
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.post(url, headers=_headers(), json=payload, timeout=15)
+            resp.raise_for_status()
+            return resp.json()["sha"]
+        except Exception as e:
+            logger.error(f"Failed to create tree: {e}")
+            return None
+
+
+async def create_commit(message: str, tree_sha: str, parent_sha: str) -> str | None:
+    """Create a new commit pointing to a tree and a parent commit."""
+    url = f"{GITHUB_API}/repos/{REPO}/git/commits"
+    payload = {
+        "message": message,
+        "tree": tree_sha,
+        "parents": [parent_sha]
+    }
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.post(url, headers=_headers(), json=payload, timeout=15)
+            resp.raise_for_status()
+            return resp.json()["sha"]
+        except Exception as e:
+            logger.error(f"Failed to create commit: {e}")
+            return None
+
+
+async def update_ref(branch: str, commit_sha: str) -> bool:
+    """Update the branch reference to point to the new commit."""
+    url = f"{GITHUB_API}/repos/{REPO}/git/refs/heads/{branch}"
+    payload = {"sha": commit_sha, "force": False}
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.patch(url, headers=_headers(), json=payload, timeout=15)
+            resp.raise_for_status()
+            return True
+        except Exception as e:
+            logger.error(f"Failed to update ref {branch}: {e}")
+            return False
+
+
+async def commit_multiple_files(changes: dict[str, str], message: str, branch: str = "main") -> bool:
+    """
+    Atomically commit multiple files to the repository.
+
+    Args:
+        changes: Dict mapping file_path -> file_content.
+        message: Commit message.
+        branch: Branch to commit to (default: main).
+
+    Returns:
+        True if successful, False otherwise.
+    """
+    logger.info(f"Starting atomic commit of {len(changes)} files to {branch}")
+
+    # 1. Get latest commit SHA
+    latest_commit_sha = await get_ref_sha(branch)
+    if not latest_commit_sha:
+        return False
+
+    # 2. Get the tree of the latest commit
+    base_tree_sha = await get_commit_tree(latest_commit_sha)
+    if not base_tree_sha:
+        return False
+
+    # 3. Create blobs for all files
+    tree_items = []
+    for path, content in changes.items():
+        blob_sha = await create_blob(content)
+        if not blob_sha:
+            logger.error(f"Failed to create blob for {path}, aborting commit.")
+            return False
+
+        tree_items.append({
+            "path": path,
+            "mode": "100644",  # Standard file mode
+            "type": "blob",
+            "sha": blob_sha
+        })
+
+    # 4. Create a new tree
+    new_tree_sha = await create_tree(base_tree_sha, tree_items)
+    if not new_tree_sha:
+        return False
+
+    # 5. Create a new commit
+    new_commit_sha = await create_commit(message, new_tree_sha, latest_commit_sha)
+    if not new_commit_sha:
+        return False
+
+    # 6. Update the branch reference
+    success = await update_ref(branch, new_commit_sha)
+
+    if success:
+        logger.info(f"Successfully committed {len(changes)} files. New SHA: {new_commit_sha}")
+    else:
+        logger.error("Failed to update branch reference.")
+
+    return success

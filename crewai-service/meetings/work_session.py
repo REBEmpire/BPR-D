@@ -3,8 +3,8 @@ Work Session meeting type for BPR&D meeting service.
 Executes a solo work session for an agent (default: Grok) to review status,
 discover backlog items, and update handoff instructions for the team.
 
-v2.0: Backlog discovery integration — scans repo for open/pending items,
-feeds them into the agent prompt, and reports processing stats.
+v3.0: Full ReAct Agent Loop — Agent can read/write files (staged) before
+committing everything atomically at the end.
 """
 
 import json
@@ -15,7 +15,8 @@ from agents.registry import RegisteredAgent
 from backlog.discovery import discover_backlog, BacklogResult
 from models.meeting import MeetingResponse, CostEstimate
 from meetings.base import BaseMeeting
-from tools.github_tool import read_file
+from tools import github_tool  # Backend API
+from tools import github_tools # Agent Tools
 from utils.cost_tracker import CostTracker
 
 logger = logging.getLogger(__name__)
@@ -33,7 +34,7 @@ class WorkSession(BaseMeeting):
         meeting_id = f"work_session-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
         cost_tracker.meeting_id = meeting_id
 
-        # Determine the primary worker (default to grok if not specified or multiple)
+        # Determine the primary worker
         worker_name = "grok"
         if agents:
             worker_name = list(agents.keys())[0]
@@ -60,25 +61,27 @@ class WorkSession(BaseMeeting):
                 f"{len(backlog.top_items)} selected for processing"
             )
 
-            # Phase 2: Execution (Prompting the Agent with backlog context)
-            response_content = await self._run_agent_execution(
-                worker, context, backlog, cost_tracker
+            # Phase 2: Execution (ReAct Loop)
+            # Initialize staged changes (virtual filesystem)
+            staged_changes = {}
+
+            # Run the agent loop
+            # Returns the final JSON summary/handoffs
+            parsed_output, action_log = await self._run_agent_loop(
+                worker, context, backlog, cost_tracker, staged_changes
             )
 
-            # Phase 3: Parsing
-            parsed = self._parse_output(response_content)
+            # Phase 3: Finalization & Commit
 
-            # Count initiative actions
-            initiative_actions = parsed.get("initiative_actions", [])
-            actions_completed = len(initiative_actions) + len(backlog.top_items)
-
-            # Format notes with backlog stats
+            # Construct Session Notes
             date_str = datetime.utcnow().strftime("%B %d, %Y")
             notes = f"# Work Session: {worker_name.title()} — {date_str}\n\n"
-            notes += parsed.get("summary", "No summary provided.")
+            notes += parsed_output.get("summary", "No summary provided.")
             notes += "\n\n"
 
-            # Backlog processing section
+            # Backlog processing stats
+            initiative_actions = parsed_output.get("initiative_actions", [])
+            actions_completed = len(initiative_actions) + len(backlog.top_items)
             notes += "## Backlog Processing\n\n"
             notes += f"{backlog.stats_line(actions_completed=actions_completed)}\n\n"
 
@@ -101,21 +104,53 @@ class WorkSession(BaseMeeting):
                     notes += f"- {action}\n"
                 notes += "\n"
 
-            # Concrete actions log
-            concrete_actions = parsed.get("concrete_actions", [])
+            # Add Action Log (from the ReAct loop)
+            notes += "### Execution Log\n\n"
+            for log_entry in action_log:
+                notes += f"- {log_entry}\n"
+            notes += "\n"
+
+            # Add concrete actions from JSON (if any)
+            concrete_actions = parsed_output.get("concrete_actions", [])
             if concrete_actions:
-                notes += "### Concrete Actions Log\n\n"
+                notes += "### Concrete Actions (Summary)\n\n"
                 for action in concrete_actions:
                     notes += f"- {action}\n"
                 notes += "\n"
+
+            # Add the session summary to staged changes
+            session_filename = f"_agents/_sessions/{datetime.utcnow().strftime('%Y-%m-%d')}-{worker_name}-session.md"
+            staged_changes[session_filename] = notes
+
+            # Also update handoffs if they were returned in JSON (as a fallback or explicit update)
+            # Note: The agent *should* have updated handoff files via `write_file` tool.
+            # But if it put them in `agent_instructions` JSON, we can auto-update them too.
+            agent_instructions = parsed_output.get("agent_instructions", {})
+            for agent_name, content in agent_instructions.items():
+                handoff_path = f"_agents/{agent_name}/handoff.md"
+                # Only overwrite if not already modified by tool
+                if handoff_path not in staged_changes:
+                    staged_changes[handoff_path] = content
+                    action_log.append(f"Updated {handoff_path} from final JSON output.")
+
+            # ATOMIC COMMIT
+            if staged_changes:
+                commit_msg = f"Work Session: {worker_name} ({len(staged_changes)} files)"
+                success = await github_tool.commit_multiple_files(staged_changes, commit_msg)
+                if success:
+                    logger.info(f"Atomic commit successful: {len(staged_changes)} files.")
+                else:
+                    logger.error("Atomic commit failed.")
+            else:
+                logger.info("No changes to commit.")
 
             return MeetingResponse(
                 success=True,
                 meeting_id=meeting_id,
                 meeting_type=self.meeting_type,
                 notes=notes,
-                summary=parsed.get("summary", ""),
-                agent_instructions=parsed.get("agent_instructions", {}),
+                summary=parsed_output.get("summary", ""),
+                agent_instructions=parsed_output.get("agent_instructions", {}),
                 cost_estimate=CostEstimate(**cost_tracker.to_dict()),
             )
 
@@ -142,119 +177,179 @@ class WorkSession(BaseMeeting):
 
         context_parts = []
         for path in files_to_read:
-            content = await read_file(path)
+            # We use the backend tool directly here as we are establishing initial context
+            content = await github_tool.read_file(path)
             context_parts.append(f"## {path}\n\n{content}\n")
 
         return "\n---\n".join(context_parts)
 
-    async def _run_agent_execution(
+    async def _run_agent_loop(
         self,
         agent: RegisteredAgent,
         context: str,
         backlog: BacklogResult,
         tracker: CostTracker,
-    ) -> str:
-        """Run the agent with full context including backlog items."""
+        staged_changes: dict,
+    ) -> tuple[dict, list[str]]:
+        """
+        Run the agent with full context and tools loop.
+        Returns (parsed_json_output, action_log_list).
+        """
+        action_log = []
+        messages = []
 
         backlog_context = backlog.to_context_string()
-        has_backlog = len(backlog.items) > 0
+        tool_defs = github_tools.get_tool_definitions()
 
         system_prompt = (
-            f"You are {agent.persona.name}. You are performing a scheduled work session.\n"
+            f"You are {agent.persona.name}. You are performing a scheduled work session.\n\n"
+            f"{tool_defs}\n\n"
             "Your Goal:\n"
-            "1. Review the current Team State and Handoffs.\n"
-            "2. Review the BACKLOG ITEMS provided — these are real open tasks from the repo.\n"
-            "3. For each backlog item: decide if it should be actioned now, deferred, or delegated.\n"
-            "4. Generate updated 'handoff.md' instructions for each agent.\n\n"
-            "BACKLOG PROCESSING (MANDATORY):\n"
+            "1. Review Team State and Handoffs.\n"
+            "2. Review BACKLOG ITEMS and execute work using tools.\n"
+            "3. Update your handoff and other agent handoffs as needed using `write_file`.\n"
+            "4. When finished, call the `done` tool.\n\n"
+            "CRITICAL: You have access to tools. USE THEM.\n"
+            "- If you see a task to 'Update file X', use `read_file` then `write_file`.\n"
+            "- Changes are STAGED. They are committed only when you finish.\n"
+            "- Work through the backlog items concretely.\n\n"
+            "OUTPUT FORMAT:\n"
+            "You can intersperse thought, analysis, and tool calls.\n"
+            "To use a tool, output XML: <execute_tool name=\"...\">...</execute_tool>\n\n"
+            "FINAL OUTPUT (when calling `done` or finishing):\n"
+            "You MUST output a final JSON summary block (just like a normal response) "
+            "containing 'summary', 'agent_instructions', 'concrete_actions', 'initiative_actions'.\n"
+            "This JSON should reflect the work you JUST did using the tools."
         )
 
-        if has_backlog:
-            system_prompt += (
-                "- You have been given real open backlog items from the repository.\n"
-                "- For EACH item: take a concrete action (update a status, create a follow-up, "
-                "assign to the right agent, mark progress, or note why it's deferred).\n"
-                "- Document every action in 'concrete_actions' (list of strings).\n"
-                "- Even small actions count: 'Updated status of X in handoff', "
-                "'Created follow-up handoff for Abacus', 'Noted blocker on Y'.\n"
-            )
-        else:
-            system_prompt += (
-                "- No active backlog items were found in the repository.\n"
-                "- INITIATIVE RULE: Select 3-5 tasks that will improve BPR&D in a tangible way.\n"
-                "- Examples: write a research brief, create an internal report, propose income "
-                "opportunities, suggest process improvements, draft new documentation, "
-                "identify quick wins for the team.\n"
-                "- Document ALL initiative actions in 'initiative_actions' (list of strings).\n"
-            )
-
-        system_prompt += (
-            "\nCritical Instructions:\n"
-            "- Review your previous handoff: Ensure NO action items are dropped unless completed.\n"
-            "- Future Items: Maintain a 'Future/Backlog' section for items not immediately actionable.\n"
-            "- Requests for Team: Explicitly list what you need from others in your handoff.\n"
-            "- Abacus: Keep Abacus's To-Do list short and focused to avoid limiting out.\n\n"
-            "Output Rules:\n"
-            "- You MUST respond with valid JSON.\n"
-            "- Required keys: 'summary', 'agent_instructions'\n"
-            "- 'agent_instructions' maps agent_name -> markdown content (table format).\n"
-            "- 'concrete_actions' (list of strings): Every action you took on backlog items.\n"
-            "- 'initiative_actions' (list of strings): Self-directed actions if backlog was empty.\n\n"
-            "CRITICAL FORMAT RULE for agent_instructions:\n"
-            "- Agent handoff instructions MUST use markdown TABLE format, NOT checklists.\n"
-            "- Use columns: Task | Assigned To | Priority | Status | Due\n"
-            "- Priority values: URGENT, High, Medium, Low\n"
-            "- Status values: Pending, In Progress, Blocked, Done\n\n"
-            "Example Output:\n"
-            "```json\n"
-            "{\n"
-            '  "summary": "Processed 5 backlog items. Focusing team on Hive MVP.",\n'
-            '  "concrete_actions": [\n'
-            '    "Assigned Hive MVP greenlight to Russell with 2026-02-19 deadline",\n'
-            '    "Updated quality filter handoff status from pending to in-progress",\n'
-            '    "Created follow-up for Gemini: dry-run Hive poster by EOD"\n'
-            "  ],\n"
-            '  "initiative_actions": [],\n'
-            '  "agent_instructions": {\n'
-            '    "grok": "# Instructions\\n\\n## Action Items\\n\\n| Task | Assigned To | Priority | Status | Due |\\n|------|-------------|----------|--------|-----|\\n| Validate meeting engine | Grok | URGENT | Pending | 2026-02-19 |\\n\\n## Backlog\\n\\n| Task | Assigned To | Priority | Status | Due |\\n|------|-------------|----------|--------|-----|\\n| State of Team dashboard | Grok | Low | Pending | |\\n\\n## Requests for Team\\n- Claude: Share API specs."\n'
-            "  }\n"
-            "}\n"
-            "```"
-        )
-
-        user_message = (
-            f"Here is the current context:\n\n{context}\n\n"
+        initial_user_msg = (
+            f"Here is the context:\n\n{context}\n\n"
             f"---\n\n{backlog_context}\n\n"
-            "Proceed with your work session. Process the backlog items and generate updated handoffs."
+            "Begin your work session. Use tools to read/edit files. "
+            "When finished, output the Final JSON Summary."
         )
 
-        messages = [{"role": "user", "content": user_message}]
+        messages.append({"role": "user", "content": initial_user_msg})
 
-        response = await agent.provider.chat(
-            messages=messages,
-            system=system_prompt,
-            temperature=0.2,
-        )
+        # ReAct Loop
+        max_turns = 15
+        final_json_content = ""
 
-        tracker.record_usage(
-            agent_name=agent.persona.name.lower(),
-            prompt_tokens=response.input_tokens,
-            completion_tokens=response.output_tokens,
-            cost_usd=response.cost_usd,
-        )
+        for turn in range(max_turns):
+            logger.info(f"Turn {turn+1}/{max_turns} for {agent.persona.name}")
 
-        return response.content
+            # Call LLM
+            response = await agent.provider.chat(
+                messages=messages,
+                system=system_prompt,
+                temperature=0.2,
+            )
+
+            tracker.record_usage(
+                agent_name=agent.persona.name.lower(),
+                prompt_tokens=response.input_tokens,
+                completion_tokens=response.output_tokens,
+                cost_usd=response.cost_usd,
+            )
+
+            content = response.content
+            messages.append({"role": "assistant", "content": content})
+
+            # Parse Tool Calls
+            tool_calls = github_tools.parse_tool_calls(content)
+
+            if not tool_calls:
+                # No tools called. Check if it looks like the final JSON response.
+                if "```json" in content or content.strip().startswith("{"):
+                    final_json_content = content
+                    break
+                # Otherwise, prod the agent to do something or finish
+                messages.append({
+                    "role": "user",
+                    "content": "I did not see any tool calls. If you are finished, output the JSON summary. If not, use a tool."
+                })
+                continue
+
+            # Execute Tools
+            tool_results = []
+            is_done = False
+
+            for tool_name, params in tool_calls:
+                logger.info(f"Agent executing tool: {tool_name}")
+                result = ""
+
+                try:
+                    if tool_name == "read_file":
+                        path = params.get("path")
+                        result = await github_tools.read_file_tool(path, staged_changes)
+                        action_log.append(f"Read file: {path}")
+
+                    elif tool_name == "write_file":
+                        path = params.get("path")
+                        file_content = params.get("content")
+                        result = await github_tools.write_file_tool(path, file_content, staged_changes)
+                        action_log.append(f"Staged write: {path}")
+
+                    elif tool_name == "list_files":
+                        path = params.get("path", ".")
+                        result = await github_tools.list_files_tool(path)
+                        action_log.append(f"Listed files in: {path}")
+
+                    elif tool_name == "done":
+                        is_done = True
+                        result = "Session marked as done."
+                        action_log.append("Agent signaled completion.")
+
+                    else:
+                        result = f"Error: Unknown tool '{tool_name}'"
+
+                except Exception as e:
+                    result = f"Error executing tool {tool_name}: {str(e)}"
+                    logger.error(f"Tool execution failed: {e}")
+
+                tool_results.append(f"Tool '{tool_name}' Output:\n{result}")
+
+            # Feed results back to agent
+            user_feedback = "\n\n".join(tool_results)
+            messages.append({"role": "user", "content": user_feedback})
+
+            if is_done:
+                # Check if the last message had JSON
+                if "```json" in content or content.strip().startswith("{"):
+                    final_json_content = content
+                break
+
+        # If we exited loop without JSON, try to find it in history or ask for it?
+        # For simplicity, if we don't have it, we return a basic one.
+        if not final_json_content:
+            # Last ditch effort: ask for it? Or just parse the last message.
+            final_json_content = messages[-1]["content"] if messages else "{}"
+
+        parsed = self._parse_output(final_json_content)
+        return parsed, action_log
 
     def _parse_output(self, content: str) -> dict:
         """Parse JSON from agent response."""
+        # Clean markdown code blocks
         cleaned = content.strip()
-        if cleaned.startswith("```json"):
-            cleaned = cleaned[7:]
+
+        # Sometimes the agent puts text before the json
+        json_start = cleaned.find("```json")
+        if json_start != -1:
+            cleaned = cleaned[json_start+7:]
+            json_end = cleaned.find("```")
+            if json_end != -1:
+                cleaned = cleaned[:json_end]
         elif cleaned.startswith("```"):
             cleaned = cleaned[3:]
+            if cleaned.endswith("```"):
+                cleaned = cleaned[:-3]
 
-        if cleaned.endswith("```"):
-            cleaned = cleaned[:-3]
+        # Or look for first { and last }
+        if "{" in cleaned:
+            start = cleaned.find("{")
+            end = cleaned.rfind("}") + 1
+            cleaned = cleaned[start:end]
 
         try:
             return json.loads(cleaned.strip())
