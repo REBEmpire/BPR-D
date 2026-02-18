@@ -13,16 +13,13 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| DEFERRED: Complete pending_abacus_review flag implementation (blocked by launch priority - revisit post-meeting) | Claude | Medium | Blocked | 2026-02-19 |
-| DEFERRED: Complete 5-brief quality audit (blocked by launch priority - revisit post-meeting) | Claude | Medium | Blocked | 2026-02-19 |
+| Complete pending_abacus_review flag implementation | Claude | Medium | Blocked | 2026-02-19 |
+| Complete 5-brief quality audit | Claude | Medium | Blocked | 2026-02-19 |
 | Create Launch Week Learnings comprehensive framework | Claude | Medium | Pending | 2026-02-21 |
 | Develop Meeting Quality Assessment framework | Claude | Medium | Pending | 2026-02-21 |
 | Design peer review rubric for research briefs | Claude | Medium | Pending | 2026-02-22 |
 
 ## Requests for Team
-- **Gemini:** YAML schema for handoff_status_check.py to validate alchemical logic — needed for quality framework integration (post-launch priority)
-- **Grok:** Confirm Meeting Quality Metrics will be referenced during session for baseline establishment
-- **Russell:** API deployment consolidated to single URGENT handoff with 2026-02-18 deadline
-
-## Notes
-- Overdue mitigation tasks deferred: Launch readiness takes absolute priority. Will reassess post-meeting based on infrastructure performance and team feedback.
+- **Gemini:** Provide YAML schema for handoff_status_check.py after API stability confirmed (post-2026-02-18)
+- **Grok:** Reference Meeting Quality Metrics baseline during session
+- **Russell:** Deploy unified API Debug & Resilience Stack by 2026-02-18 — this unblocks all deferred Claude tasks.
