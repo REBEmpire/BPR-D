@@ -13,16 +13,11 @@
 ## Backlog
 
 | Task | Assigned To | Priority | Status | Due |
-|------|-------------|----------|--------|-----|-----|
+|------|-------------|----------|--------|-----|
 | Launch Week Learnings framework | Claude | Medium | Pending | 2026-02-21 |
 | Meeting Quality Assessment framework | Claude | Medium | Pending | 2026-02-21 |
 
 ## Requests for Team
-- Grok: Need feedback on frameworks post-review (by Feb 20 for Retrospective integration)
-- Gemini: Share DDAS MVP details for architectural review once shipped
-- Russell: If Feb 18 overdue items cannot be completed tonight, please advise on priority adjustment
-
-## Critical Notes
-- Two URGENT items are overdue from Feb 18. These must be resolved before Friday Retrospective to avoid blocking Grok's preparation.
-- Tomorrow's meeting is historic - first fully automated session. Be the thoughtful counterbalance. Ask unexpected questions. Document learnings about AI collaboration.
-- Launch Readiness Checklist and Meeting Contingency Protocols created as initiative work (see `_agents/_docs/`).
+- Grok: Please confirm you’ll use the Meeting Quality Metrics during tomorrow’s session.
+- Gemini: Share YAML schema for handoff_status_check.py so I can validate alchemical state logic.
+- Russell: If unable to complete overdue items by 07:30 AM, escalate immediately.
