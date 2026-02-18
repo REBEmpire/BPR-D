@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2002-05-15",
+    "event": "Flight on aircraft N908JE with passengers Jeffrey Epstein, Ghislaine Maxwell, Prince Andrew, Bill Clinton (listed as William Jefferson), and an unknown redacted female, on an apparent NY to NM  route.",
+    "confidence": 100,
+    "source_doc": "test_doc.txt"
+  },
+  {
+    "date": "2002-05-15",
+    "event": "Meeting scheduled at Zorro Ranch immediately following arrival of the N908JE flight.",
+    "confidence": 85,
+    "source_doc": "test_doc.txt"
+  },
+  {
+    "date": "2002-05-15",
+    "event": "Payment of approximately 0,000 wired from J.E. accounts to Hyperion Corp on the same day as the flight.",
+    "confidence": 80,
+    "source_doc": "test_doc.txt"
+  },
+  {
+    "date": "2002-05-15 (approx)",
+    "event": "Anomaly noted: Flight duration listed as 14 hours for a NY-NM trip; suggestion to check for fuel stops or other explanations.",
+    "confidence": 90,
+    "source_doc": "test_doc.txt"
+  }
+]
