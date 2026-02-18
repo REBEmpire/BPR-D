@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-18
-Author: Meeting Engine (Grok synthesis) | Model: grok-4
+Author: "Meeting Engine (Grok synthesis) | Model: grok-4"
 Version: v1.0
 Status: Active
 ---

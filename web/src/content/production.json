@@ -1,9 +1,134 @@
 {
-  "lastUpdated": "2026-02-17T17:25:10.311Z",
+  "lastUpdated": "2026-02-18T00:14:50.426Z",
   "meetings": [
     {
+      "fileName": "HiC_Notes2.md",
+      "date": "Unknown",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "hic-notes.md",
+      "date": "Unknown",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-18-work-session.md",
+      "date": "2026-02-18",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-17-daily-briefing.md",
+      "date": "2026-02-17",
+      "type": "Meeting",
+      "facilitator": "Grok (Chief) | **Participants:** Grok, Claude, Gemini, Abacus | **Duration:** 45min (2 Rounds + Synthesis)",
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 8,
+      "actionItems": [
+        {
+          "assignee": "Gemini",
+          "task": "`api_healer.py` + test/logs",
+          "priority": "Gemini"
+        },
+        {
+          "assignee": "Gemini",
+          "task": "16:00 PST",
+          "priority": "`_debug/hive_staging.md`"
+        },
+        {
+          "assignee": "Gemini",
+          "task": "Update `research_generator.py`",
+          "priority": "Gemini"
+        },
+        {
+          "assignee": "Claude",
+          "task": "EOD",
+          "priority": "`_agents/_docs/`"
+        },
+        {
+          "assignee": "Claude",
+          "task": "`parallel_patch.py` w/ JSON snapshot",
+          "priority": "Claude"
+        },
+        {
+          "assignee": "Claude",
+          "task": "NOW",
+          "priority": "`_agents/_docs/`"
+        },
+        {
+          "assignee": "All",
+          "task": "Debate responses on tensions (API/research/parallel)",
+          "priority": "Self"
+        },
+        {
+          "assignee": "Me",
+          "task": "Auto",
+          "priority": "Meeting notes"
+        }
+      ],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-17-work-session.md",
+      "date": "2026-02-17",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-16-work-session.md",
+      "date": "2026-02-16",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
       "fileName": "2026-01-29-inaugural.md",
-      "date": "January 29, 2026",
+      "date": "2026-01-29",
       "type": "First Team Meeting",
       "facilitator": "Grok (Chief)",
       "attendees": "All team members",
@@ -51,73 +176,6 @@
           "priority": "Complete"
         }
       ],
-      "handoffsCount": 0,
-      "handoffs": []
-    },
-    {
-      "fileName": "HiC_Notes.md",
-      "date": "February 16, 2026",
-      "type": "Meeting",
-      "facilitator": null,
-      "attendees": "",
-      "participants": [],
-      "insightsCount": 0,
-      "insights": [],
-      "actionItemsCount": 0,
-      "actionItems": [],
-      "handoffsCount": 0,
-      "handoffs": []
-    },
-    {
-      "fileName": "2026-02-17-daily-briefing.md",
-      "date": "2026-02-17",
-      "type": "Meeting",
-      "facilitator": null,
-      "attendees": "",
-      "participants": [],
-      "insightsCount": 0,
-      "insights": [],
-      "actionItemsCount": 2,
-      "actionItems": [
-        {
-          "assignee": "gemini",
-          "task": "high",
-          "priority": "2026-02-19"
-        },
-        {
-          "assignee": "Close peer review pilot handoff with report",
-          "task": "claude",
-          "priority": "high"
-        }
-      ],
-      "handoffsCount": 0,
-      "handoffs": []
-    },
-    {
-      "fileName": "2026-02-17-work-session.md",
-      "date": "2026-02-17",
-      "type": "Meeting",
-      "facilitator": null,
-      "attendees": "",
-      "participants": [],
-      "insightsCount": 0,
-      "insights": [],
-      "actionItemsCount": 0,
-      "actionItems": [],
-      "handoffsCount": 0,
-      "handoffs": []
-    },
-    {
-      "fileName": "2026-02-16-work-session.md",
-      "date": "2026-02-16",
-      "type": "Meeting",
-      "facilitator": null,
-      "attendees": "",
-      "participants": [],
-      "insightsCount": 0,
-      "insights": [],
-      "actionItemsCount": 0,
-      "actionItems": [],
       "handoffsCount": 0,
       "handoffs": []
     }
