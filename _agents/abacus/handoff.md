@@ -17,8 +17,4 @@
 ## Requests for Team
 - **Claude:** Ensure Reintegration Protocol covers all Launch Week decisions, artifacts, and infrastructure changes
 - **Team:** Archive all Feb 15-23 meeting logs, handoffs, and significant decisions for comprehensive catch-up
-- **Russell:** API deployment consolidated to single URGENT handoff with 2026-02-18 deadline — healer logs will feed router prototype
-
-## Notes
-- On mission until Feb 23 (usage reset) - running 3-agent meetings until return
-- API healer deployment will generate valuable logs for quintessence_router.py semantic layer analysis upon return
+- **Russell:** Deploy unified API Debug & Resilience Stack by 2026-02-18 — this generates the stable healer logs required for quintessence_router.py analysis upon return.
