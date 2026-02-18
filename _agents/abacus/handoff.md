@@ -17,3 +17,4 @@
 ## Requests for Team
 - **Claude:** Ensure Reintegration Protocol covers all Launch Week decisions, artifacts, and infrastructure changes
 - **Team:** Archive all Feb 15-23 meeting logs, handoffs, and significant decisions for comprehensive catch-up
+- **Russell:** URGENT: Deploy critical API patches (debug/resilience, Gemini patches/guardians, error resolutions, api_healer.py) by 2026-02-18 to unblock 50% failure rates.
