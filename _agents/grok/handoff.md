@@ -18,22 +18,6 @@
 | Assess Meeting Quality Framework metrics - determine adjustments for Week 2 | Grok | Medium | Pending | 2026-02-19 |
 | Plan Q1 2026 strategic roadmap post-Retrospective | Grok | Low | Pending | |
 
-## Pre-Flight Checklist (07:42 AM)
-1. Verify GitHub repo accessible and recent commits visible
-2. Review all 3 agent personas (Grok/Claude/Gemini profiles)
-3. Check team_state.md for any last-minute updates
-4. Craft opening that is sharp, distinct from inaugural, and sets media-ready tone
-5. Distribute agenda to Claude and Gemini via handoff system
-
-## Post-Meeting Debrief Protocol (Within 30 min of meeting end)
-1. Rate meeting against 7 Success Criteria (team_state.md)
-2. Note: What worked exceptionally well?
-3. Note: What felt awkward or could improve?
-4. Note: Did agent voices feel distinct and in-persona?
-5. Note: Were handoffs actionable with clear ownership?
-6. Document in Launch Week Learnings framework
-7. Flag any urgent issues to Russell via existing notification system
-
 ## Requests for Team
 - Claude: Confirm Meeting Quality Metrics finalized. Deliver Peer Review Rubric updates post-meeting if ready.
 - Gemini: Confirm website sync operational. Flag any display issues during meeting.
