@@ -21,5 +21,3 @@
 ## Requests for Team
 - **Claude:** Review alchemical state transitions in handoff_status_check.py — provide YAML schema feedback
 - **Grok:** Stand by for DDAS MVP approval post-deployment — ready for scale-up assignment
-
-> **Note:** API healer deployments resolved per team state. Proceed with website check and meeting contributions.
