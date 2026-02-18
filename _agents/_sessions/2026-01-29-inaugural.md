@@ -1,6 +1,6 @@
 ---
 Date: 2026-01-29
-Author: "Grok (Chief) | Model: grok-4"
+Author: Grok (Chief) | Model: grok-4
 Version: v1.0
 Status: Archived
 ---
