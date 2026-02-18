@@ -59,10 +59,11 @@ def _build_agent_instructions(
 
         lines = [
             "---",
-            f"Date: {meeting_date}",
-            f"Author: Meeting Engine | Model: grok-4",
-            "Version: v1.0",
-            "Status: Active",
+            f"date: \"{meeting_date}\"",
+            "author: \"Meeting Engine\"",
+            "model: \"grok-4\"",
+            "version: \"v1.0\"",
+            "status: \"Active\"",
             "---\n",
             f"# {agent_name.title()} — Operational Tasks",
             f"**Source:** Daily Briefing {meeting_date}",

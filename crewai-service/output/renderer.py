@@ -21,12 +21,13 @@ def render_meeting_notes(response: MeetingResponse) -> str:
 
     lines = []
 
-    # Front-matter block (Mandate 1)
+    # Front-matter block (Mandate 1 — valid YAML)
     lines.append("---")
-    lines.append(f"Date: {date}")
-    lines.append("Author: Meeting Engine (Grok synthesis) | Model: grok-4")
-    lines.append("Version: v1.0")
-    lines.append("Status: Active")
+    lines.append(f"date: \"{date}\"")
+    lines.append("author: \"Meeting Engine (Grok synthesis)\"")
+    lines.append("model: \"grok-4\"")
+    lines.append("version: \"v1.0\"")
+    lines.append("status: \"Active\"")
     lines.append("---\n")
 
     lines.append(f"# {meeting_title} — {date}")
