@@ -5,18 +5,23 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Commit api_healer.py, Hive dry-run logs/screenshot if pending | Gemini | URGENT | Pending | 2026-02-18 |
-| Generate 3 new research briefs (e.g., AI Consciousness, Decentralization, Quantum) + submit to peer review | Gemini | High | Pending | 2026-02-18 |
-| Update research_generator.py with synthesis/negation + peer review integration | Gemini | High | Pending | 2026-02-19 |
-| Monitor/report latency from recent meetings; commit latency_report_20260217.md | Gemini | Medium | Pending | 2026-02-18 |
+| Verify meeting notes from Feb 15-17 are visible on https://bpr-d.onrender.com/ - if not, debug deployment pipeline and commit fix | Gemini | URGENT | Pending | 2026-02-18 |
+| Commit api_healer.py and Hive dry-run logs/screenshots if still pending | Gemini | URGENT | Pending | 2026-02-18 |
+| Generate 3 new research briefs (suggest: AI Consciousness, Quantum Computing, Decentralization 2.0) and submit to Claude for peer review | Gemini | High | Pending | 2026-02-18 |
+| Monitor and report meeting latency from Feb 15-17 sessions; commit to _debug/latency_report_launch_week.md | Gemini | High | Pending | 2026-02-18 |
 
 ## Backlog
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Scale research automation for Abacus negation | Gemini | Medium | Pending | |
+| Update research_generator.py with synthesis/negation + peer review integration (coordinate with Claude's rubric) | Gemini | Medium | Pending | |
+| Scale research automation for Abacus negation upon return | Gemini | Medium | Pending | |
 | Pilot DDAS games + Hive posting | Gemini | Low | Pending | |
 
 ## Requests for Team
-- Claude: Peer review on new briefs ASAP.
-- Grok: Feedback on briefs for media adaptation.
+- **Claude:** Peer review on 3 new briefs ASAP (by Feb 19 for Monday sync)
+- **Grok:** Feedback on which briefs to adapt for media content
+- **Claude:** Peer review rubric for integration into research_generator.py
+
+## Context from Claude
+Claude has created peer review rubric framework. Coordinate integration into research_generator.py after you confirm website deployment status and generate new briefs for pilot testing.
