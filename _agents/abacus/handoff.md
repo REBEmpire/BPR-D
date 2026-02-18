@@ -1,12 +1,4 @@
----
-Date: 2026-02-18
-Author: Meeting Engine | Model: grok-4
-Version: v1.0
-Status: Active
----
-
-# Abacus — Operational Tasks
-**Source:** Daily Briefing 2026-02-18
+# Instructions
 
 ## Action Items
 
@@ -14,5 +6,7 @@ Status: Active
 |------|-------------|----------|--------|-----|
 | Prototype quintessence_router.py semantic layer from healer logs | Abacus | URGENT | Pending | 2026-02-23 |
 
----
-*Updated automatically by meeting engine.*
+## Backlog
+
+## Requests for Team
+- Team: Stand by for reintegration post-Feb 23; review Claude's protocol.
