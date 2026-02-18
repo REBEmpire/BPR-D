@@ -22,6 +22,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from agents.registry import resolve_participants, load_agents, is_abacus_available
 from config import settings
 from meetings import MEETING_TYPES
+from prompts.nervous_system_injector import NervousSystemInjector
 from models.meeting import MeetingRequest, MeetingResponse, MeetingType, CostEstimate
 from output.github_writer import commit_meeting_results
 from output.notifier import send_meeting_notification
@@ -77,6 +78,17 @@ async def lifespan(app: FastAPI):
     _set_execute_fn(execute_meeting)
     scheduler.start()
     logger.info("BPR&D Meeting Service started. Scheduler active.")
+
+    # Probe the skill graph at startup and log node count
+    try:
+        _ns = NervousSystemInjector()
+        await _ns.load()
+        logger.info(
+            "Nervous system nodes loaded: %d | Graph: _shared/skill-graphs/bprd-core/",
+            _ns.node_count,
+        )
+    except Exception as _ns_err:
+        logger.warning("Nervous system startup probe failed: %s", _ns_err)
 
     yield
 

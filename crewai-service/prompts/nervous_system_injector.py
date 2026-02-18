@@ -13,6 +13,7 @@ Design:
     - Reads agent-specific hook from _shared/skill-graphs/bprd-core/agent-hooks/
     - Reads shared preamble (always first)
     - Reads navigation entry point (skill-graphs/navigation.md)
+    - Scans skill graph directory to count loaded nodes (logged as "Nervous system nodes loaded: XX")
     - Caches all reads for the lifetime of the session (no repeated GitHub API calls)
     - Gracefully degrades: if graph files are missing, logs warning and injects fallback
 
@@ -26,7 +27,13 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
+import httpx
+
+from config import settings
 from tools.github_tool import read_file
+
+GITHUB_API = "https://api.github.com"
+REPO = settings.GITHUB_REPO
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +76,8 @@ class NervousSystemContext:
     moc_core_summary: str = ""
     load_errors: list[str] = field(default_factory=list)
     loaded: bool = False
+    node_count: int = 0          # number of .md files discovered in skill graph
+    node_names: list[str] = field(default_factory=list)
 
 
 class NervousSystemInjector:
@@ -77,19 +86,34 @@ class NervousSystemInjector:
 
     Call `await injector.load()` once per session, then `injector.inject()`
     for each agent call within that session.
+
+    After load(), check `injector.node_count` — logged as "Nervous system nodes loaded: XX".
     """
 
     def __init__(self) -> None:
         self._context = NervousSystemContext()
 
+    @property
+    def node_count(self) -> int:
+        return self._context.node_count
+
+    @property
+    def node_names(self) -> list[str]:
+        return self._context.node_names
+
     async def load(self) -> None:
         """
         Load all skill graph context from GitHub. Caches results for this session.
         Called ONCE at the start of each meeting/work session.
+
+        Emits: "Nervous system nodes loaded: XX" to logs.
         """
         logger.info("Loading BPR&D central nervous system context...")
 
-        # Load all files in parallel-ish (sequential to respect GitHub rate limits)
+        # Step 1: Scan skill graph to count nodes
+        await self._scan_skill_nodes()
+
+        # Step 2: Load core reference files
         self._context.shared_preamble = await self._safe_read(SHARED_PREAMBLE_PATH)
         self._context.navigation = await self._safe_read(NAVIGATION_PATH)
         self._context.moc_core_summary = await self._load_moc_summary()
@@ -101,8 +125,13 @@ class NervousSystemInjector:
                 len(self._context.load_errors),
                 self._context.load_errors,
             )
-        else:
-            logger.info("Nervous system fully loaded — all skill graph files available.")
+
+        logger.info(
+            "Nervous system nodes loaded: %d | Hooks: %d | Errors: %d",
+            self._context.node_count,
+            len(AGENT_HOOK_MAP),
+            len(self._context.load_errors),
+        )
 
     async def load_agent_hook(self, agent_name: str) -> str:
         """Load the agent-specific hook. Called when building each agent's prompt."""
@@ -145,6 +174,7 @@ class NervousSystemInjector:
             session_type=session_type,
             model_id=model_id,
             timestamp=now,
+            node_count=self._context.node_count,
         )
 
         # Quick ref card from navigation skill
@@ -190,6 +220,59 @@ class NervousSystemInjector:
 
     # ── Private helpers ───────────────────────────────────────────────────────
 
+    async def _scan_skill_nodes(self) -> None:
+        """
+        Scan _shared/skill-graphs/bprd-core/ via GitHub API to count .md node files.
+        Sets self._context.node_count and self._context.node_names.
+        Also counts agent-hooks/ files.
+        """
+        headers = {
+            "Authorization": f"token {settings.GITHUB_TOKEN}",
+            "Accept": "application/vnd.github.v3+json",
+        }
+        node_names: list[str] = []
+
+        try:
+            async with httpx.AsyncClient(timeout=15) as client:
+                # Root skill graph dir
+                url = f"{GITHUB_API}/repos/{REPO}/contents/{SKILL_GRAPH_BASE}"
+                resp = await client.get(url, headers=headers, params={"ref": "main"})
+                if resp.status_code == 200:
+                    entries = resp.json()
+                    if isinstance(entries, list):
+                        node_names.extend(
+                            e["name"] for e in entries
+                            if e["type"] == "file" and e["name"].endswith(".md")
+                        )
+
+                # Agent hooks subdir
+                hooks_url = f"{GITHUB_API}/repos/{REPO}/contents/{AGENT_HOOKS_BASE}"
+                hooks_resp = await client.get(hooks_url, headers=headers, params={"ref": "main"})
+                if hooks_resp.status_code == 200:
+                    hooks = hooks_resp.json()
+                    if isinstance(hooks, list):
+                        node_names.extend(
+                            e["name"] for e in hooks
+                            if e["type"] == "file" and e["name"].endswith(".md")
+                        )
+
+                # skill-graphs/ subdir (navigation.md lives here)
+                nav_url = f"{GITHUB_API}/repos/{REPO}/contents/{SKILL_GRAPH_BASE}/skill-graphs"
+                nav_resp = await client.get(nav_url, headers=headers, params={"ref": "main"})
+                if nav_resp.status_code == 200:
+                    nav_entries = nav_resp.json()
+                    if isinstance(nav_entries, list):
+                        node_names.extend(
+                            e["name"] for e in nav_entries
+                            if e["type"] == "file" and e["name"].endswith(".md")
+                        )
+
+        except Exception as e:
+            logger.warning("Skill graph node scan failed: %s", e)
+
+        self._context.node_names = node_names
+        self._context.node_count = len(node_names)
+
     async def _safe_read(self, path: str) -> str:
         """Read a file from GitHub; return empty string on any error."""
         content = await read_file(path)
@@ -212,6 +295,7 @@ class NervousSystemInjector:
         session_type: str,
         model_id: str,
         timestamp: str,
+        node_count: int = 0,
     ) -> str:
         """Render the mandatory first block — always verbatim, always first."""
         return f"""╔══════════════════════════════════════════════════════════════════╗
@@ -223,7 +307,7 @@ Begin by reading [[skill-graphs/navigation]] before taking any action.
 
 AGENT: {agent_name.title()} | SESSION: {session_type} | TIME: {timestamp}
 MODEL: {model_id or "unknown"}
-GRAPH: _shared/skill-graphs/bprd-core/ (30+ nodes, 4 MOCs)
+GRAPH: _shared/skill-graphs/bprd-core/ — {node_count} nodes loaded
 
 CORE SKILLS TO KNOW:
   [[skill-handoff-protocols]]     — task creation and tracking

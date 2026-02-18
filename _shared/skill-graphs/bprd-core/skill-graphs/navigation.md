@@ -43,7 +43,19 @@ Follow those links for detailed procedural guidance.
 
 ---
 
-## Quick Reference Card (Injected into Every Prompt)
+## Quick Reference Card
+
+SKILL GRAPH QUICK REF:
+• Handoff format     → [[skill-handoff-protocols]]
+• Session output     → [[skill-session-output-format]]
+• Quality gate       → [[skill-quality-filter]]
+• Cost rules         → [[skill-cost-governance]]
+• Image prompts      → [[skill-image-prompt-standards]]
+• Idle session       → [[skill-initiative-rule]] → run /reflect
+• New domain         → [[skill-multi-domain-expansion]]
+• Self-evolution     → [[skill-agent-self-evolution]]
+
+### Injected Prompt Block (for Meeting Engine reference)
 
 ```
 SKILL GRAPH QUICK REF:
