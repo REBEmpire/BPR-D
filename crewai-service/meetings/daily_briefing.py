@@ -12,6 +12,7 @@ from agents.registry import RegisteredAgent
 from models.meeting import MeetingResponse, CostEstimate
 from orchestrator.engine import MeetingEngine
 from output.parser import parse_synthesis
+from prompts.nervous_system_injector import NervousSystemInjector
 from utils.cost_tracker import CostTracker
 
 logger = logging.getLogger(__name__)
@@ -100,6 +101,14 @@ class DailyBriefing:
         cost_tracker.meeting_id = meeting_id
 
         logger.info(f"Executing Daily Briefing: {meeting_id}")
+
+        # Phase 0: Load nervous system — MUST be first (before MeetingEngine runs)
+        ns_injector = NervousSystemInjector()
+        await ns_injector.load()
+        logger.info(
+            f"Nervous system loaded for daily_briefing "
+            f"({ns_injector.node_count} nodes)"
+        )
 
         engine = MeetingEngine(
             agents=agents,

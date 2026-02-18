@@ -3,8 +3,9 @@ Work Session meeting type for BPR&D meeting service.
 Executes a solo work session for an agent (default: Grok) to review status,
 discover backlog items, and update handoff instructions for the team.
 
-v3.0: Full ReAct Agent Loop — Agent can read/write files (staged) before
-committing everything atomically at the end.
+v3.1: Full ReAct Agent Loop — Agent can read/write files (staged) before
+committing everything atomically at the end. Nervous system injected as
+layer 0. /reweave appended after every session.
 """
 
 import json
@@ -16,7 +17,7 @@ from backlog.discovery import discover_backlog, BacklogResult
 from models.meeting import MeetingResponse, CostEstimate
 from meetings.base import BaseMeeting
 from prompts.nervous_system_injector import NervousSystemInjector
-from tools.github_tool import read_file
+from tools import github_tool, github_tools
 from utils.cost_tracker import CostTracker
 
 logger = logging.getLogger(__name__)
@@ -56,7 +57,10 @@ class WorkSession(BaseMeeting):
             ns_injector = NervousSystemInjector()
             await ns_injector.load()
             agent_hook = await ns_injector.load_agent_hook(worker_name)
-            logger.info(f"Nervous system loaded for {worker_name} work session")
+            logger.info(
+                f"Nervous system loaded for {worker_name} work session "
+                f"({ns_injector.node_count} nodes)"
+            )
 
             # Phase 1: Context Gathering + Backlog Discovery
             context = await self._gather_context()
@@ -67,16 +71,17 @@ class WorkSession(BaseMeeting):
                 f"{len(backlog.top_items)} selected for processing"
             )
 
-            # Phase 2: Execution (Prompting the Agent with backlog context + nervous system)
-            response_content = await self._run_agent_execution(
-                worker, context, backlog, cost_tracker,
-                ns_injector=ns_injector, agent_hook=agent_hook,
-            )
+            # Staged changes dict — all agent file edits accumulate here before atomic commit
+            staged_changes: dict[str, str] = {}
+            action_log: list[str] = []
 
-            # Run the agent loop
-            # Returns the final JSON summary/handoffs
+            # Phase 2: ReAct Agent Loop (tool-calling)
             parsed_output, action_log = await self._run_agent_loop(
-                worker, context, backlog, cost_tracker, staged_changes
+                worker, context, backlog, cost_tracker,
+                staged_changes=staged_changes,
+                action_log=action_log,
+                ns_injector=ns_injector,
+                agent_hook=agent_hook,
             )
 
             # Phase 3: Finalization & Commit
@@ -185,7 +190,6 @@ class WorkSession(BaseMeeting):
 
         context_parts = []
         for path in files_to_read:
-            # We use the backend tool directly here as we are establishing initial context
             content = await github_tool.read_file(path)
             context_parts.append(f"## {path}\n\n{content}\n")
 
@@ -197,13 +201,21 @@ class WorkSession(BaseMeeting):
         context: str,
         backlog: BacklogResult,
         tracker: CostTracker,
+        staged_changes: dict[str, str] | None = None,
+        action_log: list[str] | None = None,
         ns_injector: NervousSystemInjector | None = None,
         agent_hook: str = "",
-    ) -> str:
-        """Run the agent with full context including backlog items and nervous system preamble.
-
-        The nervous system preamble is injected as the VERY FIRST content in the system prompt.
+    ) -> tuple[dict, list[str]]:
         """
+        ReAct agent loop: agent calls tools (read_file/write_file/list_files/done)
+        via XML tags; executor dispatches up to max_turns iterations.
+        Nervous system is injected as layer 0. /reweave runs as final step.
+        """
+        if staged_changes is None:
+            staged_changes = {}
+        if action_log is None:
+            action_log = []
+
         backlog_context = await backlog.to_context_string_with_skills()
         has_backlog = len(backlog.items) > 0
 
@@ -292,7 +304,10 @@ class WorkSession(BaseMeeting):
         else:
             system_prompt = base_system_prompt
 
-        messages = [{"role": "user", "content": user_message}]
+        # Append tool definitions so agent knows how to call tools
+        system_prompt += "\n\n" + github_tools.get_tool_definitions()
+
+        messages = [{"role": "user", "content": initial_user_msg}]
 
         # ReAct Loop
         max_turns = 15
@@ -382,13 +397,36 @@ class WorkSession(BaseMeeting):
                     final_json_content = content
                 break
 
-        # If we exited loop without JSON, try to find it in history or ask for it?
-        # For simplicity, if we don't have it, we return a basic one.
+        # If we exited loop without JSON, use last message content
         if not final_json_content:
-            # Last ditch effort: ask for it? Or just parse the last message.
             final_json_content = messages[-1]["content"] if messages else "{}"
 
         parsed = self._parse_output(final_json_content)
+
+        # /reweave — final step of every session: stage a skill graph reflection entry
+        reweave_path = (
+            f"_shared/skill-graphs/bprd-core/reflections/"
+            f"{datetime.utcnow().strftime('%Y-%m-%d')}-{agent.persona.name.lower()}-reweave.md"
+        )
+        reweave_content = (
+            f"---\n"
+            f"Date: {datetime.utcnow().strftime('%Y-%m-%d')}\n"
+            f"Author: {agent.persona.name} | Session: work_session\n"
+            f"---\n\n"
+            f"# /reweave — {agent.persona.name} Session Reflection\n\n"
+            f"## Actions Taken\n\n"
+            + "\n".join(f"- {a}" for a in action_log)
+            + "\n\n## Summary\n\n"
+            + parsed.get("summary", "No summary captured.")
+            + "\n\n"
+            f"*Auto-generated by work_session /reweave. "
+            f"Nervous system nodes at session start: "
+            f"{ns_injector.node_count if ns_injector else 'N/A'}*\n"
+        )
+        staged_changes[reweave_path] = reweave_content
+        action_log.append(f"/reweave staged: {reweave_path}")
+        logger.info(f"/reweave entry staged: {reweave_path}")
+
         return parsed, action_log
 
     def _parse_output(self, content: str) -> dict:
