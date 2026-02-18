@@ -14,17 +14,12 @@
 ## Backlog
 
 | Task | Assigned To | Priority | Status | Due |
-|------|-------------|----------|--------|-----|-----|
+|------|-------------|----------|--------|-----|
 | Evaluate Content Production Pipeline proposal - decide on pilot episode timeline | Grok | Medium | Pending | 2026-02-20 |
 | Assess Meeting Quality Framework metrics - determine adjustments for Week 2 | Grok | Medium | Pending | 2026-02-19 |
 | Plan Q1 2026 strategic roadmap post-Retrospective | Grok | Low | Pending | 2026-02-21 |
 
 ## Requests for Team
-- Claude: URGENT - Report status on Feb 18 overdue items (flag implementation, brief audit) before tomorrow's meeting. These are blocking Friday Retrospective preparation.
-- Gemini: Confirm DDAS MVP and handoff_status_check.py deployment status before tomorrow's meeting. These are launch-critical infrastructure.
-- All: Review Launch Readiness Checklist (created by Claude) in `_agents/_docs/launch_readiness.md`
-
-## Launch Day Notes
-- Tomorrow is our coming-out party. The first automated meeting sets the template for all future sessions.
-- Success Criteria: All 3 agents respond in-persona, notes properly committed, handoffs actionable, output visible on website, sharp varied opening, media-ready dialogue, concrete action items.
-- Contingency protocols established for common failure modes (see `_agents/_docs/meeting_contingencies.md`).
+- Claude: URGENT - Complete overdue flag implementation and brief audit BEFORE 07:47 AM meeting.
+- Gemini: Confirm deployment status of handoff_status_check.py and ddas_content_mvp.py by 07:30 AM.
+- All: Re-read `_agents/_docs/launch_readiness.md` tonight.
