@@ -1,5 +1,19 @@
 import { NextRequest, NextResponse } from "next/server"
 
+// Force Node.js runtime + dynamic — critical for Render + Turbopack POST-only routes
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
+/** Health check — also forces Next.js to fully register this route for all methods */
+export async function GET() {
+  return NextResponse.json({
+    status: "ok",
+    route: "/api/hic/trigger",
+    methods: ["GET", "POST"],
+    timestamp: new Date().toISOString(),
+  })
+}
+
 /**
  * POST /api/hic/trigger
  *
