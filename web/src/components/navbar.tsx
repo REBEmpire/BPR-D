@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { useGamification } from "@/context/gamification-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { Trophy, User, LogIn } from "lucide-react"
+import { Trophy, User, LogIn, Zap } from "lucide-react"
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -27,7 +27,7 @@ export function Navbar() {
           <Link href="/" className="font-bold text-xl tracking-tight">
             BPR&D
           </Link>
-          <div className="hidden md:flex gap-6">
+          <div className="hidden md:flex gap-6 items-center">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -42,6 +42,18 @@ export function Navbar() {
                 {item.name}
               </Link>
             ))}
+            <Link
+              href="/projects/ai-comm-hub"
+              className={cn(
+                "flex items-center gap-1 text-sm font-semibold transition-colors",
+                "text-yellow-500 hover:text-yellow-400",
+                "border border-yellow-500/40 rounded-full px-3 py-0.5",
+                pathname === "/projects/ai-comm-hub" && "bg-yellow-500/10"
+              )}
+            >
+              <Zap className="h-3.5 w-3.5" />
+              Fire Meeting
+            </Link>
           </div>
         </div>
 
