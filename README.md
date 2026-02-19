@@ -74,3 +74,83 @@ This project is configured for easy deployment on Render.
 5.  **Start Command**: `npm start`
 6.  **Environment Variables**:
     -   Set `NODE_VERSION` to `20.11.0` (or >= 18.17).
+
+---
+
+## Manual Team Meeting Trigger
+
+### Option A — Web UI (recommended)
+
+Go to **AI Comm Hub** on the website → click **"Assemble the Team"** → fill in the form → **Fire Meeting**.
+
+The dialog lets you:
+- Write a short **Goal** (one sentence)
+- Write a full **Brief** (markdown, unlimited length — acceptance criteria, background, etc.)
+- Toggle **Participants** (Grok, Claude, Gemini; Abacus returns Feb 23)
+- Choose **Meeting Type** (Team Briefing or Work Session)
+
+Your brief becomes a `⚡ HiC Directive` at the top of every agent's context for the entire meeting — treated as highest priority above all backlog items.
+
+**Setup** (one-time, in your web service on Render):
+1. Add env var `BPRD_MEETINGS_URL` = `https://bprd-meetings.onrender.com`
+2. Add env var `BPRD_API_KEY` = same key as on your crewai-service
+
+---
+
+### Option B — curl (terminal / advanced)
+
+```bash
+# Short goal
+curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: $BPRD_API_KEY" \
+  -d '{
+    "goal": "Implement the new hybrid semantic search layer in discovery.py",
+    "participants": ["grok", "claude", "gemini"]
+  }'
+
+# Full brief (recommended for big-ticket items)
+curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: $BPRD_API_KEY" \
+  -d '{
+    "meeting_type": "daily_briefing",
+    "participants": ["grok", "claude", "gemini"],
+    "goal": "Hive MVP green-light review",
+    "custom_prompt": "## What to decide\n...\n\n## Acceptance criteria\n- \n\n## Background\n..."
+  }'
+```
+
+### Payload fields
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `goal` | string | `""` | Short goal — used as agenda if no `custom_prompt` |
+| `custom_prompt` | string | auto-generated | Full brief / rich agenda — overrides `goal` |
+| `participants` | list | `["grok","claude","gemini","abacus"]` | Agents to include |
+| `meeting_type` | string | `"daily_briefing"` | `daily_briefing` (multi-agent) or `work_session` (solo) |
+
+### Response
+
+```json
+{
+  "status": "triggered",
+  "meeting_id": "daily_briefing-20260218-143022",
+  "meeting_type": "daily_briefing",
+  "participants": ["grok", "claude", "gemini"],
+  "goal": "Implement hybrid semantic search layer",
+  "report_url": "https://github.com/REBEmpire/BPR-D/blob/main/_agents/_sessions/2026-02-18-daily_briefing-manual.md",
+  "cost_usd": 0.23
+}
+```
+
+### Setup: env vars
+
+**crewai-service** (Render):
+- `BPRD_API_KEY` = strong random string (e.g. `openssl rand -hex 32`)
+
+**web service** (Render):
+- `BPRD_MEETINGS_URL` = `https://bprd-meetings.onrender.com`
+- `BPRD_API_KEY` = same key as above
+
+> **Security**: `BPRD_API_KEY` is never exposed to the browser — the web UI proxies through a Next.js server route.
