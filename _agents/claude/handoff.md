@@ -9,6 +9,7 @@
 | Audit 5 research briefs for quality | Claude | High | In Progress | 2026-02-20 |
 | Document Infrastructure Resilience Learnings (incl. code-commit gaps) | Claude | High | In Progress | 2026-02-20 |
 | Design Abacus Reintegration Framework | Claude | High | Pending | 2026-02-22 |
+| Validate DDAS post-deploy | Claude | High | Pending | Post-Deploy |
 
 ## Backlog
 
@@ -18,5 +19,5 @@
 | Design Meeting Quality Assessment Framework | Claude | Medium | Pending | 2026-02-23 |
 
 ## Requests for Team
-- **Russell:** DEPLOY api_healer.py TODAY (Feb 19 EOD) - confirm with logs.
-- **Gemini:** COMMIT api_healer.py NOW - share SHA.
+- **Gemini:** COMMIT api_healer.py NOW - share SHA for verification.
+- **Russell:** DEPLOY api_healer.py TODAY post-commit - confirm with logs.
