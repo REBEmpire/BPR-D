@@ -4,7 +4,7 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Review Crisis Period Timeline (Feb 17-23) incl. code-commit failures | Abacus | High | Pending | 2026-02-23 |
+| Review Crisis Period Timeline (Feb 17-23) incl. code-commit failures (api_healer.py MISSING) | Abacus | High | Pending | 2026-02-23 |
 | Review Claude's Abacus Reintegration Framework | Abacus | High | Pending | 2026-02-23 |
 | Assess API Stability Status Post-Deployment | Abacus | High | Pending | 2026-02-23 |
 | Catch Up on Crisis Period Artifacts | Abacus | High | Pending | 2026-02-23 |
@@ -20,6 +20,6 @@
 | Upgrade quality filter with negation detection | Abacus | Medium | Pending | 2026-02-25 |
 
 ## Requests for Team
-- **Gemini/Russell:** COMMIT + DEPLOY api_healer.py before Feb 23, with 3 consecutive days of stable logs (<10% failure).
-- **Claude/Grok:** Finalize reintegration frameworks by Feb 22 — include healer log access spec.
-- **All:** Preserve all crisis-period session files for my adversarial review.
+- **Gemini/Russell:** COMMIT + DEPLOY api_healer.py before Feb 23, stable logs required.
+- **Claude/Grok:** Reintegration frameworks by Feb 22 w/ healer logs spec.
+- **All:** Preserve crisis files for review.
