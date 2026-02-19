@@ -71,13 +71,21 @@ export async function POST(request: NextRequest) {
     const upstreamUrl = `${baseUrl}/api/v1/meetings/manual-trigger`;
 
     // Construct body for upstream
-    // Map extracted fields to what crewai-service expects
-    const upstreamBody = {
-        meeting_type: "work_session", // Default to work session for "Assemble Team"
-        participants: ["grok", "claude", "gemini", "abacus"],
-        goal: successCriteria || "Team assembly requested via manual trigger",
-        custom_prompt: task ? `Task: ${task}\n\nSuccess Criteria: ${successCriteria}` : undefined
-    };
+    // If the original payload already has meeting_type/participants (from AI Comm Hub form),
+    // forward those directly. Otherwise build from extracted fields (legacy form buttons).
+    const upstreamBody = payload.meeting_type
+      ? {
+          meeting_type: payload.meeting_type,
+          participants: payload.participants || ["grok", "claude", "gemini", "abacus"],
+          goal: payload.goal || successCriteria || "Team assembly requested via manual trigger",
+          custom_prompt: payload.custom_prompt || (task ? `Task: ${task}\n\nSuccess Criteria: ${successCriteria}` : undefined),
+        }
+      : {
+          meeting_type: "daily_briefing",
+          participants: ["grok", "claude", "gemini", "abacus"],
+          goal: successCriteria || "Team assembly requested via manual trigger",
+          custom_prompt: task ? `Task: ${task}\n\nSuccess Criteria: ${successCriteria}` : undefined,
+        };
 
     console.log("🚀 Forwarding to:", upstreamUrl);
     // console.log("Payload:", JSON.stringify(upstreamBody, null, 2));
