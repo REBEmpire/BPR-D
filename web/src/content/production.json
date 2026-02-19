@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-19T01:13:02.900Z",
+  "lastUpdated": "2026-02-19T06:40:40.626Z",
   "meetings": [
     {
       "fileName": "HiC_Notes2.md",
@@ -16,8 +16,36 @@
       "handoffs": []
     },
     {
+      "fileName": "claude-strategic-assessment-20260219-0430.md",
+      "date": "Unknown",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
       "fileName": "hic-notes.md",
       "date": "Unknown",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-claude-work-session.md",
+      "date": "2026-02-19 02:30 UTC",
       "type": "Meeting",
       "facilitator": null,
       "attendees": "",
@@ -94,6 +122,20 @@
           "priority": "High"
         }
       ],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-grok-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
       "handoffsCount": 0,
       "handoffs": []
     },

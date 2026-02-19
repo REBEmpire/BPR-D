@@ -92,7 +92,7 @@ The dialog lets you:
 Your brief becomes a `⚡ HiC Directive` at the top of every agent's context for the entire meeting — treated as highest priority above all backlog items.
 
 **Setup** (one-time, in your web service on Render):
-1. Add env var `BPRD_MEETINGS_URL` = `https://bprd-meetings.onrender.com`
+1. Add env var `BPRD_MEETINGS_URL` = `https://bprd-crewai.onrender.com`
 2. Add env var `BPRD_API_KEY` = same key as on your crewai-service
 
 ---
@@ -101,7 +101,7 @@ Your brief becomes a `⚡ HiC Directive` at the top of every agent's context for
 
 ```bash
 # Short goal
-curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \
+curl -X POST https://bprd-crewai.onrender.com/api/v1/meetings/manual-trigger \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BPRD_API_KEY" \
   -d '{
@@ -110,7 +110,7 @@ curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \
   }'
 
 # Full brief (recommended for big-ticket items)
-curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \
+curl -X POST https://bprd-crewai.onrender.com/api/v1/meetings/manual-trigger \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BPRD_API_KEY" \
   -d '{
@@ -150,7 +150,7 @@ curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \
 - `BPRD_API_KEY` = strong random string (e.g. `openssl rand -hex 32`)
 
 **web service** (Render):
-- `BPRD_MEETINGS_URL` = `https://bprd-meetings.onrender.com`
+- `BPRD_MEETINGS_URL` = `https://bprd-crewai.onrender.com`
 - `BPRD_API_KEY` = same key as above
 
 > **Security**: `BPRD_API_KEY` is never exposed to the browser — the web UI proxies through a Next.js server route.
