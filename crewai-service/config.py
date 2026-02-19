@@ -38,6 +38,8 @@ class Settings:
     PORT: int = field(default_factory=lambda: int(os.getenv("PORT", "8000")))
     ENV: str = field(default_factory=lambda: os.getenv("ENV", "development"))
     LOG_LEVEL: str = field(default_factory=lambda: os.getenv("LOG_LEVEL", "INFO"))
+    # HiC manual-trigger auth key — set BPRD_API_KEY env var on Render
+    BPRD_API_KEY: str = field(default_factory=lambda: os.getenv("BPRD_API_KEY", ""))
 
     # --- Cost Controls (Grok's directives) ---
     MEETING_COST_HARD_CAP: float = 0.40

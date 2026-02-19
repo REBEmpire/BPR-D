@@ -4,11 +4,12 @@ Custom multi-agent meeting orchestration — no CrewAI, no n8n.
 Direct LLM API calls with full conversation transcript for natural dialogue.
 
 Endpoints:
-  POST /api/v1/meetings/execute  - Run a meeting
-  GET  /api/v1/health            - Health check
-  GET  /api/v1/agents            - List agents and status
-  GET  /api/v1/cost/monthly      - Current month's spend
-  GET  /api/v1/schedule          - View scheduled jobs
+  POST /api/v1/meetings/execute         - Run a meeting (structured)
+  POST /api/v1/meetings/manual-trigger  - HiC one-command team meeting trigger (X-API-KEY auth)
+  GET  /api/v1/health                   - Health check
+  GET  /api/v1/agents                   - List agents and status
+  GET  /api/v1/cost/monthly             - Current month's spend
+  GET  /api/v1/schedule                 - View scheduled jobs
 """
 
 import logging
@@ -16,7 +17,7 @@ import sys
 from contextlib import asynccontextmanager
 from datetime import datetime
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from agents.registry import resolve_participants, load_agents, is_abacus_available
@@ -234,6 +235,90 @@ async def execute_meeting(request: MeetingRequest) -> MeetingResponse:
 async def execute_meeting_endpoint(request: MeetingRequest) -> MeetingResponse:
     """Execute a BPR&D meeting via HTTP webhook."""
     return await execute_meeting(request)
+
+
+@app.post("/api/v1/meetings/manual-trigger")
+async def manual_team_meeting_trigger(
+    payload: dict,
+    x_api_key: str = Header(default="", alias="X-API-KEY"),
+) -> dict:
+    """
+    HiC one-command trigger for team meetings.
+
+    Requires X-API-KEY header matching BPRD_API_KEY env var.
+
+    Body fields:
+        meeting_type   (str)  — default "team_meeting"
+        participants   (list) — default all four agents
+        goal           (str)  — short goal description (used as agenda)
+        custom_prompt  (str)  — optional override for the full agenda prompt
+
+    Returns:
+        status, meeting_id, report_url (GitHub path where notes are committed)
+
+    Example:
+        curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \\
+          -H "Content-Type: application/json" \\
+          -H "X-API-KEY: $BPRD_API_KEY" \\
+          -d '{"goal": "Implement hybrid semantic search in discovery.py",
+               "participants": ["grok", "claude", "gemini"]}'
+    """
+    # --- Auth ---
+    if not settings.BPRD_API_KEY:
+        logger.warning("BPRD_API_KEY not set — manual-trigger endpoint is OPEN. Set it in Render env vars.")
+    elif x_api_key != settings.BPRD_API_KEY:
+        logger.warning("manual-trigger: rejected request with invalid X-API-KEY")
+        raise HTTPException(status_code=401, detail="Invalid or missing X-API-KEY header.")
+
+    # --- Parse payload ---
+    meeting_type = payload.get("meeting_type", "team_meeting")
+    participants = payload.get("participants", ["grok", "claude", "gemini", "abacus"])
+    goal = payload.get("goal", "")
+    custom_prompt = payload.get(
+        "custom_prompt",
+        f"Goal: {goal}. Complete the task as a full team meeting with real dialogue and concrete actions."
+        if goal else "Full team sync — review backlog and drive top priorities to completion."
+    )
+
+    logger.info(
+        "manual-trigger: meeting_type=%s participants=%s goal=%r",
+        meeting_type, participants, goal[:80] if goal else "",
+    )
+
+    # --- Build MeetingRequest and reuse execute_meeting ---
+    try:
+        meeting_type_enum = MeetingType(meeting_type)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unknown meeting_type '{meeting_type}'. Valid: {[mt.value for mt in MeetingType]}",
+        )
+
+    request = MeetingRequest(
+        meeting_type=meeting_type_enum,
+        participants=participants,
+        agenda=custom_prompt,
+    )
+
+    response = await execute_meeting(request)
+
+    # Derive a GitHub report URL from the meeting_id
+    date_prefix = datetime.utcnow().strftime("%Y-%m-%d")
+    report_path = f"_agents/_sessions/{date_prefix}-{meeting_type}-manual.md"
+    report_url = (
+        f"https://github.com/{settings.GITHUB_REPO}/blob/main/{report_path}"
+    )
+
+    return {
+        "status": "triggered" if response.success else "failed",
+        "meeting_id": response.meeting_id,
+        "meeting_type": meeting_type,
+        "participants": participants,
+        "goal": goal,
+        "report_url": report_url,
+        "error": response.error if not response.success else None,
+        "cost_usd": response.cost_estimate.total_cost_usd if response.cost_estimate else None,
+    }
 
 
 # --- Health & Status ---
