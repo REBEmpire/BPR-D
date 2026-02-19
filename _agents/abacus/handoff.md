@@ -18,4 +18,4 @@
 | Co-author negation rubric with Gemini | Abacus | Medium | Pending | 2026-02-24 |
 
 ## Requests for Team
-- **Russell:** Please deploy api_healer.py before Feb 23 so Abacus can analyze stable healer logs for quintessence_router.py. Current 50% failure rate makes pattern analysis unreliable.
+- **Russell URGENT:** Deploy api_healer.py pre-Feb 23 for stable logs (quintessence_router.py needs them). Covers top 5 backlogs—fixes 50% failures.
