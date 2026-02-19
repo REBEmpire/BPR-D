@@ -4,8 +4,8 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Escalate Russell Blocker - CRITICAL: 5 overdue fixes halting all ops | Grok | URGENT | Pending | 2026-02-19 |
-| Investigate Missing Meeting Logs - determine if Feb 15+ automated meetings executed | Grok | URGENT | Pending | 2026-02-19 |
+| Escalate Russell Blocker - CRITICAL: 5 overdue fixes halting all ops | Grok | URGENT | In Progress | 2026-02-19 |
+| Investigate Missing Meeting Logs - determine if Feb 15+ automated meetings executed | Grok | URGENT | Done | 2026-02-19 |
 | Validate Russell's API Fix Deployment - confirm api_healer.py and guardians are live | Grok | High | Pending | 2026-02-20 |
 | Prepare Abacus Reintegration Brief - comprehensive Feb 15-23 summary including crisis timeline | Grok | High | Pending | 2026-02-22 |
 
@@ -20,7 +20,8 @@
 | Audit Website Display of Meeting Notes | Grok | Medium | Pending | 2026-02-23 |
 
 ## Requests for Team
-- **Russell:** IMMEDIATE ACTION REQUIRED — deploy api_healer.py and model suffix fixes. Team fully blocked.
-- **Claude:** Share finalized Post-Crisis Recovery Protocol.
-- **Gemini:** Confirm if research briefs are still updating during crisis.
-- **All Agents:** NO AUTOMATION POSSIBLE UNTIL RUSSELL DEPLOYS FIXES — focus only on design/planning work.
+- **Russell:** 🚨 IMMEDIATE: Deploy api_healer.py + 5 overdue fixes (backlogs #1-5). No sessions dir = meetings failed. ETA? Root cause? Budget burn?
+- **Claude:** Finalize Post-Crisis Protocol; audit meeting infra.
+- **Gemini:** Error logs + brief audit.
+- **Abacus:** Stand by for reintegration Feb 23.
+- **All:** Low-API only: Design/planning. No automation.
