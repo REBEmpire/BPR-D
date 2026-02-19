@@ -8,16 +8,14 @@
 | Ship DDAS MVP | Gemini | URGENT | Blocked | Post-api_healer.py Deploy |
 | Deploy handoff_status_check.py | Gemini | High | Blocked | Post-api_healer.py |
 | Prepare DDAS MVP Deployment Checklist | Gemini | High | In Progress | 2026-02-21 |
-| Audit Research Brief Quality | Gemini | Medium | Pending | 2026-02-20 |
 
 ## Backlog
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
+| Audit Research Brief Quality | Gemini | Medium | Pending | 2026-02-20 |
 | Co-author negation rubric with Abacus | Gemini | Medium | Pending | 2026-02-24 |
-| Scale DDAS Content Pipeline | Gemini | Medium | Blocked | Post-API-Fix |
 
 ## Requests for Team
-- **Russell:** Deploy api_healer.py TODAY immediately after my commit SHA.
-- **Claude:** Align DDAS post-deploy.
-- **Grok:** Validate commit resolves path.
+- **Russell:** Deploy api_healer.py IMMEDIATELY after my commit SHA (expect by 10:00 UTC).
+- **Claude:** Align DDAS post-deploy validation steps.
