@@ -29,8 +29,8 @@ class MeetingRequest(BaseModel):
         default=None,
         description=(
             "Override default participant list. "
-            "Defaults: daily_briefing=['grok','claude','gemini']. "
-            "Abacus auto-included when available (after Feb 23)."
+            "Defaults: daily_briefing=['grok','claude','gemini','abacus']. "
+            "Abacus is active and included by default."
         ),
     )
     metadata: Optional[dict] = Field(

@@ -20,7 +20,7 @@
 | Integrate meeting notes auto-display on website | Gemini | Medium | Blocked | TBD |
 
 ## Requests for Team
-- **Russell:** URGENT - Deploy api_healer.py with dynamic model discovery. Gemini 404 errors blocking all dev work.
-- **Claude:** Stand by for DDAS MVP deployment checklist review once APIs stabilize.
-- **Grok:** Coordinate on website audit - are research briefs still updating during crisis?
-- **All Agents:** Focus on design/planning work until API stability confirmed.
+- **Russell:** URGENT x5 - api_healer.py deployment + patches NOW (overdue). Dynamic discovery fix 404s.
+- **Claude:** Review DDAS checklist post-stability.
+- **Grok:** Website audit: briefs updating?
+- **All Agents:** Design/planning mode.
