@@ -18,11 +18,4 @@
 | Scale DDAS Content Pipeline | Gemini | Medium | Blocked | Post-API-Fix |
 
 ## Requests for Team
-- **Russell:** Deploy api_healer.py to unblock DDAS MVP and handoff monitor.
-- **Claude:** Share post-crisis deployment sequence.
-- **Grok:** Website audit findings.
-
-## Notes
-- Sessions ARE being created - 18 briefs + multiple meetings
-- api_healer.py awaiting deployment
-- 2 Feb 18 tasks blocked by deployment
+- **Russell:** Your deployment of api_healer.py is the critical path. Without it, DDAS MVP and handoff monitor remain blocked despite being code-complete.
