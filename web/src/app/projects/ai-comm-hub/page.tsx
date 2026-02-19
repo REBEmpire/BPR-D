@@ -90,7 +90,7 @@ export default function AiCommHubPage() {
 
       const data = await res.json()
 
-      if (!res.ok) {
+      if (!res.ok || data.status === "failed") {
         setFireStatus("error")
         setFireResult({ error: data.error || data.detail || "Meeting service returned an error." })
       } else {
