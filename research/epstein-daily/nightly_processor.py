@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import subprocess
 import logging
 import datetime
 import shutil
@@ -230,7 +231,52 @@ Text: {content[:25000]}"""
             logger.debug(f"Raw response: {response_text}")
             return None
 
+def scrape_public_sources():
+    """Placeholder for automated lightweight scrape of known public sources."""
+    logger.info("Starting scrape of public sources (Court Listener, Archive.org)...")
+    # Placeholder logic: In a real implementation, this would download files to UNPROCESSED_DIR
+    # or directly return paths. For now, we assume it puts files in UNPROCESSED_DIR.
+    scraped_files = []
+    logger.info("Scraping complete. No new files found (placeholder).")
+    return scraped_files
+
+def create_handoff_stub(anomalies, high_confidence_entities):
+    """Creates a handoff stub if critical anomalies are found."""
+    if not anomalies:
+        return
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    handoff_path = HANDOFFS_DIR / f"handoff-epstein-{timestamp}.md"
+
+    try:
+        with open(handoff_path, 'w') as f:
+            f.write(f"# Critical Anomalies Detected - {timestamp}\n\n")
+            f.write("**Attention:** Grok / Research Lead\n\n")
+            f.write("## Anomalies\n")
+            for anomaly in anomalies:
+                f.write(f"- {anomaly}\n")
+            f.write("\n## High Confidence Entities Involved\n")
+            seen = set()
+            for entity in high_confidence_entities:
+                if isinstance(entity, dict):
+                    name = entity.get('name')
+                else:
+                    name = str(entity)
+
+                if name and name not in seen:
+                    f.write(f"- {name}\n")
+                    seen.add(name)
+
+            f.write("\n## Action Required\n")
+            f.write("- [ ] Review source documents for context.\n")
+            f.write("- [ ] Verify anomaly against external databases.\n")
+
+        logger.info(f"Handoff stub created at {handoff_path}")
+    except Exception as e:
+        logger.error(f"Failed to create handoff stub: {e}")
+
 def ingest_files():
+    scrape_public_sources()
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     dest_dir = PROCESSED_DIR / today
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -550,29 +596,50 @@ def generate_nightly_report(processed_data, new_nodes, new_edges, anomalies, new
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     report_path = output_dir / f"{today}-epstein-nightly.md"
 
-    # Simple insights generation (placeholder or derived from data)
-    insights = []
-    if new_nodes > 0:
-        insights.append(f"Graph expansion: {new_nodes} new entities identified.")
-    if new_timeline_events:
-        insights.append(f"Timeline reconstruction: {len(new_timeline_events)} new events added.")
+    # Prepare data for LLM
+    docs_summary = []
+    for f, analysis in processed_data:
+        docs_summary.append({
+            "filename": f.name,
+            "entities_count": len(analysis.get("entities", [])),
+            "top_entities": [e.get("name") for e in analysis.get("entities", [])[:5]],
+            "anomalies": analysis.get("anomalies", [])
+        })
+
+    prompt = f"""Generate a nightly report based on the following processing statistics and document summaries:
+
+Stats:
+- Documents Processed: {len(processed_data)}
+- New Graph Nodes: {new_nodes}
+- New Graph Edges: {new_edges}
+- New Timeline Events: {len(new_timeline_events)}
+- Anomalies Detected: {len(anomalies)}
+
+Document Summaries (JSON):
+{json.dumps(docs_summary, indent=2)}
+
+Detected Anomalies:
+{json.dumps(anomalies, indent=2)}
+
+Please write the following sections in Markdown:
+1. ## Executive Summary
+   - A 300-500 word narrative summary of the night's findings. Focus on patterns and key entities.
+2. ## Top Insights
+   - 5-10 high-signal insights (Claim + Evidence + Implication). Bullet points.
+3. ## Recommended Follow-ups
+   - 3-5 specific targeted research actions for the next daily huddle.
+
+Do not include the title (it will be added). Do not include "Graph Updates", "Anomalies Flagged", "Technical Notes", or "Lessons Learned" sections (they will be added)."""
+
+    llm_content = call_llm(prompt)
+    if not llm_content:
+        llm_content = "## Executive Summary\nLLM generation failed. Please review raw data.\n\n## Top Insights\n- N/A\n\n## Recommended Follow-ups\n- Check LLM connectivity."
 
     with open(report_path, 'w') as f:
         f.write(f"# Nightly Epstein Archive Processing – {today}\n\n")
 
-        f.write("## Executive Summary\n")
-        f.write(f"Processed {len(processed_data)} documents. The knowledge graph has been updated with {new_nodes} new nodes and {new_edges} new edges. ")
-        if anomalies:
-            f.write(f"{len(anomalies)} anomalies were flagged for review.\n\n")
-        else:
-            f.write("No significant anomalies detected.\n\n")
-
-        f.write("## Top Insights\n")
-        if insights:
-            for i in insights: f.write(f"- {i}\n")
-        else:
-            f.write("- No high-signal insights generated in this run.\n")
-        f.write("\n")
+        f.write(llm_content)
+        f.write("\n\n")
 
         f.write("## Graph Updates\n")
         f.write(f"- New Nodes: {new_nodes}\n")
@@ -586,11 +653,6 @@ def generate_nightly_report(processed_data, new_nodes, new_edges, anomalies, new
             f.write("None.\n")
         f.write("\n")
 
-        f.write("## Recommended Follow-ups\n")
-        f.write("- [ ] Review flagged anomalies.\n")
-        f.write("- [ ] Verify new high-confidence relationships.\n")
-        f.write("- [ ] Cross-reference new timeline events with flight logs.\n\n")
-
         f.write("## Technical Notes\n")
         f.write(f"- Processed {len(processed_data)} files.\n")
         f.write(f"- Output directory: {output_dir}\n")
@@ -599,8 +661,11 @@ def generate_nightly_report(processed_data, new_nodes, new_edges, anomalies, new
         f.write("## Lessons Learned (Prototype Run)\n")
         f.write("- Initial ingestion pipeline verified.\n")
         f.write("- Graph and timeline integration successful.\n")
-        f.write("- Need to refine entity resolution (deduplication).\n")
-        f.write("- Need to enhance OCR for image-heavy documents.\n")
+        f.write(f"- Scrape public sources: {len(processed_data)} files processed (including test data).\n")
+        if not HAS_ABACUS:
+             f.write("- AbacusAI not detected. LLM features disabled.\n")
+        if not HAS_NETWORKX:
+             f.write("- NetworkX not detected. Graph analysis limited.\n")
 
     logger.info(f"Nightly report generated: {report_path}")
 
@@ -626,7 +691,34 @@ def main():
     daily_output_dir.mkdir(parents=True, exist_ok=True)
 
     generate_visuals(G, timeline, daily_output_dir)
+
+    # Collect high confidence entities for handoff
+    high_conf_entities = []
+    for _, analysis in processed_data:
+        for ent in analysis.get("entities", []):
+            if ent.get("confidence", 0) > 80:
+                high_conf_entities.append(ent)
+
+    create_handoff_stub(all_anomalies, high_conf_entities)
+
     generate_nightly_report(processed_data, new_nodes, new_edges, all_anomalies, new_timeline_events, daily_output_dir)
+
+    # Commit results
+    try:
+        commit_msg = f"Nightly Epstein processing {datetime.datetime.now().strftime('%Y-%m-%d')} – {len(processed_data)} new docs, {len(all_anomalies)} anomalies"
+        subprocess.run(["git", "add", "research/epstein-daily/nightly-output/", "research/epstein-daily/processed/", "research/epstein-daily/graph/", "_agents/_handoffs/"], check=True)
+
+        # Check if there are changes to commit
+        status = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+        if status.stdout.strip():
+            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+            # subprocess.run(["git", "push"], check=True) # Push disabled for safety in this environment
+            logger.info(f"Committed changes: {commit_msg}")
+        else:
+            logger.info("No changes to commit.")
+    except Exception as e:
+        logger.error(f"Git commit failed: {e}")
+
     logger.info("Processing complete.")
 
 if __name__ == "__main__":
