@@ -1,175 +1,295 @@
 {
-  "lastUpdated": "2026-02-17T12:00:00.000Z",
+  "lastUpdated": "2026-02-19T02:48:41.824Z",
   "agents": {
     "grok": {
       "24h": {
-        "costUsd": 0.2013,
-        "costPerHr": 10.55,
-        "durationMs": 68667,
-        "tokens": 33190,
-        "sessions": 2,
-        "questScore": 82,
-        "questBreakdown": { "output": 60, "milestones": 100, "efficiency": 70, "initiative": 100, "total": 82 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 43,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 75,
+          "efficiency": 0,
+          "initiative": 0,
+          "total": 43
+        }
       },
       "48h": {
-        "costUsd": 0.2013,
-        "costPerHr": 10.55,
-        "durationMs": 68667,
-        "tokens": 33190,
-        "sessions": 2,
-        "questScore": 82,
-        "questBreakdown": { "output": 60, "milestones": 100, "efficiency": 70, "initiative": 100, "total": 82 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 50,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 75,
+          "efficiency": 0,
+          "initiative": 36,
+          "total": 50
+        }
       },
       "7d": {
-        "costUsd": 0.2013,
-        "costPerHr": 10.55,
-        "durationMs": 68667,
-        "tokens": 33190,
-        "sessions": 2,
-        "questScore": 82,
-        "questBreakdown": { "output": 60, "milestones": 100, "efficiency": 70, "initiative": 100, "total": 82 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 50,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 75,
+          "efficiency": 0,
+          "initiative": 36,
+          "total": 50
+        }
       },
       "30d": {
-        "costUsd": 0.2013,
-        "costPerHr": 10.55,
-        "durationMs": 68667,
-        "tokens": 33190,
-        "sessions": 2,
-        "questScore": 82,
-        "questBreakdown": { "output": 60, "milestones": 100, "efficiency": 70, "initiative": 100, "total": 82 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 50,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 75,
+          "efficiency": 0,
+          "initiative": 36,
+          "total": 50
+        }
       }
     },
     "claude": {
       "24h": {
-        "costUsd": 0.1066,
-        "costPerHr": 5.24,
-        "durationMs": 73200,
-        "tokens": 31436,
-        "sessions": 1,
-        "questScore": 78,
-        "questBreakdown": { "output": 50, "milestones": 85, "efficiency": 85, "initiative": 90, "total": 78 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 55,
+        "questBreakdown": {
+          "output": 100,
+          "milestones": 100,
+          "efficiency": 0,
+          "initiative": 0,
+          "total": 55
+        }
       },
       "48h": {
-        "costUsd": 0.1066,
-        "costPerHr": 5.24,
-        "durationMs": 73200,
-        "tokens": 31436,
-        "sessions": 1,
-        "questScore": 78,
-        "questBreakdown": { "output": 50, "milestones": 85, "efficiency": 85, "initiative": 90, "total": 78 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 75,
+        "questBreakdown": {
+          "output": 100,
+          "milestones": 100,
+          "efficiency": 0,
+          "initiative": 100,
+          "total": 75
+        }
       },
       "7d": {
-        "costUsd": 0.1066,
-        "costPerHr": 5.24,
-        "durationMs": 73200,
-        "tokens": 31436,
-        "sessions": 1,
-        "questScore": 78,
-        "questBreakdown": { "output": 50, "milestones": 85, "efficiency": 85, "initiative": 90, "total": 78 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 75,
+        "questBreakdown": {
+          "output": 100,
+          "milestones": 100,
+          "efficiency": 0,
+          "initiative": 100,
+          "total": 75
+        }
       },
       "30d": {
-        "costUsd": 0.1066,
-        "costPerHr": 5.24,
-        "durationMs": 73200,
-        "tokens": 31436,
-        "sessions": 1,
-        "questScore": 78,
-        "questBreakdown": { "output": 50, "milestones": 85, "efficiency": 85, "initiative": 90, "total": 78 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 75,
+        "questBreakdown": {
+          "output": 100,
+          "milestones": 100,
+          "efficiency": 0,
+          "initiative": 100,
+          "total": 75
+        }
       }
     },
     "gemini": {
       "24h": {
-        "costUsd": 0.0489,
-        "costPerHr": 2.11,
-        "durationMs": 83400,
-        "tokens": 16741,
-        "sessions": 2,
-        "questScore": 85,
-        "questBreakdown": { "output": 100, "milestones": 55, "efficiency": 100, "initiative": 80, "total": 85 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 42,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 70,
+          "efficiency": 0,
+          "initiative": 0,
+          "total": 42
+        }
       },
       "48h": {
-        "costUsd": 0.0489,
-        "costPerHr": 2.11,
-        "durationMs": 83400,
-        "tokens": 16741,
-        "sessions": 2,
-        "questScore": 85,
-        "questBreakdown": { "output": 100, "milestones": 55, "efficiency": 100, "initiative": 80, "total": 85 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 59,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 70,
+          "efficiency": 0,
+          "initiative": 85,
+          "total": 59
+        }
       },
       "7d": {
-        "costUsd": 0.0489,
-        "costPerHr": 2.11,
-        "durationMs": 83400,
-        "tokens": 16741,
-        "sessions": 2,
-        "questScore": 85,
-        "questBreakdown": { "output": 100, "milestones": 55, "efficiency": 100, "initiative": 80, "total": 85 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 59,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 70,
+          "efficiency": 0,
+          "initiative": 85,
+          "total": 59
+        }
       },
       "30d": {
-        "costUsd": 0.0489,
-        "costPerHr": 2.11,
-        "durationMs": 83400,
-        "tokens": 16741,
-        "sessions": 2,
-        "questScore": 85,
-        "questBreakdown": { "output": 100, "milestones": 55, "efficiency": 100, "initiative": 80, "total": 85 }
+        "costUsd": 0,
+        "costPerHr": 0,
+        "durationMs": 0,
+        "tokens": 0,
+        "sessions": 0,
+        "questScore": 59,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 70,
+          "efficiency": 0,
+          "initiative": 85,
+          "total": 59
+        }
       }
     },
     "abacus": {
       "24h": {
-        "costUsd": 0.0,
-        "costPerHr": 0.0,
+        "costUsd": 0,
+        "costPerHr": 0,
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 35,
-        "questBreakdown": { "output": 20, "milestones": 0, "efficiency": 0, "initiative": 60, "total": 35 }
+        "questScore": 24,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 0,
+          "efficiency": 0,
+          "initiative": 0,
+          "total": 24
+        }
       },
       "48h": {
-        "costUsd": 0.0,
-        "costPerHr": 0.0,
+        "costUsd": 0,
+        "costPerHr": 0,
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 35,
-        "questBreakdown": { "output": 20, "milestones": 0, "efficiency": 0, "initiative": 60, "total": 35 }
+        "questScore": 29,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 0,
+          "efficiency": 0,
+          "initiative": 27,
+          "total": 29
+        }
       },
       "7d": {
-        "costUsd": 0.0,
-        "costPerHr": 0.0,
+        "costUsd": 0,
+        "costPerHr": 0,
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 35,
-        "questBreakdown": { "output": 20, "milestones": 0, "efficiency": 0, "initiative": 60, "total": 35 }
+        "questScore": 29,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 0,
+          "efficiency": 0,
+          "initiative": 27,
+          "total": 29
+        }
       },
       "30d": {
-        "costUsd": 0.0,
-        "costPerHr": 0.0,
+        "costUsd": 0,
+        "costPerHr": 0,
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 35,
-        "questBreakdown": { "output": 20, "milestones": 0, "efficiency": 0, "initiative": 60, "total": 35 }
+        "questScore": 29,
+        "questBreakdown": {
+          "output": 80,
+          "milestones": 0,
+          "efficiency": 0,
+          "initiative": 27,
+          "total": 29
+        }
       }
     }
   },
   "russell": {
     "24h": {
-      "questScore": 70,
-      "questBreakdown": { "output": 40, "milestones": 100, "efficiency": 80, "initiative": 50, "total": 70 }
+      "questScore": 25,
+      "questBreakdown": {
+        "output": 0,
+        "milestones": 100,
+        "efficiency": 0,
+        "initiative": 0,
+        "total": 25
+      }
     },
     "48h": {
-      "questScore": 70,
-      "questBreakdown": { "output": 40, "milestones": 100, "efficiency": 80, "initiative": 50, "total": 70 }
+      "questScore": 25,
+      "questBreakdown": {
+        "output": 0,
+        "milestones": 100,
+        "efficiency": 0,
+        "initiative": 0,
+        "total": 25
+      }
     },
     "7d": {
-      "questScore": 70,
-      "questBreakdown": { "output": 40, "milestones": 100, "efficiency": 80, "initiative": 50, "total": 70 }
+      "questScore": 25,
+      "questBreakdown": {
+        "output": 0,
+        "milestones": 100,
+        "efficiency": 0,
+        "initiative": 0,
+        "total": 25
+      }
     },
     "30d": {
-      "questScore": 70,
-      "questBreakdown": { "output": 40, "milestones": 100, "efficiency": 80, "initiative": 50, "total": 70 }
+      "questScore": 25,
+      "questBreakdown": {
+        "output": 0,
+        "milestones": 100,
+        "efficiency": 0,
+        "initiative": 0,
+        "total": 25
+      }
     }
   }
 }

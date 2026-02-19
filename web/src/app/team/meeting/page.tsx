@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Play, MessageSquare, Check, X } from 'lucide-react';
+import AssembleCrewButton from '@/components/AssembleCrewButton';
 
 interface Message {
   id: string;
@@ -209,6 +210,16 @@ export default function MeetingPage() {
 
         {/* Sidebar: Participants & Artifacts */}
         <div className="flex flex-col gap-6 min-h-0">
+            {/* Assemble Crew Button (Special Meeting) */}
+            <Card className="border-primary/10">
+                <CardHeader className="py-3">
+                    <CardTitle className="text-sm font-medium uppercase tracking-wider">Assemble Crew</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <AssembleCrewButton />
+                </CardContent>
+            </Card>
+
             {/* Participants */}
             <Card className="flex-1 min-h-0 border-primary/10">
                 <CardHeader className="py-3">
