@@ -49,6 +49,7 @@ export default function AiCommHubPage() {
     report_url?: string
     cost_usd?: number
     error?: string
+    message?: string
   } | null>(null)
 
   // When switching to work_session, enforce single-agent selection
@@ -111,6 +112,7 @@ export default function AiCommHubPage() {
           meeting_id: data.meeting_id,
           report_url: data.report_url,
           cost_usd: data.cost_usd,
+          message: data.message,
         })
         if (isRussell) {
           completeQuest("q3", 50)
@@ -276,6 +278,11 @@ export default function AiCommHubPage() {
                 <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto" />
                 <div>
                   <p className="font-semibold text-lg">Meeting Fired!</p>
+                  {fireResult?.message && (
+                    <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">
+                      {fireResult.message}
+                    </p>
+                  )}
                   {fireResult?.meeting_id && (
                     <p className="text-sm text-muted-foreground mt-1">
                       ID: <span className="font-mono">{fireResult.meeting_id}</span>
@@ -295,7 +302,7 @@ export default function AiCommHubPage() {
                     className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
-                    View meeting notes on GitHub
+                    View session notes on GitHub
                   </a>
                 )}
               </div>

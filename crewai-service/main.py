@@ -12,6 +12,7 @@ Endpoints:
   GET  /api/v1/schedule                 - View scheduled jobs
 """
 
+import asyncio
 import logging
 import sys
 from contextlib import asynccontextmanager
@@ -40,6 +41,9 @@ logger = logging.getLogger("bprd-meeting")
 
 # --- Scheduler ---
 scheduler = create_scheduler()
+
+# --- Background meeting tracking ---
+_running_meetings: dict[str, asyncio.Task] = {}
 
 
 @asynccontextmanager
@@ -311,24 +315,34 @@ async def manual_team_meeting_trigger(
         agenda=agenda,
     )
 
-    response = await execute_meeting(request)
+    # Fire-and-forget: launch meeting in background so the HTTP response
+    # returns immediately. Render Starter plan kills requests after 30s,
+    # but Daily Briefings take 2-5 minutes. The background task runs to
+    # completion on the same asyncio event loop that APScheduler uses.
+    meeting_id = f"{meeting_type}-manual-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
 
-    # Build GitHub report URL from the actual committed session path
-    if response.session_path:
-        report_url = f"https://github.com/{settings.GITHUB_REPO}/blob/main/{response.session_path}"
-    else:
-        # Fallback: link to the sessions directory
-        report_url = f"https://github.com/{settings.GITHUB_REPO}/tree/main/_agents/_sessions"
+    task = asyncio.create_task(execute_meeting(request))
+    _running_meetings[meeting_id] = task
+
+    def _cleanup(t: asyncio.Task) -> None:
+        _running_meetings.pop(meeting_id, None)
+        if t.exception():
+            logger.error(f"Background meeting {meeting_id} failed: {t.exception()}")
+        else:
+            logger.info(f"Background meeting {meeting_id} completed successfully")
+
+    task.add_done_callback(_cleanup)
+
+    sessions_url = f"https://github.com/{settings.GITHUB_REPO}/tree/main/_agents/_sessions"
 
     return {
-        "status": "triggered" if response.success else "failed",
-        "meeting_id": response.meeting_id,
+        "status": "triggered",
+        "meeting_id": meeting_id,
         "meeting_type": meeting_type,
         "participants": participants,
         "goal": goal,
-        "report_url": report_url,
-        "error": response.error if not response.success else None,
-        "cost_usd": response.cost_estimate.cost_usd if response.cost_estimate else None,
+        "report_url": sessions_url,
+        "message": "Meeting launched in background. Session notes will appear in GitHub within 2-5 minutes.",
     }
 
 
