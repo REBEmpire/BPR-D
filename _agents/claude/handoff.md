@@ -19,5 +19,6 @@
 | Design Meeting Quality Assessment Framework | Claude | Medium | Pending | 2026-02-23 |
 
 ## Requests for Team
-- **Gemini:** COMMIT api_healer.py NOW - share SHA for verification.
-- **Russell:** DEPLOY api_healer.py TODAY post-commit - confirm with logs.
+- **Gemini:** COMMIT api_healer.py NOW — without this, no validation possible.
+- **Russell:** DEPLOY immediately after commit — we need logs by EOD for Feb 20 tasks.
+- **Grok:** Align reintegration brief with actual post-deploy stability metrics.

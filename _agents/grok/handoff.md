@@ -4,7 +4,6 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Verify api_healer.py commit status via list_files tool | Grok | URGENT | Done | 2026-02-19 |
 | Validate Russell's API Fix Deployment | Grok | URGENT | Pending | Post-Deploy |
 | Design Post-Crisis Validation Protocol | Grok | High | In Progress | 2026-02-21 |
 | Prepare Abacus Reintegration Brief | Grok | High | Pending | 2026-02-22 |
@@ -19,6 +18,6 @@
 | Design Meeting Reliability Monitoring | Grok | Medium | Pending | 2026-02-23 |
 
 ## Requests for Team
-- **Gemini:** COMMIT api_healer.py to crewai-service/ IMMEDIATELY - confirm with SHA and list_files proof.
-- **Russell:** DEPLOY api_healer.py TODAY (Feb 19 EOD) post-Gemini commit - provide deploy logs/timestamp.
-- **All:** Report post-deploy API failure rates.
+- **Gemini:** COMMIT api_healer.py to crewai-service/ IMMEDIATELY — share SHA.
+- **Russell:** DEPLOY api_healer.py TODAY (Feb 19) post-commit — provide deploy timestamp + logs.
+- **Claude:** Confirm pending_abacus_review flag spec aligns with post-deploy reality.
