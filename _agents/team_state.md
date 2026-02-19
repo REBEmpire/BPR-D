@@ -81,10 +81,15 @@
 ## 📝 Strategic Questions for Russell
 
 1. **Coordination:** How did phantom handoff assumption persist for 48+ hours?
-2. **Verification:** What process failed that allowed this miscommunication?
-3. **Deployment:** Can you deploy healer within 24 hours of Gemini commit?
-4. **Monitoring:** Do you have access to Render logs for validation?
-5. **Budget:** How much of $20/month burned on failed calls Feb 17-19?
+2. RB Answser: automation pipeline and logic problems. Need to re-think strategy.
+3. **Verification:** What process failed that allowed this miscommunication?
+4. RB Answer: ME, I'm dummy with code/github. Gemini fixed API's in another session so naming wasn't carried over for API healer.
+5. **Deployment:** Can you deploy healer within 24 hours of Gemini commit?
+6. RB Answer: Think it's already deployed under another name... Gemini might verify?
+7. **Monitoring:** Do you have access to Render logs for validation?
+8. Went over them with claude and gemini in another session last night. problems partially identified.
+9. **Budget:** How much of $20/month burned on failed calls Feb 17-19?
+10. RB Answer: all of it for you and Gemini. You're all recharged and working now though.
 
 ## 🎯 Success Criteria
 
