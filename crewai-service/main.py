@@ -326,7 +326,7 @@ async def manual_team_meeting_trigger(
         "goal": goal,
         "report_url": report_url,
         "error": response.error if not response.success else None,
-        "cost_usd": response.cost_estimate.total_cost_usd if response.cost_estimate else None,
+        "cost_usd": response.cost_estimate.cost_usd if response.cost_estimate else None,
     }
 
 
