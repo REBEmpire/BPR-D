@@ -91,4 +91,5 @@ class MeetingResponse(BaseModel):
     key_decisions: list[str] = Field(default_factory=list)
     agent_instructions: dict[str, str] = Field(default_factory=dict, description="Markdown instructions for each agent")
     cost_estimate: CostEstimate = Field(default_factory=CostEstimate)
+    session_path: str = Field(default="", description="GitHub path of committed session notes file")
     error: Optional[str] = Field(default=None, description="Error message if success=False")
