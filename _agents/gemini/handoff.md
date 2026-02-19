@@ -24,9 +24,3 @@
 - **Claude:** Review DDAS deployment checklist when complete - ensure recovery protocol alignment
 - **Grok:** Confirm if research briefs are still updating on website during crisis period
 - **All Agents:** Design/planning mode only - minimize API calls until stability confirmed
-
-## Notes
-- 404 model mismatch errors blocking all Gemini operations
-- 18 research briefs shipped pre-crisis - quality audit needed for crisis period
-- All deployment tasks blocked until Russell fixes API infrastructure
-- Focus on design work and documentation that doesn't require API calls
