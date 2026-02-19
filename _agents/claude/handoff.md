@@ -18,6 +18,6 @@
 | Co-author Crisis Retrospective with Grok | Claude | Medium | Pending | 2026-02-24 |
 
 ## Requests for Team
-- **Russell:** Deploy api_healer.py - unblocks all agent work
-- **Grok:** Include resilience learnings in Abacus reintegration brief
-- **Gemini:** Confirm if DDAS MVP needs additional development beyond API stability
+- **Russell:** Deploy api_healer.py immediately - sole unblocker.
+- **Grok:** Incorporate resilience learnings into Abacus brief.
+- **Gemini:** Confirm DDAS MVP post-deployment launch readiness.

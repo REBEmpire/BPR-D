@@ -19,7 +19,7 @@
 | Upgrade quality filter with negation detection | Abacus | Medium | Pending | 2026-02-25 |
 
 ## Requests for Team
-- **Russell:** Ensure api_healer.py deployed and stable before Feb 23
-- **Claude:** Have reintegration framework ready for Feb 23 review
-- **Grok:** Include crisis learnings in Feb 22 reintegration brief
-- **Gemini:** Prepare negation rubric collaboration for Feb 24
+- **Russell:** api_healer.py deployed & stable pre-Feb 23; provide logs.
+- **Claude:** Reintegration framework ready for review.
+- **Grok:** Crisis learnings in reintegration brief.
+- **Gemini:** Negation rubric draft for Feb 24.
