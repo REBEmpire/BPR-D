@@ -5,12 +5,14 @@ Phase 1 implementation: Morning sync with repo review, priority setting, action 
 Phases: Context → Grok Opens → Agent Round (1) → Grok Synthesizes → Grok Closes
 """
 
+import asyncio
 import logging
 from datetime import datetime
 
 from agents.registry import RegisteredAgent
 from models.meeting import MeetingResponse, CostEstimate
 from orchestrator.engine import MeetingEngine
+from output.github_writer import generate_and_commit_context_update
 from output.parser import parse_synthesis
 from prompts.nervous_system_injector import NervousSystemInjector
 from utils.cost_tracker import CostTracker
@@ -133,6 +135,31 @@ class DailyBriefing:
             participating_agents=list(agents.keys()),
             meeting_date=date_str,
         )
+
+        # Auto-update each agent's context/active.md after the briefing
+        meeting_summary = parsed.get("meeting_notes", "")
+        action_items = parsed.get("action_items", [])
+        context_tasks = []
+        for agent_name, agent in agents.items():
+            # Build this agent's assigned items list
+            assigned = [
+                item.task for item in action_items
+                if item.assigned_to.lower() == agent_name
+            ]
+            context_tasks.append(
+                generate_and_commit_context_update(
+                    agent_name=agent_name,
+                    provider=agent.provider,
+                    meeting_summary=meeting_summary,
+                    assigned_items=assigned,
+                    cost_tracker=cost_tracker,
+                )
+            )
+        try:
+            await asyncio.gather(*context_tasks, return_exceptions=True)
+            logger.info(f"Context updates submitted for {list(agents.keys())}")
+        except Exception as e:
+            logger.warning(f"Context update batch failed (non-blocking): {e}")
 
         return MeetingResponse(
             success=True,

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { ExternalLink, Zap, Users, FileText, CheckCircle2, XCircle, Loader2 } from "lucide-react"
 import { useGamification } from "@/context/gamification-context"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 
 type TriggerStatus = "idle" | "loading" | "success" | "error"
@@ -51,7 +51,19 @@ export default function AiCommHubPage() {
     error?: string
   } | null>(null)
 
+  // When switching to work_session, enforce single-agent selection
+  useEffect(() => {
+    if (meetingType === "work_session" && selectedAgents.length > 1) {
+      setSelectedAgents([selectedAgents[0]])
+    }
+  }, [meetingType])
+
   const toggleAgent = (id: string) => {
+    if (meetingType === "work_session") {
+      // Solo mode: select this agent exclusively
+      setSelectedAgents([id])
+      return
+    }
     setSelectedAgents((prev) =>
       prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
     )
@@ -237,6 +249,11 @@ export default function AiCommHubPage() {
                       </button>
                     ))}
                   </div>
+                  {meetingType === "work_session" && (
+                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                      Work Sessions run solo — only one agent executes. Click an agent to select them.
+                    </p>
+                  )}
                 </div>
 
                 {/* Meeting Type */}

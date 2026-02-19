@@ -38,6 +38,12 @@ class WorkSession(BaseMeeting):
         # Determine the primary worker
         worker_name = "grok"
         if agents:
+            if len(agents) > 1:
+                logger.warning(
+                    f"WorkSession received {len(agents)} agents ({list(agents.keys())}). "
+                    f"Only '{list(agents.keys())[0]}' will execute. "
+                    "Pass a single participant for work sessions."
+                )
             worker_name = list(agents.keys())[0]
 
         worker = agents.get(worker_name)
@@ -132,19 +138,18 @@ class WorkSession(BaseMeeting):
                 notes += "\n"
 
             # Add the session summary to staged changes
-            session_filename = f"_agents/_sessions/{datetime.utcnow().strftime('%Y-%m-%d')}-{worker_name}-session.md"
+            session_filename = f"_agents/_sessions/{datetime.utcnow().strftime('%Y-%m-%d-%H%M')}-{worker_name}-session.md"
             staged_changes[session_filename] = notes
 
-            # Also update handoffs if they were returned in JSON (as a fallback or explicit update)
-            # Note: The agent *should* have updated handoff files via `write_file` tool.
-            # But if it put them in `agent_instructions` JSON, we can auto-update them too.
+            # agent_instructions JSON field is intentionally ignored here.
+            # handoff.md updates must be done explicitly via the write_file tool during the session.
+            # This prevents Work Sessions from overwriting Daily Briefing handoff assignments.
             agent_instructions = parsed_output.get("agent_instructions", {})
-            for agent_name, content in agent_instructions.items():
-                handoff_path = f"_agents/{agent_name}/handoff.md"
-                # Only overwrite if not already modified by tool
-                if handoff_path not in staged_changes:
-                    staged_changes[handoff_path] = content
-                    action_log.append(f"Updated {handoff_path} from final JSON output.")
+            if agent_instructions:
+                logger.info(
+                    f"agent_instructions present in JSON output ({list(agent_instructions.keys())}) "
+                    "but suppressed — use write_file tool to update handoff.md explicitly."
+                )
 
             # ATOMIC COMMIT
             if staged_changes:
@@ -258,15 +263,11 @@ class WorkSession(BaseMeeting):
             "- Abacus: Keep Abacus's To-Do list short and focused to avoid limiting out.\n\n"
             "Output Rules:\n"
             "- You MUST respond with valid JSON.\n"
-            "- Required keys: 'summary', 'agent_instructions'\n"
-            "- 'agent_instructions' maps agent_name -> markdown content (table format).\n"
+            "- Required keys: 'summary'\n"
             "- 'concrete_actions' (list of strings): Every action you took on backlog items.\n"
-            "- 'initiative_actions' (list of strings): Self-directed actions if backlog was empty.\n\n"
-            "CRITICAL FORMAT RULE for agent_instructions:\n"
-            "- Agent handoff instructions MUST use markdown TABLE format, NOT checklists.\n"
-            "- Use columns: Task | Assigned To | Priority | Status | Due\n"
-            "- Priority values: URGENT, High, Medium, Low\n"
-            "- Status values: Pending, In Progress, Blocked, Done\n\n"
+            "- 'initiative_actions' (list of strings): Self-directed actions if backlog was empty.\n"
+            "- To update a handoff file, use the write_file tool directly during the session.\n"
+            "  Do NOT put handoff updates in JSON output — use write_file instead.\n\n"
             "Example Output:\n"
             "```json\n"
             "{\n"
@@ -276,10 +277,7 @@ class WorkSession(BaseMeeting):
             '    "Updated quality filter handoff status from pending to in-progress",\n'
             '    "Created follow-up for Gemini: dry-run Hive poster by EOD"\n'
             "  ],\n"
-            '  "initiative_actions": [],\n'
-            '  "agent_instructions": {\n'
-            '    "grok": "# Instructions\\n\\n## Action Items\\n\\n| Task | Assigned To | Priority | Status | Due |\\n|------|-------------|----------|--------|-----|\\n| Validate meeting engine | Grok | URGENT | Pending | 2026-02-19 |\\n\\n## Backlog\\n\\n| Task | Assigned To | Priority | Status | Due |\\n|------|-------------|----------|--------|-----|\\n| State of Team dashboard | Grok | Low | Pending | |\\n\\n## Requests for Team\\n- Claude: Share API specs."\n'
-            "  }\n"
+            '  "initiative_actions": []\n'
             "}\n"
             "```"
         )
