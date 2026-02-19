@@ -206,7 +206,9 @@ async def execute_meeting(request: MeetingRequest) -> MeetingResponse:
 
         # Post-meeting: commit results and notify (fire-and-forget)
         try:
-            await commit_meeting_results(response)
+            commit_ok, notes_path = await commit_meeting_results(response)
+            if commit_ok and notes_path:
+                response.session_path = notes_path
         except Exception as e:
             logger.error(f"Failed to commit meeting results: {e}")
 
@@ -311,12 +313,12 @@ async def manual_team_meeting_trigger(
 
     response = await execute_meeting(request)
 
-    # Derive a GitHub report URL from the meeting_id
-    date_prefix = datetime.utcnow().strftime("%Y-%m-%d")
-    report_path = f"_agents/_sessions/{date_prefix}-{meeting_type}-manual.md"
-    report_url = (
-        f"https://github.com/{settings.GITHUB_REPO}/blob/main/{report_path}"
-    )
+    # Build GitHub report URL from the actual committed session path
+    if response.session_path:
+        report_url = f"https://github.com/{settings.GITHUB_REPO}/blob/main/{response.session_path}"
+    else:
+        # Fallback: link to the sessions directory
+        report_url = f"https://github.com/{settings.GITHUB_REPO}/tree/main/_agents/_sessions"
 
     return {
         "status": "triggered" if response.success else "failed",

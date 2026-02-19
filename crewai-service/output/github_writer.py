@@ -70,8 +70,8 @@ def _deduplicate_handoffs(handoffs: list[HandoffItem]) -> list[HandoffItem]:
     return deduplicated
 
 
-async def commit_meeting_results(response: MeetingResponse) -> bool:
-    """Commit meeting notes and handoffs to GitHub. Returns True if all succeed."""
+async def commit_meeting_results(response: MeetingResponse) -> tuple[bool, str]:
+    """Commit meeting notes and handoffs to GitHub. Returns (success, notes_path)."""
     success = True
 
     # 1. Commit meeting notes
@@ -130,7 +130,7 @@ async def commit_meeting_results(response: MeetingResponse) -> bool:
                 logger.error(f"Failed to commit agent instructions to {agent_path}")
                 success = False
 
-    return success
+    return success, notes_path
 
 
 def _render_handoff(handoff: HandoffItem) -> str:

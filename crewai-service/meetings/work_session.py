@@ -88,6 +88,7 @@ class WorkSession(BaseMeeting):
                 action_log=action_log,
                 ns_injector=ns_injector,
                 agent_hook=agent_hook,
+                agenda=agenda,
             )
 
             # Phase 3: Finalization & Commit
@@ -170,6 +171,7 @@ class WorkSession(BaseMeeting):
                 summary=parsed_output.get("summary", ""),
                 agent_instructions=parsed_output.get("agent_instructions", {}),
                 cost_estimate=CostEstimate(**cost_tracker.to_dict()),
+                session_path=session_filename,
             )
 
         except Exception as e:
@@ -210,6 +212,7 @@ class WorkSession(BaseMeeting):
         action_log: list[str] | None = None,
         ns_injector: NervousSystemInjector | None = None,
         agent_hook: str = "",
+        agenda: str = "",
     ) -> tuple[dict, list[str]]:
         """
         ReAct agent loop: agent calls tools (read_file/write_file/list_files/done)
@@ -225,7 +228,21 @@ class WorkSession(BaseMeeting):
         has_backlog = len(backlog.items) > 0
 
         base_system_prompt = (
-            f"You are {agent.persona.name}. You are performing a scheduled work session.\n\n"
+            f"You are {agent.persona.name}. You are performing a work session.\n\n"
+        )
+
+        # If a manual HiC directive was provided, inject it as highest priority
+        if agenda:
+            base_system_prompt += (
+                "⚡ HiC DIRECTIVE (HIGHEST PRIORITY):\n"
+                "The following instruction comes directly from Russell (Human in Command). "
+                "This overrides default backlog processing. Complete this directive FIRST, "
+                "then process any remaining backlog items if time/budget allows.\n\n"
+                f"{agenda}\n\n"
+                "---\n\n"
+            )
+
+        base_system_prompt += (
             "Your Goal:\n"
             "1. Review the current Team State and Handoffs.\n"
             "2. Review the BACKLOG ITEMS provided — these are real open tasks from the repo.\n"
