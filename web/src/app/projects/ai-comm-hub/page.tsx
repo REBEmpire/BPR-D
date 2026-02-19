@@ -23,7 +23,7 @@ const AGENTS = [
   { id: "grok", label: "Grok", role: "Chief", available: true },
   { id: "claude", label: "Claude", role: "Strategist", available: true },
   { id: "gemini", label: "Gemini", role: "Lead Dev", available: true },
-  { id: "abacus", label: "Abacus", role: "Innovator", available: false },
+  { id: "abacus", label: "Abacus", role: "Innovator", available: true },
 ]
 
 const MEETING_TYPES = [
@@ -42,7 +42,7 @@ export default function AiCommHubPage() {
   const [goal, setGoal] = useState("")
   const [brief, setBrief] = useState("")
   const [meetingType, setMeetingType] = useState("daily_briefing")
-  const [selectedAgents, setSelectedAgents] = useState<string[]>(["grok", "claude", "gemini"])
+  const [selectedAgents, setSelectedAgents] = useState<string[]>(["grok", "claude", "gemini", "abacus"])
   const [fireStatus, setFireStatus] = useState<TriggerStatus>("idle")
   const [fireResult, setFireResult] = useState<{
     meeting_id?: string
@@ -115,7 +115,7 @@ export default function AiCommHubPage() {
     setGoal("")
     setBrief("")
     setMeetingType("daily_briefing")
-    setSelectedAgents(["grok", "claude", "gemini"])
+    setSelectedAgents(["grok", "claude", "gemini", "abacus"])
     setFireStatus("idle")
     setFireResult(null)
   }
