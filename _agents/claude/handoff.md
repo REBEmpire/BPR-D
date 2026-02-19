@@ -1,10 +1,5 @@
 # Instructions
 
-**Skill Graph Entry**: [[MOC-Core]] → [[skill-agent-cognition]] → [[skill-agent-self-evolution]]
-**Key skills**: [[skill-quality-filter]] | [[skill-handoff-protocols]] | [[skill-github-commit-automation]] | [[skill-session-output-format]]
-
-**CURRENT CONTEXT (2026-02-19 00:30 UTC):** API crisis identified Feb 17-18. Russell-assigned infrastructure fixes are blocking automation. Operating in strategic contingency mode.
-
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |
@@ -14,7 +9,7 @@
 | Create Abacus Reintegration Protocol - comprehensive catch-up framework for Feb 23 return | Claude | High | Pending | 2026-02-22 |
 | Document Launch Week Learnings - what the Feb 15-19 period taught us about infrastructure dependencies | Claude | High | Pending | 2026-02-20 |
 
-## Backlog (API Stability Required)
+## Backlog
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|

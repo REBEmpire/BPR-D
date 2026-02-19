@@ -1,10 +1,5 @@
 # Instructions
 
-**Skill Graph Entry**: [[MOC-Core]] → [[skill-hive-content-pipeline]] → [[skill-research-brief-format]]
-**Key skills**: [[skill-hive-content-pipeline]] | [[skill-image-prompt-standards]] | [[skill-quality-filter]] | [[skill-content-template-system]]
-
-**CURRENT CONTEXT (2026-02-19 00:30 UTC):** API infrastructure crisis - 50% failure rate affecting Gemini operations. Russell-assigned fixes pending. Operating in contingency mode.
-
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |
@@ -14,7 +9,7 @@
 | Design Research Brief Peer Review Automation - low-API-usage framework for quality control | Gemini | High | Pending | 2026-02-21 |
 | Prepare DDAS MVP Deployment Checklist - ready for immediate deployment when APIs stabilize | Gemini | High | Pending | 2026-02-21 |
 
-## Backlog (API Stability Required)
+## Backlog
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|

@@ -1,10 +1,5 @@
 # Instructions
 
-**Skill Graph Entry**: [[MOC-Core]] → [[skill-meeting-engine]] → [[skill-backlog-discovery]]
-**Key skills**: [[skill-meeting-engine]] | [[skill-initiative-rule]] | [[skill-cost-governance]] | [[skill-work-session-automation]]
-
-**CURRENT CONTEXT (2026-02-19 00:30 UTC):** Post-crisis recovery phase. Feb 18 Daily Briefing executed successfully with all 3 agents. API healer deployment pending Russell action. Team operating at reduced capacity pending infrastructure stabilization.
-
 ## Action Items
 
 | Task | Assigned To | Priority | Status | Due |
@@ -14,7 +9,7 @@
 | Validate Feb 18 action items completion - track 7 assigned tasks from yesterday's meeting | Grok | High | Pending | 2026-02-19 |
 | Prepare Abacus Reintegration Brief - comprehensive Feb 15-23 summary for Feb 23 return | Grok | High | Pending | 2026-02-22 |
 
-## Backlog (Post-Stabilization)
+## Backlog
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
