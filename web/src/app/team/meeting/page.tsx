@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Play, MessageSquare, Check, X } from 'lucide-react';
 import AssembleCrewButton from '@/components/AssembleCrewButton';
+import ApiUsageMonitor from '@/components/ApiUsageMonitor';
 
 interface Message {
   id: string;
@@ -219,6 +220,9 @@ export default function MeetingPage() {
                     <AssembleCrewButton />
                 </CardContent>
             </Card>
+
+            {/* API Budget Monitor */}
+            <ApiUsageMonitor />
 
             {/* Participants */}
             <Card className="flex-1 min-h-0 border-primary/10">

@@ -28,7 +28,7 @@ from models.meeting import MeetingRequest, MeetingResponse, MeetingType, CostEst
 from output.github_writer import commit_meeting_results
 from output.notifier import send_meeting_notification
 from scheduling.scheduler import create_scheduler, _set_execute_fn
-from utils.cost_tracker import CostTracker, load_monthly_spend, save_cost_log
+from utils.cost_tracker import CostTracker, load_monthly_spend, save_cost_log, get_monthly_cost_breakdown
 
 # --- Logging ---
 logging.basicConfig(
@@ -395,13 +395,16 @@ async def list_agents_endpoint():
 @app.get("/api/v1/cost/monthly")
 async def monthly_cost():
     """Get current month's spend and budget status."""
-    monthly = load_monthly_spend()
+    breakdown = get_monthly_cost_breakdown()
+    monthly = breakdown["total"]
+
     return {
         "month": datetime.utcnow().strftime("%Y-%m"),
         "spent_usd": round(monthly, 2),
         "budget_cap_usd": settings.MONTHLY_BUDGET_CAP,
         "budget_alert_usd": settings.MONTHLY_BUDGET_ALERT,
         "budget_remaining_usd": round(settings.MONTHLY_BUDGET_CAP - monthly, 2),
+        "breakdown": breakdown["by_agent"],
         "status": (
             "over_cap" if monthly >= settings.MONTHLY_BUDGET_CAP
             else "alert" if monthly >= settings.MONTHLY_BUDGET_ALERT

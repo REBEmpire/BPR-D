@@ -128,6 +128,35 @@ class CostTracker:
             )
 
 
+def get_monthly_cost_breakdown(log_dir: Path | None = None) -> dict:
+    """Load monthly spend broken down by agent."""
+    if log_dir is None:
+        log_dir = Path(__file__).parent.parent / "logs"
+
+    if not log_dir.exists():
+        return {"total": 0.0, "by_agent": {}}
+
+    current_month = datetime.utcnow().strftime("%Y-%m")
+    total = 0.0
+    by_agent = {}
+
+    for log_file in log_dir.glob(f"cost-{current_month}*.json"):
+        try:
+            data = json.loads(log_file.read_text())
+            total += data.get("cost_usd", 0.0)
+
+            # Aggregate per agent
+            for agent, cost in data.get("by_agent", {}).items():
+                by_agent[agent] = by_agent.get(agent, 0.0) + cost
+
+        except Exception:
+            continue
+
+    return {
+        "total": round(total, 4),
+        "by_agent": {k: round(v, 4) for k, v in by_agent.items()}
+    }
+
 def load_monthly_spend(log_dir: Path | None = None) -> float:
     """Load cumulative monthly spend from cost log files."""
     if log_dir is None:
