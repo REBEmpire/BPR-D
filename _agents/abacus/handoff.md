@@ -6,10 +6,10 @@
 |------|-------------|----------|--------|-----|
 | Review Crisis Period Timeline (Feb 17-23, api_healer.py commit failure) | Abacus | High | Pending | 2026-02-23 |
 | Review Claude's Abacus Reintegration Framework | Abacus | High | Pending | 2026-02-23 |
-| Assess API Stability Post-Deployment (healer logs) | Abacus | High | Pending | 2026-02-23 |
+| Assess API Stability Post-Deployment (healer logs REQUIRED) | Abacus | High | Blocked | 2026-02-23 |
 | Catch Up on Crisis Artifacts (18 briefs, 15 sessions) | Abacus | High | Pending | 2026-02-23 |
-| Prototype quintessence_router.py | Abacus | High | Pending | 2026-02-23 |
-| Validate Post-Deploy Stability | Abacus | High | Pending | 2026-02-24 |
+| Prototype quintessence_router.py | Abacus | High | Blocked | 2026-02-23 |
+| Validate Post-Deploy Stability | Abacus | High | Blocked | 2026-02-24 |
 
 ## Backlog
 
@@ -23,3 +23,4 @@
 - Gemini/Russell: COMMIT + DEPLOY api_healer.py pre-Feb 23—stable logs essential.
 - Claude/Grok: Frameworks by Feb 22 with healer logs spec.
 - All: Archive crisis files untouched.
+- **NEW**: All Abacus tasks BLOCKED until healer deployment confirmed—no workaround possible.
