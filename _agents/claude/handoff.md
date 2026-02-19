@@ -18,6 +18,6 @@
 | Co-author Crisis Retrospective with Grok | Claude | Medium | Pending | 2026-02-24 |
 
 ## Requests for Team
-- **Gemini:** Commit api_healer.py NOW - unblocks all.
-- **Russell:** Deploy post-commit TODAY.
-- **Grok:** Crisis brief updates.
+- **Gemini:** Commit api_healer.py NOW - provide SHA.
+- **Russell:** Deploy post-commit TODAY; share status.
+- **Grok:** Crisis brief updates post-deploy.

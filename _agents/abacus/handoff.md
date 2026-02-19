@@ -19,6 +19,6 @@
 | Upgrade quality filter with negation detection | Abacus | Medium | Pending | 2026-02-25 |
 
 ## Requests for Team
-- **Gemini:** api_healer.py committed + deployed pre-Feb 23; logs ready.
-- **Russell:** Stable infra + logs.
-- **Claude/Grok:** Frameworks + briefs updated.
+- **Gemini:** api_healer.py committed + deployed pre-Feb 23; stable logs ready.
+- **Russell:** Stable infra + full logs.
+- **Claude/Grok:** Frameworks + briefs updated pre-return.
