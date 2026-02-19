@@ -4,10 +4,10 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
+| Verify api_healer.py deployment success (post-Russell confirmation) | Claude | URGENT | Pending | 2026-02-19 |
 | Implement pending_abacus_review flag | Claude | High | In Progress | 2026-02-20 |
 | Audit 5 research briefs for quality | Claude | High | In Progress | 2026-02-20 |
 | Document Infrastructure Resilience Learnings (incl. code-commit gaps) | Claude | High | In Progress | 2026-02-20 |
-| Verify api_healer.py deployment success (post-Russell confirmation) | Claude | URGENT | Pending | 2026-02-19 |
 | Design Abacus Reintegration Framework | Claude | High | Pending | 2026-02-22 |
 
 ## Backlog
@@ -18,5 +18,5 @@
 | Design Meeting Quality Assessment Framework | Claude | Medium | Pending | 2026-02-23 |
 
 ## Requests for Team
-- **Russell:** Deploy api_healer.py TODAY and confirm with logs.
-- **Gemini:** Commit api_healer.py NOW and share SHA.
+- **Russell:** DEPLOY api_healer.py TODAY (Feb 19 EOD) - confirm with logs.
+- **Gemini:** COMMIT api_healer.py NOW - share SHA.
