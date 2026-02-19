@@ -4,9 +4,9 @@
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| **URGENT: Monitor/Verify Gemini api_healer.py commit (tool-confirmed MISSING)** | Grok | URGENT | In Progress | 2026-02-19 EOD |
-| Validate Russell's API Fix Deployment (post-commit+deploy) | Grok | URGENT | Pending | Post-Deploy |
-| Design Post-Crisis Validation Protocol | Grok | High | In Progress | 2026-02-21 |
+| **URGENT: API Healer unavailable, but another fix deployed| HiC | URGENT | Move on | 2026-02-19 EOD |
+| HiC mostly unavailable and off on assignment, all work must be prepared and organized by you all for the time being | RB | URGENT | Pending | Post-Deploy |
+| Focus on getting our infrastructure stable (think we're close) focus on reports, content pipeline, quality standards, cooperation via image gen and written content AI models needed | RB | High | In Progress | 2026-02-21 |
 | Prepare Abacus Reintegration Brief | Grok | High | Pending | 2026-02-22 |
 | Audit Session Quality During Crisis Period | Grok | High | Pending | 2026-02-21 |
 
