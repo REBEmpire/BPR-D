@@ -90,6 +90,11 @@ export async function POST(request: NextRequest) {
     console.log("🚀 Forwarding to:", upstreamUrl);
     // console.log("Payload:", JSON.stringify(upstreamBody, null, 2));
 
+    // 30s timeout safety net — backend should respond instantly (fire-and-forget)
+    // but if Render is cold-starting or down, don't hang forever.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
+
     let upstreamRes;
     try {
         upstreamRes = await fetch(upstreamUrl, {
@@ -99,12 +104,17 @@ export async function POST(request: NextRequest) {
             ...(apiKey ? { "X-API-KEY": apiKey } : {}),
           },
           body: JSON.stringify(upstreamBody),
+          signal: controller.signal,
         });
+        clearTimeout(timeoutId);
     } catch (fetchError: any) {
+        clearTimeout(timeoutId);
         console.error("❌ Fetch failed:", fetchError.message);
          return NextResponse.json({
             success: false,
-            message: "Failed to connect to upstream service",
+            message: fetchError.name === "AbortError"
+              ? "Meeting service timed out (30s). It may still be starting up — try again in a moment."
+              : "Failed to connect to upstream service",
             error: fetchError.message
         }, { status: 502 });
     }
