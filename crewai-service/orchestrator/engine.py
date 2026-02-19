@@ -36,7 +36,12 @@ class MeetingContext:
         """Render context as a text block for agent prompts."""
         parts = []
         if self.agenda:
-            parts.append(f"## Agenda\n{self.agenda}")
+            parts.append(
+                f"## ⚡ HiC Directive\n"
+                f"> Direct instruction from Russell (Human in Command). "
+                f"Treat as highest priority above all other backlog items.\n\n"
+                f"{self.agenda}"
+            )
         if self.team_state:
             parts.append(f"## Team State\n{self.team_state}")
         if self.recent_sessions:

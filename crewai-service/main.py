@@ -271,14 +271,23 @@ async def manual_team_meeting_trigger(
         raise HTTPException(status_code=401, detail="Invalid or missing X-API-KEY header.")
 
     # --- Parse payload ---
-    meeting_type = payload.get("meeting_type", "team_meeting")
+    meeting_type = payload.get("meeting_type", "daily_briefing")
     participants = payload.get("participants", ["grok", "claude", "gemini", "abacus"])
     goal = payload.get("goal", "")
-    custom_prompt = payload.get(
-        "custom_prompt",
-        f"Goal: {goal}. Complete the task as a full team meeting with real dialogue and concrete actions."
-        if goal else "Full team sync — review backlog and drive top priorities to completion."
-    )
+    custom_prompt = payload.get("custom_prompt", "")
+
+    # Build a rich agenda: custom_prompt wins; fall back to structured goal block
+    if custom_prompt:
+        agenda = custom_prompt
+    elif goal:
+        agenda = (
+            f"**⚡ HiC Goal:** {goal}\n\n"
+            "Complete this as a full collaborative team session with real dialogue. "
+            "Produce concrete deliverables, commit all file changes to GitHub, "
+            "and update handoffs before closing."
+        )
+    else:
+        agenda = "Full team sync — review backlog and drive top priorities to completion."
 
     logger.info(
         "manual-trigger: meeting_type=%s participants=%s goal=%r",
@@ -297,7 +306,7 @@ async def manual_team_meeting_trigger(
     request = MeetingRequest(
         meeting_type=meeting_type_enum,
         participants=participants,
-        agenda=custom_prompt,
+        agenda=agenda,
     )
 
     response = await execute_meeting(request)
