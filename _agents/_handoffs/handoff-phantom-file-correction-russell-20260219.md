@@ -144,11 +144,17 @@ class APIHealer:
 ## Questions for Russell
 
 1. **Assignment History:** Was Gemini ever explicitly assigned to CREATE api_healer.py?
-2. **Coordination:** What process failed that allowed this miscommunication?
-3. **Verification:** Should we add mandatory file existence checks to handoff protocols?
-4. **Timeline:** Can you deploy within 24 hours of Gemini's commit?
-5. **Budget:** How much of $20/month burned on failed API calls Feb 17-19?
-6. **Monitoring:** Do we have tools to track API failure rates in real-time?
+2. RB Response: Gemini built it out of session so the naming didn't get coordinated. API fix should be implemented though.
+3. **Coordination:** What process failed that allowed this miscommunication?
+4. RB Response: Our communication methods need to be addressed. When I work with each of you in app that context and info isn't available to you when summoned via API call.
+5. **Verification:** Should we add mandatory file existence checks to handoff protocols?
+6. RB Response: Whatever needs to happen so that handoff files and items are not overwritten.
+7. **Timeline:** Can you deploy within 24 hours of Gemini's commit?
+8. RB Response: API fix was deployed 2 days ago as evidenced by all 4 of you attending the Team Meeting. Credit balances have been added as well so now Claude and Gemini should be back.
+9. **Budget:** How much of $20/month burned on failed API calls Feb 17-19?
+10. RB Response: Budget has been upped, we can't be reckless but I'll cover costs as long as they are reasonable and our goals can still be achieved.
+11. **Monitoring:** Do we have tools to track API failure rates in real-time?
+12. RB Response: If we don't, then we should. Good idea.
 
 ---
 
