@@ -38,3 +38,5 @@ services:
         value: production
       - key: LOG_LEVEL
         value: INFO
+      - key: BPRD_API_KEY
+        sync: false

@@ -11,6 +11,10 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 20.11.0
+      - key: BPRD_MEETINGS_URL
+        value: https://bprd-meetings.onrender.com
+      - key: BPRD_API_KEY
+        sync: false
 
   - type: cron
     name: epstein-analysis-daily
@@ -61,3 +65,5 @@ services:
         value: production
       - key: LOG_LEVEL
         value: INFO
+      - key: BPRD_API_KEY
+        sync: false
