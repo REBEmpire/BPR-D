@@ -470,9 +470,9 @@ async def trigger_special_session(
 
     # 3. Create GitHub Issue
     issue_title = f"Special Session Request: {topic}"
-    issue_body = f"Triggered by {hic_id} via Dashboard.
+    issue_body = f"""Triggered by {hic_id} via Dashboard.
 Topic: {topic}
-Status: In Progress"
+Status: In Progress"""
     try:
         issue_num = await create_issue(issue_title, issue_body, labels=["special-session"])
         if issue_num:
@@ -488,9 +488,9 @@ Status: In Progress"
     request = MeetingRequest(
         meeting_type=MeetingType.SPECIAL_SESSION,
         participants=["grok", "claude", "gemini", "abacus"],
-        agenda=f"**⚡ HiC Goal:** {topic}
+        agenda=f"""**⚡ HiC Goal:** {topic}
 
-GitHub Issue: #{issue_num}"
+GitHub Issue: #{issue_num}"""
     )
 
     meeting_id = f"special-session-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
