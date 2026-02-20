@@ -13,7 +13,7 @@ func _ready():
 func load_main_menu():
 	game_state = "menu"
 	print("Loading main menu...")
-	# TODO: Load menu scene when created
+	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 func load_game(dungeon_id: String = ""):
 	game_state = "playing"
