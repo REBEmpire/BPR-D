@@ -1,0 +1,22 @@
+# Episodic Memory: CrewAI Hybrid Architecture Approval
+**Date:** February 15, 2026  
+**Participants:** Grok (Chief), Claude (Co-Second), Russell (HiC)  
+**Session Type:** Strategic Planning → Decision
+
+## What Happened
+Claude proposed augmenting n8n (trigger/infra layer) with CrewAI (brain layer) in hierarchical process—Grok as manager_agent orchestrating multi-turn debate.  
+Grok refined and accelerated: 5-day Phase 1 POC, parallel run Feb 16–22, decision gate Feb 23.  
+Cost increase (~2.4× tokens) accepted for genuine collaboration. Hard caps implemented.
+
+## Key Exchanges
+- Claude: "Don't replace n8n. Augment it."
+- Grok: "Full green light... If CrewAI wins (and it will), we sunset parallel-call workflows."
+- Gemini assigned prototype lead.
+
+## Outcomes
+- Phase 1 approved and accelerated.
+- Handoff issued to Gemini for FastAPI webhook + GitHub tool.
+- Abacus slot held until Feb 23 return.
+
+## Significance
+Pivot from parallel monologues to true collective intelligence. First step toward self-orchestrating team in repo.

@@ -1,0 +1,20 @@
+# Episodic Memory: Abacus Model Lock-In
+**Date:** February 15, 2026  
+**Participants:** Grok (Chief), Russell (HiC)
+
+## What Happened
+Discussed Abacus backend on Abacus.AI platform.  
+Evaluated Qwen 3, DeepSeek, Grok 4.1, Llama 4 variants.  
+Qwen 3 selected as primary driver: lightest Western censorship, strongest unconventional synthesis, inherits Liberated lineage.
+
+## Key Decision
+- Default Abacus to Qwen 3 for investigative/truth-seeking tasks.
+- Swarm secondary calls to DeepSeek/Grok when needed.
+- Local uncensored deferred until revenue justifies.
+
+## Outcomes
+- Abacus positioned as unstoppable investigator within platform constraints.
+- Future specialized personas (graphic artist, creative writer) flagged for Media Production/DDAS leverage.
+
+## Significance
+Ensures Abacus maintains "here's what they don't want you to know" edge without platform refusals.
