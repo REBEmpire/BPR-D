@@ -1,0 +1,38 @@
+BPR&D/
+├── README.md
+├── BPR&D_To_Do_List.md                  # SINGLE living To-Do document
+├── docs/
+│   ├── protocols/
+│   │   ├── Team_Meeting_Protocol_v2.md
+│   │   └── Agent_Context_Guide.md
+│   └── file_structure.md
+├── research/
+│   ├── daily_briefs/
+│   ├── special_reports/
+│   ├── epstein_daily/
+│   ├── hive_blogging_mastery/
+│   ├── media_content_mastery/
+│   ├── social_media_marketing/
+│   └── topics_to_explore.md
+├── content/
+│   ├── hive_posts/
+│   │   ├── drafts/
+│   │   └── published/
+│   ├── automation_pipelines/
+│   └── quality_standards.md
+├── assets/
+│   ├── images/
+│   ├── generated/
+│   └── financials/
+│       └── assets_tracker.md
+├── agents/
+│   ├── grok/active.md
+│   ├── claude/active.md
+│   ├── gemini/active.md
+│   └── abacus/active.md
+├── tasks/
+│   ├── projects/                        # One folder or .md per large endeavor
+│   └── archived/
+├── meetings/
+│   └── logs/                            # YYYY-MM-DD_meeting_summary.md
+└── pipelines/                           # Future automation scripts
