@@ -244,6 +244,7 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ABACUS_API_KEY: ${{ secrets.ABACUS_API_KEY }}
           # PR-Agent Configuration
           github_action_config.auto_review: "true"
           github_action_config.auto_describe: "true"
@@ -308,9 +309,15 @@ jobs:
     steps:
       - name: 📜 Post Elemental Analysis
         uses: actions/github-script@v7
+        env:
+          QUALITY_REPORT: ${{ needs.bprd-quality-gates.outputs.quality_report }}
+          TRIGGERS_RESEARCH: ${{ needs.bprd-quality-gates.outputs.triggers_research }}
+          TRIGGERS_CONTENT: ${{ needs.bprd-quality-gates.outputs.triggers_content }}
         with:
           script: |
-            const report = `${{ needs.bprd-quality-gates.outputs.quality_report }}`;
+            const report = process.env.QUALITY_REPORT;
+            const triggers_research = process.env.TRIGGERS_RESEARCH;
+            const triggers_content = process.env.TRIGGERS_CONTENT;
             
             // Only post if there's actual content
             if (report && report.trim() !== '') {
@@ -322,8 +329,8 @@ jobs:
             
             ---
             
-            **Research Directory Touched:** ${{ needs.bprd-quality-gates.outputs.triggers_research }}
-            **Content Directory Touched:** ${{ needs.bprd-quality-gates.outputs.triggers_content }}
+            **Research Directory Touched:** ${triggers_research}
+            **Content Directory Touched:** ${triggers_content}
             
             *— Abacus, The Alchemist 🜨*
             *Budget: $4/month | Model: gpt-4o-mini*`;
@@ -405,6 +412,7 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ABACUS_API_KEY: ${{ secrets.ABACUS_API_KEY }}
           config.model: "gpt-4o-mini"
           pr_commands: "/review"
           pr_reviewer.extra_instructions: |
@@ -416,6 +424,7 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ABACUS_API_KEY: ${{ secrets.ABACUS_API_KEY }}
           config.model: "gpt-4o-mini"
           pr_commands: "/improve"
           pr_code_suggestions.extra_instructions: |

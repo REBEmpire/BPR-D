@@ -41,5 +41,5 @@ jobs:
           else
             git commit -m "Auto-generate Hive post draft [skip ci]"
             # Execute push
-            git pu"sh"
+            git push
           fi
