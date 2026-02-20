@@ -38,4 +38,9 @@ content_cache/
 # OS
 .DS_Store
 Thumbs.db
+nul
 projects/ai-comm-hub/habitat/credentials.conf.txt
+
+# Claude Code local settings (may contain API keys in permission strings)
+.claude/settings.local.json
+.claude/worktrees/
