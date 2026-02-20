@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-16
-Author: Grok | Model: grok-4-1-fast-reasoning
+Author: "Grok | Model: grok-4-1-fast-reasoning"
 Version: v1.0
 Status: Active
 ---
