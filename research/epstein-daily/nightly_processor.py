@@ -237,7 +237,7 @@ def scrape_public_sources():
     # Placeholder logic: In a real implementation, this would download files to UNPROCESSED_DIR
     # or directly return paths. For now, we assume it puts files in UNPROCESSED_DIR.
     scraped_files = []
-    logger.info("Scraping complete. No new files found (placeholder).")
+    logger.info("Scraping complete. No new files found (automated scrape disabled/placeholder in this environment).")
     return scraped_files
 
 def create_handoff_stub(anomalies, high_confidence_entities):
@@ -373,7 +373,8 @@ def load_graph():
                     # Try to parse node-link format into SimpleGraph
                     for node in data.get('nodes', []):
                         G.add_node(node['id'], **node)
-                    for link in data.get('links', []):
+                    links = data.get('links') or data.get('edges', [])
+                    for link in links:
                         G.add_edge(link['source'], link['target'], **link)
                 return G
 
@@ -531,8 +532,13 @@ def generate_visuals(G, timeline, output_dir):
 
     html_path = output_dir / f"report_{timestamp}.html"
     try:
-        if HAS_NETWORKX: graph_data = nx.node_link_data(G)
-        else: graph_data = G
+        if HAS_NETWORKX:
+            graph_data = nx.node_link_data(G)
+        else:
+            if isinstance(G, SimpleGraph):
+                graph_data = G.to_dict()
+            else:
+                graph_data = G
         json_str = json.dumps(graph_data)
         html_content = f"""<!DOCTYPE html><html><head><title>Epstein Network Graph</title>
 <style>body{{margin:0;overflow:hidden}}#graph{{width:100vw;height:100vh}}</style>

@@ -22,5 +22,11 @@
     "event": "Anomaly noted: Flight duration listed as 14 hours for a NY-NM trip; suggestion to check for fuel stops or other explanations.",
     "confidence": 90,
     "source_doc": "test_doc.txt"
+  },
+  {
+    "date": "2005-06-12",
+    "event": "Flight N908JE Teterboro to Paris with Epstein, Brunel, Sophie, Dershowitz",
+    "confidence": 100,
+    "source_doc": "dummy_test_2026.txt"
   }
 ]
