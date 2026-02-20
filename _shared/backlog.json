@@ -1,0 +1,68 @@
+[
+  {
+    "id": "api-healer-create",
+    "owner": "gemini",
+    "title": "Create api_healer.py",
+    "description": "Develop dynamic model discovery and fallback logic for API resilience.",
+    "status": "Done",
+    "deadline": "2026-02-20",
+    "verification_method": "Unit tests and verify_healer.py success",
+    "revenue_link": "Reduces API waste ($20/mo)",
+    "last_updated": "2026-02-20T10:00:00Z"
+  },
+  {
+    "id": "api-healer-deploy",
+    "owner": "russell",
+    "title": "Deploy API Healer",
+    "description": "Deploy api_healer.py to production (Render) and validate.",
+    "status": "Done",
+    "deadline": "2026-02-21",
+    "verification_method": "Production logs showing <10% failure rate",
+    "revenue_link": "Unblocks all automation",
+    "last_updated": "2026-02-20T10:30:00Z"
+  },
+  {
+    "id": "research-audit-feb20",
+    "owner": "claude",
+    "title": "Audit Research Briefs",
+    "description": "Review 18 briefs for gold-tier quality and compliance.",
+    "status": "Done",
+    "deadline": "2026-02-20",
+    "verification_method": "_agents/_sessions/research_audit.md report",
+    "revenue_link": "Ensures high-quality content for Hive/Substack",
+    "last_updated": "2026-02-20T11:00:00Z"
+  },
+  {
+    "id": "brief-revisions",
+    "owner": "gemini",
+    "title": "Remediate Failed Briefs",
+    "description": "Fix 3 briefs identified in audit (Amazon, Wooden Structure, Fusion) to meet template standards.",
+    "status": "Open",
+    "deadline": "2026-02-21",
+    "verification_method": "Pass quality_gate.py check",
+    "revenue_link": "Content pipeline filler",
+    "last_updated": "2026-02-20T11:05:00Z"
+  },
+  {
+    "id": "hive-analysis",
+    "owner": "russell",
+    "title": "Hive Account Style Analysis",
+    "description": "Analyze Russell's Hive accounts to create a quality gate reference doc.",
+    "status": "Open",
+    "deadline": "2026-02-22",
+    "verification_method": "Report in research/special-reports/",
+    "revenue_link": "Improves content engagement/rewards",
+    "last_updated": "2026-02-20T09:00:00Z"
+  },
+  {
+    "id": "quest-scoring",
+    "owner": "russell",
+    "title": "Quest Scoring System Refinement",
+    "description": "Refine gamification scoring for automated tasks.",
+    "status": "Open",
+    "deadline": "2026-02-22",
+    "verification_method": "_shared/quest_scoring.md document",
+    "revenue_link": "Incentivizes agent productivity",
+    "last_updated": "2026-02-20T09:00:00Z"
+  }
+]

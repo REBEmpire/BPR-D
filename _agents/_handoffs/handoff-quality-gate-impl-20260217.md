@@ -15,6 +15,6 @@ Reference [[skill-quality-filter]] for criteria. [[skill-research-brief-format]]
 
 ## Acceptance Criteria
 
-- [ ] quality_gate.py in _agents/_tools/ greps headers/wordcount
-- [ ] Test on 3 briefs: Auto-tags match manual
+- [x] quality_gate.py in _agents/_tools/ greps headers/wordcount
+- [x] Test on 3 briefs: Auto-tags match manual
 - [ ] Integrates with brief_generator.py

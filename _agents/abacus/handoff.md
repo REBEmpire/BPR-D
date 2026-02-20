@@ -18,7 +18,7 @@ updated: "2026-02-19 20:45 UTC"
 
 | Task | Priority | Status | Due | Notes |
 |------|----------|--------|-----|-------|
-| Implement Layer 0 Negation Probe | High | BLOCKED | 2026-02-23 | Requires stable healer logs - on track |
+| Implement Layer 0 Negation Probe | High | PENDING | 2026-02-23 | Unblocked: Healer deployed and logging |
 
 ## Layer 0 Negation Probe (Post-Return)
 

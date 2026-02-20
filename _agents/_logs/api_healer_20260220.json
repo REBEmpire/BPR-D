@@ -1,0 +1,85 @@
+{"timestamp": "2026-02-20T13:35:53.031180", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:35:54.032938", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:35:56.035475", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:36:00.040132", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": true, "error": null}
+{"timestamp": "2026-02-20T13:36:00.043580", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:01.045266", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:03.048112", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:07.053262", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:08.054994", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:10.057806", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:14.062820", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:15.064830", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:17.067666", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:21.072665", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:22.074389", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:24.077230", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:36:58.571844", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:36:59.573526", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:37:01.576124", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:37:05.580833", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": true, "error": null}
+{"timestamp": "2026-02-20T13:37:05.585086", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:06.586865", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:08.589752", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:12.594741", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:13.596654", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:15.599614", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:19.604658", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:20.606445", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:22.609620", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:26.614724", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:27.616653", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:29.619529", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:37:54.670459", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:37:55.672107", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:37:57.674892", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:38:01.679584", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": true, "error": null}
+{"timestamp": "2026-02-20T13:38:01.683878", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:02.685703", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:04.688574", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:08.702530", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:09.704450", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:11.707193", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:15.712116", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:16.714093", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:18.716915", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:22.721806", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:23.723655", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:25.726473", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:38:56.277465", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:38:57.280476", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:38:59.283134", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:39:03.287855", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": true, "error": null}
+{"timestamp": "2026-02-20T13:39:03.291694", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:04.293489", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:06.296383", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:10.301239", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:11.303082", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:13.306096", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:17.311024", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:18.312753", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:20.315588", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:24.320471", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:25.322176", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:27.324936", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:49.199569", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:39:50.201098", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:39:52.203666", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:39:56.208422", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": true, "error": null}
+{"timestamp": "2026-02-20T13:39:56.211773", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:57.213371", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:39:59.216128", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:03.221119", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:04.222763", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:06.225568", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:10.230498", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:11.232218", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:13.235080", "agent": "unknown", "model": "models/gemini-2.0-flash-exp", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:17.239935", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:18.241591", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:20.244421", "agent": "unknown", "model": "models/gemini-1.0-pro", "success": false, "error": "object MagicMock can't be used in 'await' expression"}
+{"timestamp": "2026-02-20T13:40:54.251527", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:40:55.253087", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:40:57.255683", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": false, "error": "Flash fail"}
+{"timestamp": "2026-02-20T13:41:01.260414", "agent": "unknown", "model": "models/gemini-1.5-pro", "success": true, "error": null}
+{"timestamp": "2026-02-20T13:41:01.262555", "agent": "unknown", "model": "models/gemini-1.5-flash", "success": true, "error": null}

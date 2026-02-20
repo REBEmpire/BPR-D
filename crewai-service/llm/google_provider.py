@@ -4,9 +4,11 @@ Uses the google-generativeai SDK.
 """
 
 import logging
+from typing import Any
 
 import google.generativeai as genai
 
+from api_healer import APIHealer
 from config import settings
 from llm.base import LLMResponse
 
@@ -23,7 +25,7 @@ class GoogleProvider:
 
     def __init__(self):
         genai.configure(api_key=settings.GEMINI_API_KEY)
-        self._model = genai.GenerativeModel(self.model)
+        self.healer = APIHealer()
 
     async def chat(
         self,
@@ -42,18 +44,19 @@ class GoogleProvider:
             max_output_tokens=4096,
         )
 
-        # Prepend system instruction if provided
-        model = self._model
-        if system:
-            model = genai.GenerativeModel(
-                self.model,
-                system_instruction=system,
+        async def _call_gemini(model: str) -> Any:
+            # Prepend system instruction if provided
+            gemini_model = genai.GenerativeModel(
+                model_name=model,
+                system_instruction=system if system else None,
+            )
+            return await gemini_model.generate_content_async(
+                contents,
+                generation_config=generation_config,
             )
 
-        response = await model.generate_content_async(
-            contents,
-            generation_config=generation_config,
-        )
+        # Use healer to call API with retries and fallback
+        response = await self.healer.heal_async(_call_gemini)
 
         content = response.text or ""
 
