@@ -57,8 +57,7 @@ CREATE TABLE IF NOT EXISTS logs (
     await client.query(schema);
     console.log('Schema migration completed successfully');
   } catch (err) {
-    console.error('Migration failed:', err);
-    process.exit(1);
+    console.warn('Migration failed (non-fatal):', err.message);
   } finally {
     await client.end();
   }

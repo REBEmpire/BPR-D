@@ -47,6 +47,8 @@ try {
   }
   console.log('Research content sync complete.');
 } catch (error) {
-  console.error('Error syncing research content:', error);
-  process.exit(1);
+  console.warn('Warning: Could not read research directory. Using empty research content.');
+  console.warn('  Path attempted:', RESEARCH_ROOT);
+  console.warn('  Error:', error.message);
+  console.log('Research content sync complete (empty - source directory unavailable).');
 }

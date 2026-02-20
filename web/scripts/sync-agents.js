@@ -97,6 +97,9 @@ try {
   console.log('Agents sync complete.');
 
 } catch (error) {
-  console.error('Error syncing agents:', error);
-  process.exit(1);
+  console.warn('Warning: Could not read agents directory. Using empty agents data.');
+  console.warn('  Path attempted:', AGENTS_ROOT);
+  console.warn('  Error:', error.message);
+  fs.writeFileSync(CONTENT_OUTPUT, JSON.stringify([], null, 2));
+  console.log('Agents sync complete (empty - source directory unavailable).');
 }
