@@ -16,9 +16,9 @@ pyyaml>=6.0                   # YAML file support
 # API clients (install based on provider choice)
 # Uncomment the provider you'll use:
 
-# anthropic>=0.3.0            # Claude API
-# openai>=0.27.0              # OpenAI API
-# ollama>=0.1.0               # Ollama local LLM (if using local)
+anthropic>=0.3.0            # Claude API
+openai>=0.27.0              # OpenAI API
+ollama>=0.1.0               # Ollama local LLM (if using local)
 
 # Optional: async support
 aiohttp>=3.8.0                # Async HTTP client

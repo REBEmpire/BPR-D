@@ -15,6 +15,7 @@ import sys
 import os
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Dict
 import logging
 
 # Add automation module to path
@@ -265,8 +266,12 @@ class DDASOrchestrator:
 
     def save_session_report(self, gen_results: Dict, pub_results: Dict):
         """Save session report to file"""
+        # Convert datetime objects to strings for JSON serialization
+        session_stats = self.session_stats.copy()
+        session_stats["start_time"] = session_stats["start_time"].isoformat()
+
         report = {
-            "session": self.session_stats,
+            "session": session_stats,
             "generation": gen_results,
             "publishing": pub_results
         }
