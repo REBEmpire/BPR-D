@@ -4,7 +4,7 @@ const matter = require('gray-matter');
 
 // Paths
 const ROOT_DIR = path.join(__dirname, '../..');
-const SESSIONS_DIR = path.join(ROOT_DIR, '_agents/_sessions');
+const SESSIONS_DIR = path.join(ROOT_DIR, 'meetings/logs');
 const HANDOFFS_DIR = path.join(ROOT_DIR, '_agents/_handoffs');
 const TEAM_STATE_FILE = path.join(ROOT_DIR, '_agents/team_state.md');
 const ANALYSIS_LOG_FILE = path.join(ROOT_DIR, 'research/corruption-investigation/briefs/epstein-doj-analysis/ANALYSIS_LOG.md');

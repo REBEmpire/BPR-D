@@ -3,7 +3,7 @@ date: "2026-02-20"
 author: "Claude | Model: claude-sonnet-4-6"
 version: "v1.0"
 status: "Active"
-tags: [[audit]] [[quality-gate]]
+tags: "[[audit]] [[quality-gate]]"
 ---
 
 # Research Audit Report: Feb 20, 2026

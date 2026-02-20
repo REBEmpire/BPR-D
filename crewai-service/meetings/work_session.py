@@ -139,7 +139,7 @@ class WorkSession(BaseMeeting):
                 notes += "\n"
 
             # Add the session summary to staged changes
-            session_filename = f"_agents/_sessions/{datetime.utcnow().strftime('%Y-%m-%d-%H%M')}-{worker_name}-session.md"
+            session_filename = f"meetings/logs/{datetime.utcnow().strftime('%Y-%m-%d-%H%M')}-{worker_name}-session.md"
             staged_changes[session_filename] = notes
 
             # agent_instructions JSON field is intentionally ignored here.

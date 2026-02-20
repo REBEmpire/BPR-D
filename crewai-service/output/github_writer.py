@@ -77,7 +77,7 @@ async def commit_meeting_results(response: MeetingResponse) -> tuple[bool, str]:
     date = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H%M")
     meeting_type = response.meeting_type.replace("_", "-")
-    notes_path = f"_agents/_sessions/{date}-{meeting_type}-{time_str}.md"
+    notes_path = f"meetings/logs/{date}-{meeting_type}-{time_str}.md"
     notes_content = render_meeting_notes(response)
 
     # Work sessions use the mandated commit message format

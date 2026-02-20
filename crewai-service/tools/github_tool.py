@@ -383,3 +383,20 @@ async def commit_multiple_files(changes: dict[str, str], message: str, branch: s
         logger.error("Failed to update branch reference.")
 
     return success
+
+async def create_issue(title: str, body: str, labels: list[str] = None) -> int | None:
+    """Create a new issue and return its number."""
+    url = f"{GITHUB_API}/repos/{REPO}/issues"
+    payload = {
+        "title": title,
+        "body": body,
+        "labels": labels or []
+    }
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.post(url, headers=_headers(), json=payload, timeout=15)
+            resp.raise_for_status()
+            return resp.json()["number"]
+        except Exception as e:
+            logger.error(f"Failed to create issue: {e}")
+            return None
