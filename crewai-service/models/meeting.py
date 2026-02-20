@@ -15,6 +15,7 @@ class MeetingType(str, Enum):
     RETROSPECTIVE = "retrospective"
     AD_HOC = "ad_hoc"
     WORK_SESSION = "work_session"
+    SPECIAL_SESSION = "special_session"
 
 
 class MeetingRequest(BaseModel):

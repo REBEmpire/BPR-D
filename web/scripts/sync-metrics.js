@@ -1,6 +1,6 @@
 /**
  * sync-metrics.js
- * Parses _agents/_sessions/*.md files for Meeting Metrics blocks.
+ * Parses meetings/logs/*.md files for Meeting Metrics blocks.
  * Computes per-agent $/hr, ms-in-use, and quest score across time windows.
  * Outputs src/content/metrics.json for the Team page.
  */

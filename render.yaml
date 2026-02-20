@@ -72,8 +72,8 @@ services:
     name: bprd-daily-team-meeting
     runtime: python
     region: oregon
-    plan: starter
-    schedule: "0 10 * * 1-5"  # 10 AM UTC Mon-Fri = 2 AM PST
+    plan: free
+    schedule: "0 10 * * *"  # 10 AM UTC Mon-Fri = 2 AM PST
     rootDir: crewai-service
     buildCommand: pip install -r requirements.txt
     startCommand: python -m scripts.run_daily_team_meeting
@@ -101,3 +101,5 @@ services:
         sync: false
       - key: ENV
         value: production
+      - key: BPRD_API_KEY
+        sync: false

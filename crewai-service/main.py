@@ -333,7 +333,7 @@ async def manual_team_meeting_trigger(
 
     task.add_done_callback(_cleanup)
 
-    sessions_url = f"https://github.com/{settings.GITHUB_REPO}/tree/main/_agents/_sessions"
+    sessions_url = f"https://github.com/{settings.GITHUB_REPO}/tree/main/meetings/logs"
 
     return {
         "status": "triggered",
@@ -441,6 +441,78 @@ async def view_schedule():
         })
     return {"jobs": jobs}
 
+
+
+@app.post("/api/v1/trigger-special-session")
+async def trigger_special_session(
+    payload: dict,
+    x_api_key: str = Header(default="", alias="X-API-KEY"),
+) -> dict:
+    """
+    Trigger a Special Session (4-5 turn workflow) from the dashboard button.
+    """
+    # 1. Auth
+    if not settings.BPRD_API_KEY:
+        logger.warning("BPRD_API_KEY not set!")
+    elif x_api_key != settings.BPRD_API_KEY:
+        logger.warning("trigger-special-session: rejected request with invalid X-API-KEY")
+        raise HTTPException(status_code=401, detail="Invalid or missing X-API-KEY header.")
+
+    # 2. Validate payload
+    topic = payload.get("topic")
+    hic_id = payload.get("hic_id", "russell")
+    if not topic:
+        raise HTTPException(status_code=400, detail="Topic is required")
+
+    logger.info(f"Triggering Special Session for topic: {topic}")
+
+    # 3. Create GitHub Issue
+    issue_title = f"Special Session Request: {topic}"
+    issue_body = f"Triggered by {hic_id} via Dashboard.
+Topic: {topic}
+Status: In Progress"
+    try:
+        issue_num = await create_issue(issue_title, issue_body, labels=["special-session"])
+        if issue_num:
+            logger.info(f"Created issue #{issue_num} for special session")
+        else:
+            logger.warning("Failed to create GitHub issue for special session")
+            issue_num = "N/A"
+    except Exception as e:
+        logger.error(f"Error creating issue: {e}")
+        issue_num = "Error"
+
+    # 4. Launch Workflow (Background Task)
+    request = MeetingRequest(
+        meeting_type=MeetingType.SPECIAL_SESSION,
+        participants=["grok", "claude", "gemini", "abacus"],
+        agenda=f"**⚡ HiC Goal:** {topic}
+
+GitHub Issue: #{issue_num}"
+    )
+
+    meeting_id = f"special-session-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
+
+    # We define the task logic here or reuse execute_meeting
+    # execute_meeting is async, so create_task is correct.
+    task = asyncio.create_task(execute_meeting(request))
+    _running_meetings[meeting_id] = task
+
+    def _cleanup(t):
+        _running_meetings.pop(meeting_id, None)
+        if t.exception():
+            logger.error(f"Special session {meeting_id} failed: {t.exception()}")
+        else:
+            logger.info(f"Special session {meeting_id} completed successfully")
+
+    task.add_done_callback(_cleanup)
+
+    return {
+        "status": "triggered",
+        "meeting_id": meeting_id,
+        "issue_number": issue_num,
+        "message": f"Special Session '{topic}' initiated. Check GitHub/Telegram."
+    }
 
 if __name__ == "__main__":
     import uvicorn
