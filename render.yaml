@@ -101,3 +101,25 @@ services:
         sync: false
       - key: ENV
         value: production
+
+
+
+  - type: cron
+    name: bprd-alchemical-hive-transmutation
+    env: python
+    region: oregon
+    plan: free
+    schedule: "0 11 * * *"
+    rootDir: crewai-service
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m pipelines.alchemical_forge.elixir_expansion_chamber --dry-run
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: XAI_API_KEY
+        sync: false
+      - key: ABACUS_PRIMARY_KEY
+        sync: false
+      - key: AETHERIAL_FORGE_ENABLED
+        value: "false"
