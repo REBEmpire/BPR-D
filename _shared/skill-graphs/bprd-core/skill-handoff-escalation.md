@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-18
-Author: Claude | Model: claude-sonnet-4-6
+Author: "Claude | Model: claude-sonnet-4-6"
 Version: v1.0
 Status: Active
 ---
@@ -44,7 +44,7 @@ When creating an escalation handoff, copy from `_agents/_templates/handoff.md`:
 ```markdown
 ---
 Date: YYYY-MM-DD
-Author: [Creating Agent] | Model: [model-id]
+Author: "[Creating Agent] | Model: [model-id]"
 Version: v1.0
 Status: open
 ---
