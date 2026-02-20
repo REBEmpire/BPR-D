@@ -3,7 +3,7 @@ import { ProductionOverview } from '@/components/production/overview';
 import { RecentMeetings } from '@/components/production/recent-meetings';
 import { InvestigationProgress } from '@/components/production/investigation-progress';
 import { ActivityFeed } from '@/components/production/activity-feed';
-import { SpecialSessionButton } from '@/components/special-session-button';
+import { AlchemicalForgeButton } from '@/components/AlchemicalForgeButton';
 import fs from 'fs';
 import path from 'path';
 
@@ -82,7 +82,9 @@ export default function DashboardPage() {
 
           {/* Right Column: Status Panels */}
           <div className="lg:col-span-4 space-y-6 sm:space-y-8">
-            <SpecialSessionButton />
+            {/* Alchemical Forge Button - HiC Only */}
+            <AlchemicalForgeButton />
+
             <section className="glass-card rounded-2xl p-4 sm:p-6">
               <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
                 <span className="text-primary">▸</span>

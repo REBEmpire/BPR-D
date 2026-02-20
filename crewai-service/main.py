@@ -6,6 +6,7 @@ Direct LLM API calls with full conversation transcript for natural dialogue.
 Endpoints:
   POST /api/v1/meetings/execute         - Run a meeting (structured)
   POST /api/v1/meetings/manual-trigger  - HiC one-command team meeting trigger (X-API-KEY auth)
+  POST /api/v1/ignite-the-forge         - Ignite the Alchemical Forge (HiC-only)
   GET  /api/v1/health                   - Health check
   GET  /api/v1/agents                   - List agents and status
   GET  /api/v1/cost/monthly             - Current month's spend
@@ -14,6 +15,7 @@ Endpoints:
 
 import asyncio
 import logging
+import os
 import sys
 from contextlib import asynccontextmanager
 from datetime import datetime
@@ -513,6 +515,78 @@ GitHub Issue: #{issue_num}"
         "issue_number": issue_num,
         "message": f"Special Session '{topic}' initiated. Check GitHub/Telegram."
     }
+# --- Alchemical Forge ---
+
+@app.post("/api/v1/ignite-the-forge")
+async def ignite_the_forge(
+    payload: dict = None,
+    x_api_key: str = Header(default="", alias="X-API-KEY"),
+) -> dict:
+    """
+    Ignite the Alchemical Forge — HiC-only endpoint.
+
+    Flips AETHERIAL_FORGE_ENABLED and runs one transmutation cycle.
+    Requires X-API-KEY header matching BPRD_API_KEY env var.
+
+    Body fields:
+        dry_run (bool) — If true, run in dry-run mode (default: false)
+        turns (int) — Number of expansion turns (default: 4, max: 6)
+
+    Returns:
+        status, forge_run_id, elixir_path, grade
+
+    Example:
+        curl -X POST https://bprd-meetings.onrender.com/api/v1/ignite-the-forge \\
+          -H "Content-Type: application/json" \\
+          -H "X-API-KEY: $BPRD_API_KEY" \\
+          -d '{"dry_run": false}'
+    """
+    # --- Auth ---
+    if not settings.BPRD_API_KEY:
+        logger.warning("BPRD_API_KEY not set — ignite-the-forge endpoint is OPEN.")
+    elif x_api_key != settings.BPRD_API_KEY:
+        logger.warning("ignite-the-forge: rejected request with invalid X-API-KEY")
+        raise HTTPException(status_code=401, detail="Invalid or missing X-API-KEY header.")
+
+    payload = payload or {}
+    dry_run = payload.get("dry_run", False)
+    turns = min(max(payload.get("turns", 4), 1), 6)
+
+    forge_run_id = f"forge-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
+    logger.info(f"Igniting the Alchemical Forge: {forge_run_id} (dry_run={dry_run}, turns={turns})")
+
+    # Enable the forge
+    os.environ["AETHERIAL_FORGE_ENABLED"] = "true"
+
+    try:
+        # Import and run the forge
+        from pipelines.alchemical_forge.elixir_expansion_chamber import run_forge
+        result = await run_forge(
+            dry_run=dry_run,
+            use_latest_brief=True,
+            turns=turns,
+        )
+
+        return {
+            "status": "completed" if result["success"] else "failed",
+            "forge_run_id": forge_run_id,
+            "dry_run": dry_run,
+            "elixir_path": result.get("elixir_path"),
+            "grade": result.get("grade"),
+            "image_paths": result.get("image_paths", []),
+            "errors": result.get("errors", []),
+            "message": "The Great Work continues." if result["success"] else "Transmutation failed.",
+        }
+
+    except Exception as e:
+        logger.error(f"Forge ignition failed: {e}", exc_info=True)
+        return {
+            "status": "error",
+            "forge_run_id": forge_run_id,
+            "error": str(e),
+            "message": "The Forge could not be ignited.",
+        }
+
 
 if __name__ == "__main__":
     import uvicorn
