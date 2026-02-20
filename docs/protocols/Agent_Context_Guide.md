@@ -2,7 +2,7 @@
 
 > How agents maintain and update their context files.
 
-## File: `agents/[name]/active.md`
+## File: `_agents/[name]/context/active.md`
 
 Each agent updates **only their own** `active.md` during Round 7 (Context Close) of every meeting.
 

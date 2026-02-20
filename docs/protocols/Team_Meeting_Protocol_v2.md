@@ -65,7 +65,7 @@ Grok reviews/updates assets, income, expenses, financial tracking (placeholder u
 
 ### Round 7 – Context Close
 
-Each agent (Grok first, then Claude, Gemini, Abacus) updates ONLY their own `agents/[name]/active.md` as final response — key takeaways, active priorities, context changes.
+Each agent (Grok first, then Claude, Gemini, Abacus) updates ONLY their own `_agents/[name]/context/active.md` as final response — key takeaways, active priorities, context changes.
 
 ---
 

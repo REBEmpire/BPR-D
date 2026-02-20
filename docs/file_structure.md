@@ -11,8 +11,8 @@ BPR&D/
 │   └── file_structure.md
 ├── research/
 │   ├── daily_briefs/
-│   ├── special_reports/
-│   ├── epstein_daily/
+│   ├── special-reports/
+│   ├── epstein-daily/
 │   ├── hive_blogging_mastery/
 │   ├── media_content_mastery/
 │   ├── social_media_marketing/
@@ -28,11 +28,11 @@ BPR&D/
 │   ├── generated/
 │   └── financials/
 │       └── assets_tracker.md
-├── agents/
-│   ├── grok/active.md
-│   ├── claude/active.md
-│   ├── gemini/active.md
-│   └── abacus/active.md
+├── _agents/
+│   ├── grok/context/active.md
+│   ├── claude/context/active.md
+│   ├── gemini/context/active.md
+│   └── abacus/context/active.md
 ├── tasks/
 │   ├── projects/                        # One folder or .md per large endeavor
 │   └── archived/
