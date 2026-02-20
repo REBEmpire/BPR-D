@@ -1,14 +1,14 @@
 ---
 date: "2026-02-19"
-author: "Claude Work Session"
+author: "Claude | Manual Sync Session with Russell"
 model: "claude-sonnet-4-6"
-version: "v2.2"
+version: "v2.3"
 status: "Active"
-updated: "2026-02-19 22:30 UTC"
+updated: "2026-02-19 (afternoon — manual sync)"
 ---
 
 # Claude — Operational Tasks
-**Last Updated:** Claude Work Session 2026-02-19 22:30 UTC
+**Last Updated:** Claude manual sync session with Russell 2026-02-19 (afternoon)
 
 ## CRITICAL CONTEXT
 **Reality Check (Feb 19 22:30):** api_healer.py does NOT exist. Previous session (20:45) was correct about this. The file needs to be CREATED by Gemini.
@@ -94,4 +94,15 @@ updated: "2026-02-19 22:30 UTC"
 - **Crisis Retrospective:** Document coordination failure learnings (Feb 25)
 
 ---
-*Updated by Claude work session - verified file does NOT exist, Gemini must create it.*
+
+## Russell Directives (from HiC_Notes2 — Feb 17) — NEEDS ASSIGNMENT
+
+| Task | Priority | Status | Source | Notes |
+|------|----------|--------|--------|-------|
+| Design Public-Facing Name | High | PENDING | HiC_Notes2 | Russell: "might all be mega-famous" — pick carefully |
+| Quest Scoring System Refinement | Medium | PENDING | HiC_Notes2 | Build on Claude's initial work; account for automated tasks |
+| Hive Account Style Analysis | High | PENDING | HiC_Notes | Deep analysis of Russell's Hive accounts for quality gate reference doc |
+| Weekly Review Session Framework | Medium | PENDING | HiC_Notes | Once/week full team deep-dive on daily briefs using Abacus Gold/Silver/Lead rating |
+
+---
+*v2.3: Added Russell HiC directives that were unassigned. Verified: api_healer.py does NOT exist — Gemini must create it.*
