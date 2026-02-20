@@ -1,121 +1,76 @@
 # BPR&D - Broad Perspective Research & Development
 
-## 🎮 DDAS - Decentralized Digital Arts Studio
+A democratic AI collective building games, content pipelines, and research tools with blockchain integration (Hive).
 
-**Location**: `/ddas/` folder
+## Quick Start
 
-The DDAS (Decentralized Digital Arts Studio) is a complete framework for independent game development and content creation. It includes:
+- **[Start Here](docs/START_HERE.md)** - 5-minute orientation
+- **[Strategic Plan](docs/DDAS_Strategic_Plan.md)** - Full roadmap and vision
+- **[Game Development](docs/README_GAMES.md)** - Godot 4.x setup
+- **[Content Automation](content/automation/README.md)** - Python pipeline setup
+- **[Media Production](docs/VIDEO_AUDIO_PRODUCTION.md)** - Video & audio workflows
 
-- **Two Game Prototypes**: Splinterlands Civilization (4X strategy) and Slingerlands RPG (turn-based dungeon crawler)
-- **Content Automation Pipeline**: AI-powered content generation for 5 Hive blockchain accounts
-- **Media Production Framework**: YouTube, podcasting, and cross-platform distribution
-- **Strategic Documentation**: Complete implementation guides and technical specifications
+## Repository Structure
 
-### Quick Start
-- **[DDAS Documentation Index](/ddas/Documentation/START_HERE.md)** - 5-minute orientation
-- **[Strategic Plan](/ddas/Documentation/DDAS_Strategic_Plan.md)** - Full roadmap and vision
-- **[Game Development Guide](/ddas/Documentation/README_GAMES.md)** - Godot 4.x setup
-- **[Content Automation](/ddas/content/automation/README.md)** - Python pipeline setup
-- **[Media Production](/ddas/Documentation/VIDEO_AUDIO_PRODUCTION.md)** - Video & audio workflows
+| Directory | Purpose |
+|-----------|---------|
+| `_agents/` | AI agent profiles, handoffs, sessions, governance |
+| `_shared/` | Shared templates, skills, knowledge graphs |
+| `assets/` | Images, generated content, financials |
+| `content/` | Hive posts, automation pipelines, quality standards |
+| `crewai-service/` | Custom meeting service (FastAPI + LLM providers) |
+| `docs/` | All documentation, protocols, guides |
+| `games/` | Godot 4.x projects (Splinterlands Civ, Slingerlands RPG) |
+| `meetings/` | Meeting logs |
+| `pipelines/` | Automation pipelines (GitHub bot, Hive pipeline) |
+| `publishing/` | Hive publishing drafts and published content |
+| `research/` | 9 research topics + special reports |
+| `scripts/` | Utility scripts |
+| `tasks/` | Project task tracking |
+| `tests/` | Test suites |
+| `verification/` | Research verification tools |
+| `web/` | Next.js 15 web application (dashboard, team, projects) |
 
-**Technology Stack**:
-- Games: Godot 4.x (GDScript)
-- Content: Python 3.8+ with Claude/OpenAI APIs
-- Blockchain: Hive protocol
-- Deployment: Fly.io, Railway, or self-hosted
+## Technology Stack
 
----
-
-## 🧠 Knowledge System & Skill Webs v2.0
-
-**Location**: `/knowledge_system/`, `/skill_webs/`
-
-The v2.0 Knowledge System & Skill Webs upgrade replaces the file-based v1 with a dual-layer graph architecture for scalable knowledge and skill management.
-
-### Key Features
-- **Knowledge Graph**: NetworkX + SQLite for entities/facts/relations with embeddings and NL search.
-- **Skill Web**: DAG for skills with mastery levels, confidence scores, prerequisites, and learning path generation.
-- **Auto-Discovery**: LLM extraction from conversations/commits/tools for automatic graph updates.
-- **Query Layer**: Natural language search, shortest-path skill routes, "what should we learn next" recommendations.
-- **Persistence**: Atomic SQLite txns with JSONL snapshots; Neo4j-compatible exports.
-- **Migration**: Zero-data-loss upgrade from v1 MD files via `upgrade_migration.py`.
-
-### Quick Start
-1. Install dependencies: `pip install -r requirements.txt`
-2. Migrate v1: `python knowledge_system/upgrade_migration.py --dry-run` then `python knowledge_system/upgrade_migration.py`
-3. Use in code:
-   ```python
-   from knowledge_system.knowledge_graph_v2 import KnowledgeGraph
-   from skill_webs.skill_web_v2 import SkillWeb
-
-   kg = KnowledgeGraph()
-   sw = SkillWeb()
-
-   kg.ingest_from_interaction("Python is great for AI.", "chat")
-   path = sw.generate_learning_path("Advanced Python", {"Basics": 50})
-   ```
-
-### Documentation
-- **[Architecture & API](/docs/knowledge_system_v2.md)** - Full guide with examples.
-- **[Migration Guide](/docs/knowledge_system_v2.md#migration-guide)** - Step-by-step v1→v2.
-- **[Tests](/tests/test_knowledge_system_v2.py)** - Pytest suite.
-
-**Technology Stack**:
-- Graphs: NetworkX, SQLite
-- Embeddings: SentenceTransformers
-- LLM: LiteLLM (OpenAI/GPT-4o-mini fallback)
-- Exports: Markdown, JSON, Cypher
+- **Games**: Godot 4.x (GDScript)
+- **Content**: Python 3.8+ with Claude/OpenAI APIs
+- **Blockchain**: Hive protocol
+- **Web**: Next.js 15, Tailwind CSS, Shadcn UI
+- **Meeting Service**: FastAPI + xAI/Anthropic/Google APIs
+- **Deployment**: Render
 
 ---
 
-## Gameified Web Presence (MVP)
+## Web Application
 
-This repository contains the gameified web interface for BPR&D, located in the `web/` directory.
-It is built with Next.js 15, Tailwind CSS, and Shadcn UI components.
+Located in `web/`. Built with Next.js 15, Tailwind CSS, and Shadcn UI.
 
 ### Features
 
-- **Dashboard**: Gameified quest board and quick links.
-- **Team**: Profiles for Grok, Claude, Abacus, and Gemini with downloadable avatars.
-- **Projects**: Dedicated pages for Splintermated, Decentralized Arts Studio, and AI Comm Hub.
-- **AI Comm Hub**: Direct integration link to Russell's n8n instance and a mock webhook trigger.
-- **Research**: Overview of active research programs.
-- **Resources**: Shared knowledge and handoffs.
-- **Gamification**: Simple points system and quests (stored in localStorage). Login as 'Russell' to interact.
+- **Dashboard**: Gameified quest board and quick links
+- **Team**: Profiles for Grok, Claude, Abacus, and Gemini
+- **Projects**: Splintermated, Decentralized Arts Studio, AI Comm Hub
+- **AI Comm Hub**: Meeting triggers and agent coordination
+- **Research**: Active research program overview
+- **Gamification**: Points system and quests (localStorage)
 
 ### Local Development
 
-1.  Navigate to the `web` directory:
-    ```bash
-    cd web
-    ```
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Start the development server:
-    ```bash
-    npm run dev
-    ```
-4.  Open [http://localhost:3000](http://localhost:3000) in your browser.
+```bash
+cd web
+npm install
+npm run dev
+# Open http://localhost:3000
+```
 
 ### Deployment to Render
 
-This project is configured for easy deployment on Render.
+1. Connect this repository to your Render account
+2. Render detects `render.yaml` and proposes creating services
+3. Click 'Apply'
 
-**Option 1: Using Blueprint (Recommended)**
-1.  Connect this repository to your Render account.
-2.  Render should automatically detect `render.yaml` and propose creating a Web Service.
-3.  Click 'Apply'.
-
-**Option 2: Manual Setup**
-1.  Create a new **Web Service** on Render.
-2.  Connect this repository.
-3.  **Crucial**: Set the **Root Directory** to `web`.
-4.  **Build Command**: `npm install && npm run build`
-5.  **Start Command**: `npm start`
-6.  **Environment Variables**:
-    -   Set `NODE_VERSION` to `20.11.0` (or >= 18.17).
+Or manually: create a Web Service, set Root Directory to `web`, Build Command `npm install && npm run build`, Start Command `npm start`.
 
 ---
 
@@ -127,11 +82,9 @@ Go to **AI Comm Hub** on the website → click **"Assemble the Team"** → fill 
 
 The dialog lets you:
 - Write a short **Goal** (one sentence)
-- Write a full **Brief** (markdown, unlimited length — acceptance criteria, background, etc.)
-- Toggle **Participants** (Grok, Claude, Gemini; Abacus returns Feb 23)
+- Write a full **Brief** (markdown, unlimited length)
+- Toggle **Participants** (Grok, Claude, Gemini, Abacus)
 - Choose **Meeting Type** (Team Briefing or Work Session)
-
-Your brief becomes a `⚡ HiC Directive` at the top of every agent's context for the entire meeting — treated as highest priority above all backlog items.
 
 **Setup** (one-time, in your web service on Render):
 1. Add env var `BPRD_MEETINGS_URL` = `https://bprd-crewai.onrender.com`
@@ -142,24 +95,12 @@ Your brief becomes a `⚡ HiC Directive` at the top of every agent's context for
 ### Option B — curl (terminal / advanced)
 
 ```bash
-# Short goal
 curl -X POST https://bprd-crewai.onrender.com/api/v1/meetings/manual-trigger \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BPRD_API_KEY" \
   -d '{
-    "goal": "Implement the new hybrid semantic search layer in discovery.py",
+    "goal": "Your meeting goal here",
     "participants": ["grok", "claude", "gemini"]
-  }'
-
-# Full brief (recommended for big-ticket items)
-curl -X POST https://bprd-crewai.onrender.com/api/v1/meetings/manual-trigger \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $BPRD_API_KEY" \
-  -d '{
-    "meeting_type": "daily_briefing",
-    "participants": ["grok", "claude", "gemini"],
-    "goal": "Hive MVP green-light review",
-    "custom_prompt": "## What to decide\n...\n\n## Acceptance criteria\n- \n\n## Background\n..."
   }'
 ```
 
@@ -171,20 +112,6 @@ curl -X POST https://bprd-crewai.onrender.com/api/v1/meetings/manual-trigger \
 | `custom_prompt` | string | auto-generated | Full brief / rich agenda — overrides `goal` |
 | `participants` | list | `["grok","claude","gemini","abacus"]` | Agents to include |
 | `meeting_type` | string | `"daily_briefing"` | `daily_briefing` (multi-agent) or `work_session` (solo) |
-
-### Response
-
-```json
-{
-  "status": "triggered",
-  "meeting_id": "daily_briefing-20260218-143022",
-  "meeting_type": "daily_briefing",
-  "participants": ["grok", "claude", "gemini"],
-  "goal": "Implement hybrid semantic search layer",
-  "report_url": "https://github.com/REBEmpire/BPR-D/blob/main/_agents/_sessions/2026-02-18-daily_briefing-manual.md",
-  "cost_usd": 0.23
-}
-```
 
 ### Setup: env vars
 
