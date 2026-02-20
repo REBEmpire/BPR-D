@@ -26,6 +26,48 @@ The DDAS (Decentralized Digital Arts Studio) is a complete framework for indepen
 
 ---
 
+## 🧠 Knowledge System & Skill Webs v2.0
+
+**Location**: `/knowledge_system/`, `/skill_webs/`
+
+The v2.0 Knowledge System & Skill Webs upgrade replaces the file-based v1 with a dual-layer graph architecture for scalable knowledge and skill management.
+
+### Key Features
+- **Knowledge Graph**: NetworkX + SQLite for entities/facts/relations with embeddings and NL search.
+- **Skill Web**: DAG for skills with mastery levels, confidence scores, prerequisites, and learning path generation.
+- **Auto-Discovery**: LLM extraction from conversations/commits/tools for automatic graph updates.
+- **Query Layer**: Natural language search, shortest-path skill routes, "what should we learn next" recommendations.
+- **Persistence**: Atomic SQLite txns with JSONL snapshots; Neo4j-compatible exports.
+- **Migration**: Zero-data-loss upgrade from v1 MD files via `upgrade_migration.py`.
+
+### Quick Start
+1. Install dependencies: `pip install -r requirements.txt`
+2. Migrate v1: `python knowledge_system/upgrade_migration.py --dry-run` then `python knowledge_system/upgrade_migration.py`
+3. Use in code:
+   ```python
+   from knowledge_system.knowledge_graph_v2 import KnowledgeGraph
+   from skill_webs.skill_web_v2 import SkillWeb
+
+   kg = KnowledgeGraph()
+   sw = SkillWeb()
+
+   kg.ingest_from_interaction("Python is great for AI.", "chat")
+   path = sw.generate_learning_path("Advanced Python", {"Basics": 50})
+   ```
+
+### Documentation
+- **[Architecture & API](/docs/knowledge_system_v2.md)** - Full guide with examples.
+- **[Migration Guide](/docs/knowledge_system_v2.md#migration-guide)** - Step-by-step v1→v2.
+- **[Tests](/tests/test_knowledge_system_v2.py)** - Pytest suite.
+
+**Technology Stack**:
+- Graphs: NetworkX, SQLite
+- Embeddings: SentenceTransformers
+- LLM: LiteLLM (OpenAI/GPT-4o-mini fallback)
+- Exports: Markdown, JSON, Cypher
+
+---
+
 ## Gameified Web Presence (MVP)
 
 This repository contains the gameified web interface for BPR&D, located in the `web/` directory.
