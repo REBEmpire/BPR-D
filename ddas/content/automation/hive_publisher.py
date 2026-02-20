@@ -143,15 +143,29 @@ class HivePublisher:
                     "post_data": post_data
                 }
 
-            # TODO: Implement actual Hive transaction broadcasting
-            # This requires beespy or hive-python library with proper key management
-            # For now, return the post data
-            logger.info(f"READY TO BROADCAST: {post_data['url']}")
-            return {
-                "success": True,
-                "published": True,
-                "post_data": post_data
-            }
+            # Broadcast the post to Hive blockchain
+            try:
+                from beespy.client import Client
+                hive_client = Client()
+
+                # Sign and broadcast the transaction
+                tx = hive_client.broadcast(post_op, self.posting_key)
+                logger.info(f"Successfully broadcast post: {tx}")
+
+                return {
+                    "success": True,
+                    "published": True,
+                    "post_data": post_data,
+                    "transaction": tx
+                }
+
+            except Exception as broadcast_error:
+                logger.error(f"Failed to broadcast transaction: {str(broadcast_error)}")
+                return {
+                    "success": False,
+                    "error": f"Broadcast failed: {str(broadcast_error)}",
+                    "post_data": post_data
+                }
 
         except Exception as e:
             logger.error(f"Error publishing post: {str(e)}")

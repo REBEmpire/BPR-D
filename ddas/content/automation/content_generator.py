@@ -60,22 +60,29 @@ class ContentGenerator:
         """Initialize AI client based on provider"""
         try:
             if self.provider == AIProvider.CLAUDE:
-                # Use Claude SDK when available
+                # Use Claude SDK
                 logger.info("Initializing Claude provider")
-                # from anthropic import Anthropic
-                # return Anthropic()
-                return None  # Placeholder
+                from anthropic import Anthropic
+                api_key = os.getenv("CLAUDE_API_KEY") or os.getenv("ANTHROPIC_API_KEY")
+                if not api_key:
+                    raise ValueError("CLAUDE_API_KEY or ANTHROPIC_API_KEY environment variable required")
+                return Anthropic(api_key=api_key)
 
             elif self.provider == AIProvider.OPENAI:
                 logger.info("Initializing OpenAI provider")
-                # import openai
-                # return openai
-                return None  # Placeholder
+                import openai
+                api_key = os.getenv("OPENAI_API_KEY")
+                if not api_key:
+                    raise ValueError("OPENAI_API_KEY environment variable required")
+                client = openai.OpenAI(api_key=api_key)
+                return client
 
             elif self.provider == AIProvider.OLLAMA:
                 logger.info("Initializing Ollama provider")
                 # Ollama runs locally, requires local setup
-                return None  # Placeholder
+                import requests
+                # Assume Ollama is running on localhost:11434
+                return {"base_url": "http://localhost:11434", "session": requests.Session()}
 
             else:
                 logger.warning("No AI provider initialized")
@@ -113,22 +120,18 @@ class ContentGenerator:
 
             logger.info(f"Generating {prompt.content_type} for {prompt.account}: {prompt.title}")
 
-            # TODO: Implement actual API calls based on provider
-            # For now, return template structure
-            result["content"] = f"""# {prompt.title}
+            # Generate content using the appropriate AI provider
+            if self.client is None:
+                raise ValueError(f"No client available for provider {self.provider}")
 
-## Generated Content Placeholder
+            generated_content = self._call_ai_api(system_prompt, user_message)
 
-This is where the AI-generated content will appear.
-
-**Account**: {prompt.account}
-**Type**: {prompt.content_type}
-**Topic**: {prompt.topic}
-
----
-
-*Generated via DDAS Content Generator*
-"""
+            # Load and apply template if available
+            template_path = self._get_template_path(prompt.content_type)
+            if os.path.exists(template_path):
+                result["content"] = self._apply_template(generated_content, prompt, template_path)
+            else:
+                result["content"] = generated_content
 
             if prompt.include_image:
                 result["image_prompt"] = prompt.image_prompt or f"Illustration for: {prompt.title}"
@@ -206,6 +209,95 @@ Tags to include: {', '.join(prompt.tags)}
 
         logger.info(f"Batch generation complete. Success: {sum(1 for r in results if r['success'])}/{len(results)}")
         return results
+
+    def _call_ai_api(self, system_prompt: str, user_message: str) -> str:
+        """Call the appropriate AI API based on provider"""
+        try:
+            if self.provider == AIProvider.CLAUDE:
+                response = self.client.messages.create(
+                    model="claude-3-sonnet-20240229",
+                    max_tokens=4000,
+                    system=system_prompt,
+                    messages=[{"role": "user", "content": user_message}]
+                )
+                return response.content[0].text
+
+            elif self.provider == AIProvider.OPENAI:
+                response = self.client.chat.completions.create(
+                    model="gpt-4",
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_message}
+                    ],
+                    max_tokens=4000,
+                    temperature=0.7
+                )
+                return response.choices[0].message.content
+
+            elif self.provider == AIProvider.OLLAMA:
+                # Ollama API call
+                payload = {
+                    "model": "mistral",  # or whatever model is available
+                    "prompt": f"{system_prompt}\n\n{user_message}",
+                    "stream": False
+                }
+                response = self.client["session"].post(
+                    f"{self.client['base_url']}/api/generate",
+                    json=payload
+                )
+                response.raise_for_status()
+                return response.json()["response"]
+
+            else:
+                raise ValueError(f"Unsupported provider: {self.provider}")
+
+        except Exception as e:
+            logger.error(f"AI API call failed: {str(e)}")
+            raise
+
+    def _get_template_path(self, content_type: str) -> str:
+        """Get template path based on content type"""
+        template_dir = os.path.join(os.path.dirname(__file__), "templates")
+        template_map = {
+            "devlog": "devblog_template.md",
+            "article": f"{content_type}_template.md",  # generic article template
+            "story": "lore_template.md",
+            "guide": "strategy_template.md",
+            "news": "news_template.md"
+        }
+        template_name = template_map.get(content_type, "devblog_template.md")
+        return os.path.join(template_dir, template_name)
+
+    def _apply_template(self, generated_content: str, prompt: ContentPrompt, template_path: str) -> str:
+        """Apply template to generated content"""
+        try:
+            with open(template_path, "r") as f:
+                template = f.read()
+
+            # Replace placeholders in template
+            replacements = {
+                "[DATE]": datetime.now().strftime("%Y-%m-%d"),
+                "[TITLE]": prompt.title,
+                "[CONTENT]": generated_content,
+                "[ACCOUNT]": prompt.account,
+                "[TYPE]": prompt.content_type,
+                "[TOPIC]": prompt.topic,
+                "[TAGS]": ", ".join(prompt.tags),
+                "[Game Status]": "Splinterlands Civ | Slingerlands RPG",
+                "[Version]": "0.1.0-alpha",
+                "[Repository]": "https://github.com/REBEmpire/BPR-D",
+                "[Discord]": "https://discord.gg/ddas"
+            }
+
+            result = template
+            for placeholder, value in replacements.items():
+                result = result.replace(placeholder, value)
+
+            return result
+
+        except Exception as e:
+            logger.warning(f"Error applying template: {str(e)}, using raw content")
+            return generated_content
 
     def save_generated_content(self, output_dir: str = "generated_content"):
         """Save all generated content to JSON files"""
