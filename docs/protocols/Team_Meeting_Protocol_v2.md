@@ -34,7 +34,7 @@ Grok issues Chief determination:
 
 Transition immediately to **Research Department**.
 
-Team (Claude/Gemini/Abacus) offers opinions on new/refined research topics (big/small/narrow/deep — open lanes) for the 6 pillars:
+Team (Grok/Claude/Gemini/Abacus) offers opinions on new/refined research topics (big/small/narrow/deep — open lanes) for the 6 pillars:
 
 1. Daily Briefs by Jules
 2. Special Reports
