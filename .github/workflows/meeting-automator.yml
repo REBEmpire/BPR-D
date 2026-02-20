@@ -1,0 +1,63 @@
+name: Meeting Secretary Bot
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "_agents/_sessions/**.md"
+
+jobs:
+  process-meeting:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit to detect new files
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r pipelines/github-bot/meeting-parser/requirements.txt
+
+      - name: Find new session files
+        id: find-sessions
+        run: |
+          # Get files added/modified in this push that match _agents/_sessions/
+          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- '_agents/_sessions/*.md' | tr '\n' ' ')
+          echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
+          echo "Found new session files: $NEW_FILES"
+
+      - name: Run secretary bot
+        if: steps.find-sessions.outputs.new_files != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for SESSION_FILE in ${{ steps.find-sessions.outputs.new_files }}; do
+            echo "Processing: $SESSION_FILE"
+            python pipelines/github-bot/meeting-parser/secretary.py "$SESSION_FILE"
+          done
+
+      - name: Commit updates
+        if: steps.find-sessions.outputs.new_files != ''
+        run: |
+          git config user.name "Meeting Secretary Bot"
+          git config user.email "bot@bprd.noreply"
+          git add "BPR&D_To_Do_List.md" "_agents/grok/handoff.md" "_agents/claude/handoff.md" "_agents/gemini/handoff.md" "_agents/abacus/handoff.md" "_agents/russell/handoff.md" "_agents/grok/context/active.md" "_agents/claude/context/active.md" "_agents/gemini/context/active.md" "_agents/abacus/context/active.md" "_agents/grok/context/archive" "_agents/claude/context/archive" "_agents/gemini/context/archive" "_agents/abacus/context/archive" "tasks/projects/" || true
+          # Only commit if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit (all updates were duplicates or session had no action items)"
+          else
+            SESSIONS="${{ steps.find-sessions.outputs.new_files }}"
+            git commit -m "[Secretary Bot] Post-meeting updates from $SESSIONS
+
+Co-Authored-By: Meeting Secretary Bot <bot@bprd.noreply>"
+            git push
+          fi
