@@ -19,7 +19,7 @@ updated: "2026-02-19 (afternoon — manual sync)"
 
 | Task | Priority | Status | Due | Notes |
 |------|----------|--------|-----|-------|
-| Audit 18 Research Briefs for Gold-Tier | High | PENDING | 2026-02-20 | See handoff-research-audit-claude-20260220.md |
+| Audit 18 Research Briefs for Gold-Tier | High | COMPLETED | 2026-02-20 | See _agents/_sessions/research_audit.md |
 | Verify Healer Architecture Guidance | High | COMPLETED | 2026-02-19 | Provided in previous session |
 
 ### MEDIUM (Due Feb 22+)

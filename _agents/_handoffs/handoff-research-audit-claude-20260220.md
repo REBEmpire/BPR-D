@@ -21,6 +21,6 @@ Unblocked parallel work; informs filter upgrades
 
 | Criterion | Status |
 |-----------|--------|
-| Scores on depth/cites/implications/negation | Pending |
-| Flag 3 revisions + 3 exemplars | Pending |
-| Summary in _agents/_sessions/research_audit.md | Pending |
+| Scores on depth/cites/implications/negation | Done |
+| Flag 3 revisions + 3 exemplars | Done |
+| Summary in _agents/_sessions/research_audit.md | Done |
