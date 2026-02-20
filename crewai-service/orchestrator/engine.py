@@ -344,6 +344,71 @@ class MeetingEngine:
             logger.error(f"Grok synthesis failed: {e}", exc_info=True)
             return ""
 
+    async def _get_agent_context_update(self, agent_name: str, instructions: str) -> str:
+        """Get an agent's context update without adding it to the public transcript."""
+        agent = self.agents.get(agent_name)
+        if not agent:
+            return ""
+
+        # Use same context setup as _call_agent
+        agent_hook = self._ns_agent_hooks.get(agent_name, "")
+        ns_preamble = self._ns_injector.inject(
+            agent_name=agent_name,
+            session_type=self.meeting_type,
+            base_prompt="",
+            model_id=getattr(agent.provider, "model", ""),
+            agent_hook=agent_hook,
+        )
+
+        system_prompt = agent.persona.build_system_prompt(
+            meeting_context=self.context.as_summary(),
+            phase_instructions=instructions,
+            nervous_system_preamble=ns_preamble,
+        )
+
+        messages = self.transcript.to_messages(exclude_agent=agent_name)
+
+        try:
+            response = await agent.provider.chat(
+                messages=messages,
+                system=system_prompt,
+                temperature=0.2, # Low temp for file generation
+            )
+
+            self.cost_tracker.record_usage(
+                agent_name=agent_name,
+                prompt_tokens=response.input_tokens,
+                completion_tokens=response.output_tokens,
+                cost_usd=response.cost_usd,
+            )
+
+            logger.info(f"  {agent_name} (context update): {response.output_tokens} tokens")
+            return response.content
+        except Exception as e:
+            logger.error(f"Error getting context update for {agent_name}: {e}")
+            return ""
+
+    async def context_update_round(self) -> dict[str, str]:
+        """Phase 5.5: All agents update their active.md context."""
+        logger.info("Phase: CONTEXT_UPDATE_ROUND")
+        updates = {}
+
+        # Iterate over ALL agents (including grok)
+        for agent_name in self.agents:
+            instructions = (
+                "The meeting has concluded. Based on the discussion and the synthesis above, "
+                "output the FULL content of your updated active.md file. "
+                "Ensure you capture all new tasks, status changes, and insights. "
+                "Output ONLY the markdown content, starting with the YAML frontmatter "
+                "(enclosed in markdown code blocks or just raw text if you prefer, but be clean)."
+            )
+
+            content = await self._get_agent_context_update(agent_name, instructions)
+            if content:
+                updates[agent_name] = content
+
+        return updates
+
     async def grok_closes(self) -> None:
         """Phase 6: Grok delivers a memorable closing."""
         logger.info("Phase: GROK_CLOSES")
@@ -356,7 +421,7 @@ class MeetingEngine:
         )
         await self._call_agent("grok", "closing", instructions)
 
-    async def run(self) -> tuple[str, Transcript]:
+    async def run(self) -> tuple[str, dict[str, str], Transcript]:
         """Execute the full meeting flow. Returns (synthesis_output, transcript)."""
         logger.info(f"=== Starting {self.meeting_type} meeting ===")
 
@@ -385,27 +450,30 @@ class MeetingEngine:
             # Phase 5: Grok synthesizes
             synthesis = await self.grok_synthesizes()
             if not self.cost_tracker.check_budget():
-                return synthesis, self.transcript
+                return synthesis, {}, self.transcript
+
+            # Phase 5.5: Context update round
+            context_updates = await self.context_update_round()
 
             # Phase 6: Grok closes
             await self.grok_closes()
 
             logger.info(f"=== Meeting complete: {len(self.transcript)} turns ===")
-            return synthesis, self.transcript
+            return synthesis, context_updates, self.transcript
 
         except asyncio.TimeoutError:
             logger.error("Meeting timed out during context gathering")
             self.cost_tracker.terminated_early = True
             self.cost_tracker.termination_reason = "Context gathering timeout"
-            return "", self.transcript
+            return "", {}, self.transcript
 
         except Exception as e:
             logger.error(f"Meeting failed: {e}", exc_info=True)
             self.cost_tracker.terminated_early = True
             self.cost_tracker.termination_reason = str(e)
-            return "", self.transcript
+            return "", {}, self.transcript
 
-    async def _emergency_close(self) -> tuple[str, Transcript]:
+    async def _emergency_close(self) -> tuple[str, dict[str, str], Transcript]:
         """Quick close when budget is exceeded mid-meeting."""
         logger.warning("Emergency close: budget exceeded")
         self.transcript.add_turn(
@@ -415,4 +483,4 @@ class MeetingEngine:
         )
         # Try a quick synthesis with what we have
         synthesis = await self.grok_synthesizes()
-        return synthesis, self.transcript
+        return synthesis, {}, self.transcript
