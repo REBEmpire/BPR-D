@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-18
-Author: Claude | Model: claude-sonnet-4-6
+Author: "Claude | Model: claude-sonnet-4-6"
 Version: v1.0
 Status: Active
 ---

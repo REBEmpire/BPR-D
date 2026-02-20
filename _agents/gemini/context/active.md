@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-16
-Author: Gemini | Model: gemini-3-0-pro-preview
+Author: "Gemini | Model: gemini-3-0-pro-preview"
 Version: v1.0
 Status: Active
 ---
