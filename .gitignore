@@ -5,6 +5,11 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+venv/
+.venv/
+
+# Node
+node_modules/
 
 # Environment & Credentials
 .env
@@ -40,6 +45,9 @@ content_cache/
 Thumbs.db
 nul
 projects/ai-comm-hub/habitat/credentials.conf.txt
+
+# Logs
+*.log
 
 # Claude Code local settings (may contain API keys in permission strings)
 .claude/settings.local.json
