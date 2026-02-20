@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-19T06:40:40.626Z",
+  "lastUpdated": "2026-02-20T06:42:57.843Z",
   "meetings": [
     {
       "fileName": "HiC_Notes2.md",
@@ -30,12 +30,90 @@
       "handoffs": []
     },
     {
+      "fileName": "claude-work-20260219-1830.md",
+      "date": "Unknown",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 6,
+      "actionItems": [
+        {
+          "assignee": "Review healer architectural guidance",
+          "task": "Russell",
+          "priority": "URGENT"
+        },
+        {
+          "assignee": "CRITICAL",
+          "task": "Pending",
+          "priority": "2026-02-20 EOD"
+        },
+        {
+          "assignee": "Provide architectural guidance for healer",
+          "task": "Claude",
+          "priority": "URGENT"
+        },
+        {
+          "assignee": "URGENT",
+          "task": "Pending",
+          "priority": "2026-02-20"
+        },
+        {
+          "assignee": "Prepare deployment checklist",
+          "task": "Russell",
+          "priority": "High"
+        },
+        {
+          "assignee": "CRITICAL",
+          "task": "Pending",
+          "priority": "2026-02-21"
+        }
+      ],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "claude_work_session_20260219_2230.md",
+      "date": "Unknown",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
       "fileName": "hic-notes.md",
       "date": "Unknown",
       "type": "Meeting",
       "facilitator": null,
       "attendees": "",
       "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "claude-backlog-processing-20260219-0630.md",
+      "date": "2026-02-19 06:30 UTC",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "Grok, Claude, Gemini, Abacus",
+      "participants": [
+        "Grok",
+        "Claude",
+        "Gemini",
+        "Abacus"
+      ],
       "insightsCount": 0,
       "insights": [],
       "actionItemsCount": 0,
@@ -58,7 +136,91 @@
       "handoffs": []
     },
     {
+      "fileName": "2026-02-19-1835-claude-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-1916-grok-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-2035-claude-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-2200-grok-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-2234-claude-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
       "fileName": "2026-02-19-abacus-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-claude-handoff-corrections.md",
       "date": "2026-02-19",
       "type": "Meeting",
       "facilitator": null,
@@ -126,7 +288,278 @@
       "handoffs": []
     },
     {
+      "fileName": "2026-02-19-daily-briefing-1950.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 5,
+      "actionItems": [
+        {
+          "assignee": "Grok validate Gemini healer impl",
+          "task": "grok",
+          "priority": "critical"
+        },
+        {
+          "assignee": "critical",
+          "task": "Pending",
+          "priority": "2026-02-24"
+        },
+        {
+          "assignee": "Update Feb 18 handoffs: Drop phantoms, mark unblocked (DDAS prep, status_check design)",
+          "task": "claude",
+          "priority": "high"
+        },
+        {
+          "assignee": "medium",
+          "task": "Pending",
+          "priority": "2026-02-22"
+        },
+        {
+          "assignee": "handoff_status_check.py design (YAML parse + stale criteria)",
+          "task": "claude",
+          "priority": "medium"
+        }
+      ],
+      "handoffsCount": 1,
+      "handoffs": [
+        {
+          "to": "Grok",
+          "task": "See meeting notes"
+        }
+      ]
+    },
+    {
+      "fileName": "2026-02-19-daily-briefing.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 3,
+      "actionItems": [
+        {
+          "assignee": "Escalate healer deploy via Telegram to Russell",
+          "task": "grok",
+          "priority": "critical"
+        },
+        {
+          "assignee": "high",
+          "task": "Pending",
+          "priority": "2026-02-20"
+        },
+        {
+          "assignee": "Update team_state.md with post-meeting status",
+          "task": "claude",
+          "priority": "medium"
+        }
+      ],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
       "fileName": "2026-02-19-grok-session.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1730.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1740.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1800.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1808.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1835.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1856.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1916.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-1931.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-2000.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-2035.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-2101.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-2130.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-2200.md",
+      "date": "2026-02-19",
+      "type": "Meeting",
+      "facilitator": null,
+      "attendees": "",
+      "participants": [],
+      "insightsCount": 0,
+      "insights": [],
+      "actionItemsCount": 0,
+      "actionItems": [],
+      "handoffsCount": 0,
+      "handoffs": []
+    },
+    {
+      "fileName": "2026-02-19-work-session-2234.md",
       "date": "2026-02-19",
       "type": "Meeting",
       "facilitator": null,
@@ -341,23 +774,7 @@
   ],
   "teamState": {
     "activeProjects": [],
-    "agentStatus": [
-      {
-        "name": "Grok",
-        "model": "g",
-        "status": "⚠️ DEGRADED - API instability affecting reliability"
-      },
-      {
-        "name": "Claude",
-        "model": "c",
-        "status": "✅ OPERATIONAL - this session"
-      },
-      {
-        "name": "Gemini",
-        "model": "g",
-        "status": "⚠️ DEGRADED - 404 model mismatch errors"
-      }
-    ]
+    "agentStatus": []
   },
   "investigationMetrics": {
     "phases": [

@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-20
-Author: Jules | Model: gemini-1.5-pro
+Author: "Jules | Model: gemini-1.5-pro"
 Version: v1.0
 Status: Active
 Topic: Frontier Intelligence - Dynamic GraphRAG & Swarm Architecture

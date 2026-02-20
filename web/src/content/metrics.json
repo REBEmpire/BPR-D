@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-19T06:40:40.713Z",
+  "lastUpdated": "2026-02-20T06:42:57.960Z",
   "agents": {
     "grok": {
       "24h": {
@@ -23,13 +23,13 @@
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 50,
+        "questScore": 43,
         "questBreakdown": {
           "output": 80,
           "milestones": 75,
           "efficiency": 0,
-          "initiative": 36,
-          "total": 50
+          "initiative": 0,
+          "total": 43
         }
       },
       "7d": {
@@ -85,13 +85,13 @@
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 75,
+        "questScore": 55,
         "questBreakdown": {
           "output": 100,
           "milestones": 100,
           "efficiency": 0,
-          "initiative": 100,
-          "total": 75
+          "initiative": 0,
+          "total": 55
         }
       },
       "7d": {
@@ -147,13 +147,13 @@
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 59,
+        "questScore": 42,
         "questBreakdown": {
           "output": 80,
           "milestones": 70,
           "efficiency": 0,
-          "initiative": 85,
-          "total": 59
+          "initiative": 0,
+          "total": 42
         }
       },
       "7d": {
@@ -209,13 +209,13 @@
         "durationMs": 0,
         "tokens": 0,
         "sessions": 0,
-        "questScore": 29,
+        "questScore": 24,
         "questBreakdown": {
           "output": 80,
           "milestones": 0,
           "efficiency": 0,
-          "initiative": 27,
-          "total": 29
+          "initiative": 0,
+          "total": 24
         }
       },
       "7d": {
