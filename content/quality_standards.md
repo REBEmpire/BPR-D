@@ -19,3 +19,15 @@
 4. Source/create relevant images
 5. Quality check against standards above
 6. Publish
+
+## Automated Hive Pipeline Standards (v0.1)
+
+- **Source**: research/daily_briefs/
+- **Expansion**: ~20% automated expansion via LLM
+- **Tone**: 'Alchemist' persona (insightful, esoteric, future-focused)
+- **Formatting**:
+  - Clear H1 Title
+  - Introduction + 3-5 Sections + Conclusion
+  - Blockquotes for emphasis
+  - Placeholder hooks: `<!-- IMAGE: [prompt] -->`
+- **Review Gate**: Drafts must be reviewed by a human or senior agent before publishing to main.

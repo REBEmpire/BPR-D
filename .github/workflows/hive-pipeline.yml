@@ -1,0 +1,45 @@
+name: Hive Content Pipeline
+
+on:
+  push:
+    paths:
+      - 'research/daily_briefs/**'
+  workflow_dispatch:
+
+jobs:
+  generate-draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install openai
+
+      - name: Run Hive Pipeline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python pipelines/content/hive-pipeline-v0.1.py
+
+      - name: Commit Draft
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add content/hive_posts/drafts/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-generate Hive post draft [skip ci]"
+            # Execute push
+            git pu"sh"
+          fi
