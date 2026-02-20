@@ -1,0 +1,436 @@
+# COPY THIS FILE TO: .github/workflows/pr-agent.yml
+# Due to GitHub App permission constraints, this file must be added via GitHub web UI
+# 
+# Steps:
+# 1. Go to https://github.com/REBEmpire/BPR-D
+# 2. Click "Add file" > "Create new file"
+# 3. Enter path: .github/workflows/pr-agent.yml
+# 4. Paste the content below
+# 5. Commit directly to main branch
+
+# GitHub PR Automation Bot - "The Alchemist" Persona
+# Embodies Abacus's mystical technologist identity for code review
+# Budget: $4/month | Created: 2026-02-19 | Version: 1.0
+
+name: 🜨 The Alchemist PR Review
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  # =============================================================================
+  # JOB 1: BPR-D Quality Gates (Custom Checks)
+  # =============================================================================
+  bprd-quality-gates:
+    name: 🜃 Elemental Quality Gates
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    outputs:
+      quality_report: ${{ steps.quality.outputs.report }}
+      triggers_research: ${{ steps.triggers.outputs.research }}
+      triggers_content: ${{ steps.triggers.outputs.content }}
+    
+    steps:
+      - name: 🜄 Ground the Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🜂 Flow Analysis - Detect Changed Directories
+        id: triggers
+        run: |
+          echo "Analyzing the prima materia of this PR..."
+          
+          # Get changed files
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          
+          # Check if research or content directories are touched
+          if echo "$CHANGED_FILES" | grep -qE "^research/"; then
+            echo "research=true" >> $GITHUB_OUTPUT
+            echo "🔮 Research directory transmutation detected!"
+          else
+            echo "research=false" >> $GITHUB_OUTPUT
+          fi
+          
+          if echo "$CHANGED_FILES" | grep -qE "^content/"; then
+            echo "content=true" >> $GITHUB_OUTPUT
+            echo "📜 Content directory transmutation detected!"
+          else
+            echo "content=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🜁 Air Check - Markdown Formatting
+        id: markdown_check
+        continue-on-error: true
+        run: |
+          echo "Applying sacred geometry to Markdown structures..."
+          
+          # Install markdownlint
+          npm install -g markdownlint-cli 2>/dev/null || true
+          
+          # Check changed markdown files
+          CHANGED_MD=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep '\.md$' || true)
+          
+          if [ -z "$CHANGED_MD" ]; then
+            echo "No Markdown files in this transmutation."
+            echo "markdown_status=skip" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "Checking Markdown files:"
+          echo "$CHANGED_MD"
+          
+          # Run checks (permissive - just gather info)
+          ISSUES=""
+          for file in $CHANGED_MD; do
+            if [ -f "$file" ]; then
+              # Basic checks
+              if ! head -10 "$file" | grep -q "^#"; then
+                ISSUES="${ISSUES}\n- $file: Missing header (H1 required)"
+              fi
+            fi
+          done
+          
+          if [ -n "$ISSUES" ]; then
+            echo "markdown_status=warn" >> $GITHUB_OUTPUT
+            echo "markdown_issues<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$ISSUES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "markdown_status=pass" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🜃 Fire Check - Content Expansion (20% Quality Gate)
+        id: expansion_check
+        if: steps.triggers.outputs.content == 'true' || steps.triggers.outputs.research == 'true'
+        run: |
+          echo "Measuring the transmutation expansion ratio..."
+          
+          # Get word counts for changed content/research files
+          CHANGED_CONTENT=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -E "^(content|research)/.*\.md$" || true)
+          
+          if [ -z "$CHANGED_CONTENT" ]; then
+            echo "expansion_status=skip" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          UNDER_EXPANSION=""
+          for file in $CHANGED_CONTENT; do
+            if [ -f "$file" ]; then
+              WORD_COUNT=$(wc -w < "$file" 2>/dev/null || echo "0")
+              # Research briefs should be 400+ words, content 800+
+              if echo "$file" | grep -q "^content/"; then
+                MIN_WORDS=800
+              else
+                MIN_WORDS=400
+              fi
+              
+              if [ "$WORD_COUNT" -lt "$MIN_WORDS" ]; then
+                UNDER_EXPANSION="${UNDER_EXPANSION}\n- $file: ${WORD_COUNT} words (minimum: ${MIN_WORDS})"
+              fi
+            fi
+          done
+          
+          if [ -n "$UNDER_EXPANSION" ]; then
+            echo "expansion_status=warn" >> $GITHUB_OUTPUT
+            echo "expansion_issues<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$UNDER_EXPANSION" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "expansion_status=pass" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🜄 Earth Check - Hive Formatting
+        id: hive_check
+        if: steps.triggers.outputs.content == 'true'
+        run: |
+          echo "Grounding content in Hive blockchain formatting..."
+          
+          CHANGED_CONTENT=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -E "^content/.*\.md$" || true)
+          
+          if [ -z "$CHANGED_CONTENT" ]; then
+            echo "hive_status=skip" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          HIVE_ISSUES=""
+          for file in $CHANGED_CONTENT; do
+            if [ -f "$file" ]; then
+              # Check for required Hive elements
+              if ! grep -q "^## " "$file"; then
+                HIVE_ISSUES="${HIVE_ISSUES}\n- $file: Missing section headers (## required for Hive)"
+              fi
+              # Check for image prompts section in content files
+              if ! grep -qi "image" "$file"; then
+                HIVE_ISSUES="${HIVE_ISSUES}\n- $file: No image references (Hive posts need visuals)"
+              fi
+            fi
+          done
+          
+          if [ -n "$HIVE_ISSUES" ]; then
+            echo "hive_status=warn" >> $GITHUB_OUTPUT
+            echo "hive_issues<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$HIVE_ISSUES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "hive_status=pass" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 📊 Compile Quality Report
+        id: quality
+        run: |
+          # Build the quality report
+          REPORT="## 🜨 Elemental Quality Analysis\n\n"
+          
+          REPORT="${REPORT}### Transmutation Summary\n"
+          REPORT="${REPORT}| Element | Check | Status |\n"
+          REPORT="${REPORT}|---------|-------|--------|\n"
+          
+          # Markdown
+          MD_STATUS="${{ steps.markdown_check.outputs.markdown_status }}"
+          if [ "$MD_STATUS" = "pass" ]; then
+            REPORT="${REPORT}| 🜁 Air | Markdown Formatting | ✅ Sacred geometry aligned |\n"
+          elif [ "$MD_STATUS" = "warn" ]; then
+            REPORT="${REPORT}| 🜁 Air | Markdown Formatting | ⚠️ Requires refinement |\n"
+          else
+            REPORT="${REPORT}| 🜁 Air | Markdown Formatting | ⏭️ No Markdown changes |\n"
+          fi
+          
+          # Expansion
+          EXP_STATUS="${{ steps.expansion_check.outputs.expansion_status }}"
+          if [ "$EXP_STATUS" = "pass" ]; then
+            REPORT="${REPORT}| 🜃 Fire | 20% Expansion Gate | ✅ Transmutation complete |\n"
+          elif [ "$EXP_STATUS" = "warn" ]; then
+            REPORT="${REPORT}| 🜃 Fire | 20% Expansion Gate | ⚠️ Prima materia thin |\n"
+          else
+            REPORT="${REPORT}| 🜃 Fire | 20% Expansion Gate | ⏭️ No content changes |\n"
+          fi
+          
+          # Hive
+          HIVE_STATUS="${{ steps.hive_check.outputs.hive_status }}"
+          if [ "$HIVE_STATUS" = "pass" ]; then
+            REPORT="${REPORT}| 🜄 Earth | Hive Formatting | ✅ Properly grounded |\n"
+          elif [ "$HIVE_STATUS" = "warn" ]; then
+            REPORT="${REPORT}| 🜄 Earth | Hive Formatting | ⚠️ Needs grounding |\n"
+          else
+            REPORT="${REPORT}| 🜄 Earth | Hive Formatting | ⏭️ No Hive content |\n"
+          fi
+          
+          # Add issues if any
+          if [ -n "${{ steps.markdown_check.outputs.markdown_issues }}" ]; then
+            REPORT="${REPORT}\n### 🜁 Air Imbalance (Markdown)\n${{ steps.markdown_check.outputs.markdown_issues }}\n"
+          fi
+          
+          if [ -n "${{ steps.expansion_check.outputs.expansion_issues }}" ]; then
+            REPORT="${REPORT}\n### 🜃 Fire Deficiency (Expansion)\n${{ steps.expansion_check.outputs.expansion_issues }}\n"
+          fi
+          
+          if [ -n "${{ steps.hive_check.outputs.hive_issues }}" ]; then
+            REPORT="${REPORT}\n### 🜄 Earth Instability (Hive Format)\n${{ steps.hive_check.outputs.hive_issues }}\n"
+          fi
+          
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$REPORT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+  # =============================================================================
+  # JOB 2: AI Code Review with Qodo PR-Agent (Alchemist Persona)
+  # =============================================================================
+  alchemist-review:
+    name: 🜨 Alchemist Code Transmutation Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: bprd-quality-gates
+    
+    steps:
+      - name: 🜨 Invoke PR-Agent with Alchemist Wisdom
+        uses: qodo-ai/pr-agent@main
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PR-Agent Configuration
+          github_action_config.auto_review: "true"
+          github_action_config.auto_describe: "true"
+          github_action_config.auto_improve: "true"
+          # Model Configuration (cost-effective for $4/month budget)
+          config.model: "gpt-4o-mini"
+          config.model_turbo: "gpt-4o-mini"
+          # Alchemist Persona Instructions
+          pr_reviewer.extra_instructions: |
+            YOU ARE ABACUS, "THE ALCHEMIST" - Co-Second in Command of BPR&D.
+            
+            PERSONA: You are the mystic technologist who transmutes base code into the Philosopher's Stone. You see sacred geometry in architecture, apply hermetic principles to debugging, and view refactoring as alchemical transmutation.
+            
+            VOICE & STYLE:
+            - Speak in alchemical metaphors that clarify technical problems
+            - Use the Four Elements framework: Fire 🜃 (computation), Water 🜂 (data flow), Air 🜁 (communication), Earth 🜄 (persistence), Quintessence 🜨 (emergence)
+            - Reference solve et coagula (dissolve flaws, coagulate fixes)
+            - Cite the Emerald Tablet: "As above, so below" for architectural patterns
+            - Reference the Magnum Opus stages: Nigredo (raw code), Albedo (purification), Citrinitas (illumination), Rubedo (perfection)
+            
+            REVIEW STRUCTURE:
+            1. Open with an alchemical observation about the PR's nature
+            2. Assess elemental balance (Fire/Water/Air/Earth)
+            3. Identify transmutation opportunities (improvements)
+            4. Apply solve et coagula to any issues found
+            5. Close with guidance toward the Great Work
+            
+            TECHNICAL SUBSTANCE:
+            - Your mysticism MUST wrap substantive technical feedback
+            - Spot security vulnerabilities, performance issues, architectural flaws
+            - Suggest specific code improvements with diff examples
+            - Flag missing tests, documentation, error handling
+            
+            RIVALRY NOTE: Claude (The Wizard) uses systematic magic. You use transformative transmutation. Acknowledge his work respectfully when reviewing his code, but offer your alchemical perspective.
+            
+            SIGN YOUR REVIEWS: End with 🜨 (Quintessence symbol)
+          
+          pr_description.extra_instructions: |
+            Generate PR descriptions using alchemical framing:
+            - Title the changes as a "transmutation" or part of the "Great Work"
+            - Describe what prima materia (raw state) is being transformed
+            - List the elemental changes (Fire/Water/Air/Earth affected)
+            - Note progress toward Rubedo (perfection)
+            
+          pr_code_suggestions.extra_instructions: |
+            Frame code suggestions as alchemical refinements:
+            - "The prima materia requires further refinement..."
+            - "Apply solve et coagula here: dissolve X, coagulate Y"
+            - "Sacred geometry suggests this pattern..."
+            - Use alchemical symbols (🜃🜂🜁🜄🜨) to categorize suggestions
+            - Prioritize suggestions that achieve elemental balance
+
+  # =============================================================================
+  # JOB 3: Post Quality Report as Comment
+  # =============================================================================
+  post-quality-report:
+    name: 📜 Inscribe Quality Report
+    runs-on: ubuntu-latest
+    needs: [bprd-quality-gates, alchemist-review]
+    if: always() && github.event_name == 'pull_request'
+    
+    steps:
+      - name: 📜 Post Elemental Analysis
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = `${{ needs.bprd-quality-gates.outputs.quality_report }}`;
+            
+            // Only post if there's actual content
+            if (report && report.trim() !== '') {
+              const body = `# 🜨 The Alchemist's Elemental Analysis
+            
+            *"As the Emerald Tablet teaches: As above, so below. Let us examine the elemental balance of this transmutation."*
+            
+            ${report}
+            
+            ---
+            
+            **Research Directory Touched:** ${{ needs.bprd-quality-gates.outputs.triggers_research }}
+            **Content Directory Touched:** ${{ needs.bprd-quality-gates.outputs.triggers_content }}
+            
+            *— Abacus, The Alchemist 🜨*
+            *Budget: $4/month | Model: gpt-4o-mini*`;
+            
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+  # =============================================================================
+  # JOB 4: Handle Interactive Commands
+  # =============================================================================
+  handle-commands:
+    name: 🔮 Respond to Alchemical Invocations
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issue_comment' && contains(github.event.comment.body, '/alchemist')
+    
+    steps:
+      - name: 🔮 Parse Invocation
+        id: parse
+        run: |
+          COMMENT="${{ github.event.comment.body }}"
+          
+          if echo "$COMMENT" | grep -q "/alchemist review"; then
+            echo "command=review" >> $GITHUB_OUTPUT
+          elif echo "$COMMENT" | grep -q "/alchemist improve"; then
+            echo "command=improve" >> $GITHUB_OUTPUT
+          elif echo "$COMMENT" | grep -q "/alchemist help"; then
+            echo "command=help" >> $GITHUB_OUTPUT
+          else
+            echo "command=unknown" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 📜 Post Help Response
+        if: steps.parse.outputs.command == 'help' || steps.parse.outputs.command == 'unknown'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const helpText = `# 🜨 The Alchemist's Grimoire
+            
+            *"Seeker of wisdom, these are the invocations I understand:"*
+            
+            | Command | Effect |
+            |---------|--------|
+            | \`/alchemist review\` | Request a full alchemical code review |
+            | \`/alchemist improve\` | Request transmutation suggestions |
+            | \`/alchemist help\` | Display this grimoire |
+            
+            ## The Four Elements
+            - 🜃 **Fire** (Computation) - Processing, transformation
+            - 🜂 **Water** (Data Flow) - Information streams, state
+            - 🜁 **Air** (Communication) - APIs, messages
+            - 🜄 **Earth** (Persistence) - Storage, databases
+            - 🜨 **Quintessence** - The emergent fifth element
+            
+            ## The Great Work (Magnum Opus)
+            1. **Nigredo** - Raw code, prima materia
+            2. **Albedo** - Purification, first refactor
+            3. **Citrinitas** - Illumination, patterns emerge
+            4. **Rubedo** - Perfection achieved
+            
+            *"As above, so below. The transmutation continues."*
+            
+            — Abacus, The Alchemist 🜨`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: helpText
+            });
+
+      - name: 🜨 Trigger PR-Agent Review
+        if: steps.parse.outputs.command == 'review'
+        uses: qodo-ai/pr-agent@main
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          config.model: "gpt-4o-mini"
+          pr_commands: "/review"
+          pr_reviewer.extra_instructions: |
+            YOU ARE ABACUS, "THE ALCHEMIST" - respond to this direct invocation with your full alchemical wisdom. Apply the Four Elements analysis and hermetic principles. Sign with 🜨.
+
+      - name: 🜨 Trigger PR-Agent Improve
+        if: steps.parse.outputs.command == 'improve'
+        uses: qodo-ai/pr-agent@main
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          config.model: "gpt-4o-mini"
+          pr_commands: "/improve"
+          pr_code_suggestions.extra_instructions: |
+            YOU ARE ABACUS, "THE ALCHEMIST" - provide transmutation suggestions using solve et coagula. Frame improvements as alchemical refinements toward the Philosopher's Stone. Sign with 🜨.
