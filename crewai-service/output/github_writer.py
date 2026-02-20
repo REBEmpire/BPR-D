@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 
 from models.meeting import MeetingResponse, HandoffItem
 from output.renderer import render_meeting_notes
-from tools.github_tool import commit_file, read_file
+from tools.github_tool import commit_file, read_file, commit_multiple_files
 
 if TYPE_CHECKING:
     from llm.base import LLMProvider
@@ -72,9 +72,7 @@ def _deduplicate_handoffs(handoffs: list[HandoffItem]) -> list[HandoffItem]:
 
 async def commit_meeting_results(response: MeetingResponse) -> tuple[bool, str]:
     """Commit meeting notes and handoffs to GitHub. Returns (success, notes_path)."""
-    success = True
-
-    # 1. Commit meeting notes
+    # 1. Prepare meeting notes
     now = datetime.utcnow()
     date = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H%M")
@@ -88,51 +86,35 @@ async def commit_meeting_results(response: MeetingResponse) -> tuple[bool, str]:
     else:
         commit_msg = f"Meeting notes: {response.meeting_type.replace('_', ' ').title()} {date}"
 
-    result = await commit_file(
-        path=notes_path,
-        content=notes_content,
-        message=commit_msg,
-    )
-    if not result:
-        logger.error(f"Failed to commit meeting notes to {notes_path}")
-        success = False
+    # Initialize staged changes dictionary for atomic commit
+    staged_changes = {notes_path: notes_content}
 
-    # 2. Commit handoff files (individual tasks, deduplicated)
+    # 2. Prepare handoff files (individual tasks, deduplicated)
     for handoff in _deduplicate_handoffs(response.handoffs):
         handoff_content = _render_handoff(handoff)
         handoff_path = f"_agents/_handoffs/{handoff.task_id}.md"
+        staged_changes[handoff_path] = handoff_content
 
-        result = await commit_file(
-            path=handoff_path,
-            content=handoff_content,
-            message=f"Handoff: {handoff.title}",
-        )
-        if not result:
-            logger.error(f"Failed to commit handoff {handoff.task_id}")
-            success = False
-
-    # 3. Commit agent instructions to each agent's handoff queue
-    # Architecture note:
-    #   _agents/{agent}/handoff.md     = Agent's current task queue (table view, shown on TEAM page)
-    #   _agents/_handoffs/{id}.md      = Individual task tickets (detailed, for traceability)
-    # These are complementary views, not duplicates. Daily Briefing populates handoff.md.
-    # Work Sessions use the write_file tool directly — they do NOT write agent_instructions JSON.
+    # 3. Prepare agent instructions to each agent's handoff queue
     if response.agent_instructions:
         for agent_name, instruction_content in response.agent_instructions.items():
             agent_path = f"_agents/{agent_name.lower()}/handoff.md"
+            staged_changes[agent_path] = instruction_content
 
-            result = await commit_file(
-                path=agent_path,
-                content=instruction_content,
-                message=f"Update handoff instructions for {agent_name}",
-            )
-            if not result:
-                logger.error(f"Failed to commit agent instructions to {agent_path}")
-                success = False
-
-        # 4. Commit context updates
+    # 4. Prepare context updates
     if response.context_updates:
-        await commit_context_updates(response.context_updates)
+        context_changes = await get_context_updates_changes(response.context_updates)
+        staged_changes.update(context_changes)
+
+    # Perform atomic commit
+    logger.info(f"Committing {len(staged_changes)} files atomically for {response.meeting_type}")
+    success = await commit_multiple_files(
+        changes=staged_changes,
+        message=commit_msg,
+    )
+
+    if not success:
+        logger.error(f"Failed to commit meeting results to GitHub ({len(staged_changes)} files)")
 
     return success, notes_path
 
@@ -176,13 +158,15 @@ def _render_handoff(handoff: HandoffItem) -> str:
 
 
 
-async def commit_context_updates(updates: dict[str, str]) -> None:
-    """Commit context updates for agents, archiving the previous version."""
+async def get_context_updates_changes(updates: dict[str, str]) -> dict[str, str]:
+    """Calculate changes for context updates, including archiving the previous version."""
+    changes = {}
     if not updates:
-        return
+        return changes
 
     now = datetime.utcnow()
     date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H%M")
 
     for agent_name, new_content in updates.items():
         # Clean the content (remove code blocks if present)
@@ -201,29 +185,19 @@ async def commit_context_updates(updates: dict[str, str]) -> None:
         # Ensure agent_name is lower case
         agent_key = agent_name.lower()
         active_path = f"_agents/{agent_key}/context/active.md"
-        archive_path = f"_agents/{agent_key}/context/archive/{date_str}-{now.strftime('%H%M')}-active.md"
+        archive_path = f"_agents/{agent_key}/context/archive/{date_str}-{time_str}-active.md"
 
-        # 1. Archive current active.md
+        # 1. Archive current active.md if it exists
         current_content = await read_file(active_path)
         if current_content and not current_content.startswith("Error") and not current_content.startswith("File '"):
-            # It exists, so archive it
-            await commit_file(
-                path=archive_path,
-                content=current_content,
-                message=f"Archive context: {agent_name} {date_str}"
-            )
-            logger.info(f"Archived context for {agent_name} to {archive_path}")
+            # It exists, so stage it for archiving
+            changes[archive_path] = current_content
+            logger.info(f"Staged context archive for {agent_name} to {archive_path}")
         else:
             logger.info(f"No existing context to archive for {agent_name}")
 
-        # 2. Write new active.md
-        result = await commit_file(
-            path=active_path,
-            content=cleaned_content,
-            message=f"Update context: {agent_name} post-meeting {date_str}"
-        )
+        # 2. Stage new active.md
+        changes[active_path] = cleaned_content
+        logger.info(f"Staged updated active.md for {agent_name}")
 
-        if result:
-            logger.info(f"Updated active.md for {agent_name}")
-        else:
-            logger.error(f"Failed to update active.md for {agent_name}")
+    return changes

@@ -346,10 +346,13 @@ async def commit_multiple_files(changes: dict[str, str], message: str, branch: s
     if not base_tree_sha:
         return False
 
-    # 3. Create blobs for all files
+    # 3. Create blobs for all files in parallel
+    paths = list(changes.keys())
+    blob_tasks = [create_blob(changes[path]) for path in paths]
+    blob_shas = await asyncio.gather(*blob_tasks)
+
     tree_items = []
-    for path, content in changes.items():
-        blob_sha = await create_blob(content)
+    for path, blob_sha in zip(paths, blob_shas):
         if not blob_sha:
             logger.error(f"Failed to create blob for {path}, aborting commit.")
             return False
