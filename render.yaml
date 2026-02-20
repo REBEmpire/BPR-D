@@ -67,3 +67,37 @@ services:
         value: INFO
       - key: BPRD_API_KEY
         sync: false
+
+  - type: cron
+    name: bprd-daily-team-meeting
+    runtime: python
+    region: oregon
+    plan: starter
+    schedule: "0 10 * * 1-5"  # 10 AM UTC Mon-Fri = 2 AM PST
+    rootDir: crewai-service
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m scripts.run_daily_team_meeting
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: XAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ABACUS_PRIMARY_KEY
+        sync: false
+      - key: ABACUS_BACKUP_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPO
+        value: REBEmpire/BPR-D
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: ENV
+        value: production
