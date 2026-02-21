@@ -11,6 +11,7 @@ from datetime import datetime
 from config import settings
 from llm import XAIProvider, AnthropicProvider, GoogleProvider, AbacusProvider, LLMProvider
 from agents.persona import Persona, load_persona
+from api_healer import APIHealer
 
 logger = logging.getLogger(__name__)
 
@@ -84,3 +85,18 @@ async def load_agents(participant_names: list[str]) -> dict[str, RegisteredAgent
         agents[name] = RegisteredAgent(persona=persona, provider=provider)
         logger.info(f"Loaded agent: {name} ({provider.model})")
     return agents
+
+def get_active_healer() -> APIHealer:
+    """Get the active API Healer instance from the Gemini provider."""
+    # Ensure Gemini provider is initialized
+    if "gemini" not in _providers:
+        try:
+             _providers["gemini"] = GoogleProvider()
+        except Exception as e:
+            logger.error(f"Failed to init GoogleProvider for healer: {e}")
+            return APIHealer()
+
+    provider = _providers["gemini"]
+    if hasattr(provider, "healer"):
+        return provider.healer
+    return APIHealer()
