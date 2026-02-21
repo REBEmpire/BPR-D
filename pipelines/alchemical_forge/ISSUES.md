@@ -1,6 +1,6 @@
 # 🔮 Alchemical Forge — Known Issues & Future Enhancements
 
-**Version:** 1.1  
+**Version:** 1.1
 **Last Updated:** February 20, 2026
 
 ---

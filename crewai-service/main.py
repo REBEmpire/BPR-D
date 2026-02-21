@@ -289,7 +289,7 @@ async def manual_team_meeting_trigger(
         agenda = custom_prompt
     elif goal:
         agenda = (
-            f"**⚡ HiC Goal:** {goal}\n\n"
+            f"**HiC Goal:** {goal}\n\n"
             "Complete this as a full collaborative team session with real dialogue. "
             "Produce concrete deliverables, commit all file changes to GitHub, "
             "and update handoffs before closing."
@@ -488,7 +488,7 @@ Status: In Progress"""
     request = MeetingRequest(
         meeting_type=MeetingType.SPECIAL_SESSION,
         participants=["grok", "claude", "gemini", "abacus"],
-        agenda=f"""**⚡ HiC Goal:** {topic}
+        agenda=f"""**HiC Goal:** {topic}
 
 GitHub Issue: #{issue_num}"""
     )

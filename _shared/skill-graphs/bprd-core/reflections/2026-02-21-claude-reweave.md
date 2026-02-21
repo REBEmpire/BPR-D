@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-21
-Author: claude | Session: work_session
+Author: "claude | Session: work_session"
 ---
 
 # /reweave — claude Session Reflection

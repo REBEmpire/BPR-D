@@ -2,7 +2,7 @@
 
 **A Grimoire for the Chief and the Team**
 
-**Version:** 1.1  
+**Version:** 1.1
 **Last Updated:** February 20, 2026
 
 ---

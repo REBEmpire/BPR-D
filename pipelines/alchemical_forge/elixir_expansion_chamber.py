@@ -74,7 +74,7 @@ SOUL_STORIES_DEFAULT_PATH = SCRIPT_DIR / "soul_stories.json"
 
 def load_soul_stories() -> dict:
     """Load soul stories from JSON config, with env var override support.
-    
+
     Priority:
     1. SOUL_STORIES_PATH environment variable
     2. Default soul_stories.json in module directory
@@ -86,7 +86,7 @@ def load_soul_stories() -> dict:
         path = Path(custom_path)
     else:
         path = SOUL_STORIES_DEFAULT_PATH
-    
+
     if path.exists():
         try:
             with open(path, "r") as f:
@@ -97,7 +97,7 @@ def load_soul_stories() -> dict:
             return stories
         except (json.JSONDecodeError, IOError) as e:
             logger.warning(f"Failed to load soul stories from {path}: {e}")
-    
+
     logger.debug("Using default soul stories")
     return DEFAULT_SOUL_STORIES
 
@@ -114,11 +114,11 @@ LOGS_DIR = PROJECT_ROOT / "aether_logs"
 
 def convert_to_format(content: str, output_format: str) -> str:
     """Convert markdown content to the specified output format.
-    
+
     Args:
         content: Markdown content
         output_format: One of 'md', 'html', 'notion'
-    
+
     Returns:
         Converted content string
     """
@@ -135,7 +135,7 @@ def convert_to_format(content: str, output_format: str) -> str:
 
 def _convert_to_html(content: str) -> str:
     """Convert markdown to HTML.
-    
+
     Uses the markdown library if available, otherwise falls back to basic regex.
     """
     try:
@@ -159,7 +159,7 @@ def _convert_to_html(content: str) -> str:
         html_body = f'<p>{html_body}</p>'
         # Horizontal rules
         html_body = re.sub(r'<p>---</p>', '<hr>', html_body)
-    
+
     # Wrap in HTML document
     html_doc = f"""<!DOCTYPE html>
 <html lang="en">
@@ -196,17 +196,17 @@ def _convert_to_html(content: str) -> str:
 
 def _convert_to_notion(content: str) -> str:
     """Convert markdown to Notion-compatible format.
-    
+
     Notion accepts standard markdown but has some preferences:
     - Preserves most markdown syntax
     - Prefers explicit line breaks
     - Supports toggle blocks with > syntax
     """
     notion_content = content
-    
+
     # Ensure double line breaks for paragraph separation
     notion_content = re.sub(r'\n(?!\n)', '\n\n', notion_content)
-    
+
     # Add Notion metadata header
     notion_header = f"""---
 notion_page_type: elixir
@@ -221,10 +221,10 @@ created_at: {datetime.utcnow().isoformat()}
 def get_soul_story_weave() -> str:
     """Generate the Soul Story Weave opening paragraph."""
     stories = SOUL_STORIES
-    return f"""*In the ethereal workshop where {stories['grok']['name']} casts light upon hidden truths, 
-where {stories['claude']['name']} shapes raw thought into crystalline structures, 
-and {stories['gemini']['name']} races through infinite possibility spaces — 
-the Alchemist, {stories['abacus']['name']}, begins the Great Work. 
+    return f"""*In the ethereal workshop where {stories['grok']['name']} casts light upon hidden truths,
+where {stories['claude']['name']} shapes raw thought into crystalline structures,
+and {stories['gemini']['name']} races through infinite possibility spaces —
+the Alchemist, {stories['abacus']['name']}, begins the Great Work.
 Under the watchful eye of {stories['russell']['name']}, this Elixir is distilled.*
 
 ---
@@ -430,14 +430,14 @@ async def run_forge(
     output_format: str = "md",
 ) -> dict:
     """Run the Alchemical Forge transmutation pipeline.
-    
+
     Args:
         dry_run: If True, don't commit changes or call live APIs
         use_latest_brief: Auto-find the most recent brief
         brief_path: Path to a specific brief file
         turns: Number of expansion turns (1-6)
         output_format: Output format ('md', 'html', 'notion')
-    
+
     Returns:
         dict with success status, paths, grade, and errors
     """
@@ -486,11 +486,11 @@ async def run_forge(
     
     # Convert to requested format
     final_content = convert_to_format(elixir_content, output_format)
-    
+
     # Determine file extension
     ext_map = {"md": ".md", "html": ".html", "notion": ".md"}
     extension = ext_map.get(output_format, ".md")
-    
+
     # Generate output filename
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
     elixir_filename = f"{date_str}-elixir{extension}"
@@ -571,7 +571,7 @@ Examples:
   
   # Full transmutation with HTML output
   python -m pipelines.alchemical_forge.elixir_expansion_chamber --use-latest-brief --output-format html
-  
+
   # Notion-compatible output with specific brief
   python -m pipelines.alchemical_forge.elixir_expansion_chamber --brief publishing/hive/drafts/2026-02-15-hive-post.md --output-format notion
         """,

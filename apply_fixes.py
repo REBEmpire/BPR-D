@@ -1,4 +1,7 @@
-"""
+import os
+
+# 1. Fix crewai-service/meetings/daily_briefing.py
+daily_briefing_content = r'''"""
 Daily Briefing meeting type for BPR&D meeting service.
 Phase 1 implementation: Morning sync with repo review, priority setting, action items.
 
@@ -149,3 +152,39 @@ def _build_agent_instructions(
         instructions[agent_name] = "\n".join(lines)
 
     return instructions
+'''
+
+with open("crewai-service/meetings/daily_briefing.py", "w") as f:
+    f.write(daily_briefing_content)
+print("Fixed daily_briefing.py")
+
+# 2. Fix crewai-service/main.py
+try:
+    with open("crewai-service/main.py", "r") as f:
+        content = f.read()
+
+    # Fix issue_body multiline f-string
+    content = content.replace(
+        'issue_body = f"Triggered by {hic_id} via Dashboard.',
+        'issue_body = f"""Triggered by {hic_id} via Dashboard.'
+    )
+    content = content.replace(
+        'Status: In Progress"',
+        'Status: In Progress"""'
+    )
+
+    # Fix agenda multiline f-string
+    content = content.replace(
+        'agenda=f"**⚡ HiC Goal:** {topic}',
+        'agenda=f"""**⚡ HiC Goal:** {topic}'
+    )
+    content = content.replace(
+        'GitHub Issue: #{issue_num}"',
+        'GitHub Issue: #{issue_num}"""'
+    )
+
+    with open("crewai-service/main.py", "w") as f:
+        f.write(content)
+    print("Fixed main.py")
+except FileNotFoundError:
+    print("main.py not found, skipping")

@@ -45,7 +45,7 @@ class TestBriefDiscovery(unittest.TestCase):
             (tmp_path / "2026-02-18-hive-post.md").write_text("Brief 1")
             (tmp_path / "2026-02-19-hive-post.md").write_text("Brief 2")
             (tmp_path / "2026-02-20-hive-post.md").write_text("Brief 3")
-            
+
             with patch.object(eec, 'DRAFTS_DIR', tmp_path):
                 result = eec.find_latest_brief()
                 self.assertIsNotNone(result)
@@ -118,7 +118,7 @@ class TestSoulStoryWeave(unittest.TestCase):
             }
             json.dump(custom_stories, f)
             f.flush()
-            
+
             try:
                 with patch.dict(os.environ, {'SOUL_STORIES_PATH': f.name}):
                     # Force reload of soul stories
@@ -160,7 +160,7 @@ class TestGraderIntegration(unittest.TestCase):
         """Test that the grader can process generated elixir content."""
         # Import grader
         from pipelines.alchemical_forge.verification.philosophers_stone_grader import grade_elixir
-        
+
         # Create minimal valid elixir content
         test_elixir = """# Test Elixir
 
@@ -201,7 +201,7 @@ Read: Some link
 *Transmuted by the Alchemist under the eye of the HiC Sovereign*
 *2026-02-20 | Alchemical Forge v1.1*
 """
-        
+
         result = grade_elixir(test_elixir)
         self.assertIn('total_score', result)
         self.assertIn('soul_resonance', result)
