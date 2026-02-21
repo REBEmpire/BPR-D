@@ -67,7 +67,7 @@ Every agent call gets the COMPLETE transcript of all previous turns. This is why
 
 ## Cost Controls
 
-- Hard cap: $0.40 per meeting
+- Hard cap: $0.75 per meeting
 - Budget: $20/month team total
 - Per-agent: Grok $5, Claude $6, Gemini $5, Abacus $4
 - Token counting: actual counts from API responses (not estimated)

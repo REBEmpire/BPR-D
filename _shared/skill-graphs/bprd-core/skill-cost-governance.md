@@ -26,7 +26,7 @@ Defines the two-pathway system for all BPR&D AI work: automated API calls (low f
 | Metric | Value |
 |--------|-------|
 | Team monthly budget | $20.00 |
-| Per-meeting hard cap | $0.40 |
+| Per-meeting hard cap | $0.75 |
 | Grok monthly allocation | $5.00 |
 | Claude monthly allocation | $6.00 |
 | Gemini monthly allocation | $5.00 |
