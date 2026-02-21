@@ -1,0 +1,6 @@
+# Task ID Counter
+# Used by Meeting-Code-Deployer to generate sequential task IDs
+# Format: BPRD-YYYY-NNNN
+
+# Current counter by year
+2026: 4  # Last assigned: BPRD-2026-0004
