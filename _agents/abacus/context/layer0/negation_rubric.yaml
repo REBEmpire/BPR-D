@@ -1,0 +1,121 @@
+# Truth Sentinel Configuration
+# Layer 0 Semantic Validation Rubric
+#
+# Philosophy: Truth is revealed through negation.
+# We define failure conditions explicitly to ensure valid responses pass.
+
+# Coherence Thresholds
+# Score range: 0.0 to 1.0
+coherence_threshold: 0.7        # Minimum for PASS
+high_confidence_threshold: 0.85  # High confidence PASS
+low_confidence_threshold: 0.5    # Below this triggers HUMAN_REVIEW
+
+# Contradiction Detection Patterns
+# Regex patterns that indicate internal contradictions
+contradiction_patterns:
+  # Contradictory qualifiers
+  - "(?i)\\b(however|but|although)\\b.*\\b(not|never|no)\\b.*\\b(same|similar|identical)\\b"
+  # Direct negation conflicts
+  - "(?i)\\b(is|are|was|were)\\b.*\\b(is not|are not|isn't|aren't)\\b"
+  # Absolute vs relative conflicts
+  - "(?i)\\b(always|never)\\b.*\\b(sometimes|occasionally|rarely)\\b"
+  # Boolean contradictions
+  - "(?i)\\b(true|correct)\\b.*\\b(false|incorrect|wrong)\\b.*same"
+  # Existence contradictions
+  - "(?i)\\b(exists|present|available)\\b.*\\b(does not exist|absent|unavailable)\\b"
+  # Certainty contradictions
+  - "(?i)\\b(definitely|certainly|absolutely)\\b.*\\b(uncertain|unclear|unknown)\\b"
+
+# Hallucination Indicators
+# Patterns that suggest the response may be hallucinated
+hallucination_indicators:
+  - name: empty_reasoning
+    pattern: "^\\s*$"
+    description: "Empty or whitespace-only response"
+    severity: critical
+    
+  - name: vague_claims
+    patterns:
+      - "(?i)\\b(probably|maybe|might|could be|possibly)\\b"
+      - "(?i)\\b(some say|many believe|it is said)\\b"
+      - "(?i)\\b(generally|typically|usually|often)\\b"
+    threshold: 3  # Flag if 3+ vague terms appear
+    severity: warning
+    description: "Excessive hedging language may indicate uncertainty"
+    
+  - name: missing_citations
+    trigger_phrases:
+      - "according to"
+      - "research shows"
+      - "studies indicate"
+      - "experts say"
+      - "data suggests"
+      - "evidence shows"
+    citation_pattern: "\\[\\d+\\]|\\(\\d{4}\\)|https?://|doi:"
+    severity: warning
+    description: "Claims authority without providing sources"
+    
+  - name: repetitive_filler
+    pattern: "(\\b\\w+\\b)(?:\\s+\\1){2,}"
+    description: "Repeated words suggesting generation issues"
+    severity: warning
+    
+  - name: truncated_response
+    patterns:
+      - "\\.\\.\\.$"
+      - "and so on$"
+      - "etc\\.$"
+    min_length: 50
+    description: "Response appears cut off or incomplete"
+    severity: info
+    
+  - name: generic_filler
+    patterns:
+      - "(?i)^(sure|of course|certainly|absolutely)[,!.]"
+      - "(?i)\\b(as an ai|as a language model)\\b"
+    description: "Generic AI-style filler language"
+    severity: info
+    
+  - name: confidence_without_evidence
+    patterns:
+      - "(?i)\\b(clearly|obviously|undoubtedly)\\b"
+    threshold: 2
+    description: "High confidence assertions without supporting evidence"
+    severity: warning
+
+# Action Mappings
+# Maps validation states to sentinel actions
+action_mappings:
+  high_confidence: pass         # Score >= high_confidence_threshold
+  medium_confidence: pass       # Score >= coherence_threshold
+  low_confidence: re_query      # Score >= low_confidence_threshold
+  very_low_confidence: human_review  # Score < low_confidence_threshold
+  contradiction_detected: re_query
+  hallucination_flagged: human_review
+
+# Logging Configuration
+logging:
+  format: json
+  directory: "_agents/_logs"
+  filename_pattern: "truth_sentinel_{date}.json"
+  include_input_preview: true
+  preview_length: 200
+  
+# Quality Gate Integration
+# Target score for philosophers_stone_grader.py: >= 92/100
+quality_gate:
+  target_score: 92
+  intercept_stage: "staging_review"  # Stage 6
+  position: "after_api_healer"       # Before quality gate
+
+# Negation Test Philosophy
+# "Truth is revealed through negation"
+# Every handoff must define its failure conditions
+negation_test:
+  field_name: negation_test
+  prompt: "Describe the condition under which this task would FAIL silently."
+  required: true
+  examples:
+    - "FAIL if: External API returns cached data older than 24 hours without indication"
+    - "FAIL if: Generated content passes spell-check but contains factual errors"
+    - "FAIL if: Image appears valid but has watermarks or licensing restrictions"
