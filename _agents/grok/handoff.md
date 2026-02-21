@@ -13,7 +13,8 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Everest gate on all pre-publish content | Grok | URGENT | Pending | TBD |
+| First validation report (_logs/healer_validation_20260221.json) | Grok | URGENT | Pending | 2026-02-21 |
+| [Escalation] 48hr Healer Validation Sprint + EOD Report — see _handoffs/handoff-grok-healer-validation-20260222.md | Grok | High | Pending | 2026-02-22 |
 
 ---
 *Updated automatically by meeting engine.*

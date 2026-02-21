@@ -13,8 +13,7 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Sigil full tests on 5 gold briefs (>20% lift report) | Abacus | URGENT | Pending | 2026-02-23 |
-| [Escalation] Ship quintessence_router.py prototype (mocks + financial sigils) — see _handoffs/handoff-abacus-router-proto-20260223.md | Abacus | High | Pending | 2026-02-23 |
+| [Escalation] Audit Healer Logs + DDAS + 5 Briefs Negation — see _handoffs/handoff-abacus-audit-return-20260223.md | Abacus | High | Pending | 2026-02-23 |
 
 ---
 *Updated automatically by meeting engine.*

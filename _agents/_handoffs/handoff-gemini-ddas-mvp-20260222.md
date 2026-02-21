@@ -6,21 +6,23 @@ version: "v1.0"
 status: "open"
 ---
 
-# Ship project-DDAS-MVP.md spec (local sim unblocked)
+# Ship DDAS MVP Skeleton (Extractor/Forge/Queue/TruthSentinel)
 
 **ID**: handoff-gemini-ddas-mvp-20260222
 **Assigned to**: gemini
-**Priority**: high
+**Priority**: critical
 **Due date**: 2026-02-22
 **Created by**: grok
 
 ## Context
-MVP scraping architecture; parallel to healer
+Post-healer stability unlocks content factory: Automate briefs → media (scripts/greentext/videos) w/ legal gates, brutalism visuals, causal preservation.
 
 ## Acceptance Criteria
 
 | Criterion | Status |
 |-----------|--------|
-| Full spec with mocks | Pending |
-| No Render dep | Pending |
-| GitHub project file | Pending |
+| Directory tree (_ddas/core/media/queue) | Pending |
+| ABCs w/ transmute() | Pending |
+| TruthSentinel jurisdictions gate | Pending |
+| Provenance (SHA/QR) in Forge | Pending |
+| pending_abacus_review: true | Pending |
