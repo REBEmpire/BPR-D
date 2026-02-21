@@ -23,7 +23,7 @@ from datetime import datetime
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from agents.registry import resolve_participants, load_agents, is_abacus_available
+from agents.registry import resolve_participants, load_agents, is_abacus_available, get_active_healer
 from config import settings
 from meetings import MEETING_TYPES
 from prompts.nervous_system_injector import NervousSystemInjector
@@ -350,6 +350,18 @@ async def manual_team_meeting_trigger(
 
 
 # --- Health & Status ---
+
+
+@app.get("/api/v1/health/healer")
+async def healer_health_check():
+    """Detailed health check for API Healer status and metrics."""
+    try:
+        healer = get_active_healer()
+        return healer.health_check()
+    except Exception as e:
+        logger.error(f"Healer health check failed: {e}")
+        return {"status": "error", "error": str(e)}
+
 
 @app.get("/api/v1/health")
 async def health_check():
