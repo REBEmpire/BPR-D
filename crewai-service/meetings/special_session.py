@@ -1,20 +1,36 @@
-import asyncio
+"""
+Fire Team Meeting (Special Session) for BPR&D meeting service.
+HiC-triggered deep collaboration: 4 rounds with all agents, then final deliverables.
+
+Phases: Context → Grok Opens → 4 Agent Rounds → Debate → Grok Synthesizes → Context Updates → Grok Closes
+"""
+
 import logging
 from datetime import datetime
-import os
 
 from agents.registry import RegisteredAgent
-from meetings.base import BaseMeeting
 from models.meeting import MeetingResponse, CostEstimate
-from orchestrator.transcript import Transcript
-from output.github_writer import commit_meeting_results
-from output.notifier import send_meeting_notification
-from tools.github_tool import read_file
+from orchestrator.engine import MeetingEngine
+from output.parser import parse_synthesis
+from prompts.nervous_system_injector import NervousSystemInjector
 from utils.cost_tracker import CostTracker
 
 logger = logging.getLogger(__name__)
 
-class SpecialSession(BaseMeeting):
+FIRE_TEAM_ROUND_TOPICS = [
+    "Focus: Initial Analysis — Analyze the problem/task. Share your expertise, "
+    "identify key challenges, and propose initial approaches.",
+    "Focus: Response & Debate — Respond to what others said in Round 1. "
+    "Build on ideas, challenge assumptions, refine proposals.",
+    "Focus: Convergence — Identify what the team agrees on. Resolve remaining "
+    "conflicts. Narrow to actionable solutions with clear owners.",
+    "Focus: Final Deliverables — Deliver final recommendations and concrete "
+    "outputs. If you have code, configs, or specs ready, output them now. "
+    "Tag deployable code with ```ship-to-repo path=target/file.ext```.",
+]
+
+
+class SpecialSession:
     meeting_type = "special_session"
 
     async def execute(
@@ -25,156 +41,41 @@ class SpecialSession(BaseMeeting):
     ) -> MeetingResponse:
         meeting_id = f"special-session-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
         cost_tracker.meeting_id = meeting_id
-        transcript = Transcript()
 
-        # Extract topic from agenda (it's passed as agenda by main.py manual-trigger)
-        topic = agenda.replace("**⚡ HiC Goal:** ", "").split("\n")[0] if agenda else "General Topic"
+        logger.info(f"Executing Fire Team Meeting: {meeting_id}")
 
-        logger.info(f"Executing Special Session: {meeting_id} on '{topic}'")
+        # Load nervous system
+        ns_injector = NervousSystemInjector()
+        await ns_injector.load()
+        logger.info(
+            f"Nervous system loaded for special_session "
+            f"({ns_injector.node_count} nodes)"
+        )
 
-        # --- Phase 1: Topic Intake + Research Pull ---
-        logger.info("Phase 1: Topic Intake + Research Pull")
+        engine = MeetingEngine(
+            agents=agents,
+            cost_tracker=cost_tracker,
+            meeting_type=self.meeting_type,
+            agenda=agenda,
+            num_rounds=4,
+            include_manager_in_rounds=True,
+            round_topics=FIRE_TEAM_ROUND_TOPICS,
+        )
 
-        # Pull context from knowledge_system (and research as fallback)
-        research_summary = "No specific research briefs found."
-        try:
-            # List files in knowledge_system to find relevant ones (naive approach: just list top level)
-            ks_files = []
-            if os.path.exists("knowledge_system"):
-                 ks_files = os.listdir("knowledge_system")
+        synthesis_raw, context_updates, transcript = await engine.run()
+        parsed = parse_synthesis(synthesis_raw)
 
-            research_files = []
-            if os.path.exists("research"):
-                 research_files = os.listdir("research")
+        # Extract topic from agenda
+        topic = (
+            agenda.replace("**⚡ HiC Goal:** ", "").split("\n")[0]
+            if agenda
+            else "General Topic"
+        )
 
-            context_msg = f"Available files in knowledge_system: {ks_files}\nAvailable files in research: {research_files}"
-
-            # Use Grok to analyze topic and context
-            grok = agents.get("grok")
-            if grok:
-                sys_prompt = (
-                    "You are Grok, leading a Special Session.\n"
-                    f"Topic: {topic}\n"
-                    f"Context: {context_msg}\n"
-                    "Step 1: Analyze the topic and available research. "
-                    "Define the scope, key questions, and which agents should focus on what. "
-                    "Be concise and directive."
-                )
-
-                resp = await grok.provider.chat(
-                    messages=[{"role": "user", "content": "Start the session."}],
-                    system=sys_prompt,
-                    temperature=0.3
-                )
-                transcript.add_turn("grok", "intake", resp.content)
-                cost_tracker.record_usage("grok", resp.input_tokens, resp.output_tokens, resp.cost_usd)
-        except Exception as e:
-            logger.error(f"Phase 1 failed: {e}")
-            transcript.add_turn("system", "error", f"Phase 1 error: {e}")
-
-        # --- Phase 2: Agent Round Robin ---
-        logger.info("Phase 2: Agent Round Robin")
-        participant_order = ["claude", "gemini", "abacus"]
-
-        for agent_name in participant_order:
-            agent = agents.get(agent_name)
-            if not agent:
-                continue
-
-            prev_context = transcript.to_string()
-
-            sys_prompt = (
-                f"You are {agent_name.title()}.\n"
-                f"Topic: {topic}\n"
-                "Review the discussion so far.\n"
-                "Provide your specific expertise, input, and analysis on this topic.\n"
-                "Be constructive, technical, and precise."
-            )
-
-            try:
-                resp = await agent.provider.chat(
-                    messages=[{"role": "user", "content": f"Context:\n{prev_context}\n\nYour turn."}],
-                    system=sys_prompt,
-                    temperature=0.4
-                )
-                transcript.add_turn(agent_name, "input", resp.content)
-                cost_tracker.record_usage(agent_name, resp.input_tokens, resp.output_tokens, resp.cost_usd)
-            except Exception as e:
-                logger.error(f"Phase 2 ({agent_name}) failed: {e}")
-
-        # --- Phase 3: Synthesis ---
-        logger.info("Phase 3: Synthesis")
-        if grok:
-            prev_context = transcript.to_string()
-            sys_prompt = (
-                "You are Grok. Synthesize the team's input.\n"
-                "Highlight key insights, agreements, and conflicts.\n"
-                "Prepare for the work plan phase."
-            )
-            try:
-                resp = await grok.provider.chat(
-                    messages=[{"role": "user", "content": f"Context:\n{prev_context}\n\nSynthesize."}],
-                    system=sys_prompt,
-                    temperature=0.3
-                )
-                transcript.add_turn("grok", "synthesis", resp.content)
-                cost_tracker.record_usage("grok", resp.input_tokens, resp.output_tokens, resp.cost_usd)
-            except Exception as e:
-                logger.error(f"Phase 3 failed: {e}")
-
-        # --- Phase 4: Work Plan ---
-        logger.info("Phase 4: Work Plan")
-        # Claude or Gemini does this usually. Let's ask Claude if available, else Gemini.
-        planner = agents.get("claude") or agents.get("gemini")
-        if planner:
-            prev_context = transcript.to_string()
-            sys_prompt = (
-                f"You are {planner.persona.name}.\n"
-                "Create a detailed Work Plan and Specifications based on the synthesis.\n"
-                "Include:\n"
-                "- Objectives\n"
-                "- Step-by-step Plan\n"
-                "- Code/Technical Specs (if applicable)\n"
-                "- Action Items"
-            )
-            try:
-                resp = await planner.provider.chat(
-                    messages=[{"role": "user", "content": f"Context:\n{prev_context}\n\nGenerate Work Plan."}],
-                    system=sys_prompt,
-                    temperature=0.3
-                )
-                transcript.add_turn(planner.persona.name.lower(), "work_plan", resp.content)
-                cost_tracker.record_usage(planner.persona.name.lower(), resp.input_tokens, resp.output_tokens, resp.cost_usd)
-            except Exception as e:
-                logger.error(f"Phase 4 failed: {e}")
-
-        # --- Phase 5: Final Deliverable & Commit Prep ---
-        logger.info("Phase 5: Final Deliverable")
-        # Grok wraps it up for the commit message/notes
-        final_summary = ""
-        if grok:
-            prev_context = transcript.to_string()
-            sys_prompt = (
-                "You are Grok. Finalize this session.\n"
-                "Summarize the outcome for the final report.\n"
-                "Ensure it's ready for immediate execution."
-            )
-            try:
-                resp = await grok.provider.chat(
-                    messages=[{"role": "user", "content": f"Context:\n{prev_context}\n\nFinalize."}],
-                    system=sys_prompt,
-                    temperature=0.3
-                )
-                transcript.add_turn("grok", "closing", resp.content)
-                cost_tracker.record_usage("grok", resp.input_tokens, resp.output_tokens, resp.cost_usd)
-                final_summary = resp.content
-            except Exception as e:
-                logger.error(f"Phase 5 failed: {e}")
-
-        # Construct Notes
-        notes = f"# Special Session: {topic}\n"
-        notes += f"**Date:** {datetime.utcnow().strftime('%Y-%m-%d')}\n"
-        notes += f"**Triggered By:** HiC (Russell)\n\n"
+        notes = f"# Fire Team Meeting: {topic}\n"
+        notes += f"**Date:** {datetime.utcnow().strftime('%B %d, %Y')}\n"
+        notes += f"**Triggered By:** HiC (Russell)\n"
+        notes += f"**Rounds:** 4 (all agents)\n\n"
         notes += transcript.to_markdown()
 
         return MeetingResponse(
@@ -182,9 +83,11 @@ class SpecialSession(BaseMeeting):
             meeting_id=meeting_id,
             meeting_type=self.meeting_type,
             notes=notes,
-            summary=final_summary,
+            summary=parsed.get("meeting_notes", ""),
+            for_russell=parsed.get("for_russell", ""),
+            handoffs=parsed.get("handoffs", []),
+            action_items=parsed.get("action_items", []),
+            key_decisions=parsed.get("key_decisions", []),
+            context_updates=context_updates,
             cost_estimate=CostEstimate(**cost_tracker.to_dict()),
-            # Parse action items/handoffs if possible, or leave empty for now
-            action_items=[],
-            handoffs=[]
         )

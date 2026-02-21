@@ -1,8 +1,8 @@
 """
 Daily Briefing meeting type for BPR&D meeting service.
-Phase 1 implementation: Morning sync with repo review, priority setting, action items.
+7-round team meeting per team_meeting_protocol_v2.md.
 
-Phases: Context → Grok Opens → Agent Round (1) → Grok Synthesizes → Grok Closes
+Phases: Context → Grok Opens → 7 Agent Rounds → Debate → Grok Synthesizes → Context Updates → Grok Closes
 """
 
 import asyncio
@@ -17,6 +17,30 @@ from prompts.nervous_system_injector import NervousSystemInjector
 from utils.cost_tracker import CostTracker
 
 logger = logging.getLogger(__name__)
+
+DAILY_ROUND_TOPICS = [
+    "Focus: Review + Outlook — Summarize yesterday's accomplishments "
+    "(reference exact repo files/links). List any Daily Briefs by Jules worthy "
+    "of content queue. Set today's direction and ask for team critique.",
+    "Focus: Collaboration & Refinement — Critique yesterday, identify queue "
+    "items, surface blockers, suggest research or content improvements. "
+    "Open team discussion.",
+    "Focus: Work Planning + Research Kickoff — Issue ambitious daily work items. "
+    "Classify: small/routine → BPR&D_To_Do_List.md, large → dedicated project "
+    "file. Propose research topics for the 6 pillars: Daily Briefs, Special "
+    "Reports, Epstein Daily, Hive Blogging, Media/Content Creation, Social "
+    "Media Marketing.",
+    "Focus: Research Finalize + Content Creation Shift — Lock research topics, "
+    "quality standards, and deliverables. Move to content creation department: "
+    "discuss full implementation plan.",
+    "Focus: Deep Content Creation Dive — Roast, refine, and elevate the content "
+    "pipeline. Select 5 best daily briefs by Jules, reformat as Hive-ready "
+    "Markdown with images, expand ~20% for readability.",
+    "Focus: Assets & Financials — Review/update assets, income, expenses, "
+    "financial tracking. Team adds input for record.",
+    "Focus: Context Close — Deliver your key takeaways, active priorities, "
+    "and context changes for your active.md update.",
+]
 
 
 class DailyBriefing:
@@ -149,3 +173,70 @@ def _build_agent_instructions(
         instructions[agent_name] = "\n".join(lines)
 
     return instructions
+
+
+class DailyBriefing:
+    meeting_type = "daily_briefing"
+
+    async def execute(
+        self,
+        agents: dict[str, RegisteredAgent],
+        cost_tracker: CostTracker,
+        agenda: str = "",
+    ) -> MeetingResponse:
+        meeting_id = f"daily_briefing-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
+        cost_tracker.meeting_id = meeting_id
+
+        logger.info(f"Executing Daily Briefing: {meeting_id}")
+
+        # Phase 0: Load nervous system — MUST be first (before MeetingEngine runs)
+        ns_injector = NervousSystemInjector()
+        await ns_injector.load()
+        logger.info(
+            f"Nervous system loaded for daily_briefing "
+            f"({ns_injector.node_count} nodes)"
+        )
+
+        engine = MeetingEngine(
+            agents=agents,
+            cost_tracker=cost_tracker,
+            meeting_type=self.meeting_type,
+            agenda=agenda,
+            num_rounds=7,
+            include_manager_in_rounds=True,
+            round_topics=DAILY_ROUND_TOPICS,
+        )
+
+        synthesis_raw, context_updates, transcript = await engine.run()
+
+        # Parse structured output from Grok's synthesis
+        parsed = parse_synthesis(synthesis_raw)
+
+        # Build meeting notes (transcript only — summary rendered separately at top)
+        date_str = datetime.utcnow().strftime("%Y-%m-%d")
+        notes = f"# BPR&D Daily Briefing — {datetime.utcnow().strftime('%B %d, %Y')}\n\n"
+        notes += transcript.to_markdown()
+
+        # Build per-agent task checklists from action items and handoffs
+        agent_instructions = _build_agent_instructions(
+            parsed=parsed,
+            participating_agents=list(agents.keys()),
+            meeting_date=date_str,
+        )
+
+
+
+        return MeetingResponse(
+            success=True,
+            meeting_id=meeting_id,
+            meeting_type=self.meeting_type,
+            notes=notes,
+            summary=parsed.get("meeting_notes", ""),
+            for_russell=parsed.get("for_russell", ""),
+            handoffs=parsed.get("handoffs", []),
+            action_items=parsed.get("action_items", []),
+            key_decisions=parsed.get("key_decisions", []),
+            agent_instructions=agent_instructions,
+            context_updates=context_updates,
+            cost_estimate=CostEstimate(**cost_tracker.to_dict()),
+        )
