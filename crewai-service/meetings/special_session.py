@@ -38,11 +38,15 @@ class SpecialSession:
         agents: dict[str, RegisteredAgent],
         cost_tracker: CostTracker,
         agenda: str = "",
+        num_rounds: int = 4,
     ) -> MeetingResponse:
+        # Clamp rounds to 2-13 range
+        num_rounds = max(2, min(13, num_rounds))
+
         meeting_id = f"special-session-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
         cost_tracker.meeting_id = meeting_id
 
-        logger.info(f"Executing Fire Team Meeting: {meeting_id}")
+        logger.info(f"Executing Fire Team Meeting: {meeting_id} ({num_rounds} rounds)")
 
         # Load nervous system
         ns_injector = NervousSystemInjector()
@@ -52,14 +56,25 @@ class SpecialSession:
             f"({ns_injector.node_count} nodes)"
         )
 
+        # Build round topics: use the 4 base topics, then generate additional
+        # guidance for extra rounds beyond 4
+        round_topics = list(FIRE_TEAM_ROUND_TOPICS[:num_rounds])
+        if num_rounds > len(FIRE_TEAM_ROUND_TOPICS):
+            for i in range(len(FIRE_TEAM_ROUND_TOPICS), num_rounds):
+                round_topics.append(
+                    f"Focus: Extended Discussion (Round {i + 1}) — "
+                    "Continue refining deliverables, resolve open questions, "
+                    "deepen analysis, and produce additional concrete outputs."
+                )
+
         engine = MeetingEngine(
             agents=agents,
             cost_tracker=cost_tracker,
             meeting_type=self.meeting_type,
             agenda=agenda,
-            num_rounds=4,
+            num_rounds=num_rounds,
             include_manager_in_rounds=True,
-            round_topics=FIRE_TEAM_ROUND_TOPICS,
+            round_topics=round_topics,
         )
 
         synthesis_raw, context_updates, transcript = await engine.run()
@@ -75,7 +90,8 @@ class SpecialSession:
         notes = f"# Fire Team Meeting: {topic}\n"
         notes += f"**Date:** {datetime.utcnow().strftime('%B %d, %Y')}\n"
         notes += f"**Triggered By:** HiC (Russell)\n"
-        notes += f"**Rounds:** 4 (all agents)\n\n"
+        notes += f"**Rounds:** {num_rounds}\n"
+        notes += f"**Participants:** {', '.join(agents.keys())}\n\n"
         notes += transcript.to_markdown()
 
         return MeetingResponse(

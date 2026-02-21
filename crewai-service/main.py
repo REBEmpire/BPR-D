@@ -201,11 +201,16 @@ async def execute_meeting(request: MeetingRequest) -> MeetingResponse:
     try:
         # Execute the meeting
         meeting = meeting_cls()
-        response = await meeting.execute(
+        execute_kwargs = dict(
             agents=agents,
             cost_tracker=tracker,
             agenda=request.agenda or "",
         )
+        # Pass num_rounds only for meeting types that support it
+        if request.num_rounds is not None and meeting_type_str == "special_session":
+            execute_kwargs["num_rounds"] = request.num_rounds
+
+        response = await meeting.execute(**execute_kwargs)
 
         # Save cost log
         save_cost_log(tracker)
@@ -284,6 +289,7 @@ async def manual_team_meeting_trigger(
     participants = payload.get("participants", ["grok", "claude", "gemini", "abacus"])
     goal = payload.get("goal", "")
     custom_prompt = payload.get("custom_prompt", "")
+    num_rounds = payload.get("num_rounds")  # None = use meeting type default
 
     # Build a rich agenda: custom_prompt wins; fall back to structured goal block
     if custom_prompt:
@@ -315,6 +321,7 @@ async def manual_team_meeting_trigger(
     request = MeetingRequest(
         meeting_type=meeting_type_enum,
         participants=participants,
+        num_rounds=int(num_rounds) if num_rounds is not None else None,
         agenda=agenda,
     )
 
@@ -476,16 +483,42 @@ async def trigger_special_session(
     # 2. Validate payload
     topic = payload.get("topic")
     hic_id = payload.get("hic_id", "russell")
+    participants = payload.get("participants")  # None = use defaults
+    num_rounds = payload.get("num_rounds")      # None = use default (4)
     if not topic:
         raise HTTPException(status_code=400, detail="Topic is required")
 
-    logger.info(f"Triggering Special Session for topic: {topic}")
+    # Validate num_rounds if provided
+    if num_rounds is not None:
+        num_rounds = int(num_rounds)
+        if num_rounds < 2 or num_rounds > 13:
+            raise HTTPException(status_code=400, detail="num_rounds must be between 2 and 13")
+
+    # Validate participants if provided
+    valid_agents = {"grok", "claude", "gemini", "abacus"}
+    if participants is not None:
+        invalid = [p for p in participants if p not in valid_agents]
+        if invalid:
+            raise HTTPException(status_code=400, detail=f"Invalid agent(s): {invalid}. Valid: {sorted(valid_agents)}")
+        if not participants:
+            raise HTTPException(status_code=400, detail="At least one participant is required")
+
+    logger.info(
+        f"Triggering Special Session: topic={topic!r}, "
+        f"participants={participants or 'default'}, num_rounds={num_rounds or 'default(4)'}"
+    )
 
     # 3. Create GitHub Issue
+    participant_str = ", ".join(participants) if participants else "all agents"
+    rounds_str = str(num_rounds) if num_rounds else "4 (default)"
     issue_title = f"Special Session Request: {topic}"
-    issue_body = f"""Triggered by {hic_id} via Dashboard.
-Topic: {topic}
-Status: In Progress"""
+    issue_body = (
+        f"Triggered by {hic_id} via Dashboard.\n"
+        f"Topic: {topic}\n"
+        f"Participants: {participant_str}\n"
+        f"Rounds: {rounds_str}\n"
+        f"Status: In Progress"
+    )
     try:
         issue_num = await create_issue(issue_title, issue_body, labels=["special-session"])
         if issue_num:
@@ -500,10 +533,9 @@ Status: In Progress"""
     # 4. Launch Workflow (Background Task)
     request = MeetingRequest(
         meeting_type=MeetingType.SPECIAL_SESSION,
-        participants=["grok", "claude", "gemini", "abacus"],
-        agenda=f"""**HiC Goal:** {topic}
-
-GitHub Issue: #{issue_num}"""
+        participants=participants or ["grok", "claude", "gemini", "abacus"],
+        num_rounds=num_rounds,
+        agenda=f"**⚡ HiC Goal:** {topic}\n\nGitHub Issue: #{issue_num}",
     )
 
     meeting_id = f"special-session-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
