@@ -177,11 +177,20 @@ class APIHealer:
 
     def _check_provider_status(self) -> dict:
         """Check status of all known providers based on configuration."""
+        # Use agents.registry.is_abacus_available to handle fallback logic
+        try:
+            from agents.registry import is_abacus_available
+            abacus_active = is_abacus_available()
+        except ImportError:
+            # Fallback (e.g. if circular import issues prevent importing registry)
+            # Removed hardcoded fallback key for security. Use environment variables only.
+            abacus_active = bool(settings.ABACUS_PRIMARY_KEY or settings.ABACUS_BACKUP_KEY)
+
         status = {
             "gemini": "active" if settings.GEMINI_API_KEY else "missing_key",
             "grok": "active" if settings.XAI_API_KEY else "missing_key",
             "claude": "active" if settings.ANTHROPIC_API_KEY else "missing_key",
-            "abacus": "active" if (settings.ABACUS_PRIMARY_KEY or settings.ABACUS_BACKUP_KEY or "809e") else "missing_key"
+            "abacus": "active" if abacus_active else "missing_key"
         }
         return status
 
