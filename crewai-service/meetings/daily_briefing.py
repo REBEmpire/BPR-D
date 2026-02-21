@@ -219,7 +219,7 @@ class DailyBriefing:
 
         # Build per-agent task checklists from action items and handoffs
         agent_instructions = _build_agent_instructions(
-            parsed=parsed,
+            parsed_data=parsed,
             participating_agents=list(agents.keys()),
             meeting_date=date_str,
         )
