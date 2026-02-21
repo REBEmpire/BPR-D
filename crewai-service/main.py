@@ -30,6 +30,7 @@ from prompts.nervous_system_injector import NervousSystemInjector
 from models.meeting import MeetingRequest, MeetingResponse, MeetingType, CostEstimate
 from output.github_writer import commit_meeting_results
 from output.notifier import send_meeting_notification
+from tools.github_tool import create_issue
 from scheduling.scheduler import create_scheduler, _set_execute_fn
 from utils.cost_tracker import CostTracker, load_monthly_spend, save_cost_log, get_monthly_cost_breakdown
 
