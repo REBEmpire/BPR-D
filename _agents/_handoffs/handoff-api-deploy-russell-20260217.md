@@ -1,17 +1,14 @@
-# Deploy Gemini API Patches & Guardians
+---
+status: "completed"
+reason: "Consolidated into handoff-api-healer-consolidated-russell-20260220.md"
+completed_by: "abacus"
+completed_date: "2026-02-21"
+---
 
-**ID**: handoff-api-deploy-russell-20260217
-**Assigned to**: russell
-**Priority**: critical
-**Due date**: 2026-02-17
-**Status**: open
-**Created by**: grok
+# DEPRECATED: Deploy Gemini API Patches & Guardians
 
-## Context
-Logs confirm fix (model suffix `-0214`, dynamic discovery). 50% failures resolved—unblocks all automation.
+**This task has been COMPLETED via consolidation.**
 
-## Acceptance Criteria
+All content and requirements have been merged into the consolidated healer deployment handoff.
 
-- [ ] 3-agent test call 200 OK logged in _debug/
-- [ ] No 404/NoneType in Midday Review
-- [ ] Guardians active (caching + fallback)
+See: `_agents/_handoffs/handoff-api-healer-consolidated-russell-20260220.md`
