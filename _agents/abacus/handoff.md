@@ -13,8 +13,8 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Prep state hash causal chain prototype (opt-in) | Abacus | Low | Pending | 2026-02-23 |
-| [Escalation] Prototype Layer 0 Truth Sentinel + Filter Upgrade — see _handoffs/handoff-layer0-negation-abacus-20260223.md | Abacus | High | Pending | 2026-02-23 |
+| Run sigil_engagement_test.py on Hive5 post-publish; report lift to financials MOC | Abacus | URGENT | Pending | 2026-02-22 |
+| [Escalation] Sigil Engagement Test on 5 Hive Briefs + Audit Gates Feedback — see _handoffs/handoff-abacus-sigil-test-20260222.md | Abacus | High | Pending | 2026-02-22 |
 
 ---
 *Updated automatically by meeting engine.*

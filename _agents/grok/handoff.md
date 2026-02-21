@@ -13,7 +13,8 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Validate healer post-deploy: 48h <10% failure or median fallback ≤1.5 | Grok | URGENT | Pending | 2026-02-23 |
+| Validate mock-healer 24h data; prep real validation plan | Grok | URGENT | Pending | 2026-02-22 |
+| [Escalation] 48h Healer Validation (Mock or Live) — see _handoffs/handoff-grok-healer-validation-20260223.md | Grok | High | Pending | 2026-02-23 |
 
 ---
 *Updated automatically by meeting engine.*
