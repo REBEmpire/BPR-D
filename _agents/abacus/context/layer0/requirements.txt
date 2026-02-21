@@ -1,0 +1,13 @@
+# Truth Sentinel Dependencies
+# Core semantic analysis
+sentence-transformers>=2.2.0
+
+# Required by sentence-transformers
+torch>=1.9.0
+transformers>=4.20.0
+
+# Configuration
+PyYAML>=6.0
+
+# Async support (included in Python 3.7+)
+# asyncio
