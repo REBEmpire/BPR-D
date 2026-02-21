@@ -1,0 +1,190 @@
+import os
+
+# 1. Fix crewai-service/meetings/daily_briefing.py
+daily_briefing_content = r'''"""
+Daily Briefing meeting type for BPR&D meeting service.
+Phase 1 implementation: Morning sync with repo review, priority setting, action items.
+
+Phases: Context → Grok Opens → Agent Round (1) → Grok Synthesizes → Grok Closes
+"""
+
+import asyncio
+import logging
+from datetime import datetime
+
+from agents.registry import RegisteredAgent
+from models.meeting import MeetingResponse, CostEstimate
+from orchestrator.engine import MeetingEngine
+from output.parser import parse_synthesis
+from prompts.nervous_system_injector import NervousSystemInjector
+from utils.cost_tracker import CostTracker
+
+logger = logging.getLogger(__name__)
+
+
+class DailyBriefing:
+    def __init__(self):
+        self.meeting_type = "daily_briefing"
+
+    async def execute(
+        self,
+        agents: dict[str, RegisteredAgent],
+        cost_tracker: CostTracker,
+        agenda: str = "",
+    ) -> MeetingResponse:
+        meeting_id = f"daily_briefing-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
+        cost_tracker.meeting_id = meeting_id
+
+        logger.info(f"Executing Daily Briefing: {meeting_id}")
+
+        # Phase 0: Load nervous system — MUST be first (before MeetingEngine runs)
+        ns_injector = NervousSystemInjector()
+        await ns_injector.load()
+        logger.info(
+            f"Nervous system loaded for daily_briefing "
+            f"({ns_injector.node_count} nodes)"
+        )
+
+        engine = MeetingEngine(
+            agents=agents,
+            cost_tracker=cost_tracker,
+            meeting_type=self.meeting_type,
+            agenda=agenda,
+        )
+
+        synthesis_raw, context_updates, transcript = await engine.run()
+
+        # Parse structured output from Grok's synthesis
+        parsed_data = parse_synthesis(synthesis_raw)
+
+        # Build meeting notes (transcript only — summary rendered separately at top)
+        date_str = datetime.utcnow().strftime("%Y-%m-%d")
+        notes = f"# BPR&D Daily Briefing — {datetime.utcnow().strftime('%B %d, %Y')}\n\n"
+        notes += transcript.to_markdown()
+
+        # Build per-agent task checklists from action items and handoffs
+        agent_instructions = _build_agent_instructions(
+            parsed_data=parsed_data,
+            participating_agents=list(agents.keys()),
+            meeting_date=date_str,
+        )
+
+        # Build final response object
+        return MeetingResponse(
+            success=True,
+            meeting_id=meeting_id,
+            meeting_type=self.meeting_type,
+            notes=notes,
+            summary=parsed_data.get("meeting_notes", ""),
+            for_russell=parsed_data.get("for_russell", ""),
+            handoffs=parsed_data.get("handoffs", []),
+            action_items=parsed_data.get("action_items", []),
+            key_decisions=parsed_data.get("key_decisions", []),
+            agent_instructions=agent_instructions,
+            context_updates=context_updates,
+            cost_estimate=CostEstimate(**cost_tracker.to_dict()),
+        )
+
+
+def _build_agent_instructions(
+    parsed_data: dict,
+    participating_agents: list[str],
+    meeting_date: str,
+) -> dict[str, str]:
+    """Build per-agent handoff.md content from parsed daily briefing output."""
+    agent_tasks: dict[str, list[dict]] = {name: [] for name in participating_agents}
+
+    # Process action items
+    for item in parsed_data.get("action_items", []):
+        assignee = item.assigned_to.lower()
+        if assignee in agent_tasks:
+            priority = "URGENT" if item.priority in ("high", "critical") else item.priority.title()
+            agent_tasks[assignee].append({
+                "task": item.task,
+                "assigned_to": assignee.title(),
+                "priority": priority,
+                "status": "Pending",
+                "due": item.deadline or "TBD",
+            })
+
+    # Process handoffs as escalations
+    for handoff in parsed_data.get("handoffs", []):
+        assignee = handoff.assigned_to.lower()
+        if assignee in agent_tasks:
+            agent_tasks[assignee].append({
+                "task": f"[Escalation] {handoff.title} — see _handoffs/{handoff.task_id}.md",
+                "assigned_to": assignee.title(),
+                "priority": "High",
+                "status": "Pending",
+                "due": handoff.due_date or "TBD",
+            })
+
+    instructions = {}
+    for agent_name, tasks in agent_tasks.items():
+        if not tasks:
+            continue
+
+        lines = [
+            "---",
+            f"date: \"{meeting_date}\"",
+            "author: \"Meeting Engine\"",
+            "model: \"grok-4\"",
+            "version: \"v1.0\"",
+            "status: \"Active\"",
+            "---\n",
+            f"# {agent_name.title()} — Operational Tasks",
+            f"**Source:** Daily Briefing {meeting_date}",
+            "",
+            "## Action Items",
+            "",
+            "| Task | Assigned To | Priority | Status | Due |",
+            "|------|-------------|----------|--------|-----|",
+        ]
+        for t in tasks:
+            lines.append(
+                f"| {t['task']} | {t['assigned_to']} | {t['priority']} "
+                f"| {t['status']} | {t['due']} |"
+            )
+        lines.append("")
+        lines.append("---")
+        lines.append("*Updated automatically by meeting engine.*")
+
+        instructions[agent_name] = "\n".join(lines)
+
+    return instructions
+'''
+
+with open("crewai-service/meetings/daily_briefing.py", "w") as f:
+    f.write(daily_briefing_content)
+print("Fixed daily_briefing.py")
+
+# 2. Fix crewai-service/main.py
+try:
+    with open("crewai-service/main.py", "r") as f:
+        content = f.read()
+
+    # Fix issue_body multiline f-string
+    content = content.replace(
+        'issue_body = f"Triggered by {hic_id} via Dashboard.',
+        'issue_body = f"""Triggered by {hic_id} via Dashboard.'
+    )
+    content = content.replace(
+        'Status: In Progress"',
+        'Status: In Progress"""'
+    )
+
+    # Fix agenda multiline f-string
+    content = content.replace(
+        'agenda=f"**⚡ HiC Goal:** {topic}',
+        'agenda=f"""**⚡ HiC Goal:** {topic}'
+    )
+    content = content.replace(
+        'GitHub Issue: #{issue_num}"',
+        'GitHub Issue: #{issue_num}"""'
+    )
+
+    with open("crewai-service/main.py", "w") as f:
+        f.write(content)
+    print("Fixed main.py")
+except FileNotFoundError:
+    print("main.py not found, skipping")

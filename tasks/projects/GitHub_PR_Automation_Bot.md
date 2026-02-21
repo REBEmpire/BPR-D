@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-19
-Author: Abacus | Model: abacus-deep-agent
+Author: "Abacus | Model: abacus-deep-agent"
 Version: v1.0
 Status: Live
 Priority: P1

@@ -112,7 +112,24 @@ class SimpleGraph:
         return [(n, len(neighbors)) for n, neighbors in self.adj.items()]
 
     def to_dict(self):
-         return {"nodes": self.nodes, "adj": self.adj}
+        nodes_list = []
+        for n, attrs in self.nodes.items():
+            node_data = attrs.copy()
+            node_data['id'] = n
+            nodes_list.append(node_data)
+
+        links_list = []
+        seen = set()
+        for u, neighbors in self.adj.items():
+            for v, edge_attrs in neighbors.items():
+                if (u, v) not in seen and (v, u) not in seen:
+                    link_data = edge_attrs.copy()
+                    link_data['source'] = u
+                    link_data['target'] = v
+                    links_list.append(link_data)
+                    seen.add((u, v))
+
+        return {"nodes": nodes_list, "links": links_list}
 
 # --- LLM Configuration ---
 ABACUS_API_KEY = os.environ.get("ABACUS_PRIMARY_KEY") or os.environ.get("ABACUS_API_KEY")
@@ -174,6 +191,99 @@ def extract_text_from_pdf(file_path):
         logger.error(f"Error reading PDF {file_path}: {e}")
         return ""
 
+def heuristic_analyze_document(content, filename):
+    """Fallback extraction when LLM is unavailable."""
+    logger.info(f"Using heuristic extraction for {filename}")
+
+    entities = []
+    relationships = []
+    timeline = []
+    anomalies = []
+
+    # 1. Extract potential names (Capitalized words)
+    # Simple regex for capitalized words that are not starting a sentence or common stopwords
+    common_stops = {"The", "A", "An", "On", "In", "At", "To", "From", "And", "But", "Or", "If", "When", "Where", "Who", "What", "Why", "How", "This", "That", "These", "Those", "It", "Is", "Are", "Was", "Were", "Be", "Been", "Being", "Have", "Has", "Had", "Do", "Does", "Did", "Can", "Could", "Will", "Would", "Shall", "Should", "May", "Might", "Must", "Also"}
+
+    # Find capitalized phrases
+    cap_phrases = re.findall(r'([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', content)
+
+    seen_entities = set()
+    for phrase in cap_phrases:
+        if phrase in common_stops: continue
+        if len(phrase) < 3: continue
+
+        etype = "UNKNOWN"
+        # Simple heuristics for type
+        phrase_lower = phrase.lower()
+        if any(name.lower() in phrase_lower for name in ["Epstein", "Maxwell", "Clinton", "Prince Andrew", "Trump", "Doe"]): etype = "PERSON"
+        elif any(loc.lower() in phrase_lower for loc in ["TEB", "PBI", "USVI", "New York", "Paris", "London"]): etype = "LOCATION"
+
+        if phrase not in seen_entities:
+            entities.append({
+                "name": phrase,
+                "type": etype,
+                "confidence": 50,
+                "source_context": "Heuristic extraction"
+            })
+            seen_entities.add(phrase)
+
+    # 2. Extract Dates (YYYY-MM-DD)
+    dates = re.findall(r'(\d{4}-\d{2}-\d{2})', content)
+    for d in dates:
+        timeline.append({
+            "date": d,
+            "event": f"Event mentioned in {filename}",
+            "confidence": 60
+        })
+        entities.append({
+            "name": d,
+            "type": "DATE",
+            "confidence": 80,
+            "source_context": "Date regex"
+        })
+
+    # 3. Extract Flight Info
+    if "flight" in content.lower() or "flew" in content.lower():
+        # Look for 3-letter codes which might be airports (all caps)
+        codes = re.findall(r'\b([A-Z]{3})\b', content)
+        airport_candidates = [c for c in codes if c not in common_stops and c not in ["PDF", "JPG", "PNG"]]
+
+        for c in airport_candidates:
+             if c not in seen_entities:
+                 entities.append({
+                    "name": c,
+                    "type": "LOCATION/AIRPORT",
+                    "confidence": 60,
+                    "source_context": "Airport code regex"
+                })
+                 seen_entities.add(c)
+
+    # Create generic relationships if multiple entities found (limit to first few to avoid explosion)
+    if len(entities) > 1:
+        # Link first entity to next few
+        src = entities[0]['name']
+        for i in range(1, min(5, len(entities))):
+            tgt = entities[i]['name']
+            relationships.append({
+                "source": src,
+                "target": tgt,
+                "type": "associated",
+                "confidence": 30,
+                "rationale": "Co-occurrence in document",
+                "provenance": "Heuristic link"
+            })
+
+    # 4. Anomalies
+    if "redacted" in content.lower():
+        anomalies.append("Document contains 'redacted' keyword.")
+
+    return {
+        "entities": entities,
+        "relationships": relationships,
+        "timeline": timeline,
+        "anomalies": anomalies
+    }
+
 def analyze_document_llm(content, filename):
     if not content or not content.strip(): return None
     prompt = f"""You are an expert investigative analyst processing the Epstein Archive.
@@ -204,7 +314,8 @@ Strictly return valid JSON only. Do not include markdown formatting like ```json
 Text: {content[:25000]}"""
 
     response_text = call_llm(prompt)
-    if not response_text: return None
+    if not response_text:
+        return heuristic_analyze_document(content, filename)
 
     # Try to extract JSON block
     clean_text = response_text
@@ -229,7 +340,7 @@ Text: {content[:25000]}"""
         except json.JSONDecodeError:
             logger.error(f"Failed to parse LLM JSON for {filename}")
             logger.debug(f"Raw response: {response_text}")
-            return None
+            return heuristic_analyze_document(content, filename)
 
 def scrape_public_sources():
     """Placeholder for automated lightweight scrape of known public sources."""
