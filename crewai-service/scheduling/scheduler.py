@@ -5,6 +5,8 @@ Manual team meetings are triggered via /api/v1/meetings/manual-trigger.
 """
 
 import logging
+import os
+import random
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -36,6 +38,28 @@ async def _run_daily_briefing():
         logger.error(f"Scheduled Daily Briefing failed: {e}", exc_info=True)
 
 
+async def execute_solo_work_session():
+    """Scheduled job: execute a solo work session with a random agent."""
+    if _execute_meeting_fn is None:
+        logger.error("Meeting execution function not set")
+        return
+
+    # Randomly select an agent
+    agents = ["grok", "claude", "gemini", "abacus"]
+    agent = random.choice(agents)
+
+    logger.info(f"Scheduler: triggering Solo Work Session for {agent}")
+    try:
+        from models.meeting import MeetingRequest, MeetingType
+        request = MeetingRequest(
+            meeting_type=MeetingType.WORK_SESSION,
+            participants=[agent]
+        )
+        await _execute_meeting_fn(request)
+    except Exception as e:
+        logger.error(f"Scheduled Work Session failed: {e}", exc_info=True)
+
+
 def create_scheduler() -> AsyncIOScheduler:
     """Create and configure the meeting scheduler.
 
@@ -58,4 +82,19 @@ def create_scheduler() -> AsyncIOScheduler:
     )
 
     logger.info("Scheduler configured with Daily Briefing (Mon-Fri 07:47 AM PST)")
+
+    # --- Work Sessions (Optional) ---
+    if os.getenv("ENABLE_WORK_SESSIONS", "false").lower() == "true":
+        scheduler.add_job(
+            execute_solo_work_session,
+            "interval",
+            minutes=30,
+            id="work_session_stagger",
+            name="Solo Work Session (Every 30 mins)",
+            replace_existing=True,
+        )
+        logger.info("Scheduler configured with Work Sessions (Every 30 mins)")
+    else:
+        logger.info("Work sessions DISABLED per HiC directive.")
+
     return scheduler
