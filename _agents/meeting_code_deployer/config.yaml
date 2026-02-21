@@ -1,0 +1,80 @@
+# Meeting-Code-Deployer Configuration
+# Version: 2.0.0
+
+mcd:
+  # Paths configuration
+  paths:
+    skill_web: "_shared/skill-graphs/bprd-core"
+    tasks_dir: "tasks"
+    meetings_dir: "meetings/logs"
+    todo_list: "BPR&D_To_Do_List.md"
+    counter_file: "tasks/_counter.yaml"
+  
+  # Extraction settings
+  extraction:
+    min_confidence: 0.7
+    auto_assign: true
+    skill_matching: true
+    # Patterns to identify action items
+    action_patterns:
+      - "will implement"
+      - "will create"
+      - "will update"
+      - "will fix"
+      - "will add"
+      - "will review"
+      - "will research"
+      - "let's make sure"
+      - "we need to"
+      - "TODO:"
+      - "ACTION:"
+      - "TASK:"
+      - "@\\w+ will"
+    # Patterns for decisions
+    decision_patterns:
+      - "we decided"
+      - "agreed to"
+      - "final decision"
+      - "DECISION:"
+      - "approved"
+    # Patterns for deadlines
+    deadline_patterns:
+      - "by (monday|tuesday|wednesday|thursday|friday|saturday|sunday)"
+      - "by end of (week|month|day|sprint)"
+      - "due (\\d{4}-\\d{2}-\\d{2})"
+      - "deadline:? (\\d{4}-\\d{2}-\\d{2})"
+      - "by (\\d{1,2})/(\\d{1,2})"
+  
+  # Code pipeline settings
+  code_pipeline:
+    auto_branch: true
+    branch_prefix: "task/"
+    require_pr: true
+    auto_deploy: false
+  
+  # Verification settings
+  verification:
+    required: true
+    verifier: "perplexity"
+    timeout_hours: 48
+  
+  # Agent registry
+  agents:
+    - name: "grok"
+      skills: ["strategic-direction", "meeting-engine", "research"]
+    - name: "claude"
+      skills: ["code-review", "api-development", "documentation"]
+    - name: "abacus"
+      skills: ["system-architecture", "automation", "infrastructure"]
+    - name: "gemini"
+      skills: ["research", "analysis", "content"]
+    - name: "perplexity"
+      skills: ["verification", "fact-checking"]
+    - name: "russell"
+      skills: ["operations", "telegram-alerts"]
+
+  # Output settings
+  output:
+    verbose: true
+    dry_run_report: true
+    create_summary: true
