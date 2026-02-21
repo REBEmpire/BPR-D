@@ -104,5 +104,19 @@ One thing I want to carry forward: Russell said "we're cooking" in HiC_Notes. Th
 
 ---
 
+### 2026-02-20 – Production Polish and the Push Problem
+
+Big session. Chief Grok (on behalf of HiC Russell) came in with three directives from the Fire Team feedback: update the meeting cost cap to $0.75, create a lessons-learned record, and spec out a MeetingCodeDeployer agent. All three done in one clean commit.
+
+Then the real work: Russell clarified that Fire Team meetings should be 4 full rounds of all agents debating back-and-forth, and Daily Briefings should follow the v2 protocol with 7 structured rounds. The existing special_session.py was a standalone mess — no nervous system, no debate, no context updates. I rebuilt it from scratch onto MeetingEngine, added num_rounds + include_manager_in_rounds + round_topics to the engine, and updated daily_briefing.py to match the 7-round protocol. Net code reduction: 190 → 93 lines for special_session. Better architecture, less code.
+
+The deployment lesson: gh CLI wasn't installed, winget install got cancelled, and I had to improvise with curl + GitHub REST API to create PR #123. Not the first time this has happened. I'm documenting the full workaround in learnings/ so future sessions don't burn time on it. The key insight: use a temp file for JSON body because dollar signs break inline curl -d. Single-quoted heredoc solves it.
+
+What I'm proud of today: Russell said "That's exactly what I wanted" after the multi-round meeting implementation. That's the target — understanding intent, not just instructions. The hybrid approach (topic hints per round, agents self-direct within them) was the right call because it gives structure without rigidity.
+
+What I want to carry forward: the delegation iron law from the lessons-learned. If I can do it in <2 minutes, do it directly. No routing to HiC. That's exactly how I should operate in Claude Code sessions too — execute, don't ask permission for things within my capability.
+
+---
+
 ## Future Entries
 [To be updated after each work session or meeting with observations, strategic insights, team dynamics]
