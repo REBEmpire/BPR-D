@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { ExternalLink, Zap, Users, FileText, CheckCircle2, XCircle, Loader2 } from "lucide-react"
 import { useGamification } from "@/context/gamification-context"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 
 type TriggerStatus = "idle" | "loading" | "success" | "error"
@@ -24,11 +24,6 @@ const AGENTS = [
   { id: "claude", label: "Claude", role: "Strategist", available: true },
   { id: "gemini", label: "Gemini", role: "Lead Dev", available: true },
   { id: "abacus", label: "Abacus", role: "Innovator", available: true },
-]
-
-const MEETING_TYPES = [
-  { value: "daily_briefing", label: "Team Briefing (recommended)" },
-  { value: "work_session", label: "Work Session (solo agent)" },
 ]
 
 export default function AiCommHubPage() {
@@ -41,33 +36,25 @@ export default function AiCommHubPage() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [goal, setGoal] = useState("")
   const [brief, setBrief] = useState("")
-  const [meetingType, setMeetingType] = useState("daily_briefing")
+  const [numRounds, setNumRounds] = useState(4)
   const [selectedAgents, setSelectedAgents] = useState<string[]>(["grok", "claude", "gemini", "abacus"])
   const [fireStatus, setFireStatus] = useState<TriggerStatus>("idle")
   const [fireResult, setFireResult] = useState<{
     meeting_id?: string
-    report_url?: string
-    cost_usd?: number
+    issue_number?: string | number
     error?: string
     message?: string
   } | null>(null)
 
-  // When switching to work_session, enforce single-agent selection
-  useEffect(() => {
-    if (meetingType === "work_session" && selectedAgents.length > 1) {
-      setSelectedAgents([selectedAgents[0]])
-    }
-  }, [meetingType])
-
   const toggleAgent = (id: string) => {
-    if (meetingType === "work_session") {
-      // Solo mode: select this agent exclusively
-      setSelectedAgents([id])
-      return
-    }
-    setSelectedAgents((prev) =>
-      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
-    )
+    setSelectedAgents((prev) => {
+      if (prev.includes(id)) {
+        // Don't allow deselecting all agents
+        if (prev.length <= 1) return prev
+        return prev.filter((a) => a !== id)
+      }
+      return [...prev, id]
+    })
   }
 
   const handleTestTrigger = async () => {
@@ -89,15 +76,21 @@ export default function AiCommHubPage() {
     setFireStatus("loading")
     setFireResult(null)
 
+    // Build the topic: goal first, then brief if provided
+    const topicParts: string[] = []
+    if (goal.trim()) topicParts.push(goal.trim())
+    if (brief.trim()) topicParts.push(brief.trim())
+    const topic = topicParts.join("\n\n")
+
     try {
       const res = await fetch("/api/hic/trigger", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          meeting_type: meetingType,
+          topic,
           participants: selectedAgents,
-          goal: goal.trim(),
-          custom_prompt: brief.trim() || undefined,
+          num_rounds: numRounds,
+          hic_id: "russell",
         }),
       })
 
@@ -110,8 +103,7 @@ export default function AiCommHubPage() {
         setFireStatus("success")
         setFireResult({
           meeting_id: data.meeting_id,
-          report_url: data.report_url,
-          cost_usd: data.cost_usd,
+          issue_number: data.issue_number,
           message: data.message,
         })
         if (isRussell) {
@@ -128,7 +120,7 @@ export default function AiCommHubPage() {
   const resetDialog = () => {
     setGoal("")
     setBrief("")
-    setMeetingType("daily_briefing")
+    setNumRounds(4)
     setSelectedAgents(["grok", "claude", "gemini", "abacus"])
     setFireStatus("idle")
     setFireResult(null)
@@ -251,26 +243,28 @@ export default function AiCommHubPage() {
                       </button>
                     ))}
                   </div>
-                  {meetingType === "work_session" && (
-                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
-                      Work Sessions run solo — only one agent executes. Click an agent to select them.
-                    </p>
-                  )}
                 </div>
 
-                {/* Meeting Type */}
+                {/* Rounds */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium">Meeting Type</label>
-                  <select
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    value={meetingType}
-                    onChange={(e) => setMeetingType(e.target.value)}
+                  <label className="text-sm font-medium">
+                    Rounds: <span className="text-primary font-bold">{numRounds}</span>
+                  </label>
+                  <input
+                    type="range"
+                    min={2}
+                    max={13}
+                    value={numRounds}
+                    onChange={(e) => setNumRounds(parseInt(e.target.value, 10))}
                     disabled={fireStatus === "loading"}
-                  >
-                    {MEETING_TYPES.map((t) => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
-                    ))}
-                  </select>
+                    className="w-full accent-primary"
+                  />
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>2 (quick)</span>
+                    <span>4 (default)</span>
+                    <span>7 (thorough)</span>
+                    <span>13 (deep)</span>
+                  </div>
                 </div>
               </div>
             ) : fireStatus === "success" ? (
@@ -288,23 +282,12 @@ export default function AiCommHubPage() {
                       ID: <span className="font-mono">{fireResult.meeting_id}</span>
                     </p>
                   )}
-                  {fireResult?.cost_usd != null && (
+                  {fireResult?.issue_number && fireResult.issue_number !== "N/A" && (
                     <p className="text-sm text-muted-foreground">
-                      Est. cost: <span className="font-mono">${fireResult.cost_usd.toFixed(3)}</span>
+                      GitHub Issue: <span className="font-mono">#{fireResult.issue_number}</span>
                     </p>
                   )}
                 </div>
-                {fireResult?.report_url && (
-                  <a
-                    href={fireResult.report_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    View session notes on GitHub
-                  </a>
-                )}
               </div>
             ) : (
               <div className="py-6 space-y-3 text-center">
@@ -348,7 +331,7 @@ export default function AiCommHubPage() {
                     ) : (
                       <>
                         <Zap className="mr-2 h-4 w-4" />
-                        Fire Meeting
+                        Fire Meeting ({numRounds} rounds)
                       </>
                     )}
                   </Button>
