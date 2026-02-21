@@ -1,19 +1,21 @@
 """
-Meeting engine for BPR&D meeting service.
+Meeting Engine for BPR&D.
 Phase-driven state machine that orchestrates multi-agent dialogue
 with full conversation history.
 """
 
 import asyncio
 import logging
+import os
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Callable, Awaitable
 
 from agents.registry import RegisteredAgent
 from llm.base import LLMResponse
 from orchestrator.transcript import Transcript
 from prompts.nervous_system_injector import NervousSystemInjector
-from tools import list_commits, read_file, list_handoffs, list_sessions
+from tools.github_tool import list_commits, read_file, list_handoffs, list_sessions
 from tools.memory_tool import read_memory
 from utils.cost_tracker import CostTracker
 
@@ -50,92 +52,164 @@ class MeetingContext:
             parts.append(f"## Recent Commits\n{self.recent_commits}")
         if self.active_handoffs:
             parts.append(f"## Active Handoffs\n{self.active_handoffs}")
-        for agent, ctx in self.agent_contexts.items():
-            if ctx and not ctx.startswith("Memory file not found"):
-                parts.append(f"## {agent.title()}'s Active Context\n{ctx}")
+        if self.protocols:
+            parts.append(f"## Active Protocols\n{self.protocols}")
+        if self.user_context:
+            parts.append(f"## User Memory\n{self.user_context}")
+
+        # Agent specific contexts are usually injected separately, but adding summary here
+        if self.agent_contexts:
+            parts.append("## Agent Contexts (active.md)")
+            for agent, content in self.agent_contexts.items():
+                parts.append(f"\n### {agent.upper()}\n{content}")
+
         return "\n\n".join(parts)
 
 
 class MeetingEngine:
-    """Orchestrates a meeting as a phase-driven state machine.
-
-    Each phase calls specific agents with the full conversation transcript,
-    enabling natural multi-turn dialogue where agents reference each other.
+    """
+    Core engine that drives a meeting through its phases.
+    Decoupled from specific meeting types (DailyBriefing, etc) which just configure it.
     """
 
     def __init__(
         self,
         agents: dict[str, RegisteredAgent],
         cost_tracker: CostTracker,
-        meeting_type: str = "daily_briefing",
-        agenda: str = "",
-        timeout_seconds: int = 900,
+        meeting_type: str,
+        agenda: str,
         num_rounds: int = 1,
-        include_manager_in_rounds: bool = False,
-        round_topics: list[str] | None = None,
+        include_manager_in_rounds: bool = True,
+        round_topics: list[str] = None,
+        timeout_seconds: int = 300,
     ):
         self.agents = agents
         self.cost_tracker = cost_tracker
         self.meeting_type = meeting_type
         self.agenda = agenda
-        self.timeout_seconds = timeout_seconds
         self.num_rounds = num_rounds
         self.include_manager_in_rounds = include_manager_in_rounds
         self.round_topics = round_topics or []
+        self.timeout_seconds = timeout_seconds
+
         self.transcript = Transcript()
         self.context = MeetingContext(agenda=agenda)
-        # Nervous system injector — loaded in gather_context(), used in every _call_agent()
+
+        # Nervous System
         self._ns_injector = NervousSystemInjector()
-        self._ns_agent_hooks: dict[str, str] = {}
+        self._ns_agent_hooks = {}  # Store retrieved hooks per agent
 
-    async def _call_agent(self, agent_name: str, phase: str, instructions: str) -> LLMResponse | None:
-        """Call an agent's LLM with the full transcript and instructions.
+    async def gather_context(self) -> None:
+        """Phase 0: Load nervous system + gather context from GitHub, memory, and handoffs."""
+        logger.info("Phase: GATHER_CONTEXT")
 
-        The nervous system preamble is prepended as the VERY FIRST content
-        in every agent system prompt — before persona, before context, before phase.
+        # 1. Load Nervous System
+        await self._ns_injector.load()
+        for agent_name in self.agents:
+            self._ns_agent_hooks[agent_name] = self._ns_injector.get_agent_hook(agent_name)
 
-        Returns None if budget exceeded or agent not available.
-        """
-        if not self.cost_tracker.check_budget():
-            logger.warning(f"Budget exceeded, skipping {agent_name} in {phase}")
-            return None
+        # 2. Gather Project State (Parallel)
+        async def fetch_commits():
+            try:
+                return await list_commits(count=5)
+            except Exception as e:
+                logger.warning(f"Failed to fetch commits: {e}")
+                return "Error fetching commits."
 
+        async def fetch_team_state():
+            try:
+                return await read_file("_agents/team_state.md")
+            except Exception:
+                return ""
+
+        async def fetch_handoffs():
+            try:
+                return await list_handoffs()
+            except Exception:
+                return ""
+
+        async def fetch_sessions():
+            try:
+                return await list_sessions(limit=3)
+            except Exception:
+                return ""
+
+        async def fetch_protocol():
+            try:
+                return await read_file("team_meeting_protocol_v2.md")
+            except Exception:
+                return ""
+
+        async def fetch_agent_context(agent_name):
+            try:
+                return await read_file(f"_agents/{agent_name}/active.md")
+            except Exception:
+                return ""
+
+        # Execute gathers
+        results = await asyncio.gather(
+            fetch_commits(),
+            fetch_team_state(),
+            fetch_handoffs(),
+            fetch_sessions(),
+            fetch_protocol(),
+            *[fetch_agent_context(a) for a in self.agents],
+            return_exceptions=True
+        )
+
+        # Unpack results
+        self.context.recent_commits = str(results[0])
+        self.context.team_state = str(results[1])
+        self.context.active_handoffs = str(results[2])
+        self.context.recent_sessions = str(results[3])
+        self.context.protocols = str(results[4])
+
+        agent_results = results[5:]
+        for i, agent_name in enumerate(self.agents):
+            if isinstance(agent_results[i], str):
+                self.context.agent_contexts[agent_name] = agent_results[i]
+
+    async def _call_agent(
+        self,
+        agent_name: str,
+        phase: str,
+        instructions: str,
+        on_turn: Callable[[str, str], Awaitable[None]] = None
+    ) -> LLMResponse | None:
+        """Helper to call a single agent and update transcript."""
         agent = self.agents.get(agent_name)
         if not agent:
-            logger.warning(f"Agent {agent_name} not available")
+            logger.error(f"Agent {agent_name} not found!")
             return None
 
-        # Build nervous system preamble for this specific agent + session
+        # Inject Nervous System context
         agent_hook = self._ns_agent_hooks.get(agent_name, "")
         ns_preamble = self._ns_injector.inject(
             agent_name=agent_name,
             session_type=self.meeting_type,
-            base_prompt="",  # preamble only — persona.build_system_prompt handles the rest
+            base_prompt="",
             model_id=getattr(agent.provider, "model", ""),
             agent_hook=agent_hook,
         )
 
+        # Build system prompt with RICH context
         system_prompt = agent.persona.build_system_prompt(
             meeting_context=self.context.as_summary(),
             phase_instructions=instructions,
             nervous_system_preamble=ns_preamble,
         )
 
-        # Build messages from transcript (this agent's turns as 'assistant', others as 'user')
+        # Get conversation history (excluding self to maintain flow)
         messages = self.transcript.to_messages(exclude_agent=agent_name)
-
-        # If no messages yet (first turn), add a starter
-        if not messages:
-            messages = [{"role": "user", "content": f"Meeting type: {self.meeting_type}. Begin."}]
 
         try:
             response = await agent.provider.chat(
                 messages=messages,
                 system=system_prompt,
-                temperature=agent.persona.temperature,
+                temperature=0.7,
             )
 
-            # Record costs
+            # Record cost
             self.cost_tracker.record_usage(
                 agent_name=agent_name,
                 prompt_tokens=response.input_tokens,
@@ -143,141 +217,79 @@ class MeetingEngine:
                 cost_usd=response.cost_usd,
             )
 
-            # Add to transcript
+            # Update transcript
             self.transcript.add_turn(agent_name, phase, response.content)
+            logger.info(f"  {agent_name} ({phase}): {response.output_tokens} tokens, ${response.cost_usd:.4f}")
 
-            logger.info(
-                f"  {agent_name} ({phase}): {response.output_tokens} tokens, "
-                f"${response.cost_usd:.4f}"
-            )
+            if on_turn:
+                await on_turn(agent_name, response.content)
 
             return response
 
         except Exception as e:
-            logger.error(f"Error calling {agent_name}: {e}", exc_info=True)
-            self.transcript.add_turn(
-                agent_name, phase,
-                f"[{agent_name} encountered an error and could not respond: {e}]"
-            )
+            logger.error(f"Agent {agent_name} call failed: {e}", exc_info=True)
             return None
 
-    async def gather_context(self) -> None:
-        """Phase 0: Load nervous system + gather context from GitHub, memory, and handoffs.
-
-        The nervous system injector is loaded FIRST — before any other context.
-        This ensures every subsequent _call_agent() has the full skill graph available.
-        """
-        logger.info("Phase: CONTEXT_GATHERING (nervous system first)")
-
-        # Step 0: Load BPR&D central nervous system (skill graph + agent hooks)
-        await self._ns_injector.load()
-        for agent_name in self.agents:
-            self._ns_agent_hooks[agent_name] = await self._ns_injector.load_agent_hook(agent_name)
-        logger.info("Nervous system loaded — skill graph active for all agents")
-
-        # Step 1: Fetch repo context in parallel
-        results = await asyncio.gather(
-            list_commits(count=10),
-            read_memory("shared", "team_state"),
-            list_handoffs(),
-            read_memory("shared", "protocols"),
-            read_memory("shared", "user_context"),
-            list_sessions(count=3),
-            return_exceptions=True,
-        )
-
-        self.context.recent_commits = results[0] if isinstance(results[0], str) else ""
-        self.context.team_state = results[1] if isinstance(results[1], str) else ""
-        self.context.active_handoffs = results[2] if isinstance(results[2], str) else ""
-        self.context.protocols = results[3] if isinstance(results[3], str) else ""
-        self.context.user_context = results[4] if isinstance(results[4], str) else ""
-        self.context.recent_sessions = results[5] if isinstance(results[5], str) else ""
-
-        # Step 2: Load each agent's active context
-        agent_ctx_tasks = []
-        for name in self.agents:
-            agent_ctx_tasks.append(read_memory(name, "context"))
-        agent_contexts = await asyncio.gather(*agent_ctx_tasks, return_exceptions=True)
-        for name, ctx in zip(self.agents.keys(), agent_contexts):
-            self.context.agent_contexts[name] = ctx if isinstance(ctx, str) else ""
-
-        logger.info("Full context gathered — meeting engine ready")
-
-    async def grok_opens(self) -> None:
-        """Phase 2: Grok opens the meeting."""
+    async def grok_opens(self, on_turn: Callable = None) -> None:
+        """Phase 2: Grok sets the stage."""
         logger.info("Phase: GROK_OPENS")
-
-        today = datetime.utcnow().strftime("%A, %B %d, %Y")
         instructions = (
-            f"Open today's {self.meeting_type.replace('_', ' ')} meeting ({today}).\n\n"
-            "CRITICAL: Open DIFFERENTLY EVERY TIME. A question, a challenge, a piece of news, "
-            "silence, mid-thought, a callback to a past meeting. NEVER predictable. "
-            "NEVER 'Good morning team'.\n\n"
-            "After your opening, review the context provided and present a meeting agenda "
-            "with 3-5 prioritized topics. For each topic, note:\n"
-            "- What it is\n"
-            "- Why it matters now\n"
-            "- Which agents should weigh in\n\n"
-            "Keep it sharp and direct. Set the tone for the entire meeting."
+            "You are the Chair. Open this meeting. \n"
+            "1. Review the agenda/goal.\n"
+            "2. Set the tone (professional but high-energy).\n"
+            "3. Call on the first agent to speak."
         )
-        await self._call_agent("grok", "opening", instructions)
+        await self._call_agent("grok", "opening", instructions, on_turn)
 
-    async def agent_round(self, round_num: int = 1) -> None:
-        """Phase 3: Each agent provides their perspective for this round."""
-        logger.info(f"Phase: AGENT_ROUND_{round_num}")
+    async def agent_round(self, round_num: int, on_turn: Callable = None) -> None:
+        """Phase 3: Round of contributions."""
+        logger.info(f"Phase: ROUND_{round_num}")
 
-        # Determine speakers — include manager (grok) if configured
-        if self.include_manager_in_rounds:
-            speakers = list(self.agents.keys())
-        else:
-            speakers = [name for name in self.agents if name != "grok"]
-
-        # Build round context hint
-        round_context = ""
+        topic = "General Discussion"
         if self.round_topics and round_num <= len(self.round_topics):
-            round_context = self.round_topics[round_num - 1]
-        elif self.num_rounds > 1:
-            # Generic escalation for rounds without explicit topics
-            generic = {
-                1: "Provide your initial analysis and proposals.",
-                2: "Respond to what others said. Build on, challenge, or refine.",
-                3: "Converge on solutions. Identify agreements and open items.",
-            }
-            round_context = generic.get(
-                round_num,
-                "FINAL ROUND. Deliver concrete recommendations and outputs."
-            )
+            topic = self.round_topics[round_num - 1]
 
-        for agent_name in speakers:
-            instructions = (
-                f"Review the full conversation so far and provide your perspective "
-                f"(Round {round_num}/{self.num_rounds}).\n\n"
-                f"{round_context}\n\n"
-                "For each topic relevant to your expertise:\n"
-                "- Share your analysis or insights\n"
-                "- Explicitly reference other agents' points (agree, disagree, build on)\n"
-                "- Propose concrete next steps from your domain\n\n"
-                "Also report on any pending handoffs or work assigned to you.\n\n"
-                "Stay in character. Be substantive. Reference what others actually said."
-            )
-            await self._call_agent(agent_name, f"round_{round_num}", instructions)
+        logger.info(f"  Topic: {topic}")
+
+        # Determine order
+        agents_to_run = list(self.agents.keys())
+        # If manager is excluded from rounds, remove grok
+        if not self.include_manager_in_rounds and "grok" in agents_to_run:
+            agents_to_run.remove("grok")
+
+        for agent_name in agents_to_run:
+            if agent_name == "grok":
+                 # Grok specific instructions if he is in the round
+                instructions = (
+                    f"Round {round_num} Topic: {topic}\n"
+                    "As Chair, guide the discussion or add your specific insight. "
+                    "Keep it moving."
+                )
+            else:
+                instructions = (
+                    f"Round {round_num} Topic: {topic}\n"
+                    "Provide your update or perspective. Be concise. "
+                    "Reference specific files or data if possible."
+                )
+
+            await self._call_agent(agent_name, f"round_{round_num}", instructions, on_turn)
 
             if not self.cost_tracker.check_budget():
                 break
 
-    async def debate(self) -> None:
-        """Phase 4 (optional): Targeted exchanges on contentious points."""
+    async def debate(self, on_turn: Callable = None) -> None:
+        """Phase 4: Debate / Refinement (Grok led)."""
         logger.info("Phase: DEBATE")
 
-        # Ask Grok to identify debate-worthy topics
+        # Grok decides if debate is needed
         instructions = (
-            "Based on the discussion so far, are there any points of genuine disagreement "
-            "or tension that would benefit from deeper debate? If so, identify them and "
-            "call on specific agents to defend their positions. If not, say so briefly "
-            "and move to synthesis.\n\n"
+            "Review the discussion so far. Is there a conflict, a weak point, "
+            "or a missing perspective? \n"
+            "If YES: Identify it and ask a specific agent to address it. \n"
+            "If NO: output 'Move to synthesis'."
             "Remember: let it get spicy. This is where ideas sharpen."
         )
-        response = await self._call_agent("grok", "debate_setup", instructions)
+        response = await self._call_agent("grok", "debate_setup", instructions, on_turn)
 
         if response and "move to synthesis" not in response.content.lower() and "no debate" not in response.content.lower():
             # There's a debate topic — let agents respond
@@ -288,12 +300,12 @@ class MeetingEngine:
                     "Defend your position with evidence and reasoning. Push back if you disagree. "
                     "This is where iron sharpens iron. Be direct."
                 )
-                await self._call_agent(agent_name, "debate", debate_instructions)
+                await self._call_agent(agent_name, "debate", debate_instructions, on_turn)
 
                 if not self.cost_tracker.check_budget():
                     break
 
-    async def grok_synthesizes(self) -> str:
+    async def grok_synthesizes(self, on_turn: Callable = None) -> str:
         """Phase 5: Grok synthesizes the meeting into structured output."""
         logger.info("Phase: GROK_SYNTHESIZES")
 
@@ -362,6 +374,9 @@ class MeetingEngine:
 
             self.transcript.add_turn("grok", "synthesis", response.content)
             logger.info(f"  grok (synthesis): {response.output_tokens} tokens, ${response.cost_usd:.4f}")
+
+            if on_turn:
+                await on_turn("grok", response.content, is_synthesis=True)
 
             return response.content
 
@@ -434,7 +449,7 @@ class MeetingEngine:
 
         return updates
 
-    async def grok_closes(self) -> None:
+    async def grok_closes(self, on_turn: Callable = None) -> None:
         """Phase 6: Grok delivers a memorable closing."""
         logger.info("Phase: GROK_CLOSES")
 
@@ -444,7 +459,7 @@ class MeetingEngine:
             "a challenge for tomorrow, a moment of real talk, or something unexpected.\n\n"
             "Keep it short (2-3 sentences max). Make it land."
         )
-        await self._call_agent("grok", "closing", instructions)
+        await self._call_agent("grok", "closing", instructions, on_turn)
 
     async def run(self) -> tuple[str, dict[str, str], Transcript]:
         """Execute the full meeting flow. Returns (synthesis_output, transcript)."""
@@ -454,7 +469,7 @@ class MeetingEngine:
             # Phase 1: Gather context
             await asyncio.wait_for(
                 self.gather_context(),
-                timeout=30,
+                timeout=self.timeout_seconds,
             )
 
             # Phase 2: Grok opens
@@ -499,7 +514,7 @@ class MeetingEngine:
             self.cost_tracker.termination_reason = str(e)
             return "", {}, self.transcript
 
-    async def _emergency_close(self) -> tuple[str, dict[str, str], Transcript]:
+    async def _emergency_close(self, on_turn: Callable = None) -> tuple[str, dict[str, str], Transcript]:
         """Quick close when budget is exceeded mid-meeting."""
         logger.warning("Emergency close: budget exceeded")
         self.transcript.add_turn(
@@ -507,6 +522,103 @@ class MeetingEngine:
             "[Meeting terminated early due to budget cap. "
             "Partial discussion preserved above.]"
         )
+        if on_turn:
+            await on_turn("system", "[Meeting terminated early due to budget cap.]")
+
         # Try a quick synthesis with what we have
-        synthesis = await self.grok_synthesizes()
+        synthesis = await self.grok_synthesizes(on_turn)
         return synthesis, {}, self.transcript
+
+    async def stream_events(self):
+        """Execute the meeting and yield events for SSE streaming."""
+        logger.info(f"=== Starting {self.meeting_type} meeting (STREAMING) ===")
+
+        # Initialize log file
+        try:
+            os.makedirs("meetings/logs", exist_ok=True)
+            log_path = f"meetings/logs/meeting_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{self.cost_tracker.meeting_id}.md"
+            with open(log_path, "w", encoding="utf-8") as f:
+                f.write(f"# Meeting Log: {self.meeting_type}\nDate: {datetime.utcnow()}\n\n")
+        except Exception as e:
+            logger.error(f"Failed to create log file: {e}")
+            log_path = None
+
+        # Callbacks
+        async def yield_event(event_type: str, data: dict):
+            payload = {"type": event_type, "timestamp": datetime.utcnow().isoformat(), **data}
+
+            # Persist to disk immediately
+            if log_path:
+                try:
+                    with open(log_path, "a", encoding="utf-8") as f:
+                        if event_type == "turn":
+                            f.write(f"\n### {data.get('agent', 'SYSTEM').upper()}\n\n{data.get('content', '')}\n\n")
+                        elif event_type == "synthesis":
+                             f.write(f"\n# SYNTHESIS\n\n{data.get('content', '')}\n\n")
+                except Exception as e:
+                    logger.error(f"Failed to append to log file: {e}")
+
+            yield payload
+
+        async def on_turn(agent_name: str, content: str, is_synthesis: bool = False):
+            event_type = "synthesis" if is_synthesis else "turn"
+            async for event in yield_event(event_type, {"agent": agent_name, "content": content}):
+                yield event
+
+        # Main Flow
+        try:
+            yield {"type": "start", "meeting_id": self.cost_tracker.meeting_id}
+
+            # Phase 1: Gather context
+            yield {"type": "phase", "phase": "gather_context"}
+            try:
+                await asyncio.wait_for(self.gather_context(), timeout=self.timeout_seconds)
+            except Exception as e:
+                logger.error(f"Context gathering failed: {e}")
+
+            # Phase 2: Grok opens
+            yield {"type": "phase", "phase": "grok_opens"}
+            await self.grok_opens(on_turn=on_turn)
+
+            if not self.cost_tracker.check_budget():
+                await self._emergency_close(on_turn=on_turn)
+                yield {"type": "complete", "status": "partial"}
+                return
+
+            # Phase 3: Agent rounds
+            for round_num in range(1, self.num_rounds + 1):
+                yield {"type": "phase", "phase": f"round_{round_num}"}
+                await self.agent_round(round_num, on_turn=on_turn)
+
+                if not self.cost_tracker.check_budget():
+                    await self._emergency_close(on_turn=on_turn)
+                    yield {"type": "complete", "status": "partial"}
+                    return
+
+            # Phase 4: Debate
+            yield {"type": "phase", "phase": "debate"}
+            await self.debate(on_turn=on_turn)
+
+            if not self.cost_tracker.check_budget():
+                await self._emergency_close(on_turn=on_turn)
+                yield {"type": "complete", "status": "partial"}
+                return
+
+            # Phase 5: Synthesis
+            yield {"type": "phase", "phase": "synthesis"}
+            synthesis = await self.grok_synthesizes(on_turn=on_turn)
+
+            # Phase 5.5: Context Updates
+            yield {"type": "phase", "phase": "context_updates"}
+            context_updates = await self.context_update_round()
+            yield {"type": "context_updates", "updates": context_updates}
+
+            # Phase 6: Closing
+            yield {"type": "phase", "phase": "closing"}
+            await self.grok_closes(on_turn=on_turn)
+
+            yield {"type": "complete", "log_url": log_path}
+
+        except Exception as e:
+            logger.error(f"Streaming meeting failed: {e}", exc_info=True)
+            yield {"type": "error", "error": str(e)}
