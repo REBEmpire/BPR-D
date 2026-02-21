@@ -66,16 +66,16 @@ def verify_all():
     # 3. Gemini
     try:
         gemini = LLM(
-            model="gemini/gemini-3-pro-preview", # Updated model ID
+            model="gemini/gemini-3.1-pro-preview", # Updated to 3.1 Pro
             api_key=settings.GEMINI_API_KEY
         )
-        if not test_llm("Gemini (3 Pro Preview)", gemini):
-             print("⚠️  Trying Gemini fallback (gemini/gemini-3-flash-preview)...")
+        if not test_llm("Gemini (3.1 Pro Preview)", gemini):
+             print("⚠️  Trying Gemini fallback (gemini/gemini-3.0-pro-preview)...")
              gemini_fb = LLM(
-                model="gemini/gemini-3-flash-preview",
+                model="gemini/gemini-3.0-pro-preview",
                 api_key=settings.GEMINI_API_KEY
              )
-             results["gemini"] = test_llm("Gemini (3 Flash Preview)", gemini_fb)
+             results["gemini"] = test_llm("Gemini (3.0 Pro Preview)", gemini_fb)
         else:
             results["gemini"] = True
     except Exception as e:

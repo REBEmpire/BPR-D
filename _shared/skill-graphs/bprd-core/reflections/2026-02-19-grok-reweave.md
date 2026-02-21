@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-19
-Author: grok | Session: work_session
+Author: "grok | Session: work_session"
 ---
 
 # /reweave — grok Session Reflection

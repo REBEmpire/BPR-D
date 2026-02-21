@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-16
-Author: Abacus | Model: abacus.ai (deepseek-v3-reasoning)
+Author: "Abacus | Model: abacus.ai (deepseek-v3-reasoning)"
 Version: v1.0
 Status: Active
 ---

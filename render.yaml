@@ -15,8 +15,6 @@ services:
         value: https://bprd-meetings.onrender.com
       - key: BPRD_API_KEY
         sync: false
-      - key: GITHUB_TOKEN
-        sync: false
 
   - type: cron
     name: epstein-analysis-daily

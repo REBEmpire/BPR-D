@@ -2,6 +2,25 @@
 
 **A Grimoire for the Chief and the Team**
 
+**Version:** 1.1
+**Last Updated:** February 20, 2026
+
+---
+
+## Changelog
+
+### v1.1 (February 20, 2026)
+- ✨ **Configurable Soul Stories**: Soul stories now load from `soul_stories.json` with `SOUL_STORIES_PATH` env var override
+- 📄 **Output Format Flag**: New `--output-format` flag supporting `md` (default), `html`, and `notion` formats
+- 🧪 **Unit Tests**: Added comprehensive test suite in `tests/test_elixir_expansion_chamber.py`
+- 📋 **ISSUES.md**: Created documentation for known limitations and future enhancements
+- 🔧 **Code Refactoring**: Improved module organization and error handling
+
+### v1.0 (February 2026)
+- Initial release with core transmutation engine
+- Philosopher's Stone grader with 92/100 threshold
+- Aetherial dual image generation (Grok + Abacus)
+
 ---
 
 ## What is the Alchemical Forge?
@@ -68,6 +87,11 @@ assets/aetherial_images/[date]/grok/
 assets/aetherial_images/[date]/abacus/
 ```
 
+### 4. Soul Stories Configuration (NEW in v1.1)
+**`soul_stories.json`**
+
+Configurable soul story definitions. Override with `SOUL_STORIES_PATH` environment variable.
+
 ---
 
 ## Usage
@@ -83,6 +107,23 @@ python -m pipelines.alchemical_forge.elixir_expansion_chamber --dry-run --use-la
 python -m pipelines.alchemical_forge.elixir_expansion_chamber --use-latest-brief --turns 5
 ```
 
+### Output Format Options (NEW in v1.1)
+
+#### Markdown (Default)
+```bash
+python -m pipelines.alchemical_forge.elixir_expansion_chamber --use-latest-brief --output-format md
+```
+
+#### HTML Export
+```bash
+python -m pipelines.alchemical_forge.elixir_expansion_chamber --use-latest-brief --output-format html
+```
+
+#### Notion-Compatible
+```bash
+python -m pipelines.alchemical_forge.elixir_expansion_chamber --use-latest-brief --output-format notion
+```
+
 ### Grade an Existing Elixir
 ```bash
 python -m pipelines.alchemical_forge.verification.philosophers_stone_grader publishing/hive/elixirs/2026-02-20-elixir.md
@@ -91,6 +132,12 @@ python -m pipelines.alchemical_forge.verification.philosophers_stone_grader publ
 ### Generate Images Only
 ```bash
 python -m pipelines.alchemical_forge.aetherial_image_transmuter --prompts publishing/hive/drafts/image_prompts.md
+```
+
+### Run Tests (NEW in v1.1)
+```bash
+cd /path/to/BPR-D
+python -m pytest pipelines/alchemical_forge/tests/ -v
 ```
 
 ---
@@ -111,7 +158,7 @@ The Forge runs automatically via Render cron:
 curl -X POST https://bprd-meetings.onrender.com/api/v1/ignite-the-forge \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BPRD_API_KEY" \
-  -d '{"dry_run": false}'
+  -d '{"dry_run": false, "output_format": "md"}'
 ```
 
 This flips `AETHERIAL_FORGE_ENABLED` and runs one transmutation cycle.
@@ -126,6 +173,7 @@ This flips `AETHERIAL_FORGE_ENABLED` and runs one transmutation cycle.
 | `ABACUS_PRIMARY_KEY` | Yes | Abacus image generation |
 | `AETHERIAL_FORGE_ENABLED` | No | Feature flag (default: false) |
 | `BPRD_API_KEY` | Yes | API authentication |
+| `SOUL_STORIES_PATH` | No | Custom soul stories JSON path (v1.1) |
 
 ---
 
@@ -135,8 +183,13 @@ This flips `AETHERIAL_FORGE_ENABLED` and runs one transmutation cycle.
 pipelines/alchemical_forge/
 ├── __init__.py
 ├── README.md                 # This grimoire
+├── ISSUES.md                 # Known issues & future work (v1.1)
 ├── elixir_expansion_chamber.py
 ├── aetherial_image_transmuter.py
+├── soul_stories.json         # Configurable soul stories (v1.1)
+├── tests/                    # Unit tests (v1.1)
+│   ├── __init__.py
+│   └── test_elixir_expansion_chamber.py
 └── verification/
     ├── __init__.py
     └── philosophers_stone_grader.py

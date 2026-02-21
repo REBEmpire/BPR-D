@@ -14,14 +14,14 @@ from llm.base import LLMResponse
 
 logger = logging.getLogger(__name__)
 
-# Cost per 1M tokens (gemini-3.0-pro, Feb 2026 estimates)
+# Cost per 1M tokens (gemini-3.1-pro, Feb 2026 estimates)
 INPUT_COST_PER_M = 1.25
 OUTPUT_COST_PER_M = 5.00
 
 
 class GoogleProvider:
     name = "gemini"
-    model = "gemini-3-pro-preview"
+    model = "gemini-3.1-pro-preview"
 
     def __init__(self):
         genai.configure(api_key=settings.GEMINI_API_KEY)

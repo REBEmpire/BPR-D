@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-19
-Author: Claude | Model: claude-opus-4-6
+Author: "Claude | Model: claude-opus-4-6"
 Version: v1.0
 Status: Active
 Type: First Week Retrospective — Chief Wizard Architect View
