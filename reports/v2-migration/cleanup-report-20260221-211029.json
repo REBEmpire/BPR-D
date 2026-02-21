@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-02-21T21:10:29.679032",
+  "summary": {
+    "total_handoffs_found": 1,
+    "duplicate_groups": 0,
+    "total_duplicates": 0,
+    "files_in_wrong_location": 0,
+    "actions_planned": 0
+  },
+  "duplicates": {},
+  "files_in_wrong_location": [],
+  "planned_actions": [],
+  "execution_results": []
+}
