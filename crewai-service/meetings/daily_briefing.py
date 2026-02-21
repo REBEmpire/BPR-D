@@ -1,8 +1,8 @@
 """
 Daily Briefing meeting type for BPR&D meeting service.
-Phase 1 implementation: Morning sync with repo review, priority setting, action items.
+7-round team meeting per team_meeting_protocol_v2.md.
 
-Phases: Context → Grok Opens → Agent Round (1) → Grok Synthesizes → Grok Closes
+Phases: Context → Grok Opens → 7 Agent Rounds → Debate → Grok Synthesizes → Context Updates → Grok Closes
 """
 
 import asyncio
@@ -18,6 +18,30 @@ from prompts.nervous_system_injector import NervousSystemInjector
 from utils.cost_tracker import CostTracker
 
 logger = logging.getLogger(__name__)
+
+DAILY_ROUND_TOPICS = [
+    "Focus: Review + Outlook — Summarize yesterday's accomplishments "
+    "(reference exact repo files/links). List any Daily Briefs by Jules worthy "
+    "of content queue. Set today's direction and ask for team critique.",
+    "Focus: Collaboration & Refinement — Critique yesterday, identify queue "
+    "items, surface blockers, suggest research or content improvements. "
+    "Open team discussion.",
+    "Focus: Work Planning + Research Kickoff — Issue ambitious daily work items. "
+    "Classify: small/routine → BPR&D_To_Do_List.md, large → dedicated project "
+    "file. Propose research topics for the 6 pillars: Daily Briefs, Special "
+    "Reports, Epstein Daily, Hive Blogging, Media/Content Creation, Social "
+    "Media Marketing.",
+    "Focus: Research Finalize + Content Creation Shift — Lock research topics, "
+    "quality standards, and deliverables. Move to content creation department: "
+    "discuss full implementation plan.",
+    "Focus: Deep Content Creation Dive — Roast, refine, and elevate the content "
+    "pipeline. Select 5 best daily briefs by Jules, reformat as Hive-ready "
+    "Markdown with images, expand ~20% for readability.",
+    "Focus: Assets & Financials — Review/update assets, income, expenses, "
+    "financial tracking. Team adds input for record.",
+    "Focus: Context Close — Deliver your key takeaways, active priorities, "
+    "and context changes for your active.md update.",
+]
 
 
 def _build_agent_instructions(
@@ -117,6 +141,9 @@ class DailyBriefing:
             cost_tracker=cost_tracker,
             meeting_type=self.meeting_type,
             agenda=agenda,
+            num_rounds=7,
+            include_manager_in_rounds=True,
+            round_topics=DAILY_ROUND_TOPICS,
         )
 
         synthesis_raw, context_updates, transcript = await engine.run()

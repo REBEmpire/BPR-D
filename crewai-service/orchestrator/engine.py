@@ -70,12 +70,18 @@ class MeetingEngine:
         meeting_type: str = "daily_briefing",
         agenda: str = "",
         timeout_seconds: int = 900,
+        num_rounds: int = 1,
+        include_manager_in_rounds: bool = False,
+        round_topics: list[str] | None = None,
     ):
         self.agents = agents
         self.cost_tracker = cost_tracker
         self.meeting_type = meeting_type
         self.agenda = agenda
         self.timeout_seconds = timeout_seconds
+        self.num_rounds = num_rounds
+        self.include_manager_in_rounds = include_manager_in_rounds
+        self.round_topics = round_topics or []
         self.transcript = Transcript()
         self.context = MeetingContext(agenda=agenda)
         # Nervous system injector — loaded in gather_context(), used in every _call_agent()
@@ -217,20 +223,39 @@ class MeetingEngine:
         await self._call_agent("grok", "opening", instructions)
 
     async def agent_round(self, round_num: int = 1) -> None:
-        """Phase 3: Each non-manager agent provides their perspective."""
+        """Phase 3: Each agent provides their perspective for this round."""
         logger.info(f"Phase: AGENT_ROUND_{round_num}")
 
-        # Determine speaking order (everyone except grok)
-        speakers = [name for name in self.agents if name != "grok"]
+        # Determine speakers — include manager (grok) if configured
+        if self.include_manager_in_rounds:
+            speakers = list(self.agents.keys())
+        else:
+            speakers = [name for name in self.agents if name != "grok"]
+
+        # Build round context hint
+        round_context = ""
+        if self.round_topics and round_num <= len(self.round_topics):
+            round_context = self.round_topics[round_num - 1]
+        elif self.num_rounds > 1:
+            # Generic escalation for rounds without explicit topics
+            generic = {
+                1: "Provide your initial analysis and proposals.",
+                2: "Respond to what others said. Build on, challenge, or refine.",
+                3: "Converge on solutions. Identify agreements and open items.",
+            }
+            round_context = generic.get(
+                round_num,
+                "FINAL ROUND. Deliver concrete recommendations and outputs."
+            )
 
         for agent_name in speakers:
             instructions = (
                 f"Review the full conversation so far and provide your perspective "
-                f"(Round {round_num}).\n\n"
-                "For each agenda topic that's relevant to your expertise:\n"
+                f"(Round {round_num}/{self.num_rounds}).\n\n"
+                f"{round_context}\n\n"
+                "For each topic relevant to your expertise:\n"
                 "- Share your analysis or insights\n"
                 "- Explicitly reference other agents' points (agree, disagree, build on)\n"
-                "- Ask one sharp question if something's unclear\n"
                 "- Propose concrete next steps from your domain\n\n"
                 "Also report on any pending handoffs or work assigned to you.\n\n"
                 "Stay in character. Be substantive. Reference what others actually said."
@@ -437,10 +462,11 @@ class MeetingEngine:
             if not self.cost_tracker.check_budget():
                 return await self._emergency_close()
 
-            # Phase 3: Agent round
-            await self.agent_round(round_num=1)
-            if not self.cost_tracker.check_budget():
-                return await self._emergency_close()
+            # Phase 3: Agent rounds (7 for daily briefing, 4 for fire team)
+            for round_num in range(1, self.num_rounds + 1):
+                await self.agent_round(round_num=round_num)
+                if not self.cost_tracker.check_budget():
+                    return await self._emergency_close()
 
             # Phase 4: Debate (Grok decides if needed)
             await self.debate()
