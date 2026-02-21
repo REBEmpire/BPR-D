@@ -8,13 +8,20 @@ import json
 import logging
 import os
 from datetime import datetime
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, List, Optional, Dict
 
 import google.generativeai as genai
 from config import settings
 from tools.github_tool import commit_file
 
 logger = logging.getLogger(__name__)
+
+FALLBACK_CHAINS = {
+    "grok": ["grok-4.2", "grok-4.1", "grok-4.0", "grok-4-1-fast-reasoning"],
+    "claude": ["claude-opus-4.6", "claude-sonnet-4.6", "claude-haiku-4.6", "claude-sonnet-4"],
+    "gemini": ["models/gemini-3.1-pro-preview", "models/gemini-3.0-promax", "models/gemini-1.5-pro", "models/gemini-1.5-flash"],
+    "abacus": ["qwen3-max", "deep-agent", "grok-4.1"]
+}
 
 class APIHealer:
     def __init__(self):
@@ -27,10 +34,14 @@ class APIHealer:
         if settings.GEMINI_API_KEY:
             genai.configure(api_key=settings.GEMINI_API_KEY)
         else:
-            logger.warning("GEMINI_API_KEY not set. APIHealer functionality limited.")
+            logger.warning("GEMINI_API_KEY not set. APIHealer functionality for Gemini limited.")
 
         self.available_models = self._discover_models()
-        self.fallback_chain = self._build_fallback_chain()
+        # Initialize fallback chains for all providers
+        self.fallback_chains = FALLBACK_CHAINS.copy()
+        
+        # Merge discovered Gemini models into the fallback chain if relevant
+        self.fallback_chains["gemini"] = self._build_gemini_chain()
 
     def _discover_models(self) -> List[str]:
         """Query Gemini API for available models."""
@@ -64,12 +75,13 @@ class APIHealer:
             # Ensure even in error case we try the best models first
             return ["models/gemini-3.1-pro-preview", "models/gemini-1.5-pro"]
 
-    def _build_fallback_chain(self) -> List[str]:
+    def _build_gemini_chain(self) -> List[str]:
         """Order models by reliability: stable -> preview -> experimental."""
         # Preference order (Updated for 3.1/3.0 priority)
         priority = [
             "gemini-3.1-pro",
             "gemini-3.0-pro",
+            "gemini-3.0-promax",
             "gemini-3.1-flash",
             "gemini-3.0-flash",
             "gemini-1.5-pro",
@@ -79,47 +91,59 @@ class APIHealer:
         ]
 
         chain = []
+        # First add models from priority that are available or in FALLBACK_CHAINS
+        candidates = self.available_models + FALLBACK_CHAINS["gemini"]
+        
         for p in priority:
-            for m in self.available_models:
+            for m in candidates:
                 if p in m:
                     chain.append(m)
 
         # Add remaining models
-        for m in self.available_models:
+        for m in candidates:
             if m not in chain:
                 chain.append(m)
 
         # Remove duplicates
         return list(dict.fromkeys(chain))
+    
+    def _get_chain(self, provider: str) -> List[str]:
+        """Get the fallback chain for a specific provider."""
+        return self.fallback_chains.get(provider, [])
 
-    async def heal_async(self, func: Callable[[str], Any], *args, **kwargs) -> Any:
+    async def heal_async(self, func: Callable[[str], Any], *args, provider: str = "gemini", **kwargs) -> Any:
         """
         Execute an async function with retry logic and model fallback.
 
         Args:
             func: The async function to execute. It must accept 'model' as a keyword argument.
+            provider: The LLM provider name (gemini, grok, claude, abacus).
             *args, **kwargs: Arguments to pass to func.
         """
         last_error = None
+        chain = self._get_chain(provider)
 
-        for model in self.fallback_chain:
+        if not chain:
+            logger.warning(f"No fallback chain for {provider}, using empty list.")
+        
+        for model in chain:
             # Retry logic per model
             for attempt in range(3):
                 try:
                     # Execute the function with the specific model
                     response = await func(*args, model=model, **kwargs)
-                    self.log_attempt("unknown", model, success=True)
+                    self.log_attempt(provider, model, success=True)
                     return response
                 except Exception as e:
                     last_error = e
-                    self.log_attempt("unknown", model, success=False, error=str(e))
+                    self.log_attempt(provider, model, success=False, error=str(e))
                     wait_time = (2 ** attempt)  # Exponential backoff: 1s, 2s, 4s
-                    logger.warning(f"Attempt {attempt+1} failed with model {model}: {e}. Retrying in {wait_time}s...")
+                    logger.warning(f"Attempt {attempt+1} failed with model {model} ({provider}): {e}. Retrying in {wait_time}s...")
                     await asyncio.sleep(wait_time)
 
             logger.warning(f"All attempts failed for model {model}. Trying next model in chain.")
 
-        raise Exception(f"All models failed. Last error: {last_error}")
+        raise Exception(f"All models failed for {provider}. Last error: {last_error}")
 
     def log_attempt(self, agent: str, model: str, success: bool, error: str = None):
         """Log to stdout (Render logs) and buffer for GitHub archive."""
@@ -200,7 +224,7 @@ class APIHealer:
             "status": "active",
             "providers": self._check_provider_status(),
             "models_discovered": len(self.available_models),
-            "fallback_chain": self.fallback_chain,
+            "fallback_chains": self.fallback_chains,
             "buffered_logs": len(self.log_buffer),
             "last_flush": self.last_flush_time.isoformat()
         }
