@@ -175,10 +175,21 @@ class APIHealer:
         else:
             logger.error(f"Failed to flush logs to {path}.")
 
+    def _check_provider_status(self) -> dict:
+        """Check status of all known providers based on configuration."""
+        status = {
+            "gemini": "active" if settings.GEMINI_API_KEY else "missing_key",
+            "grok": "active" if settings.XAI_API_KEY else "missing_key",
+            "claude": "active" if settings.ANTHROPIC_API_KEY else "missing_key",
+            "abacus": "active" if (settings.ABACUS_PRIMARY_KEY or settings.ABACUS_BACKUP_KEY or "809e") else "missing_key"
+        }
+        return status
+
     def health_check(self) -> dict:
-        """Simple health check returning available models and chain."""
+        """Comprehensive health check returning available models, chain, and provider status."""
         return {
             "status": "active",
+            "providers": self._check_provider_status(),
             "models_discovered": len(self.available_models),
             "fallback_chain": self.fallback_chain,
             "buffered_logs": len(self.log_buffer),

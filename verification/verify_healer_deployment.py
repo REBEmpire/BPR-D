@@ -17,13 +17,15 @@ sys.modules["google.generativeai"] = mock_genai
 # Mock 'config' module
 mock_settings = MagicMock()
 mock_settings.GEMINI_API_KEY = "fake-key"
+mock_settings.XAI_API_KEY = "fake-key"
+mock_settings.ANTHROPIC_API_KEY = "fake-key"
+mock_settings.ABACUS_PRIMARY_KEY = "fake-key"
 mock_config_module = MagicMock()
 mock_config_module.settings = mock_settings
 sys.modules["config"] = mock_config_module
 
 # Mock 'tools.github_tool' module
 mock_github_tool = MagicMock()
-# Mock commit_file as an async function that returns True
 async def mock_commit_file(*args, **kwargs):
     print(f"Mock commit_file called with: {args} {kwargs}")
     return True
@@ -50,7 +52,6 @@ async def test_healer_logic():
     print("Logging 15 attempts...")
     for i in range(15):
         healer.log_attempt("agent", "model", True, f"test {i}")
-        # Small sleep to allow async loop to pick up tasks if any
         await asyncio.sleep(0.01)
 
     # Wait for background tasks
@@ -61,12 +62,14 @@ async def test_healer_logic():
 
     # Verify health check
     health = healer.health_check()
-    print(f"Health Check: {health}")
+    print(f"Health Check: {json.dumps(health, indent=2)}")
 
-    if health["status"] == "active":
+    # Validate provider status
+    providers = health.get("providers", {})
+    if all(status == "active" for status in providers.values()):
         print("\nAPI Healer Deployment Verification: PASSED")
     else:
-        print("\nAPI Healer Deployment Verification: FAILED")
+        print("\nAPI Healer Deployment Verification: FAILED (Provider status check)")
 
 if __name__ == "__main__":
     asyncio.run(test_healer_logic())
