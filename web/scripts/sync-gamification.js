@@ -41,7 +41,7 @@ async function syncGamification() {
 
     for (const agent of agents) {
       await client.query(
-        'INSERT INTO agents (name, slug, role) VALUES (, , ) ON CONFLICT (slug) DO UPDATE SET role = EXCLUDED.role',
+        'INSERT INTO agents (name, slug, role) VALUES ($1, $2, $3) ON CONFLICT (slug) DO UPDATE SET role = EXCLUDED.role',
         [agent.name, agent.slug, agent.role]
       );
     }
@@ -95,7 +95,7 @@ async function syncGamification() {
     for (const brief of briefs) {
       if (brief.authorSlug !== 'unknown') {
         // Find Agent ID
-        const res = await client.query('SELECT id FROM agents WHERE slug = ', [brief.authorSlug]);
+        const res = await client.query('SELECT id FROM agents WHERE slug = $1', [brief.authorSlug]);
         if (res.rows.length > 0) {
           const agentId = res.rows[0].id;
           const points = 10;
@@ -103,13 +103,13 @@ async function syncGamification() {
 
           // Check if already awarded (dedup by description + entity)
           const check = await client.query(
-            'SELECT id FROM logs WHERE entity_id =  AND entity_type =  AND description = ',
+            'SELECT id FROM logs WHERE entity_id = $1 AND entity_type = $2 AND description = $3',
             [agentId, 'agent', description]
           );
 
           if (check.rows.length === 0) {
             await client.query(
-              'INSERT INTO logs (entity_id, entity_type, points, description) VALUES (, , , )',
+              'INSERT INTO logs (entity_id, entity_type, points, description) VALUES ($1, $2, $3, $4)',
               [agentId, 'agent', points, description]
             );
             console.log(`Awarded ${points} points to ${brief.authorSlug} for ${brief.slug}`);
