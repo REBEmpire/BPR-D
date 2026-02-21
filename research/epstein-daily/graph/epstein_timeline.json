@@ -1,5 +1,11 @@
 [
   {
+    "date": "2002-05-12",
+    "event": "Event mentioned in 2002-05-12-flight-log-snippet.txt",
+    "confidence": 60,
+    "source_doc": "2002-05-12-flight-log-snippet.txt"
+  },
+  {
     "date": "2002-05-15",
     "event": "Flight on aircraft N908JE with passengers Jeffrey Epstein, Ghislaine Maxwell, Prince Andrew, Bill Clinton (listed as William Jefferson), and an unknown redacted female, on an apparent NY to NM  route.",
     "confidence": 100,
@@ -28,5 +34,341 @@
     "event": "Flight N908JE Teterboro to Paris with Epstein, Brunel, Sophie, Dershowitz",
     "confidence": 100,
     "source_doc": "dummy_test_2026.txt"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-hive-staging-complete-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-hive-staging-complete-20260217.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-quality-criteria-finalize-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-quality-criteria-finalize-20260217.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-peer-review-pilot-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-peer-review-pilot-20260217.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-quality-filter-impl-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-quality-filter-impl-20260217.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-quality-gate-impl-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-quality-gate-impl-20260217.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-hive-script-staging-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-hive-script-staging-20260217.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-pipeline-audit-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-pipeline-audit-20260217.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in 2026_2_17_Chief_FSSRR_1.md",
+    "confidence": 60,
+    "source_doc": "2026_2_17_Chief_FSSRR_1.md"
+  },
+  {
+    "date": "2026-02-17",
+    "event": "Event mentioned in handoff-x-nightly-insights-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-x-nightly-insights-20260217.md"
+  },
+  {
+    "date": "2026-02-18",
+    "event": "Event mentioned in handoff-abacus-review-flag-20260223.md",
+    "confidence": 60,
+    "source_doc": "handoff-abacus-review-flag-20260223.md"
+  },
+  {
+    "date": "2026-02-18",
+    "event": "Event mentioned in handoff-api-resilience-sprint-russell-20260218.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-resilience-sprint-russell-20260218.md"
+  },
+  {
+    "date": "2026-02-18",
+    "event": "Event mentioned in handoff-api-healer-deploy-russell-20260218.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-deploy-russell-20260218.md"
+  },
+  {
+    "date": "2026-02-18",
+    "event": "Event mentioned in handoff-parallel-patch-review-russell-20260218.md",
+    "confidence": 60,
+    "source_doc": "handoff-parallel-patch-review-russell-20260218.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-ddas-prioritization-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-ddas-prioritization-20260217.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-phantom-file-correction-russell-20260219.md",
+    "confidence": 60,
+    "source_doc": "handoff-phantom-file-correction-russell-20260219.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-phantom-file-correction-russell-20260219.md",
+    "confidence": 60,
+    "source_doc": "handoff-phantom-file-correction-russell-20260219.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-api-healer-skeleton-claude-20260219.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-skeleton-claude-20260219.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-api-healer-skeleton-claude-20260219.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-skeleton-claude-20260219.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-research-audit-claude-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-research-audit-claude-20260220.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-filter-prototype-gemini-20260222.md",
+    "confidence": 60,
+    "source_doc": "handoff-filter-prototype-gemini-20260222.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-api-resilience-sprint-russell-20260218.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-resilience-sprint-russell-20260218.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-hive-mvp-prod-greenlight-russell-20260219.md",
+    "confidence": 60,
+    "source_doc": "handoff-hive-mvp-prod-greenlight-russell-20260219.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-api-healer-impl-gemini-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-impl-gemini-20260220.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in PHANTOM_HANDOFFS_RESOLVED.md",
+    "confidence": 60,
+    "source_doc": "PHANTOM_HANDOFFS_RESOLVED.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in PHANTOM_HANDOFFS_RESOLVED.md",
+    "confidence": 60,
+    "source_doc": "PHANTOM_HANDOFFS_RESOLVED.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in PHANTOM_HANDOFFS_RESOLVED.md",
+    "confidence": 60,
+    "source_doc": "PHANTOM_HANDOFFS_RESOLVED.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-api-healer-consolidated-russell-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-consolidated-russell-20260220.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-api-healer-consolidated-russell-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-consolidated-russell-20260220.md"
+  },
+  {
+    "date": "2026-02-19",
+    "event": "Event mentioned in handoff-api-crisis-strategic-assessment-russell-20260219.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-crisis-strategic-assessment-russell-20260219.md"
+  },
+  {
+    "date": "2026-02-20",
+    "event": "Event mentioned in handoff-phantom-file-correction-russell-20260219.md",
+    "confidence": 60,
+    "source_doc": "handoff-phantom-file-correction-russell-20260219.md"
+  },
+  {
+    "date": "2026-02-20",
+    "event": "Event mentioned in handoff-research-audit-claude-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-research-audit-claude-20260220.md"
+  },
+  {
+    "date": "2026-02-20",
+    "event": "Event mentioned in handoff-api-healer-impl-gemini-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-impl-gemini-20260220.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-layer0-negation-abacus-20260223.md",
+    "confidence": 60,
+    "source_doc": "handoff-layer0-negation-abacus-20260223.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-api-deploy-russell-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-deploy-russell-20260217.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-hive-publish-mvp-gemini-20260228.md",
+    "confidence": 60,
+    "source_doc": "handoff-hive-publish-mvp-gemini-20260228.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-healer-v1.1-weights-gemini-20260222.md",
+    "confidence": 60,
+    "source_doc": "handoff-healer-v1.1-weights-gemini-20260222.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-api-artifacts-russell-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-artifacts-russell-20260217.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-healer-deploy-russell-20260221.md",
+    "confidence": 60,
+    "source_doc": "handoff-healer-deploy-russell-20260221.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-healer-deploy-russell-20260221.md",
+    "confidence": 60,
+    "source_doc": "handoff-healer-deploy-russell-20260221.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-ddas-mvp-claude-20260228.md",
+    "confidence": 60,
+    "source_doc": "handoff-ddas-mvp-claude-20260228.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-api-fixes-20260217.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-fixes-20260217.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-github-action-audit-gemini-20260221.md",
+    "confidence": 60,
+    "source_doc": "handoff-github-action-audit-gemini-20260221.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-github-action-audit-gemini-20260221.md",
+    "confidence": 60,
+    "source_doc": "handoff-github-action-audit-gemini-20260221.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-api-healer-consolidated-russell-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-consolidated-russell-20260220.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-api-healer-consolidated-russell-20260220.md",
+    "confidence": 60,
+    "source_doc": "handoff-api-healer-consolidated-russell-20260220.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-handoff-templates-claude-20260221.md",
+    "confidence": 60,
+    "source_doc": "handoff-handoff-templates-claude-20260221.md"
+  },
+  {
+    "date": "2026-02-21",
+    "event": "Event mentioned in handoff-handoff-templates-claude-20260221.md",
+    "confidence": 60,
+    "source_doc": "handoff-handoff-templates-claude-20260221.md"
+  },
+  {
+    "date": "2026-02-22",
+    "event": "Event mentioned in handoff-healer-v1.1-weights-gemini-20260222.md",
+    "confidence": 60,
+    "source_doc": "handoff-healer-v1.1-weights-gemini-20260222.md"
+  },
+  {
+    "date": "2026-02-22",
+    "event": "Event mentioned in handoff-filter-prototype-gemini-20260222.md",
+    "confidence": 60,
+    "source_doc": "handoff-filter-prototype-gemini-20260222.md"
+  },
+  {
+    "date": "2026-02-23",
+    "event": "Event mentioned in handoff-layer0-negation-abacus-20260223.md",
+    "confidence": 60,
+    "source_doc": "handoff-layer0-negation-abacus-20260223.md"
+  },
+  {
+    "date": "2026-02-23",
+    "event": "Event mentioned in handoff-abacus-negation-forge-20260223.md",
+    "confidence": 60,
+    "source_doc": "handoff-abacus-negation-forge-20260223.md"
+  },
+  {
+    "date": "2026-02-23",
+    "event": "Event mentioned in handoff-abacus-filter-upgrade-20260223.md",
+    "confidence": 60,
+    "source_doc": "handoff-abacus-filter-upgrade-20260223.md"
+  },
+  {
+    "date": "2026-02-23",
+    "event": "Event mentioned in handoff-abacus-router-prototype-20260223.md",
+    "confidence": 60,
+    "source_doc": "handoff-abacus-router-prototype-20260223.md"
+  },
+  {
+    "date": "2026-02-24",
+    "event": "Event mentioned in handoff-quality-audit-weekly-20260224.md",
+    "confidence": 60,
+    "source_doc": "handoff-quality-audit-weekly-20260224.md"
+  },
+  {
+    "date": "2026-02-28",
+    "event": "Event mentioned in handoff-hive-publish-mvp-gemini-20260228.md",
+    "confidence": 60,
+    "source_doc": "handoff-hive-publish-mvp-gemini-20260228.md"
+  },
+  {
+    "date": "2026-02-28",
+    "event": "Event mentioned in handoff-ddas-mvp-claude-20260228.md",
+    "confidence": 60,
+    "source_doc": "handoff-ddas-mvp-claude-20260228.md"
   }
 ]
