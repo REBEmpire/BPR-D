@@ -13,8 +13,7 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Validate mock-healer 24h data; prep real validation plan | Grok | URGENT | Pending | 2026-02-22 |
-| [Escalation] 48h Healer Validation (Mock or Live) — see _handoffs/handoff-grok-healer-validation-20260223.md | Grok | High | Pending | 2026-02-23 |
+| Everest gate on all pre-publish content | Grok | URGENT | Pending | TBD |
 
 ---
 *Updated automatically by meeting engine.*
