@@ -17,11 +17,13 @@ import asyncio
 import logging
 import os
 import sys
+import json
 from contextlib import asynccontextmanager
 from datetime import datetime
 
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 
 from agents.registry import resolve_participants, load_agents, is_abacus_available, get_active_healer
 from config import settings
@@ -255,31 +257,14 @@ async def execute_meeting_endpoint(request: MeetingRequest) -> MeetingResponse:
 async def manual_team_meeting_trigger(
     payload: dict,
     x_api_key: str = Header(default="", alias="X-API-KEY"),
-) -> dict:
+):
     """
     HiC one-command trigger for team meetings.
-
-    Requires X-API-KEY header matching BPRD_API_KEY env var.
-
-    Body fields:
-        meeting_type   (str)  — default "team_meeting"
-        participants   (list) — default all four agents
-        goal           (str)  — short goal description (used as agenda)
-        custom_prompt  (str)  — optional override for the full agenda prompt
-
-    Returns:
-        status, meeting_id, report_url (GitHub path where notes are committed)
-
-    Example:
-        curl -X POST https://bprd-meetings.onrender.com/api/v1/meetings/manual-trigger \\
-          -H "Content-Type: application/json" \\
-          -H "X-API-KEY: $BPRD_API_KEY" \\
-          -d '{"goal": "Implement hybrid semantic search in discovery.py",
-               "participants": ["grok", "claude", "gemini"]}'
+    Now supports SSE streaming to prevent timeout issues.
     """
     # --- Auth ---
     if not settings.BPRD_API_KEY:
-        logger.warning("BPRD_API_KEY not set — manual-trigger endpoint is OPEN. Set it in Render env vars.")
+        logger.warning("BPRD_API_KEY not set — manual-trigger endpoint is OPEN.")
     elif x_api_key != settings.BPRD_API_KEY:
         logger.warning("manual-trigger: rejected request with invalid X-API-KEY")
         raise HTTPException(status_code=401, detail="Invalid or missing X-API-KEY header.")
@@ -289,9 +274,9 @@ async def manual_team_meeting_trigger(
     participants = payload.get("participants", ["grok", "claude", "gemini", "abacus"])
     goal = payload.get("goal", "")
     custom_prompt = payload.get("custom_prompt", "")
-    num_rounds = payload.get("num_rounds")  # None = use meeting type default
+    num_rounds = payload.get("num_rounds")
 
-    # Build a rich agenda: custom_prompt wins; fall back to structured goal block
+    # Build agenda
     if custom_prompt:
         agenda = custom_prompt
     elif goal:
@@ -309,51 +294,48 @@ async def manual_team_meeting_trigger(
         meeting_type, participants, goal[:80] if goal else "",
     )
 
-    # --- Build MeetingRequest and reuse execute_meeting ---
-    try:
-        meeting_type_enum = MeetingType(meeting_type)
-    except ValueError:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Unknown meeting_type '{meeting_type}'. Valid: {[mt.value for mt in MeetingType]}",
-        )
+    # --- Setup Streaming Generator ---
+    async def event_generator():
+        # Setup similar to execute_meeting
+        try:
+            # 1. Budget check
+            monthly = load_monthly_spend()
+            if monthly >= settings.MONTHLY_BUDGET_CAP:
+                yield f"data: {json.dumps({'type': 'error', 'error': 'Budget cap reached'})}\n\n"
+                return
 
-    request = MeetingRequest(
-        meeting_type=meeting_type_enum,
-        participants=participants,
-        num_rounds=int(num_rounds) if num_rounds is not None else None,
-        agenda=agenda,
-    )
+            # 2. Check type
+            meeting_cls = MEETING_TYPES.get(meeting_type)
+            if not meeting_cls:
+                 yield f"data: {json.dumps({'type': 'error', 'error': 'Invalid meeting type'})}\n\n"
+                 return
 
-    # Fire-and-forget: launch meeting in background so the HTTP response
-    # returns immediately. Render Starter plan kills requests after 30s,
-    # but Daily Briefings take 2-5 minutes. The background task runs to
-    # completion on the same asyncio event loop that APScheduler uses.
-    meeting_id = f"{meeting_type}-manual-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
+            # 3. Load Agents
+            participant_names = resolve_participants(participants, meeting_type)
+            # (Simplified check for now - assume keys exist or handled in load_agents)
+            agents = await load_agents(participant_names)
+            if not agents:
+                 yield f"data: {json.dumps({'type': 'error', 'error': 'No agents loaded'})}\n\n"
+                 return
 
-    task = asyncio.create_task(execute_meeting(request))
-    _running_meetings[meeting_id] = task
+            # 4. Create Tracker & Meeting
+            tracker = CostTracker(meeting_id=f"{meeting_type}-stream")
+            meeting = meeting_cls()
 
-    def _cleanup(t: asyncio.Task) -> None:
-        _running_meetings.pop(meeting_id, None)
-        if t.exception():
-            logger.error(f"Background meeting {meeting_id} failed: {t.exception()}")
-        else:
-            logger.info(f"Background meeting {meeting_id} completed successfully")
+            # 5. Stream
+            logger.info("Starting SSE stream for meeting...")
+            async for event in meeting.stream(agents, tracker, agenda):
+                yield f"data: {json.dumps(event)}\n\n"
 
-    task.add_done_callback(_cleanup)
+            # 6. Save cost
+            save_cost_log(tracker)
+            tracker.log_summary()
 
-    sessions_url = f"https://github.com/{settings.GITHUB_REPO}/tree/main/meetings/logs"
+        except Exception as e:
+            logger.error(f"Streaming failed: {e}", exc_info=True)
+            yield f"data: {json.dumps({'type': 'error', 'error': str(e)})}\n\n"
 
-    return {
-        "status": "triggered",
-        "meeting_id": meeting_id,
-        "meeting_type": meeting_type,
-        "participants": participants,
-        "goal": goal,
-        "report_url": sessions_url,
-        "message": "Meeting launched in background. Session notes will appear in GitHub within 2-5 minutes.",
-    }
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
 # --- Health & Status ---
