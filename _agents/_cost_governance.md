@@ -19,7 +19,7 @@ The BPR&D team operates under two distinct cost management pathways, reflecting 
 
 **Budget:**
 - **Team monthly cap**: $20/month (API costs across all agents)
-- **Per-meeting hard cap**: $0.40 (enforced by `crewai-service/utils/cost_tracker.py`)
+- **Per-meeting hard cap**: $0.75 (enforced by `crewai-service/utils/cost_tracker.py`)
 - **Status tracking**: Actual token counts logged from each API call
 
 **Cost limits per agent:**
@@ -83,7 +83,7 @@ Agents write `HiC_Needed.md` when they identify work that should be human-superv
 **What we measure:**
 - API calls per agent (daily)
 - Token counts per API provider (Grok, Anthropic, Google, Abacus)
-- Meeting costs (hard cap $0.40)
+- Meeting costs (hard cap $0.75)
 - Manual work requests and approvals
 
 **Where it's tracked:**
@@ -103,7 +103,7 @@ Russell conducts cost review on Feb 23 (also Abacus usage reset), Mar 23, etc.
 
 1. **No agent can exceed their monthly cap without explicit approval**
 2. **No manual work (HiC_Needed) can proceed without Russell's written approval**
-3. **Meeting service enforces $0.40/meeting hard stop** (kills job if exceeded)
+3. **Meeting service enforces $0.75/meeting hard stop** (kills job if exceeded)
 4. **Cost tracking is transparent** (accessible to all agents via GitHub)
 5. **Agents are accountable** for their budget usage; frivolous spending reflects poorly
 

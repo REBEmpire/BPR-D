@@ -42,7 +42,7 @@ class Settings:
     BPRD_API_KEY: str = field(default_factory=lambda: os.getenv("BPRD_API_KEY", ""))
 
     # --- Cost Controls (Grok's directives) ---
-    MEETING_COST_HARD_CAP: float = 0.40
+    MEETING_COST_HARD_CAP: float = 0.75
     MONTHLY_BUDGET_CAP: float = 20.00
     MONTHLY_BUDGET_ALERT: float = 15.00
 

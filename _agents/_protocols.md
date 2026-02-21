@@ -365,7 +365,7 @@ If an agent gets assigned too much work:
 
 **1. Automated API Work (Low Friction)**
 - Team budget: $20/month across all agents
-- Meeting hard cap: $0.40 per meeting
+- Meeting hard cap: $0.75 per meeting
 - Per-agent allocations: Grok $5, Claude $6, Gemini $5, Abacus $4
 - Request process: Add to `Context/active.md` "API Budget Request" section
 - Russell approves in 24-48 hours

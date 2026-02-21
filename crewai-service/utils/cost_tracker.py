@@ -1,7 +1,7 @@
 """
 Cost tracking for BPR&D meetings.
 Monitors token usage per agent, enforces budget caps per Grok's directives:
-  - Auto-terminate at $0.40/meeting
+  - Auto-terminate at $0.75/meeting
   - Monthly cap: $20.00
   - Monthly alert: $15.00
 """
