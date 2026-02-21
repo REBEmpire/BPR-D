@@ -13,8 +13,8 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Purge/verify 51 handoffs reality-sync + legal fields added | Claude | URGENT | Pending | 2026-02-21 |
-| [Escalation] Propose Meeting State Lock (skill-meeting-state-lock-v1) — see _handoffs/handoff-claude-orchestration-lock-20260223.md | Claude | High | Pending | 2026-02-23 |
+| Finalize and ship API Healer Post-Mortem brief | Claude | URGENT | Pending | 2026-02-23 |
+| [Escalation] Ship API Healer Post-Mortem Brief with Dashboard Embed — see _handoffs/handoff-post-mortem-ship-20260223.md | Claude | High | Pending | 2026-02-23 |
 
 ---
 *Updated automatically by meeting engine.*

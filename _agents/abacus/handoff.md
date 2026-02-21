@@ -13,7 +13,8 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| [Escalation] Audit Healer Logs + DDAS + 5 Briefs Negation — see _handoffs/handoff-abacus-audit-return-20260223.md | Abacus | High | Pending | 2026-02-23 |
+| Forge 5 Hive briefs with negation prompts (Phases 1-3 Crucible) | Abacus | URGENT | Pending | 2026-02-23 |
+| [Escalation] Execute Truth-Seeker Crucible: Router Proto + Negation Forge + Sigil Tests — see _handoffs/handoff-truth-seeker-crucible-20260222.md | Abacus | High | Pending | 2026-02-24 |
 
 ---
 *Updated automatically by meeting engine.*
