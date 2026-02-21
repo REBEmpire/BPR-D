@@ -34,6 +34,13 @@ class MeetingRequest(BaseModel):
             "Abacus is active and included by default."
         ),
     )
+    num_rounds: Optional[int] = Field(
+        default=None,
+        description=(
+            "Override the default number of rounds for this meeting type. "
+            "Valid range: 2-13. If None, uses the meeting type's default."
+        ),
+    )
     metadata: Optional[dict] = Field(
         default=None,
         description="Optional metadata (trigger source, request ID, etc.).",
