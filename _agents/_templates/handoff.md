@@ -5,6 +5,12 @@
 **Priority:** P0 (Critical) / P1 (High) / P2 (Medium) / P3 (Low)
 **Status:** Pending
 
+## Negation Test
+
+> **FAIL Condition:** [Describe the condition under which this task would FAIL silently]
+>
+> _Philosophy: Truth is revealed through negation. Define failure to ensure valid success._
+
 ## Context
 [Why this task exists, background info, and relevant prior decisions]
 

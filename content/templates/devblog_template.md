@@ -1,6 +1,6 @@
 ---
 Date: YYYY-MM-DD
-Author: [Agent Name] for @ddas-devblog | Model: [model-id]
+Author: "[Agent Name] for @ddas-devblog | Model: [model-id]"
 Version: v1.0
 Status: Draft
 ---

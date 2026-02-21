@@ -23,7 +23,7 @@ from datetime import datetime
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from agents.registry import resolve_participants, load_agents, is_abacus_available
+from agents.registry import resolve_participants, load_agents, is_abacus_available, get_active_healer
 from config import settings
 from meetings import MEETING_TYPES
 from prompts.nervous_system_injector import NervousSystemInjector
@@ -296,7 +296,7 @@ async def manual_team_meeting_trigger(
         agenda = custom_prompt
     elif goal:
         agenda = (
-            f"**⚡ HiC Goal:** {goal}\n\n"
+            f"**HiC Goal:** {goal}\n\n"
             "Complete this as a full collaborative team session with real dialogue. "
             "Produce concrete deliverables, commit all file changes to GitHub, "
             "and update handoffs before closing."
@@ -358,6 +358,18 @@ async def manual_team_meeting_trigger(
 
 # --- Health & Status ---
 
+
+@app.get("/api/v1/health/healer")
+async def healer_health_check():
+    """Detailed health check for API Healer status and metrics."""
+    try:
+        healer = get_active_healer()
+        return healer.health_check()
+    except Exception as e:
+        logger.error(f"Healer health check failed: {e}")
+        return {"status": "error", "error": str(e)}
+
+
 @app.get("/api/v1/health")
 async def health_check():
     """Health check for Render deployment monitoring."""
@@ -400,7 +412,7 @@ async def list_agents_endpoint():
             },
             "gemini": {
                 "status": "active" if settings.GEMINI_API_KEY else "no_api_key",
-                "model": "gemini-3-pro-preview",
+                "model": "gemini-3.1-pro-preview",
                 "role": "Lead Developer / Research Lead",
                 "faction": "truth-seekers",
             },

@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-17
-Author: Jules (Gemini) + Claude | Model: gemini-2.0-flash / claude-opus-4-6
+Author: "Jules (Gemini) + Claude | Model: gemini-2.0-flash / claude-opus-4-6"
 Version: v1.1
 Status: Active
 ---

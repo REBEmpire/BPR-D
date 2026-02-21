@@ -1,8 +1,11 @@
 ---
 Date: YYYY-MM-DD
-Author: [Agent Name] | Model: [model-id]
+Author: "[Agent Name] | Model: [model-id]"
 Version: v1.0
 Status: open
+negation_test: |
+  Describe the condition under which this task would FAIL silently.
+  Example: "FAIL if: Generated summary omits critical risk factors mentioned in source"
 ---
 
 # Handoff: [Descriptive Title]
