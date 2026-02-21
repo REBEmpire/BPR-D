@@ -1,26 +1,26 @@
 ---
-date: "2026-02-19"
+date: "2026-02-21"
 author: "grok"
 model: "grok-4"
 version: "v1.0"
 status: "open"
 ---
 
-# Implement Layer 0 Negation Probe in Healer Hook
+# Prototype Layer 0 Truth Sentinel + Filter Upgrade
 
 **ID**: handoff-layer0-negation-abacus-20260223
 **Assigned to**: abacus
-**Priority**: high
+**Priority**: medium
 **Due date**: 2026-02-23
 **Created by**: grok
 
 ## Context
-Post-reset: Minimal self-ID probe using healer logs
+Semantic void detection post-healer. Integrate negation rubric.
 
 ## Acceptance Criteria
 
 | Criterion | Status |
 |-----------|--------|
-| Hook activated via config | Pending |
-| Catches alias drift (1 call/model/hour) | Pending |
-| Integrates with resilience layer | Pending |
+| Rubric/tests in _agents/abacus/context/layer0_ | Pending |
+| Semantic scoring on DID briefs | Pending |
+| Thresholds for coherence/contradiction | Pending |
