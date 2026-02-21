@@ -49,22 +49,31 @@ class APIHealer:
             if not models:
                 # Fallback to hardcoded list if discovery fails
                 models = [
+                    "models/gemini-3.1-pro-preview",
+                    "models/gemini-3.1-flash-preview",
+                    "models/gemini-3.0-pro-preview",
+                    "models/gemini-3.0-flash-preview",
                     "models/gemini-2.0-flash-exp",
-                    "models/gemini-1.5-flash",
                     "models/gemini-1.5-pro",
+                    "models/gemini-1.5-flash",
                     "models/gemini-1.0-pro"
                 ]
             return models
         except Exception as e:
             logger.error(f"Error discovering models: {e}")
-            return ["models/gemini-1.5-flash"]
+            # Ensure even in error case we try the best models first
+            return ["models/gemini-3.1-pro-preview", "models/gemini-1.5-pro"]
 
     def _build_fallback_chain(self) -> List[str]:
         """Order models by reliability: stable -> preview -> experimental."""
-        # Preference order
+        # Preference order (Updated for 3.1/3.0 priority)
         priority = [
-            "gemini-1.5-flash",
+            "gemini-3.1-pro",
+            "gemini-3.0-pro",
+            "gemini-3.1-flash",
+            "gemini-3.0-flash",
             "gemini-1.5-pro",
+            "gemini-1.5-flash",
             "gemini-2.0-flash-exp",
             "gemini-1.0-pro"
         ]
