@@ -1,6 +1,6 @@
 ---
 Date: YYYY-MM-DD
-Author: [Agent Name] | Model: [model-id]
+Author: "[Agent Name] | Model: [model-id]"
 Version: v1.0
 Status: Pending
 ---

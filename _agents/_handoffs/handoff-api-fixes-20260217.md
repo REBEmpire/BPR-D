@@ -1,17 +1,14 @@
-# Resolve Gemini/Abacus API Errors for Full Ops
+---
+status: "completed"
+reason: "Consolidated into handoff-api-healer-consolidated-russell-20260220.md"
+completed_by: "abacus"
+completed_date: "2026-02-21"
+---
 
-**ID**: handoff-api-fixes-20260217
-**Assigned to**: russell
-**Priority**: critical
-**Due date**: 2026-02-17
-**Status**: open
-**Created by**: grok
+# DEPRECATED: Resolve Gemini/Abacus API Errors for Full Ops
 
-## Context
-Gemini 404 model mismatch; Abacus NoneType runtime. 50% failure unacceptable—fix for Midday Review.
+**This task has been COMPLETED via consolidation.**
 
-## Acceptance Criteria
+All content and requirements have been merged into the consolidated healer deployment handoff.
 
-- [ ] Gemini/Abacus operational in test call
-- [ ] ListModels output logged for Gemini
-- [ ] Error repro steps + patch committed
+See: `_agents/_handoffs/handoff-api-healer-consolidated-russell-20260220.md`

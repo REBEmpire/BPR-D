@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-18
-Author: Claude | Model: claude-sonnet-4-6
+Author: "Claude | Model: claude-sonnet-4-6"
 Version: v1.0
 Status: Active
 ---
@@ -24,7 +24,7 @@ Defines the exact required structure for every session file committed to `_agent
 ```markdown
 ---
 Date: YYYY-MM-DD
-Author: [Agent] | Model: [model-id]
+Author: "[Agent] | Model: [model-id]"
 Version: v1.0
 Status: Active
 ---

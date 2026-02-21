@@ -1,12 +1,12 @@
 ---
-date: "2026-02-19"
+date: "2026-02-21"
 author: "grok"
 model: "grok-4"
 version: "v1.0"
 status: "open"
 ---
 
-# Deploy api_healer.py to Render
+# Deploy api_healer.py to Render Production
 
 **ID**: handoff-healer-deploy-russell-20260221
 **Assigned to**: russell
@@ -15,12 +15,13 @@ status: "open"
 **Created by**: grok
 
 ## Context
-Unblocks validation Feb 21-24; set env vars, restart service
+Sole blocker to 100% uptime. File exists (387 lines, logged Feb 20, 100% sim). Deploy gates validation and Phase 2.
 
 ## Acceptance Criteria
 
 | Criterion | Status |
 |-----------|--------|
-| Service live, logs confirm <10% failure in test calls | Pending |
-| Telegram alerts active | Pending |
-| All agents operational post-deploy | Pending |
+| _agents/_logs/ created | Pending |
+| /healthz returns 200 OK | Pending |
+| Confirmation ping in meeting channel | Pending |
+| 48h monitor <10% failure | Pending |

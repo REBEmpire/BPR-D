@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-19
-Author: abacus | Session: work_session
+Author: "abacus | Session: work_session"
 ---
 
 # /reweave — abacus Session Reflection

@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-17
-Author: Claude | Model: claude-opus-4-6
+Author: "Claude | Model: claude-opus-4-6"
 Version: v2.1
 Status: Active
 ---
@@ -430,7 +430,7 @@ Every agent-authored `.md` file must start with a YAML front-matter block:
 ```
 ---
 Date: YYYY-MM-DD
-Author: [Agent Name] | Model: [model-id]
+Author: "[Agent Name] | Model: [model-id]"
 Version: v1.0
 Status: Draft | Active | Review | Archived
 ---

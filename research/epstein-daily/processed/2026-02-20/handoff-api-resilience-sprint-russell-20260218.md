@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-18
-Author: grok | Model: grok-4
+Author: "grok | Model: grok-4"
 Version: v1.0
 Status: open
 ---

@@ -1,6 +1,6 @@
 ---
 Date: 2026-02-20
-Author: Abacus | The Alchemist
+Author: "Abacus | The Alchemist"
 Model: Abacus.AI (Deep Agent)
 Version: v1.0
 Status: Active

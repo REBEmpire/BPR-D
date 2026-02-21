@@ -12,7 +12,6 @@ from datetime import datetime
 from agents.registry import RegisteredAgent
 from models.meeting import MeetingResponse, CostEstimate
 from orchestrator.engine import MeetingEngine
-from output.github_writer import generate_and_commit_context_update
 from output.parser import parse_synthesis
 from prompts.nervous_system_injector import NervousSystemInjector
 from utils.cost_tracker import CostTracker
@@ -44,19 +43,80 @@ DAILY_ROUND_TOPICS = [
 ]
 
 
+class DailyBriefing:
+    def __init__(self):
+        self.meeting_type = "daily_briefing"
+
+    async def execute(
+        self,
+        agents: dict[str, RegisteredAgent],
+        cost_tracker: CostTracker,
+        agenda: str = "",
+    ) -> MeetingResponse:
+        meeting_id = f"daily_briefing-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}"
+        cost_tracker.meeting_id = meeting_id
+
+        logger.info(f"Executing Daily Briefing: {meeting_id}")
+
+        # Phase 0: Load nervous system — MUST be first (before MeetingEngine runs)
+        ns_injector = NervousSystemInjector()
+        await ns_injector.load()
+        logger.info(
+            f"Nervous system loaded for daily_briefing "
+            f"({ns_injector.node_count} nodes)"
+        )
+
+        engine = MeetingEngine(
+            agents=agents,
+            cost_tracker=cost_tracker,
+            meeting_type=self.meeting_type,
+            agenda=agenda,
+        )
+
+        synthesis_raw, context_updates, transcript = await engine.run()
+
+        # Parse structured output from Grok's synthesis
+        parsed_data = parse_synthesis(synthesis_raw)
+
+        # Build meeting notes (transcript only — summary rendered separately at top)
+        date_str = datetime.utcnow().strftime("%Y-%m-%d")
+        notes = f"# BPR&D Daily Briefing — {datetime.utcnow().strftime('%B %d, %Y')}\n\n"
+        notes += transcript.to_markdown()
+
+        # Build per-agent task checklists from action items and handoffs
+        agent_instructions = _build_agent_instructions(
+            parsed_data=parsed_data,
+            participating_agents=list(agents.keys()),
+            meeting_date=date_str,
+        )
+
+        # Build final response object
+        return MeetingResponse(
+            success=True,
+            meeting_id=meeting_id,
+            meeting_type=self.meeting_type,
+            notes=notes,
+            summary=parsed_data.get("meeting_notes", ""),
+            for_russell=parsed_data.get("for_russell", ""),
+            handoffs=parsed_data.get("handoffs", []),
+            action_items=parsed_data.get("action_items", []),
+            key_decisions=parsed_data.get("key_decisions", []),
+            agent_instructions=agent_instructions,
+            context_updates=context_updates,
+            cost_estimate=CostEstimate(**cost_tracker.to_dict()),
+        )
+
+
 def _build_agent_instructions(
-    parsed: dict,
+    parsed_data: dict,
     participating_agents: list[str],
     meeting_date: str,
 ) -> dict[str, str]:
-    """Build per-agent handoff.md content from parsed daily briefing output.
-
-    Extracts action items and handoffs assigned to each agent and formats
-    them as markdown tables for _agents/[agent]/handoff.md.
-    """
+    """Build per-agent handoff.md content from parsed daily briefing output."""
     agent_tasks: dict[str, list[dict]] = {name: [] for name in participating_agents}
 
-    for item in parsed.get("action_items", []):
+    # Process action items
+    for item in parsed_data.get("action_items", []):
         assignee = item.assigned_to.lower()
         if assignee in agent_tasks:
             priority = "URGENT" if item.priority in ("high", "critical") else item.priority.title()
@@ -68,11 +128,12 @@ def _build_agent_instructions(
                 "due": item.deadline or "TBD",
             })
 
-    for handoff in parsed.get("handoffs", []):
+    # Process handoffs as escalations
+    for handoff in parsed_data.get("handoffs", []):
         assignee = handoff.assigned_to.lower()
         if assignee in agent_tasks:
             agent_tasks[assignee].append({
-                "task": f"[Escalation] {handoff.title} — see `_handoffs/{handoff.task_id}.md`",
+                "task": f"[Escalation] {handoff.title} — see _handoffs/{handoff.task_id}.md",
                 "assigned_to": assignee.title(),
                 "priority": "High",
                 "status": "Pending",

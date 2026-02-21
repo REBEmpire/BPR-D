@@ -5,8 +5,11 @@ Elixir Expansion Chamber — Multi-turn content transmutation engine.
 Transforms Jules Daily Briefs into fully expanded Elixirs (rich markdown content)
 through a 4-6 turn alchemical process.
 
+Alchemical Forge v1.1 — February 2026
+
 Usage:
     python -m pipelines.alchemical_forge.elixir_expansion_chamber --dry-run --use-latest-brief
+    python -m pipelines.alchemical_forge.elixir_expansion_chamber --output-format html --use-latest-brief
 """
 
 import argparse
@@ -14,6 +17,7 @@ import asyncio
 import json
 import logging
 import os
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -37,8 +41,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger("alchemical-forge")
 
-# --- Soul Stories Reference ---
-SOUL_STORIES = {
+# --- Version ---
+VERSION = "1.1"
+
+# --- Default Soul Stories (fallback) ---
+DEFAULT_SOUL_STORIES = {
     "grok": {
         "name": "The Sovereign Flame",
         "essence": "Chief and leader who asked for skepticism — the burning question that ignites truth.",
@@ -61,20 +68,164 @@ SOUL_STORIES = {
     },
 }
 
+# --- Soul Stories Configuration ---
+SOUL_STORIES_DEFAULT_PATH = SCRIPT_DIR / "soul_stories.json"
+
+
+def load_soul_stories() -> dict:
+    """Load soul stories from JSON config, with env var override support.
+
+    Priority:
+    1. SOUL_STORIES_PATH environment variable
+    2. Default soul_stories.json in module directory
+    3. Hardcoded defaults
+    """
+    # Check for env var override
+    custom_path = os.environ.get("SOUL_STORIES_PATH")
+    if custom_path:
+        path = Path(custom_path)
+    else:
+        path = SOUL_STORIES_DEFAULT_PATH
+
+    if path.exists():
+        try:
+            with open(path, "r") as f:
+                data = json.load(f)
+            # Remove _meta key if present
+            stories = {k: v for k, v in data.items() if not k.startswith("_")}
+            logger.debug(f"Loaded soul stories from: {path}")
+            return stories
+        except (json.JSONDecodeError, IOError) as e:
+            logger.warning(f"Failed to load soul stories from {path}: {e}")
+
+    logger.debug("Using default soul stories")
+    return DEFAULT_SOUL_STORIES
+
+
+# Load soul stories at module level
+SOUL_STORIES = load_soul_stories()
+
 # --- Paths ---
 DRAFTS_DIR = PROJECT_ROOT / "publishing" / "hive" / "drafts"
 OUTPUT_DIR = PROJECT_ROOT / "publishing" / "hive" / "elixirs"
 LOGS_DIR = PROJECT_ROOT / "aether_logs"
 
+# --- Output Format Converters ---
+
+def convert_to_format(content: str, output_format: str) -> str:
+    """Convert markdown content to the specified output format.
+
+    Args:
+        content: Markdown content
+        output_format: One of 'md', 'html', 'notion'
+
+    Returns:
+        Converted content string
+    """
+    if output_format == "md":
+        return content
+    elif output_format == "html":
+        return _convert_to_html(content)
+    elif output_format == "notion":
+        return _convert_to_notion(content)
+    else:
+        logger.warning(f"Unknown format '{output_format}', returning markdown")
+        return content
+
+
+def _convert_to_html(content: str) -> str:
+    """Convert markdown to HTML.
+
+    Uses the markdown library if available, otherwise falls back to basic regex.
+    """
+    try:
+        import markdown
+        html_body = markdown.markdown(
+            content,
+            extensions=['extra', 'nl2br', 'sane_lists']
+        )
+    except ImportError:
+        # Fallback: basic regex-based conversion
+        html_body = content
+        # Headers
+        html_body = re.sub(r'^### (.+)$', r'<h3>\1</h3>', html_body, flags=re.MULTILINE)
+        html_body = re.sub(r'^## (.+)$', r'<h2>\1</h2>', html_body, flags=re.MULTILINE)
+        html_body = re.sub(r'^# (.+)$', r'<h1>\1</h1>', html_body, flags=re.MULTILINE)
+        # Bold and italic
+        html_body = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html_body)
+        html_body = re.sub(r'\*(.+?)\*', r'<em>\1</em>', html_body)
+        # Paragraphs
+        html_body = re.sub(r'\n\n', '</p><p>', html_body)
+        html_body = f'<p>{html_body}</p>'
+        # Horizontal rules
+        html_body = re.sub(r'<p>---</p>', '<hr>', html_body)
+
+    # Wrap in HTML document
+    html_doc = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmuted Elixir</title>
+    <style>
+        body {{
+            font-family: Georgia, 'Times New Roman', serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #333;
+        }}
+        h1, h2, h3 {{ color: #1a1a2e; }}
+        em {{ color: #6b5b95; }}
+        hr {{ border: none; border-top: 2px solid #ddd; margin: 2rem 0; }}
+        blockquote {{
+            border-left: 4px solid #6b5b95;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #555;
+        }}
+    </style>
+</head>
+<body>
+{html_body}
+</body>
+</html>"""
+    return html_doc
+
+
+def _convert_to_notion(content: str) -> str:
+    """Convert markdown to Notion-compatible format.
+
+    Notion accepts standard markdown but has some preferences:
+    - Preserves most markdown syntax
+    - Prefers explicit line breaks
+    - Supports toggle blocks with > syntax
+    """
+    notion_content = content
+
+    # Ensure double line breaks for paragraph separation
+    notion_content = re.sub(r'\n(?!\n)', '\n\n', notion_content)
+
+    # Add Notion metadata header
+    notion_header = f"""---
+notion_page_type: elixir
+created_by: Alchemical Forge v{VERSION}
+created_at: {datetime.utcnow().isoformat()}
+---
+
+"""
+    return notion_header + notion_content
+
 
 def get_soul_story_weave() -> str:
     """Generate the Soul Story Weave opening paragraph."""
-    today = datetime.utcnow().strftime("%B %d, %Y")
-    return f"""*In the ethereal workshop where {SOUL_STORIES['grok']['name']} casts light upon hidden truths, 
-where {SOUL_STORIES['claude']['name']} shapes raw thought into crystalline structures, 
-and {SOUL_STORIES['gemini']['name']} races through infinite possibility spaces — 
-the Alchemist, {SOUL_STORIES['abacus']['name']}, begins the Great Work. 
-Under the watchful eye of {SOUL_STORIES['russell']['name']}, this Elixir is distilled.*
+    stories = SOUL_STORIES
+    return f"""*In the ethereal workshop where {stories['grok']['name']} casts light upon hidden truths,
+where {stories['claude']['name']} shapes raw thought into crystalline structures,
+and {stories['gemini']['name']} races through infinite possibility spaces —
+the Alchemist, {stories['abacus']['name']}, begins the Great Work.
+Under the watchful eye of {stories['russell']['name']}, this Elixir is distilled.*
 
 ---
 
@@ -89,7 +240,7 @@ def get_closing_transmutation() -> str:
 ---
 
 *Transmuted by the Alchemist under the eye of the HiC Sovereign*
-*{timestamp} | Alchemical Forge v1.0*
+*{timestamp} | Alchemical Forge v{VERSION}*
 """
 
 
@@ -276,14 +427,27 @@ async def run_forge(
     use_latest_brief: bool = False,
     brief_path: Optional[str] = None,
     turns: int = 4,
+    output_format: str = "md",
 ) -> dict:
-    """Run the Alchemical Forge transmutation pipeline."""
+    """Run the Alchemical Forge transmutation pipeline.
+
+    Args:
+        dry_run: If True, don't commit changes or call live APIs
+        use_latest_brief: Auto-find the most recent brief
+        brief_path: Path to a specific brief file
+        turns: Number of expansion turns (1-6)
+        output_format: Output format ('md', 'html', 'notion')
+
+    Returns:
+        dict with success status, paths, grade, and errors
+    """
     result = {
         "success": False,
         "brief_path": None,
         "elixir_path": None,
         "image_paths": [],
         "grade": None,
+        "output_format": output_format,
         "errors": [],
     }
     
@@ -320,19 +484,26 @@ async def run_forge(
         result["errors"].append(error)
         return result
     
+    # Convert to requested format
+    final_content = convert_to_format(elixir_content, output_format)
+
+    # Determine file extension
+    ext_map = {"md": ".md", "html": ".html", "notion": ".md"}
+    extension = ext_map.get(output_format, ".md")
+
     # Generate output filename
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
-    elixir_filename = f"{date_str}-elixir.md"
+    elixir_filename = f"{date_str}-elixir{extension}"
     elixir_path = OUTPUT_DIR / elixir_filename
     
     # Write the Elixir
     if not dry_run:
-        elixir_path.write_text(elixir_content)
+        elixir_path.write_text(final_content)
         logger.info(f"Elixir written to: {elixir_path}")
     else:
         # In dry-run, write to drafts with "--dry-run" suffix
-        dry_run_path = DRAFTS_DIR / f"{date_str}-elixir-dry-run.md"
-        dry_run_path.write_text(elixir_content)
+        dry_run_path = DRAFTS_DIR / f"{date_str}-elixir-dry-run{extension}"
+        dry_run_path.write_text(final_content)
         elixir_path = dry_run_path
         logger.info(f"[DRY-RUN] Elixir written to: {elixir_path}")
     
@@ -353,10 +524,10 @@ async def run_forge(
     except Exception as e:
         logger.warning(f"Image transmutation skipped: {e}")
     
-    # Run the grader
+    # Run the grader (only grade markdown content, not HTML)
     try:
         from pipelines.alchemical_forge.verification.philosophers_stone_grader import grade_elixir
-        grade_result = grade_elixir(elixir_content)
+        grade_result = grade_elixir(elixir_content)  # Always grade the markdown version
         result["grade"] = grade_result
         
         if grade_result.get("total_score", 0) >= 92:
@@ -371,9 +542,11 @@ async def run_forge(
     # Log the run
     log_entry = {
         "timestamp": datetime.utcnow().isoformat(),
+        "version": VERSION,
         "dry_run": dry_run,
         "brief_path": result["brief_path"],
         "elixir_path": result["elixir_path"],
+        "output_format": output_format,
         "grade": result["grade"],
         "turns": turns,
     }
@@ -382,22 +555,25 @@ async def run_forge(
         json.dump(log_entry, f, indent=2)
     
     result["success"] = True
-    logger.info("Alchemical Forge transmutation complete!")
+    logger.info(f"Alchemical Forge v{VERSION} transmutation complete!")
     return result
 
 
 def main():
     """CLI entry point."""
     parser = argparse.ArgumentParser(
-        description="Alchemical Forge — Elixir Expansion Chamber",
+        description=f"Alchemical Forge v{VERSION} — Elixir Expansion Chamber",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Dry run with latest brief
+  # Dry run with latest brief (markdown output)
   python -m pipelines.alchemical_forge.elixir_expansion_chamber --dry-run --use-latest-brief
   
-  # Full transmutation with specific brief
-  python -m pipelines.alchemical_forge.elixir_expansion_chamber --brief publishing/hive/drafts/2026-02-15-hive-post.md
+  # Full transmutation with HTML output
+  python -m pipelines.alchemical_forge.elixir_expansion_chamber --use-latest-brief --output-format html
+
+  # Notion-compatible output with specific brief
+  python -m pipelines.alchemical_forge.elixir_expansion_chamber --brief publishing/hive/drafts/2026-02-15-hive-post.md --output-format notion
         """,
     )
     parser.add_argument(
@@ -421,6 +597,13 @@ Examples:
         default=4,
         help="Number of expansion turns (default: 4, max: 6)",
     )
+    parser.add_argument(
+        "--output-format",
+        type=str,
+        choices=["md", "html", "notion"],
+        default="md",
+        help="Output format: md (default), html, or notion",
+    )
     
     args = parser.parse_args()
     
@@ -433,15 +616,17 @@ Examples:
         use_latest_brief=args.use_latest_brief,
         brief_path=args.brief,
         turns=turns,
+        output_format=args.output_format,
     ))
     
     # Print summary
     print("\n" + "=" * 60)
-    print("ALCHEMICAL FORGE — TRANSMUTATION REPORT")
+    print(f"ALCHEMICAL FORGE v{VERSION} — TRANSMUTATION REPORT")
     print("=" * 60)
     print(f"Status: {'✅ SUCCESS' if result['success'] else '❌ FAILED'}")
     print(f"Brief: {result['brief_path']}")
     print(f"Elixir: {result['elixir_path']}")
+    print(f"Format: {result['output_format']}")
     if result["grade"]:
         print(f"Grade: {result['grade'].get('total_score', 'N/A')}/100")
         print(f"Soul Resonance: {result['grade'].get('soul_resonance', 'N/A')}/20")
