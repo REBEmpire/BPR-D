@@ -6,7 +6,12 @@ Triggered by GitHub Actions when a new session file is committed to _agents/_ses
 Reads the session file, parses structured meeting data, and fans out updates to:
   1. BPR&D_To_Do_List.md
   2. tasks/projects/{task_id}.md (for large handoffs)
-  3. _staging/pending_commits.json (ship-to-repo blocks)
+  3. _staging/pending_commits.json (ship-to-repo blocks via meeting_code_deployer)
+
+Document Generation Ownership (to prevent duplicate generation):
+  - BPR&D_To_Do_List.md: secretary.py via todo_updater (ONLY HERE)
+  - tasks/projects/*.md: secretary.py via project_creator (ONLY HERE)
+  - _staging/pending_commits.json: meeting_code_deployer (ONLY THERE)
 
 DEPRECATED (orchestrator owns these files):
   - _agents/{agent}/handoff.md (removed - handoff system deprecated)
@@ -24,12 +29,19 @@ from pathlib import Path
 # Add pipeline root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
+# Add repo root to path for _agents module access
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT_PATH = SCRIPT_DIR.parent.parent.parent  # pipelines/github-bot/meeting-parser -> repo root
+sys.path.insert(0, str(REPO_ROOT_PATH))
+
 from parser import parse_session_file
 from updaters.todo_updater import update_todo_list
 # DEPRECATED: from updaters.handoff_updater import update_handoffs
 from updaters.project_creator import create_project_files
 # DEPRECATED: from updaters.active_updater import update_active_contexts
-from ship_to_repo_parser import parse_ship_to_repo_blocks, write_pending_commits
+
+# Import from integrated meeting_code_deployer (replaces standalone ship_to_repo_parser)
+from _agents.meeting_code_deployer import parse_ship_to_repo_blocks, write_pending_commits
 
 logging.basicConfig(
     level=logging.INFO,
