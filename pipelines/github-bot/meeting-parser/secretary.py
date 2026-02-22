@@ -5,9 +5,12 @@ Meeting Secretary Bot — Main Orchestrator
 Triggered by GitHub Actions when a new session file is committed to _agents/_sessions/.
 Reads the session file, parses structured meeting data, and fans out updates to:
   1. BPR&D_To_Do_List.md
-  2. _agents/{agent}/handoff.md (per agent)
-  3. tasks/projects/{task_id}.md (for large handoffs)
-  4. _agents/{agent}/context/active.md (delta update)
+  2. tasks/projects/{task_id}.md (for large handoffs)
+  3. _staging/pending_commits.json (ship-to-repo blocks)
+
+DEPRECATED (orchestrator owns these files):
+  - _agents/{agent}/handoff.md (removed - handoff system deprecated)
+  - _agents/{agent}/context/active.md (removed - orchestrator owns)
 
 Usage:
   python secretary.py _agents/_sessions/2026-02-19-daily-briefing.md
@@ -23,9 +26,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from parser import parse_session_file
 from updaters.todo_updater import update_todo_list
-from updaters.handoff_updater import update_handoffs
+# DEPRECATED: from updaters.handoff_updater import update_handoffs
 from updaters.project_creator import create_project_files
-from updaters.active_updater import update_active_contexts
+# DEPRECATED: from updaters.active_updater import update_active_contexts
+from ship_to_repo_parser import parse_ship_to_repo_blocks, write_pending_commits
 
 logging.basicConfig(
     level=logging.INFO,
@@ -63,43 +67,47 @@ def main():
     logger.info(f"  Parsed: {action_count} action items, {handoff_count} handoffs")
     logger.info(f"  Session: {meeting_data.get('session_type')} | {meeting_data.get('session_date')}")
 
-    if action_count == 0 and handoff_count == 0:
-        logger.info("No action items or handoffs found in session. Nothing to update.")
-        return
-
     # Step 2: Update To-Do list
     logger.info("Step 2/4: Updating BPR&D_To_Do_List.md...")
     todo_added = update_todo_list(meeting_data)
     logger.info(f"  Added {todo_added} item(s) to To-Do list")
 
-    # Step 3: Update agent handoffs
-    logger.info("Step 3/4: Updating agent handoff files...")
-    handoff_counts = update_handoffs(meeting_data)
-    for agent, count in handoff_counts.items():
-        logger.info(f"  [{agent}] Added {count} task(s)")
-    if not handoff_counts:
-        logger.info("  No handoff updates needed")
+    # Step 3: DEPRECATED - handoff system removed
+    # Handoffs are now managed by orchestrator directly
+    # logger.info("Step 3/4: Updating agent handoff files...")
+    # handoff_counts = update_handoffs(meeting_data)
+    logger.info("Step 3/4: Handoff system deprecated - skipping")
 
     # Step 4a: Create project files for large handoffs
     logger.info("Step 4a/4: Creating tasks/projects/ files for large handoffs...")
     projects_created = create_project_files(meeting_data)
     logger.info(f"  Created {projects_created} project file(s)")
 
-    # Step 4b: Update agent active.md contexts
-    logger.info("Step 4b/4: Updating agent active.md contexts...")
-    active_results = update_active_contexts(meeting_data)
-    for agent, updated in active_results.items():
-        status = "updated" if updated else "skipped"
-        logger.info(f"  [{agent}] active.md {status}")
+    # Step 4b: DEPRECATED - active.md owned by orchestrator
+    # logger.info("Step 4b/4: Updating agent active.md contexts...")
+    # active_results = update_active_contexts(meeting_data)
+    logger.info("Step 4b/4: active.md updates deprecated - orchestrator owns these files")
+
+    # Step 5: Parse ship-to-repo blocks and write to staging
+    logger.info("Step 5/4: Parsing ship-to-repo blocks from session...")
+    with open(session_file, encoding="utf-8") as f:
+        session_content = f.read()
+    
+    ship_blocks = parse_ship_to_repo_blocks(session_content, session_file)
+    if ship_blocks:
+        staging_path = write_pending_commits(ship_blocks, repo_root or ".")
+        logger.info(f"  Queued {len(ship_blocks)} file(s) for ship-to-repo")
+        logger.info(f"  Staging file: {staging_path}")
+    else:
+        logger.info("  No ship-to-repo blocks found")
 
     # Summary
     logger.info("=" * 60)
     logger.info("Secretary Bot complete!")
     logger.info(f"  To-Do items added:    {todo_added}")
-    logger.info(f"  Handoff rows added:   {sum(handoff_counts.values())}")
     logger.info(f"  Project files created:{projects_created}")
-    logger.info(f"  Active.md updated:    {sum(1 for v in active_results.values() if v)}")
-    logger.info("GitHub Actions will commit these changes.")
+    logger.info(f"  Ship-to-repo queued:  {len(ship_blocks) if ship_blocks else 0}")
+    logger.info("GitHub Actions will process pending commits.")
 
 
 def _find_repo_root(session_file: str) -> str | None:
