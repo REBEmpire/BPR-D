@@ -32,12 +32,12 @@ services:
         sync: false # Must be set in dashboard
   - type: web
     name: bprd-meetings
-    runtime: python
+    env: python
     plan: starter
     region: oregon
     rootDir: crewai-service
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     autoDeploy: true
     healthCheckPath: /api/v1/health
     envVars:
@@ -70,7 +70,7 @@ services:
 
   - type: cron
     name: bprd-daily-team-meeting
-    runtime: python
+    env: python
     region: oregon
     plan: free
     schedule: "0 10 * * *"  # 10 AM UTC Mon-Fri = 2 AM PST
