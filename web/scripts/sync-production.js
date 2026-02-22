@@ -1,6 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-const matter = require('gray-matter');
+let matter;
+try {
+  matter = require('gray-matter');
+} catch (e) {
+  // Simple fallback if gray-matter is missing
+  matter = (content) => {
+    const match = content.match(/^---\n([\s\S]*?)\n---/);
+    if (match) {
+      const data = {};
+      match[1].split('\n').forEach(line => {
+        const [key, ...val] = line.split(':');
+        if (key && val) data[key.trim()] = val.join(':').trim().replace(/^['"]|['"]$/g, '');
+      });
+      return { data };
+    }
+    return { data: {} };
+  };
+}
 
 // Paths
 const ROOT_DIR = path.join(__dirname, '../..');
@@ -18,7 +35,7 @@ function parseMeetings() {
   const meetings = [];
 
   if (!fs.existsSync(SESSIONS_DIR)) {
-    console.log('⚠️  No _sessions directory found');
+    console.log('⚠️  No meetings/logs directory found at', SESSIONS_DIR);
     return meetings;
   }
 
@@ -30,13 +47,64 @@ function parseMeetings() {
     const content = fs.readFileSync(filePath, 'utf-8');
     const { data: frontmatter } = matter(content);
 
-    // Extract meeting metadata
-    const dateMatch = content.match(/\*\*Date:\*\*\s*(.+)/);
-    const typeMatch = content.match(/\*\*Type:\*\*\s*(.+)/);
-    const facilitatorMatch = content.match(/\*\*Facilitator:\*\*\s*(.+)/);
-    const attendeesMatch = content.match(/\*\*Attendees:\*\*\s*(.+)/);
+    // 1. Try to extract JSON block (new format)
+    // Find ALL JSON blocks and pick the one with meeting report data
+    const jsonMatches = content.matchAll(/\`\`\`json\s*([\s\S]*?)\s*\`\`\`/g);
+    let jsonData = null;
 
-    // Extract participants from Team Introductions section
+    for (const match of jsonMatches) {
+        try {
+            const parsed = JSON.parse(match[1]);
+            if (parsed.meeting_notes || parsed.action_items || parsed.handoffs || parsed.key_decisions) {
+                jsonData = parsed;
+                break;
+            }
+        } catch (e) {
+            // Ignore invalid blocks
+        }
+    }
+
+    // Extract metadata
+    // Priority: Frontmatter -> Regex -> Filename
+    let date = frontmatter.date;
+    if (!date) {
+        const dateMatch = content.match(/\*\*Date:\*\*\s*(.+)/); // Old format
+        if (dateMatch) date = dateMatch[1].trim();
+    }
+    if (!date) {
+        // New header format: # Daily Briefing — 2026-02-21
+        const headerDateMatch = content.match(/# .*? — (\d{4}-\d{2}-\d{2})/);
+        if (headerDateMatch) date = headerDateMatch[1];
+    }
+    if (!date) {
+        const fileMatch = file.match(/\d{4}-\d{2}-\d{2}/);
+        date = fileMatch ? fileMatch[0] : 'Unknown';
+    }
+
+    // Type
+    let type = "Meeting";
+    const headerMatch = content.match(/# (.+?) —/);
+    if (headerMatch) type = headerMatch[1].trim();
+    else {
+        const typeMatch = content.match(/\*\*Type:\*\*\s*(.+)/);
+        if (typeMatch) type = typeMatch[1].trim();
+    }
+
+    // Facilitator
+    let facilitator = null;
+    const facMatch = content.match(/\|\s*(.+?)\s*Facilitating/); // From header
+    if (facMatch) facilitator = facMatch[1].trim();
+
+    if (!facilitator && jsonData && jsonData.author) {
+        if (jsonData.author.includes("Grok")) facilitator = "Grok";
+        else facilitator = jsonData.author;
+    }
+    if (!facilitator) {
+        const oldFacMatch = content.match(/\*\*Facilitator:\*\*\s*(.+)/);
+        if (oldFacMatch) facilitator = oldFacMatch[1].trim();
+    }
+
+    // Participants
     const participants = [];
     const introMatches = content.matchAll(/### (Grok|Claude|Gemini|Deep Agent|Jules|ChatLLM|Abacus)/g);
     for (const match of introMatches) {
@@ -45,52 +113,105 @@ function parseMeetings() {
       }
     }
 
-    // Extract insights
+    // Insights
     const insights = [];
-    const insightsSection = content.match(/## Meeting Notes([\s\S]*?)(?=##|$)/);
-    if (insightsSection) {
-      const bulletPoints = insightsSection[1].match(/^- .+$/gm);
-      if (bulletPoints) {
-        insights.push(...bulletPoints.map(b => b.replace(/^- /, '').trim()));
-      }
+    if (jsonData) {
+        const notes = jsonData.meeting_notes || "";
+
+        // Try extracting "Decisions Snapshot"
+        const decisionsMatch = notes.match(/## Decisions Snapshot([\s\S]*?)(?=##|$)/);
+        if (decisionsMatch) {
+            const bullets = decisionsMatch[1].match(/^- (.+)$/gm);
+            if (bullets) {
+                insights.push(...bullets.map(b => b.replace(/^- /, '').trim()));
+            }
+        }
+
+        // If no decisions, try Key Quotes
+        if (insights.length === 0) {
+             const quotesMatch = notes.match(/### Key Quotes([\s\S]*?)(?=##|$)/);
+             if (quotesMatch) {
+                 const bullets = quotesMatch[1].match(/^- (.+)$/gm);
+                 if (bullets) {
+                     insights.push(...bullets.map(b => b.replace(/^- /, '').trim()));
+                 }
+             }
+        }
+        // Try "Arc of Discussion" if still empty
+        if (insights.length === 0) {
+             const arcMatch = notes.match(/## Arc of Discussion([\s\S]*?)(?=##|$)/);
+             if (arcMatch) {
+                 const summaries = arcMatch[1].match(/\*\*(.+?):\*\* (.+)/g);
+                 if (summaries) {
+                     insights.push(...summaries.slice(0, 5).map(s => s.replace(/\*\*/g, '').trim()));
+                 }
+             }
+        }
+    } else {
+        const insightsSection = content.match(/## Meeting Notes([\s\S]*?)(?=##|$)/);
+        if (insightsSection) {
+          const bulletPoints = insightsSection[1].match(/^- .+$/gm);
+          if (bulletPoints) {
+            insights.push(...bulletPoints.map(b => b.replace(/^- /, '').trim()));
+          }
+        }
     }
 
-    // Extract action items
+    // Action Items
     const actionItems = [];
-    const actionSection = content.match(/## Action Items([\s\S]*?)(?=##|$)/);
-    if (actionSection) {
-      const tableRows = actionSection[1].match(/\|([^|]+)\|([^|]+)\|([^|]+)\|/g);
-      if (tableRows) {
-        tableRows.forEach((row, idx) => {
-          if (idx === 0) return; // Skip header
-          const cells = row.split('|').map(s => s.trim()).filter(s => s && !s.match(/^-+$/));
-          if (cells.length >= 3) {
+    if (jsonData && jsonData.action_items) {
+        jsonData.action_items.forEach(item => {
             actionItems.push({
-              assignee: cells[0],
-              task: cells[1],
-              priority: cells[2]
+                assignee: item.assigned_to || "Team",
+                task: item.task || "Unknown Task",
+                priority: item.priority || "Medium"
+            });
+        });
+    } else {
+        const actionSection = content.match(/## Action Items([\s\S]*?)(?=##|$)/);
+        if (actionSection) {
+          const tableRows = actionSection[1].match(/\|([^|]+)\|([^|]+)\|([^|]+)\|/g);
+          if (tableRows) {
+            tableRows.forEach((row, idx) => {
+              if (idx === 0) return; // Skip header
+              const cells = row.split('|').map(s => s.trim()).filter(s => s && !s.match(/^-+$/));
+              if (cells.length >= 3) {
+                actionItems.push({
+                  assignee: cells[0],
+                  task: cells[1],
+                  priority: cells[2]
+                });
+              }
             });
           }
-        });
-      }
+        }
     }
 
-    // Extract handoffs (if mentioned in content)
+    // Handoffs
     const handoffs = [];
-    const handoffMatches = content.matchAll(/handoff to (\w+)(?::\s*(.+?)(?=\n|$))?/gi);
-    for (const match of handoffMatches) {
-      handoffs.push({
-        to: match[1],
-        task: match[2] || 'See meeting notes'
-      });
+    if (jsonData && jsonData.handoffs) {
+        jsonData.handoffs.forEach(item => {
+            handoffs.push({
+                to: item.assigned_to || "Unknown",
+                task: item.title || "Unknown Task"
+            });
+        });
+    } else {
+        const handoffMatches = content.matchAll(/handoff to (\w+)(?::\s*(.+?)(?=\n|$))?/gi);
+        for (const match of handoffMatches) {
+          handoffs.push({
+            to: match[1],
+            task: match[2] || 'See meeting notes'
+          });
+        }
     }
 
     meetings.push({
       fileName: file,
-      date: dateMatch ? dateMatch[1].trim() : file.match(/\d{4}-\d{2}-\d{2}/)?.[0] || 'Unknown',
-      type: typeMatch ? typeMatch[1].trim() : 'Meeting',
-      facilitator: facilitatorMatch ? facilitatorMatch[1].trim() : null,
-      attendees: attendeesMatch ? attendeesMatch[1].trim() : participants.join(', '),
+      date: date,
+      type: type,
+      facilitator: facilitator,
+      attendees: participants.join(', '),
       participants,
       insightsCount: insights.length,
       insights: insights.slice(0, 5), // Top 5 insights
