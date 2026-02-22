@@ -70,6 +70,7 @@ class DailyBriefing:
         )
 
         # Build final response object
+        # NOTE: handoffs removed - old handoff system deprecated in favor of BPR&D_To_Do_List v2
         return MeetingResponse(
             success=True,
             meeting_id=meeting_id,
@@ -77,7 +78,7 @@ class DailyBriefing:
             notes=notes,
             summary=parsed_data.get("meeting_notes", ""),
             for_russell=parsed_data.get("for_russell", ""),
-            handoffs=parsed_data.get("handoffs", []),
+            handoffs=[],  # Deprecated - now using BPR&D_To_Do_List v2
             action_items=parsed_data.get("action_items", []),
             key_decisions=parsed_data.get("key_decisions", []),
             agent_instructions=agent_instructions,
@@ -107,17 +108,7 @@ def _build_agent_instructions(
                 "due": item.deadline or "TBD",
             })
 
-    # Process handoffs as escalations
-    for handoff in parsed_data.get("handoffs", []):
-        assignee = handoff.assigned_to.lower()
-        if assignee in agent_tasks:
-            agent_tasks[assignee].append({
-                "task": f"[Escalation] {handoff.title} — see _handoffs/{handoff.task_id}.md",
-                "assigned_to": assignee.title(),
-                "priority": "High",
-                "status": "Pending",
-                "due": handoff.due_date or "TBD",
-            })
+    # NOTE: Handoffs processing removed - old handoff system deprecated in favor of BPR&D_To_Do_List v2
 
     instructions = {}
     for agent_name, tasks in agent_tasks.items():
