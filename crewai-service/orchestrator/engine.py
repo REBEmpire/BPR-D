@@ -103,10 +103,15 @@ class MeetingEngine:
         """Phase 0: Load nervous system + gather context from GitHub, memory, and handoffs."""
         logger.info("Phase: GATHER_CONTEXT")
 
-        # 1. Load Nervous System
+        # 1. Load Nervous System (load core context + agent hooks in parallel)
         await self._ns_injector.load()
-        for agent_name in self.agents:
-            self._ns_agent_hooks[agent_name] = self._ns_injector.get_agent_hook(agent_name)
+        agent_names = list(self.agents.keys())
+        agent_hooks = await asyncio.gather(
+            *[self._ns_injector.load_agent_hook(name) for name in agent_names],
+            return_exceptions=True
+        )
+        for name, hook in zip(agent_names, agent_hooks):
+            self._ns_agent_hooks[name] = hook if isinstance(hook, str) else ""
 
         # 2. Gather Project State (Parallel)
         async def fetch_commits():
