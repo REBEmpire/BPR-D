@@ -15,7 +15,8 @@ from agents.registry import RegisteredAgent
 from llm.base import LLMResponse
 from orchestrator.transcript import Transcript
 from prompts.nervous_system_injector import NervousSystemInjector
-from tools.github_tool import list_commits, read_file, list_handoffs, list_sessions
+from tools.github_tool import list_commits, read_file, list_sessions
+# NOTE: list_handoffs removed - old handoff system deprecated in favor of BPR&D_To_Do_List v2
 from tools.memory_tool import read_memory
 from utils.cost_tracker import CostTracker
 
@@ -27,7 +28,7 @@ class MeetingContext:
     """All context gathered before the meeting starts."""
     recent_commits: str = ""
     team_state: str = ""
-    active_handoffs: str = ""
+    # NOTE: active_handoffs removed - old handoff system deprecated in favor of BPR&D_To_Do_List v2
     recent_sessions: str = ""
     protocols: str = ""
     user_context: str = ""
@@ -50,8 +51,7 @@ class MeetingContext:
             parts.append(f"## Recent Session Summaries\n{self.recent_sessions}")
         if self.recent_commits:
             parts.append(f"## Recent Commits\n{self.recent_commits}")
-        if self.active_handoffs:
-            parts.append(f"## Active Handoffs\n{self.active_handoffs}")
+        # NOTE: active_handoffs section removed - see BPR&D_To_Do_List v2
         if self.protocols:
             parts.append(f"## Active Protocols\n{self.protocols}")
         if self.user_context:
@@ -127,11 +127,7 @@ class MeetingEngine:
             except Exception:
                 return ""
 
-        async def fetch_handoffs():
-            try:
-                return await list_handoffs()
-            except Exception:
-                return ""
+        # NOTE: fetch_handoffs removed - old handoff system deprecated in favor of BPR&D_To_Do_List v2
 
         async def fetch_sessions():
             try:
@@ -155,7 +151,7 @@ class MeetingEngine:
         results = await asyncio.gather(
             fetch_commits(),
             fetch_team_state(),
-            fetch_handoffs(),
+            # NOTE: fetch_handoffs() removed - see BPR&D_To_Do_List v2
             fetch_sessions(),
             fetch_protocol(),
             *[fetch_agent_context(a) for a in self.agents],
@@ -165,11 +161,11 @@ class MeetingEngine:
         # Unpack results
         self.context.recent_commits = str(results[0])
         self.context.team_state = str(results[1])
-        self.context.active_handoffs = str(results[2])
-        self.context.recent_sessions = str(results[3])
-        self.context.protocols = str(results[4])
+        # NOTE: active_handoffs removed - see BPR&D_To_Do_List v2
+        self.context.recent_sessions = str(results[2])
+        self.context.protocols = str(results[3])
 
-        agent_results = results[5:]
+        agent_results = results[4:]
         for i, agent_name in enumerate(self.agents):
             if isinstance(agent_results[i], str):
                 self.context.agent_contexts[agent_name] = agent_results[i]
@@ -314,25 +310,14 @@ class MeetingEngine:
         """Phase 5: Grok synthesizes the meeting into structured output."""
         logger.info("Phase: GROK_SYNTHESIZES")
 
+        # NOTE: handoffs section removed from JSON output - old handoff system deprecated
+        # Tasks now go to BPR&D_To_Do_List v2 via action_items
         instructions = (
             "Synthesize the entire meeting discussion into a structured summary.\n\n"
             "You MUST respond with valid JSON in exactly this format:\n"
             "```json\n"
             "{\n"
             '  "meeting_notes": "Full markdown narrative of the meeting (include key quotes, decisions, and the arc of discussion)",\n'
-            '  "handoffs": [\n'
-            "    {\n"
-            '      "task_id": "handoff-descriptive-name-YYYYMMDD",\n'
-            '      "assigned_to": "agent_name or russell",\n'
-            '      "title": "Clear task title",\n'
-            '      "due_date": "YYYY-MM-DD",\n'
-            '      "priority": "low|medium|high|critical",\n'
-            '      "context": "Why this task exists",\n'
-            '      "acceptance_criteria": ["criterion 1", "criterion 2"],\n'
-            '      "status": "open",\n'
-            '      "created_by": "grok"\n'
-            "    }\n"
-            "  ],\n"
             '  "action_items": [\n'
             "    {\n"
             '      "task": "What needs to be done",\n'
@@ -346,7 +331,8 @@ class MeetingEngine:
             "}\n"
             "```\n\n"
             "Include a 'For Russell' section in meeting_notes highlighting items needing human input.\n"
-            "Be decisive. Assign clear owners and deadlines."
+            "Be decisive. Assign clear owners and deadlines.\n"
+            "NOTE: All tasks should be captured as action_items - they will be routed to BPR&D_To_Do_List."
         )
 
         # For synthesis, use the raw transcript so Grok sees everything as context
