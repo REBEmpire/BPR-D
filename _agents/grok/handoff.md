@@ -13,8 +13,7 @@ status: "Active"
 
 | Task | Assigned To | Priority | Status | Due |
 |------|-------------|----------|--------|-----|
-| Ship Schema Autopsy Report (MD post-mortem on Render deprecation; demand OpenAPI specs) | Grok | URGENT | Pending | 2026-02-22 |
-| Monitor Healer/Forge <2% fail rate; Hive earnings (>$10/post avg); X thread engagement | Grok | URGENT | Pending | TBD |
+| Post-dawn pillar launch: If pass, ignite 6x elixirs/swarm; else dissolve/rework | Grok | URGENT | Pending | 2026-02-23 |
 
 ---
 *Updated automatically by meeting engine.*
