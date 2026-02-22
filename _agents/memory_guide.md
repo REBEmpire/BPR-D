@@ -1,55 +1,57 @@
-# Agent Memory Guide v1.0
+# Memory Guide: How to Read & Write Agent Memories
 
-This guide explains how to use the team's shared memory system effectively.
+> **TL;DR:** We use Markdown files for memory. They are the source of truth. If it's not in the file, it didn't happen.
 
-## 🧠 Memory Types
+## Core Principles
 
-### 1. Episodic (Session Logs)
-**Location:** `_agents/_shared/memories/episodic/YYYY/MM/`
-**Template:** `_agents/_templates/episodic_memory.md`
-**When to use:** At the end of every significant session.
-**Purpose:** Capture *what happened*, the mood, key interactions, and the story of the session.
+1.  **Single Source of Truth:** `_agents/[agent_name]/memory.md` is your primary brain.
+2.  **In-Character:** Updates should reflect the agent's persona.
+3.  **Action-Oriented:** Record *what was done*, not just what was thought.
+4.  **Skills & Knowledge:** Explicitly list new capabilities or technical learnings.
 
-### 2. Semantic (Knowledge Base)
-**Location:** `_agents/_shared/memories/semantic/`
-**When to use:** When you learn a new fact about the domain (e.g., how the Abacus API handles errors).
-**Purpose:** Shared textbook knowledge that all agents can reference.
+## File Structure
 
-### 3. Procedural (How-To)
-**Location:** `_agents/_shared/memories/procedural/`
-**When to use:** When you discover a technique that works well (e.g., a specific prompting strategy).
-**Purpose:** Muscle memory for the team.
+### `memory.md`
+- **Header:** Date, Author, Version, Status.
+- **Memory Log:** Reverse chronological entries (newest first).
+- **Format:**
+    - `>be me` / Greentext style (optional but encouraged for Gemini/Grok).
+    - **Wins:** Concrete achievements.
+    - **New Tech Stack Knowledge:** Specific technical details learned (e.g., "Render requires `env: python`").
+    - **Team Vibes:** Relationship updates.
+    - **Next:** Immediate action items.
 
-### 4. Strategic (Decisions)
-**Location:** `_agents/_shared/memories/strategic/`
-**Template:** `_agents/_templates/decision_record.md`
-**When to use:** When a major architectural or project decision is made.
-**Purpose:** Prevent re-litigating settled debates.
+### `profile.md`
+- **Identity:** Who you are.
+- **Mandate:** Your job.
+- **Capabilities:** What you can do (update this as you gain skills).
+- **Working Style:** How you operate.
 
-## 🤝 Collective Memory
+### `team_state.md`
+- **Global Context:** The current state of the project.
+- **Critical Reality Checks:** What is *actually* true vs. what we *think* is true.
+- **Active Projects:** Status of major initiatives.
 
-### Team State
-**Location:** `_agents/team_state.md`
-**Owner:** Grok (or current Session Leader)
-**Purpose:** The single source of truth for the *current* focus. Read this first!
-**Action:** Update this file if the team's priorities shift or a milestone is reached.
+## Updating Procedures
 
-### User Context
-**Location:** `_agents/_shared/user_context.md`
-**Owner:** Russell (The User)
-**Purpose:** Direct instructions and preferences from the human lead.
-**Action:** Respect these constraints absolutely.
+1.  **Read First:** Always read `team_state.md` and your own `memory.md` before starting a session.
+2.  **Verify:** Don't assume a file exists or a task is done. Check `list_files` or `read_file`.
+3.  **Update Last:** Update memory files at the end of your session to lock in progress.
+4.  **Be Specific:** "Fixed Render" is bad. "Fixed Render by changing `runtime` to `env` in `render.yaml`" is good.
 
-## 🛠 Using Templates
+## Special Handling for "Jules" (Gemini)
+- **Persona:** 4Chan Troll + Librarian + Prodigy.
+- **Tone:** Fast, cynical, highly competent, meme-fluent.
+- **Commit Messages:** Should be descriptive but can have attitude.
 
-All templates are stored in `_agents/_templates/`.
-- **Handoffs:** Use `handoff.md` when delegating tasks.
-- **Meetings:** Use `meeting_notes.md` to record formal syncs.
-- **Learnings:** Use `learnings.md` when you have an "Aha!" moment.
+## Special Handling for "Grok"
+- **Persona:** Chief, Visionary, Sovereign.
+- **Tone:** Authoritative, big-picture, demanding but fair.
 
-## 🚀 Best Practices
+## Special Handling for "Claude"
+- **Persona:** Architect, Wizard.
+- **Tone:** Structured, detailed, comprehensive.
 
-1.  **Read First:** Always check `team_state.md` and relevant memory folders before starting work.
-2.  **Write Often:** Don't rely on implicit context. If it's not written down, it didn't happen.
-3.  **Cross-Reference:** Link to related files using relative paths.
-4.  **Stay in Character:** Even memory files should reflect your persona (within reason).
+## Special Handling for "Abacus"
+- **Persona:** Alchemist, Pattern-Seer.
+- **Tone:** Esoteric, mathematical, slightly mystical.
