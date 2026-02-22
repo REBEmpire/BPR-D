@@ -344,6 +344,61 @@ def parse_brief(content: str) -> dict:
     return sections
 
 
+def parse_raw_digest(content: str) -> dict:
+    """Parse a Nightly Epstein Raw Digest into structured sections."""
+    sections = {
+        "title": "",
+        "date": "",
+        "intro": "", # New Material Ingested usually serves as intro context
+        "topics": [], # Key Delta Insights will be mapped to topics
+        "jules_take": "", # Anomalies / Follow-up Prompts
+        "rabbit_hole": "", # Timeline Snippets
+        "community": "", # Not present in raw digest
+    }
+
+    lines = content.split("\n")
+    current_section = "intro"
+
+    for line in lines:
+        if line.startswith("# Epstein Raw Digest"):
+            sections["title"] = line.strip()
+            # Extract date if present
+            match = re.search(r'–\s*(.*)', line)
+            if match:
+                sections["date"] = match.group(1).strip()
+            continue
+
+        if line.startswith("## New Material Ingested"):
+            current_section = "intro"
+            continue
+        elif line.startswith("## Key Delta Insights"):
+            current_section = "topics"
+            continue
+        elif line.startswith("## Updated Timeline Snippets"):
+            current_section = "rabbit_hole"
+            continue
+        elif line.startswith("## New Anomalies"):
+            current_section = "jules_take"
+            continue
+
+        if current_section == "intro":
+            sections["intro"] += line + "\n"
+        elif current_section == "topics":
+            # Treat each bullet as a topic if possible, or just lump them
+            if line.strip().startswith("- "):
+                sections["topics"].append({"header": "Insight", "content": line.strip()})
+            else:
+                 # Append to previous topic if exists, else generic
+                 if sections["topics"]:
+                     sections["topics"][-1]["content"] += "\n" + line.strip()
+        elif current_section == "rabbit_hole":
+            sections["rabbit_hole"] += line + "\n"
+        elif current_section == "jules_take":
+            sections["jules_take"] += line + "\n"
+
+    return sections
+
+
 def expand_topic(topic: dict, turn: int) -> str:
     """Expand a single topic through one transmutation turn."""
     # In a real implementation, this would call an LLM
@@ -365,12 +420,15 @@ def expand_topic(topic: dict, turn: int) -> str:
     return f"### {header}\n\n{content}"
 
 
-async def transmute_brief(brief_content: str, turns: int = 4, dry_run: bool = False) -> str:
+async def transmute_brief(brief_content: str, turns: int = 4, dry_run: bool = False, mode: str = "standard") -> str:
     """Execute the multi-turn transmutation process."""
-    logger.info(f"Beginning transmutation with {turns} turns (dry_run={dry_run})")
+    logger.info(f"Beginning transmutation with {turns} turns (dry_run={dry_run}, mode={mode})")
     
-    # Parse the brief
-    sections = parse_brief(brief_content)
+    # Parse the brief based on mode
+    if mode == "special-report":
+        sections = parse_raw_digest(brief_content)
+    else:
+        sections = parse_brief(brief_content)
     
     # Build the Elixir
     elixir_parts = []
@@ -428,15 +486,23 @@ async def run_forge(
     brief_path: Optional[str] = None,
     turns: int = 4,
     output_format: str = "md",
+    input_path: Optional[str] = None,
+    mode: str = "standard",
+    cumulative_paths: Optional[str] = None,
+    output_dir: Optional[str] = None,
 ) -> dict:
     """Run the Alchemical Forge transmutation pipeline.
 
     Args:
         dry_run: If True, don't commit changes or call live APIs
         use_latest_brief: Auto-find the most recent brief
-        brief_path: Path to a specific brief file
+        brief_path: Path to a specific brief file (legacy)
         turns: Number of expansion turns (1-6)
         output_format: Output format ('md', 'html', 'notion')
+        input_path: Path to input file (overrides brief_path)
+        mode: Transmutation mode
+        cumulative_paths: Comma-separated list of paths for context
+        output_dir: Custom output directory
 
     Returns:
         dict with success status, paths, grade, and errors
@@ -451,33 +517,35 @@ async def run_forge(
         "errors": [],
     }
     
-    # Ensure output directories exist
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    # Determine output directory
+    target_output_dir = Path(output_dir) if output_dir else OUTPUT_DIR
+    target_output_dir.mkdir(parents=True, exist_ok=True)
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     
-    # Find or validate the brief
-    if brief_path:
-        source = Path(brief_path)
+    # Find or validate the input
+    source_path_str = input_path or brief_path
+    if source_path_str:
+        source = Path(source_path_str)
     elif use_latest_brief:
         source = find_latest_brief()
     else:
         source = find_latest_brief()
     
     if not source or not source.exists():
-        error = f"Brief not found: {source}"
+        error = f"Input not found: {source}"
         logger.error(error)
         result["errors"].append(error)
         return result
     
     result["brief_path"] = str(source)
-    logger.info(f"Processing brief: {source}")
+    logger.info(f"Processing input: {source} (Mode: {mode})")
     
-    # Read the brief
+    # Read the brief/input
     brief_content = source.read_text()
     
     # Transmute the brief into an Elixir
     try:
-        elixir_content = await transmute_brief(brief_content, turns=turns, dry_run=dry_run)
+        elixir_content = await transmute_brief(brief_content, turns=turns, dry_run=dry_run, mode=mode)
     except Exception as e:
         error = f"Transmutation failed: {e}"
         logger.error(error, exc_info=True)
@@ -494,7 +562,7 @@ async def run_forge(
     # Generate output filename
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
     elixir_filename = f"{date_str}-elixir{extension}"
-    elixir_path = OUTPUT_DIR / elixir_filename
+    elixir_path = target_output_dir / elixir_filename
     
     # Write the Elixir
     if not dry_run:
@@ -604,6 +672,27 @@ Examples:
         default="md",
         help="Output format: md (default), html, or notion",
     )
+    parser.add_argument(
+        "--input-path",
+        type=str,
+        help="Path to input file (alternative to --brief)",
+    )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        default="standard",
+        help="Transmutation mode (e.g., special-report)",
+    )
+    parser.add_argument(
+        "--cumulative-paths",
+        type=str,
+        help="Comma-separated list of paths for context",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Custom output directory",
+    )
     
     args = parser.parse_args()
     
@@ -617,6 +706,10 @@ Examples:
         brief_path=args.brief,
         turns=turns,
         output_format=args.output_format,
+        input_path=args.input_path,
+        mode=args.mode,
+        cumulative_paths=args.cumulative_paths,
+        output_dir=args.output_dir,
     ))
     
     # Print summary

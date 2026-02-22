@@ -18,12 +18,13 @@ SOURCE_DIR = BASE_DIR / "source_docs"
 UNPROCESSED_DIR = BASE_DIR / "unprocessed"
 PROCESSED_DIR = BASE_DIR / "processed"
 OUTPUT_DIR = BASE_DIR / "nightly-output"
+RAW_DIGEST_DIR = BASE_DIR / "raw-digests"
 GRAPH_FILE = BASE_DIR / "graph/epstein_graph.json"
 TIMELINE_FILE = BASE_DIR / "graph/epstein_timeline.json"
 HANDOFFS_DIR = Path("_agents/_handoffs")
 
 # Ensure directories exist
-for d in [SOURCE_DIR, UNPROCESSED_DIR, PROCESSED_DIR, OUTPUT_DIR, GRAPH_FILE.parent, HANDOFFS_DIR]:
+for d in [SOURCE_DIR, UNPROCESSED_DIR, PROCESSED_DIR, OUTPUT_DIR, RAW_DIGEST_DIR, GRAPH_FILE.parent, HANDOFFS_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
 # Third-party imports check
@@ -709,9 +710,9 @@ function dragended(event,d){{if(!event.active)simulation.alphaTarget(0);d.fx=nul
 
     return str(html_path)
 
-def generate_nightly_report(processed_data, new_nodes, new_edges, anomalies, new_timeline_events, output_dir):
+def generate_raw_digest(processed_data, new_nodes, new_edges, anomalies, new_timeline_events):
     today = datetime.datetime.now().strftime("%Y-%m-%d")
-    report_path = output_dir / f"{today}-epstein-nightly.md"
+    digest_path = RAW_DIGEST_DIR / f"{today}-epstein-raw-digest.md"
 
     # Prepare data for LLM
     docs_summary = []
@@ -723,7 +724,7 @@ def generate_nightly_report(processed_data, new_nodes, new_edges, anomalies, new
             "anomalies": analysis.get("anomalies", [])
         })
 
-    prompt = f"""Generate a nightly report based on the following processing statistics and document summaries:
+    prompt = f"""Generate a concise Epstein Raw Digest based on the following processing statistics and document summaries.
 
 Stats:
 - Documents Processed: {len(processed_data)}
@@ -738,53 +739,30 @@ Document Summaries (JSON):
 Detected Anomalies:
 {json.dumps(anomalies, indent=2)}
 
-Please write the following sections in Markdown:
-1. ## Executive Summary
-   - A 300-500 word narrative summary of the night's findings. Focus on patterns and key entities.
-2. ## Top Insights
-   - 5-10 high-signal insights (Claim + Evidence + Implication). Bullet points.
-3. ## Recommended Follow-ups
-   - 3-5 specific targeted research actions for the next daily huddle.
+Please strictly follow this Markdown structure:
+1. ## New Material Ingested
+   - Brief list of what was processed.
+2. ## Key Delta Insights
+   - 5-8 high-signal bullets: Claim + Evidence + Implication.
+3. ## Updated Timeline Snippets
+   - List key new timeline events.
+4. ## New Anomalies / Follow-up Prompts
+   - 3 max.
 
-Do not include the title (it will be added). Do not include "Graph Updates", "Anomalies Flagged", "Technical Notes", or "Lessons Learned" sections (they will be added)."""
+Do not include the title (it will be added)."""
 
     llm_content = call_llm(prompt)
     if not llm_content:
-        llm_content = "## Executive Summary\nLLM generation failed. Please review raw data.\n\n## Top Insights\n- N/A\n\n## Recommended Follow-ups\n- Check LLM connectivity."
+        llm_content = "## New Material Ingested\nLLM generation failed.\n\n## Key Delta Insights\n- N/A\n\n## Updated Timeline Snippets\n- N/A\n\n## New Anomalies / Follow-up Prompts\n- Check LLM connectivity."
 
-    with open(report_path, 'w') as f:
-        f.write(f"# Nightly Epstein Archive Processing – {today}\n\n")
-
+    with open(digest_path, 'w') as f:
+        f.write(f"# Epstein Raw Digest – {today}\n\n")
         f.write(llm_content)
         f.write("\n\n")
+        f.write(f"_Generated at {datetime.datetime.now().strftime('%H:%M:%S')}_\n")
 
-        f.write("## Graph Updates\n")
-        f.write(f"- New Nodes: {new_nodes}\n")
-        f.write(f"- New Edges: {new_edges}\n")
-        f.write(f"- Total Timeline Events Added: {len(new_timeline_events)}\n\n")
-
-        f.write("## Anomalies Flagged\n")
-        if anomalies:
-            for a in anomalies: f.write(f"- {a}\n")
-        else:
-            f.write("None.\n")
-        f.write("\n")
-
-        f.write("## Technical Notes\n")
-        f.write(f"- Processed {len(processed_data)} files.\n")
-        f.write(f"- Output directory: {output_dir}\n")
-        f.write(f"- Execution time: {datetime.datetime.now().strftime('%H:%M:%S')}\n\n")
-
-        f.write("## Lessons Learned (Prototype Run)\n")
-        f.write("- Initial ingestion pipeline verified.\n")
-        f.write("- Graph and timeline integration successful.\n")
-        f.write(f"- Scrape public sources: {len(processed_data)} files processed (including test data).\n")
-        if not HAS_ABACUS:
-             f.write("- AbacusAI not detected. LLM features disabled.\n")
-        if not HAS_NETWORKX:
-             f.write("- NetworkX not detected. Graph analysis limited.\n")
-
-    logger.info(f"Nightly report generated: {report_path}")
+    logger.info(f"Raw Digest generated: {digest_path}")
+    return digest_path
 
 def main():
     logger.info("Starting Nightly Epstein Archive Processor...")
@@ -818,18 +796,44 @@ def main():
 
     create_handoff_stub(all_anomalies, high_conf_entities)
 
-    generate_nightly_report(processed_data, new_nodes, new_edges, all_anomalies, new_timeline_events, daily_output_dir)
+    digest_path = generate_raw_digest(processed_data, new_nodes, new_edges, all_anomalies, new_timeline_events)
+
+    # Trigger Automatic Forge Transmutation
+    logger.info("Triggering Alchemical Forge Transmutation...")
+    try:
+        forge_cmd = [
+            "python", "-m", "pipelines.alchemical_forge.elixir_expansion_chamber",
+            "--input-path", str(digest_path),
+            "--mode", "special-report",
+            "--cumulative-paths", "research/special-reports/epstein-corruption-deep-dive/*,research/epstein-daily/raw-digests/*",
+            "--turns", "6",
+            "--output-dir", "publishing/hive/elixirs/special/epstein/"
+        ]
+        subprocess.run(forge_cmd, check=True)
+        logger.info("Alchemical Forge execution successful.")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Alchemical Forge failed: {e}")
 
     # Commit results
     try:
-        commit_msg = f"Nightly Epstein processing {datetime.datetime.now().strftime('%Y-%m-%d')} – {len(processed_data)} new docs, {len(all_anomalies)} anomalies"
-        subprocess.run(["git", "add", "research/epstein-daily/nightly-output/", "research/epstein-daily/processed/", "research/epstein-daily/graph/", "_agents/_handoffs/"], check=True)
+        today_str = datetime.datetime.now().strftime('%Y-%m-%d')
+        commit_msg = f"Nightly Epstein Digest & Elixir {today_str} – {len(processed_data)} new docs, {len(all_anomalies)} anomalies"
+
+        # Add relevant paths
+        paths_to_add = [
+            "research/epstein-daily/raw-digests/",
+            "research/epstein-daily/processed/",
+            "research/epstein-daily/graph/",
+            "_agents/_handoffs/",
+            "publishing/hive/elixirs/special/epstein/"
+        ]
+
+        subprocess.run(["git", "add"] + paths_to_add, check=True)
 
         # Check if there are changes to commit
         status = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
         if status.stdout.strip():
             subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-            # subprocess.run(["git", "push"], check=True) # Push disabled for safety in this environment
             logger.info(f"Committed changes: {commit_msg}")
         else:
             logger.info("No changes to commit.")
