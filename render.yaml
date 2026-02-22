@@ -32,7 +32,7 @@ services:
         sync: false # Must be set in dashboard
   - type: web
     name: bprd-meetings
-    runtime: python
+    env: python
     plan: starter
     region: oregon
     rootDir: crewai-service
@@ -70,7 +70,7 @@ services:
 
   - type: cron
     name: bprd-daily-team-meeting
-    runtime: python
+    env: python
     region: oregon
     plan: free
     schedule: "0 10 * * *"  # 10 AM UTC Mon-Fri = 2 AM PST
