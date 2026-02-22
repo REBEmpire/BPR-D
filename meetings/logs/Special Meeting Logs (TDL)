@@ -1,0 +1,141 @@
+2026-02-22T02:16:11Z clientIP="74.220.48.244" requestID="f023c5eb-192e-4650" responseTimeMS=407 responseBytes=545 userAgent="node"
+2026-02-22T02:16:11.589384491Z 2026-02-22 02:16:11,589 [INFO] prompts.nervous_system_injector: Loading BPR&D central nervous system context...
+2026-02-22T02:16:11.754333573Z 2026-02-22 02:16:11,754 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:11.988657904Z 2026-02-22 02:16:11,988 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:12.126269657Z 2026-02-22 02:16:12,126 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/skill-graphs?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:12.29516037Z 2026-02-22 02:16:12,294 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks/hook-shared-preamble.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:12.478604243Z 2026-02-22 02:16:12,478 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/skill-graphs/navigation.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:12.655525792Z 2026-02-22 02:16:12,655 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/MOC-Core.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:12.656344715Z 2026-02-22 02:16:12,656 [INFO] prompts.nervous_system_injector: Nervous system nodes loaded: 49 | Hooks: 4 | Errors: 0
+2026-02-22T02:16:12.656373386Z 2026-02-22 02:16:12,656 [INFO] meetings.special_session: Nervous system loaded for special_session (49 nodes)
+2026-02-22T02:16:12.656459247Z 2026-02-22 02:16:12,656 [INFO] orchestrator.engine: === Starting special_session meeting ===
+2026-02-22T02:16:12.656526688Z 2026-02-22 02:16:12,656 [INFO] orchestrator.engine: Phase: GATHER_CONTEXT
+2026-02-22T02:16:12.656562109Z 2026-02-22 02:16:12,656 [INFO] prompts.nervous_system_injector: Loading BPR&D central nervous system context...
+2026-02-22T02:16:12.826133943Z 2026-02-22 02:16:12,825 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:12.956913718Z 2026-02-22 02:16:12,956 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.071514478Z 2026-02-22 02:16:13,071 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/skill-graphs?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.233697657Z 2026-02-22 02:16:13,233 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks/hook-shared-preamble.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.406916598Z 2026-02-22 02:16:13,406 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/skill-graphs/navigation.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.583246089Z 2026-02-22 02:16:13,583 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/MOC-Core.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.584040711Z 2026-02-22 02:16:13,583 [INFO] prompts.nervous_system_injector: Nervous system nodes loaded: 49 | Hooks: 4 | Errors: 0
+2026-02-22T02:16:13.863709405Z 2026-02-22 02:16:13,863 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks/hook-grok.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.873162204Z 2026-02-22 02:16:13,873 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks/hook-gemini.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.877283099Z 2026-02-22 02:16:13,877 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks/hook-claude.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:13.885323075Z 2026-02-22 02:16:13,885 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_shared/skill-graphs/bprd-core/agent-hooks/hook-abacus.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:14.258135573Z 2026-02-22 02:16:14,257 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/abacus/active.md?ref=main "HTTP/1.1 404 Not Found"
+2026-02-22T02:16:14.26241827Z 2026-02-22 02:16:14,262 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/grok/active.md?ref=main "HTTP/1.1 404 Not Found"
+2026-02-22T02:16:14.269284048Z 2026-02-22 02:16:14,269 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/gemini/active.md?ref=main "HTTP/1.1 404 Not Found"
+2026-02-22T02:16:14.270400275Z 2026-02-22 02:16:14,270 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/team_meeting_protocol_v2.md?ref=main "HTTP/1.1 404 Not Found"
+2026-02-22T02:16:14.273441783Z 2026-02-22 02:16:14,273 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/claude/active.md?ref=main "HTTP/1.1 404 Not Found"
+2026-02-22T02:16:14.282703619Z 2026-02-22 02:16:14,282 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/team_state.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:14.389770091Z 2026-02-22 02:16:14,389 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/commits?per_page=5&sha=main "HTTP/1.1 200 OK"
+2026-02-22T02:16:14.390656215Z 2026-02-22 02:16:14,390 [INFO] orchestrator.engine: Phase: GROK_OPENS
+2026-02-22T02:16:19.550433616Z 2026-02-22 02:16:19,550 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:16:19.556992899Z 2026-02-22 02:16:19,556 [INFO] orchestrator.engine:   grok (opening): 94 tokens, $0.0150
+2026-02-22T02:16:19.55702726Z 2026-02-22 02:16:19,556 [INFO] orchestrator.engine: Phase: ROUND_1
+2026-02-22T02:16:19.55705649Z 2026-02-22 02:16:19,556 [INFO] orchestrator.engine:   Topic: Focus: Initial Analysis — Analyze the problem/task. Share your expertise, identify key challenges, and propose initial approaches.
+2026-02-22T02:16:20.224043501Z ==> Detected service running on port 10000
+2026-02-22T02:16:20.314770575Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2026-02-22T02:16:24.06429295Z 2026-02-22 02:16:24,063 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:16:24.065729192Z 2026-02-22 02:16:24,065 [INFO] orchestrator.engine:   grok (round_1): 198 tokens, $0.0168
+2026-02-22T02:16:39.909613662Z 2026-02-22 02:16:39,909 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-02-22T02:16:39.931134121Z 2026-02-22 02:16:39,930 [INFO] orchestrator.engine:   claude (round_1): 529 tokens, $0.0247
+2026-02-22T02:17:03.183072137Z {"timestamp": "2026-02-22T02:17:03.182571", "agent": "gemini", "model": "models/gemini-3.1-pro-preview", "success": true, "error": null}
+2026-02-22T02:17:03.183096378Z 2026-02-22 02:17:03,182 [INFO] orchestrator.engine:   gemini (round_1): 598 tokens, $0.0104
+2026-02-22T02:17:25.004601103Z 2026-02-22 02:17:25,004 [INFO] httpx: HTTP Request: POST https://routellm.abacus.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:17:25.007244884Z 2026-02-22 02:17:25,007 [INFO] orchestrator.engine:   abacus (round_1): 0 tokens, $0.0000
+2026-02-22T02:17:25.007263745Z 2026-02-22 02:17:25,007 [INFO] orchestrator.engine: Phase: ROUND_2
+2026-02-22T02:17:25.007313685Z 2026-02-22 02:17:25,007 [INFO] orchestrator.engine:   Topic: Focus: Response & Debate — Respond to what others said in Round 1. Build on ideas, challenge assumptions, refine proposals.
+2026-02-22T02:17:31.596345199Z 2026-02-22 02:17:31,596 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:17:31.597533208Z 2026-02-22 02:17:31,597 [INFO] orchestrator.engine:   grok (round_2): 404 tokens, $0.0259
+2026-02-22T02:17:52.609768156Z 2026-02-22 02:17:52,609 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-02-22T02:17:52.610813572Z 2026-02-22 02:17:52,610 [INFO] orchestrator.engine:   claude (round_2): 700 tokens, $0.0352
+2026-02-22T02:18:19.31631365Z {"timestamp": "2026-02-22T02:18:19.315914", "agent": "gemini", "model": "models/gemini-3.1-pro-preview", "success": true, "error": null}
+2026-02-22T02:18:19.316337921Z 2026-02-22 02:18:19,316 [INFO] orchestrator.engine:   gemini (round_2): 738 tokens, $0.0144
+2026-02-22T02:18:38.717211605Z 2026-02-22 02:18:38,716 [INFO] httpx: HTTP Request: POST https://routellm.abacus.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:18:38.718469395Z 2026-02-22 02:18:38,718 [INFO] orchestrator.engine:   abacus (round_2): 0 tokens, $0.0000
+2026-02-22T02:18:38.718665358Z 2026-02-22 02:18:38,718 [INFO] orchestrator.engine: Phase: ROUND_3
+2026-02-22T02:18:38.718677868Z 2026-02-22 02:18:38,718 [INFO] orchestrator.engine:   Topic: Focus: Convergence — Identify what the team agrees on. Resolve remaining conflicts. Narrow to actionable solutions with clear owners.
+2026-02-22T02:18:48.3210966Z 2026-02-22 02:18:48,320 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:18:48.322181266Z 2026-02-22 02:18:48,322 [INFO] orchestrator.engine:   grok (round_3): 449 tokens, $0.0336
+2026-02-22T02:19:02.514477813Z 2026-02-22 02:19:02,514 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-02-22T02:19:02.515475259Z 2026-02-22 02:19:02,515 [INFO] orchestrator.engine:   claude (round_3): 493 tokens, $0.0408
+2026-02-22T02:19:27.859309924Z {"timestamp": "2026-02-22T02:19:27.858851", "agent": "gemini", "model": "models/gemini-3.1-pro-preview", "success": true, "error": null}
+2026-02-22T02:19:27.859333814Z 2026-02-22 02:19:27,859 [INFO] orchestrator.engine:   gemini (round_3): 861 tokens, $0.0181
+2026-02-22T02:19:45.513642887Z 2026-02-22 02:19:45,513 [INFO] httpx: HTTP Request: POST https://routellm.abacus.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:19:45.514813156Z 2026-02-22 02:19:45,514 [INFO] orchestrator.engine:   abacus (round_3): 0 tokens, $0.0000
+2026-02-22T02:19:45.51504642Z 2026-02-22 02:19:45,514 [INFO] orchestrator.engine: Phase: ROUND_4
+2026-02-22T02:19:45.51506026Z 2026-02-22 02:19:45,514 [INFO] orchestrator.engine:   Topic: Focus: Final Deliverables — Deliver final recommendations and concrete outputs. If you have code, configs, or specs ready, output them now. Tag deployable code with ```ship-to-repo path=target/file.ext```.
+2026-02-22T02:19:57.110717614Z 2026-02-22 02:19:57,110 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:19:57.11174236Z 2026-02-22 02:19:57,111 [INFO] orchestrator.engine:   grok (round_4): 695 tokens, $0.0439
+2026-02-22T02:20:22.02240281Z 2026-02-22 02:20:22,022 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-02-22T02:20:22.023425426Z 2026-02-22 02:20:22,023 [INFO] orchestrator.engine:   claude (round_4): 980 tokens, $0.0573
+2026-02-22T02:20:49.82923656Z {"timestamp": "2026-02-22T02:20:49.828795", "agent": "gemini", "model": "models/gemini-3.1-pro-preview", "success": true, "error": null}
+2026-02-22T02:20:49.82925849Z 2026-02-22 02:20:49,829 [INFO] orchestrator.engine:   gemini (round_4): 856 tokens, $0.0222
+2026-02-22T02:21:09.123242935Z 2026-02-22 02:21:09,123 [INFO] httpx: HTTP Request: POST https://routellm.abacus.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:21:09.124290612Z 2026-02-22 02:21:09,124 [INFO] orchestrator.engine:   abacus (round_4): 0 tokens, $0.0000
+2026-02-22T02:21:09.124347803Z 2026-02-22 02:21:09,124 [INFO] orchestrator.engine: Phase: DEBATE
+2026-02-22T02:21:18.298389445Z 2026-02-22 02:21:18,298 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:21:18.299588374Z 2026-02-22 02:21:18,299 [INFO] orchestrator.engine:   grok (debate_setup): 453 tokens, $0.0489
+2026-02-22T02:22:05.992417491Z 2026-02-22 02:22:05,992 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-02-22T02:22:05.993573539Z 2026-02-22 02:22:05,993 [INFO] orchestrator.engine:   claude (debate): 2168 tokens, $0.0848
+2026-02-22T02:22:28.656939022Z {"timestamp": "2026-02-22T02:22:28.656516", "agent": "gemini", "model": "models/gemini-3.1-pro-preview", "success": true, "error": null}
+2026-02-22T02:22:28.656958412Z 2026-02-22 02:22:28,656 [INFO] orchestrator.engine:   gemini (debate): 754 tokens, $0.0268
+2026-02-22T02:22:46.4057648Z 2026-02-22 02:22:46,405 [INFO] httpx: HTTP Request: POST https://routellm.abacus.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:22:46.406720855Z 2026-02-22 02:22:46,406 [INFO] orchestrator.engine:   abacus (debate): 0 tokens, $0.0000
+2026-02-22T02:22:46.406734586Z 2026-02-22 02:22:46,406 [INFO] orchestrator.engine: Phase: GROK_SYNTHESIZES
+2026-02-22T02:23:00.274987991Z 2026-02-22 02:23:00,274 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:23:00.276208561Z 2026-02-22 02:23:00,276 [INFO] orchestrator.engine:   grok (synthesis): 1596 tokens, $0.0745
+2026-02-22T02:23:00.276234321Z 2026-02-22 02:23:00,276 [INFO] orchestrator.engine: Phase: CONTEXT_UPDATE_ROUND
+2026-02-22T02:23:16.385660867Z 2026-02-22 02:23:16,385 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:23:16.386657512Z 2026-02-22 02:23:16,386 [INFO] orchestrator.engine:   grok (context update): 905 tokens
+2026-02-22T02:24:28.134714514Z 2026-02-22 02:24:28,134 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-02-22T02:24:28.135899562Z 2026-02-22 02:24:28,135 [INFO] orchestrator.engine:   claude (context update): 3165 tokens
+2026-02-22T02:24:51.056519529Z {"timestamp": "2026-02-22T02:24:51.056125", "agent": "gemini", "model": "models/gemini-3.1-pro-preview", "success": true, "error": null}
+2026-02-22T02:24:51.05654083Z 2026-02-22 02:24:51,056 [INFO] orchestrator.engine:   gemini (context update): 911 tokens
+2026-02-22T02:25:12.610950194Z 2026-02-22 02:25:12,610 [INFO] httpx: HTTP Request: POST https://routellm.abacus.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:25:12.61192801Z 2026-02-22 02:25:12,611 [INFO] orchestrator.engine:   abacus (context update): 0 tokens
+2026-02-22T02:25:12.612381387Z 2026-02-22 02:25:12,611 [INFO] orchestrator.engine: Phase: GROK_CLOSES
+2026-02-22T02:25:19.73926447Z 2026-02-22 02:25:19,739 [INFO] httpx: HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-22T02:25:19.740166004Z 2026-02-22 02:25:19,740 [INFO] orchestrator.engine:   grok (closing): 119 tokens, $0.0587
+2026-02-22T02:25:19.740202884Z 2026-02-22 02:25:19,740 [INFO] orchestrator.engine: === Meeting complete: 23 turns ===
+2026-02-22T02:25:19.741171449Z 2026-02-22 02:25:19,741 [INFO] utils.cost_tracker: Cost log saved: /opt/render/project/src/crewai-service/logs/cost-2026-02-22_022519-special-session-20260222-021611.json
+2026-02-22T02:25:19.74121932Z 2026-02-22 02:25:19,741 [INFO] utils.cost_tracker: Meeting special-session-20260222-021611 cost summary: $0.8703 total, 281742 tokens, 548.2s
+2026-02-22T02:25:19.741246011Z 2026-02-22 02:25:19,741 [INFO] utils.cost_tracker:   grok: 104711+4913 tokens, $0.3878
+2026-02-22T02:25:19.741301602Z 2026-02-22 02:25:19,741 [INFO] utils.cost_tracker:   claude: 79539+8035 tokens, $0.3591
+2026-02-22T02:25:19.741349632Z 2026-02-22 02:25:19,741 [INFO] utils.cost_tracker:   gemini: 79826+4718 tokens, $0.1234
+2026-02-22T02:25:19.741376613Z 2026-02-22 02:25:19,741 [INFO] utils.cost_tracker:   abacus: 0+0 tokens, $0.0000
+2026-02-22T02:25:19.933096008Z 2026-02-22 02:25:19,932 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/grok/context/active.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:25:19.933992223Z 2026-02-22 02:25:19,933 [INFO] output.github_writer: Staged context archive for grok to _agents/grok/context/archive/2026-02-22-0225-active.md
+2026-02-22T02:25:19.934706614Z 2026-02-22 02:25:19,933 [INFO] output.github_writer: Staged updated active.md for grok
+2026-02-22T02:25:20.092413143Z 2026-02-22 02:25:20,092 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/claude/context/active.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:25:20.093330137Z 2026-02-22 02:25:20,093 [INFO] output.github_writer: Staged context archive for claude to _agents/claude/context/archive/2026-02-22-0225-active.md
+2026-02-22T02:25:20.09349655Z 2026-02-22 02:25:20,093 [INFO] output.github_writer: Staged updated active.md for claude
+2026-02-22T02:25:20.273305467Z 2026-02-22 02:25:20,272 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/gemini/context/active.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:25:20.274312573Z 2026-02-22 02:25:20,274 [INFO] output.github_writer: Staged context archive for gemini to _agents/gemini/context/archive/2026-02-22-0225-active.md
+2026-02-22T02:25:20.274329214Z 2026-02-22 02:25:20,274 [INFO] output.github_writer: Staged updated active.md for gemini
+2026-02-22T02:25:20.445433884Z 2026-02-22 02:25:20,445 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/contents/_agents/abacus/context/active.md?ref=main "HTTP/1.1 200 OK"
+2026-02-22T02:25:20.446143495Z 2026-02-22 02:25:20,446 [INFO] output.github_writer: Staged context archive for abacus to _agents/abacus/context/archive/2026-02-22-0225-active.md
+2026-02-22T02:25:20.446168786Z 2026-02-22 02:25:20,446 [INFO] output.github_writer: Staged updated active.md for abacus
+2026-02-22T02:25:20.446213216Z 2026-02-22 02:25:20,446 [INFO] output.github_writer: Committing 9 files atomically for special_session
+2026-02-22T02:25:20.446263247Z 2026-02-22 02:25:20,446 [INFO] tools.github_tool: Starting atomic commit of 9 files to main
+2026-02-22T02:25:20.622509298Z 2026-02-22 02:25:20,622 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/git/ref/heads/main "HTTP/1.1 200 OK"
+2026-02-22T02:25:20.828910296Z 2026-02-22 02:25:20,828 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/REBEmpire/BPR-D/git/commits/86d82c803e4b1e0a6431c2c1afb69dbfcade32dc "HTTP/1.1 200 OK"
+2026-02-22T02:25:21.503227428Z 2026-02-22 02:25:21,503 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.518385337Z 2026-02-22 02:25:21,518 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.539015882Z 2026-02-22 02:25:21,538 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.54584286Z 2026-02-22 02:25:21,545 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.550442943Z 2026-02-22 02:25:21,550 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.551210825Z 2026-02-22 02:25:21,551 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.552005447Z 2026-02-22 02:25:21,551 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.589520449Z 2026-02-22 02:25:21,589 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:21.712627182Z 2026-02-22 02:25:21,712 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/blobs "HTTP/1.1 201 Created"
+2026-02-22T02:25:22.094725452Z 2026-02-22 02:25:22,094 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/trees "HTTP/1.1 201 Created"
+2026-02-22T02:25:22.379894303Z 2026-02-22 02:25:22,379 [INFO] httpx: HTTP Request: POST https://api.github.com/repos/REBEmpire/BPR-D/git/commits "HTTP/1.1 201 Created"
+2026-02-22T02:25:22.703316697Z 2026-02-22 02:25:22,703 [INFO] httpx: HTTP Request: PATCH https://api.github.com/repos/REBEmpire/BPR-D/git/refs/heads/main "HTTP/1.1 200 OK"
+2026-02-22T02:25:22.703798194Z 2026-02-22 02:25:22,703 [INFO] tools.github_tool: Successfully committed 9 files. New SHA: 5bd6615ea9bea02b792d5add6da2fd9c2c178eff
+2026-02-22T02:25:22.703856685Z 2026-02-22 02:25:22,703 [INFO] output.notifier: Telegram not configured, skipping notification
+2026-02-22T02:25:22.703907016Z 2026-02-22 02:25:22,703 [INFO] bprd-meeting: Meeting special_session-20260222-021611 completed successfully
+2026-02-22T02:25:22.703997078Z 2026-02-22 02:25:22,703 [INFO] bprd-meeting: Special session special-session-20260222-021611 completed successfully
+2026-02-22T02:27:03.608197203Z ==> Deploying...
+2026-02-22T02:27:03.688941839Z ==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
