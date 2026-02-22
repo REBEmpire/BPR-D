@@ -1,0 +1,308 @@
+name: Code Agent - Ship to Repo
+
+on:
+  push:
+    paths:
+      - '_staging/pending_commits.json'
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (validate only, no commits)'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  BRANCH_PREFIX: 'ship-to-repo'
+  STAGING_FILE: '_staging/pending_commits.json'
+
+jobs:
+  process-pending-commits:
+    name: Process Ship-to-Repo Queue
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check for pending commits
+        id: check
+        run: |
+          if [ ! -f "${{ env.STAGING_FILE }}" ]; then
+            echo "No staging file found"
+            echo "has_pending=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          PENDING_COUNT=$(jq '.pending | length' "${{ env.STAGING_FILE }}")
+          echo "pending_count=$PENDING_COUNT" >> $GITHUB_OUTPUT
+          
+          if [ "$PENDING_COUNT" -eq 0 ]; then
+            echo "No pending commits"
+            echo "has_pending=false" >> $GITHUB_OUTPUT
+          else
+            echo "Found $PENDING_COUNT pending commits"
+            echo "has_pending=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate pending commits
+        if: steps.check.outputs.has_pending == 'true'
+        id: validate
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+          import re
+          from pathlib import Path
+          
+          FORBIDDEN_PATHS = [
+              r'^\.git/',
+              r'^\.github/workflows/',
+              r'\.\.',
+              r'^/',
+          ]
+          
+          CREDENTIAL_PATTERNS = [
+              r'(?:api[_-]?key|apikey)\s*[=:]\s*["\']?[a-zA-Z0-9_\-]{20,}',
+              r'(?:secret|token|password|passwd|pwd)\s*[=:]\s*["\']?[a-zA-Z0-9_\-]{8,}',
+              r'(?:ghp_|gho_|ghu_|ghs_|ghr_)[A-Za-z0-9_]{36,}',
+              r'sk-[A-Za-z0-9]{48,}',
+              r'-----BEGIN (?:RSA |DSA |EC )?PRIVATE KEY-----',
+          ]
+          
+          with open('${{ env.STAGING_FILE }}', 'r') as f:
+              data = json.load(f)
+          
+          pending = data.get('pending', [])
+          valid = []
+          invalid = []
+          
+          for item in pending:
+              path = item.get('path', '')
+              content = item.get('content', '')
+              errors = []
+              
+              # Path validation
+              for pattern in FORBIDDEN_PATHS:
+                  if re.search(pattern, path):
+                      errors.append(f"Forbidden path: {path}")
+                      break
+              
+              # Content validation
+              for pattern in CREDENTIAL_PATTERNS:
+                  if re.search(pattern, content, re.IGNORECASE):
+                      errors.append(f"Potential credential in {path}")
+                      break
+              
+              if errors:
+                  item['validation_errors'] = errors
+                  invalid.append(item)
+              else:
+                  valid.append(item)
+          
+          # Write validation results
+          results = {
+              'valid': valid,
+              'invalid': invalid,
+              'valid_count': len(valid),
+              'invalid_count': len(invalid)
+          }
+          
+          with open('validation_results.json', 'w') as f:
+              json.dump(results, f, indent=2)
+          
+          print(f"Validation complete: {len(valid)} valid, {len(invalid)} invalid")
+          
+          if invalid:
+              print("Invalid items:")
+              for item in invalid:
+                  print(f"  - {item['path']}: {item.get('validation_errors', [])}")
+          
+          # Fail if all items are invalid
+          if not valid and pending:
+              print("::error::All pending commits failed validation")
+              sys.exit(1)
+          EOF
+
+      - name: Create feature branch
+        if: steps.check.outputs.has_pending == 'true' && inputs.dry_run != 'true'
+        id: branch
+        run: |
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          BRANCH_NAME="${{ env.BRANCH_PREFIX }}/${TIMESTAMP}"
+          
+          git config user.name "BPR-D Code Agent"
+          git config user.email "bot@bpr-d.example.com"
+          
+          git checkout -b "$BRANCH_NAME"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Apply commits
+        if: steps.check.outputs.has_pending == 'true' && inputs.dry_run != 'true'
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+          from pathlib import Path
+          
+          with open('validation_results.json', 'r') as f:
+              results = json.load(f)
+          
+          valid = results.get('valid', [])
+          applied = []
+          failed = []
+          
+          for item in valid:
+              path = item.get('path', '')
+              action = item.get('action', 'create')
+              content = item.get('content', '')
+              
+              try:
+                  file_path = Path(path)
+                  
+                  if action == 'delete':
+                      if file_path.exists():
+                          file_path.unlink()
+                          print(f"Deleted: {path}")
+                          applied.append({'path': path, 'action': 'delete'})
+                      else:
+                          print(f"Skip delete (not found): {path}")
+                  else:
+                      # Create parent directories
+                      file_path.parent.mkdir(parents=True, exist_ok=True)
+                      
+                      # Write content
+                      with open(file_path, 'w', encoding='utf-8') as f:
+                          f.write(content)
+                      
+                      print(f"{'Created' if action == 'create' else 'Updated'}: {path}")
+                      applied.append({'path': path, 'action': action})
+                      
+              except Exception as e:
+                  print(f"Failed {path}: {e}")
+                  failed.append({'path': path, 'error': str(e)})
+          
+          # Write results
+          with open('applied_commits.json', 'w') as f:
+              json.dump({'applied': applied, 'failed': failed}, f, indent=2)
+          
+          print(f"\nApplied {len(applied)} files, {len(failed)} failures")
+          EOF
+
+      - name: Clear staging file
+        if: steps.check.outputs.has_pending == 'true' && inputs.dry_run != 'true'
+        run: |
+          python3 << 'EOF'
+          import json
+          from datetime import datetime, timezone
+          
+          output = {
+              'generated_at': datetime.now(timezone.utc).isoformat(),
+              'pending': [],
+              'rejected': [],
+              'summary': {
+                  'total': 0,
+                  'valid': 0,
+                  'invalid': 0,
+                  'by_action': {'create': 0, 'update': 0, 'delete': 0}
+              },
+              'last_processed': datetime.now(timezone.utc).isoformat(),
+              'last_branch': '${{ steps.branch.outputs.branch_name }}'
+          }
+          
+          with open('${{ env.STAGING_FILE }}', 'w') as f:
+              json.dump(output, f, indent=2)
+          
+          print("Staging file cleared")
+          EOF
+
+      - name: Commit and push changes
+        if: steps.check.outputs.has_pending == 'true' && inputs.dry_run != 'true'
+        run: |
+          # Read applied commits for commit message
+          APPLIED_COUNT=$(jq '.applied | length' applied_commits.json)
+          
+          # Stage all changes
+          git add -A
+          
+          # Create commit message
+          COMMIT_MSG="🚀 Ship-to-repo: $APPLIED_COUNT file(s) from meeting queue
+
+          Applied files:
+          $(jq -r '.applied[] | "- \(.action): \(.path)"' applied_commits.json)
+
+          Source: GitHub Actions workflow
+          Run: ${{ github.run_id }}"
+          
+          git commit -m "$COMMIT_MSG" || echo "No changes to commit"
+          
+          git push origin "${{ steps.branch.outputs.branch_name }}"
+
+      - name: Create Pull Request
+        if: steps.check.outputs.has_pending == 'true' && inputs.dry_run != 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.branch.outputs.branch_name }}
+          base: main
+          title: "🚀 Ship-to-Repo: ${{ steps.check.outputs.pending_count }} file(s) from meeting"
+          body: |
+            ## Ship-to-Repo Automated PR
+            
+            This PR was automatically created by the Code Agent workflow.
+            
+            ### Summary
+            - **Files processed**: ${{ steps.check.outputs.pending_count }}
+            - **Workflow run**: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            
+            ### Changes
+            See commit history for details.
+            
+            ### Review Checklist
+            - [ ] Files are correctly placed
+            - [ ] No sensitive data exposed
+            - [ ] Code/content is as expected
+            
+            ---
+            *Generated by BPR-D Code Agent*
+          labels: |
+            ship-to-repo
+            automated
+          draft: false
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Ship-to-Repo Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f validation_results.json ]; then
+            echo "### Validation" >> $GITHUB_STEP_SUMMARY
+            echo "- Valid: $(jq '.valid_count' validation_results.json)" >> $GITHUB_STEP_SUMMARY
+            echo "- Invalid: $(jq '.invalid_count' validation_results.json)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ -f applied_commits.json ]; then
+            echo "### Applied" >> $GITHUB_STEP_SUMMARY
+            jq -r '.applied[] | "- \(.action): `\(.path)`"' applied_commits.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ inputs.dry_run }}" == "true" ]; then
+            echo "⚠️ **Dry run mode** - no changes were made" >> $GITHUB_STEP_SUMMARY
+          fi
