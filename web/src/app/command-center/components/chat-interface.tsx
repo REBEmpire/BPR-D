@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Send, Plus, Trash2 } from 'lucide-react';
-import { CC_AGENTS, CC_AGENT_LIST, type Agent } from '@/lib/command-center-agents';
+import { CC_AGENTS, CC_AGENT_LIST, type CCAgent } from '@/lib/command-center-agents';
 
 interface ChatMessage {
   id: number;
