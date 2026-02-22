@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { useGamification } from "@/context/gamification-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { Trophy, User, LogIn, Zap } from "lucide-react"
+import { Trophy, User, LogIn, Zap, Command } from "lucide-react"
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -15,6 +15,8 @@ const navItems = [
   { name: "Research", href: "/research" },
   { name: "Resources", href: "/resources" },
 ]
+
+const commandCenterPath = "/command-center"
 
 export function Navbar() {
   const pathname = usePathname()
@@ -53,6 +55,18 @@ export function Navbar() {
             >
               <Zap className="h-3.5 w-3.5" />
               Fire Meeting
+            </Link>
+            <Link
+              href={commandCenterPath}
+              className={cn(
+                "flex items-center gap-1 text-sm font-semibold transition-colors",
+                "text-purple-400 hover:text-purple-300",
+                "border border-purple-500/40 rounded-full px-3 py-0.5",
+                pathname === commandCenterPath && "bg-purple-500/10"
+              )}
+            >
+              <Command className="h-3.5 w-3.5" />
+              Command Center
             </Link>
           </div>
         </div>
